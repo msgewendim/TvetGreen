@@ -1,19 +1,23 @@
-import { useEffect } from 'react';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import { useFrameworkReady } from '@/hooks/useFrameworkReady';
+import { QueryClientProvider } from "react-query";
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { ThemeProvider } from "@/design-system";
+import { useFrameworkReady } from "@/hooks/useFrameworkReady";
+import { queryClient } from "@/src/services/query/QueryClient";
 
 export default function RootLayout() {
-  useFrameworkReady();
+	useFrameworkReady();
 
-  return (
-    <>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="onboarding" />
-        <Stack.Screen name="video" />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </>
-  );
+	return (
+		<ThemeProvider>
+			<QueryClientProvider client={queryClient}>
+			<Stack screenOptions={{ headerShown: false }}>
+				<Stack.Screen name="onboarding" />
+				<Stack.Screen name="video" />
+				<Stack.Screen name="+not-found" />
+			</Stack>
+			<StatusBar style="auto" />
+			</QueryClientProvider>
+		</ThemeProvider>
+	);
 }
