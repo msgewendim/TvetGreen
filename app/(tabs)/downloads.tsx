@@ -2,8 +2,6 @@ import {
 	CheckCircle,
 	Clock,
 	HardDrive,
-	Mic,
-	MicOff,
 	Play,
 	RefreshCw,
 	Settings,
@@ -13,7 +11,6 @@ import {
 import { useState } from "react";
 import {
 	Alert,
-	Dimensions,
 	ScrollView,
 	StyleSheet,
 	Text,
@@ -21,16 +18,9 @@ import {
 	View,
 } from "react-native";
 
-const { width } = Dimensions.get("window");
-
 export default function DownloadsScreen() {
-	const [isListening, setIsListening] = useState(false);
 	const [storageUsed, _setStorageUsed] = useState(2.4); // GB
 	const [storageTotal] = useState(8.0); // GB
-
-	const toggleVoiceGuide = () => {
-		setIsListening(!isListening);
-	};
 
 	const downloadedCourses = [
 		{
@@ -114,37 +104,6 @@ export default function DownloadsScreen() {
 
 	return (
 		<View style={styles.container}>
-			{/* Header with Voice Guide */}
-			<View style={styles.header}>
-				<View style={styles.headerContent}>
-					<Text style={styles.headerTitle}>My Downloads</Text>
-					<Text style={styles.headerSubtitle}>Learn anywhere, anytime</Text>
-				</View>
-				<TouchableOpacity
-					style={[styles.voiceButton, isListening && styles.voiceButtonActive]}
-					onPress={toggleVoiceGuide}
-					accessibilityLabel="Voice Guide"
-				>
-					{isListening ? (
-						<View style={styles.listeningIndicator}>
-							<MicOff size={24} color="#FDF5E6" strokeWidth={2} />
-							<View style={styles.pulseRing} />
-						</View>
-					) : (
-						<Mic size={24} color="#FDF5E6" strokeWidth={2} />
-					)}
-				</TouchableOpacity>
-			</View>
-
-			{/* Voice Instructions */}
-			{isListening && (
-				<View style={styles.voiceInstructions}>
-					<Text style={styles.voiceText}>
-						🎤 Say "Play course" or "Delete course" or "Check storage"
-					</Text>
-				</View>
-			)}
-
 			<ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
 				{/* Storage Overview */}
 				<View style={styles.storageContainer}>

@@ -1,11 +1,15 @@
 import { Tabs } from "expo-router";
+import { PlayerProvider } from "@/src/providers/player/PlayerProvider";
 import { BookOpen, Download, Home, User } from "lucide-react-native";
+// import { Header } from "@/src/design-system/components/navigation/Header";
 
 export default function TabLayout() {
-	return (
-		<Tabs
+    return (
+        <PlayerProvider>
+        <Tabs
 			screenOptions={{
 				headerShown: false,
+				// header: () => <Header title="Home" subtitle="Welcome to the home screen" />,
 				tabBarStyle: {
 					backgroundColor: "#FDF5E6",
 					borderTopColor: "#2E8B57",
@@ -21,7 +25,7 @@ export default function TabLayout() {
 					fontWeight: "600",
 				},
 			}}
-		>
+        >
 			<Tabs.Screen
 				name="index"
 				options={{
@@ -58,6 +62,7 @@ export default function TabLayout() {
 					),
 				}}
 			/>
-		</Tabs>
+        </Tabs>
+        </PlayerProvider>
 	);
 }

@@ -5,9 +5,7 @@ import {
 	Play,
 	Trophy,
 } from "lucide-react-native";
-import { useEffect, useState } from "react";
 import {
-	Dimensions,
 	ImageBackground,
 	ScrollView,
 	StyleSheet,
@@ -16,33 +14,15 @@ import {
 	View,
 } from "react-native";
 import {
-	Badge,
 	CategoryButton,
 	colors,
+	Header,
 	ProgressBar,
 	spacing,
 	typography,
-	VoiceButton,
 } from "@/design-system";
 
-const { width } = Dimensions.get("window");
-
 export default function HomeScreen() {
-	const [isListening, setIsListening] = useState(false);
-	const [greeting, setGreeting] = useState("");
-
-	useEffect(() => {
-		const hour = new Date().getHours();
-		if (hour < 12) setGreeting("Good Morning");
-		else if (hour < 18) setGreeting("Good Afternoon");
-		else setGreeting("Good Evening");
-	}, []);
-
-	const toggleVoiceGuide = () => {
-		setIsListening(!isListening);
-		// Voice recognition would be implemented here
-	};
-
 	const currentCourse = {
 		title: "Sustainable Agriculture Basics",
 		category: "Agriculture",
@@ -72,27 +52,7 @@ export default function HomeScreen() {
 
 	return (
 		<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-			{/* Header with Voice Guide */}
-			<View style={styles.header}>
-				<View style={styles.headerContent}>
-					<Text style={styles.greeting}>{greeting}, Fatima</Text>
-					<Text style={styles.subtitle}>Ready to continue learning?</Text>
-				</View>
-				<VoiceButton
-					onPress={toggleVoiceGuide}
-					state={isListening ? "listening" : "idle"}
-				/>
-			</View>
-
-			{/* Voice Instructions */}
-			{isListening && (
-				<View style={styles.voiceInstructions}>
-					<Text style={styles.voiceText}>
-						🎤 Listening... Say "Continue course" or "Browse courses"
-					</Text>
-				</View>
-			)}
-
+			<Header title="Home" subtitle="Welcome to the home screen" />
 			{/* Current Course Progress */}
 			<View style={styles.currentCourseContainer}>
 				<ImageBackground
@@ -238,8 +198,8 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		alignItems: "center",
 		paddingHorizontal: spacing.lg,
-		paddingTop: 60,
-		paddingBottom: spacing.lg,
+		paddingTop: spacing["2xl"] + spacing.md,
+		paddingBottom: spacing.md,
 		backgroundColor: colors.primary.main,
 	},
 	headerContent: {

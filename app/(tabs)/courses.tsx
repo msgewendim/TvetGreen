@@ -18,14 +18,13 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
+import { usePlayer } from "@/src/providers/player/PlayerProvider";
 import type { Video } from "@/api/videos";
 import {
-	Badge,
-	Chip,
 	colors,
 	EmptyState,
+	Header,
 	LoadingSpinner,
-	ProgressBar,
 	spacing,
 	typography,
 	VoiceButton,
@@ -38,6 +37,7 @@ export default function CoursesScreen() {
 	const [isListening, setIsListening] = useState(false);
 	const [selectedCategory, setSelectedCategory] = useState("all");
 	const { data: videosData, isLoading, error } = useVideos();
+  const player = usePlayer()
 
 	const toggleVoiceGuide = () => {
 		setIsListening(!isListening);
@@ -102,6 +102,7 @@ export default function CoursesScreen() {
 			isFree: true,
 			image: video.thumbnailUrl,
 			description: video.description || video.title,
+			videoUrl: video.videoUrl,
 		})) || [];
 
 	const filteredCourses =
@@ -116,6 +117,9 @@ export default function CoursesScreen() {
 	}) => (
 		<TouchableOpacity
 			style={styles.categoryCard}
+			delayPressIn={80}
+			activeOpacity={0.85}
+			pressRetentionOffset={{ top: 8, left: 8, right: 8, bottom: 8 }}
 			onPress={() => setSelectedCategory(category.id)}
 			accessibilityLabel={`${category.title} category with ${category.courseCount} courses`}
 		>
@@ -148,6 +152,22 @@ export default function CoursesScreen() {
 	}) => (
 		<TouchableOpacity
 			style={styles.courseCard}
+			delayPressIn={80}
+			activeOpacity={0.9}
+			pressRetentionOffset={{ top: 8, left: 8, right: 8, bottom: 8 }}
+			onPress={() => player.open({
+				id: String(course.id),
+				title: course.title,
+				thumbnailUrl: course.image,
+				duration: course.duration,
+				uploadTime: '',
+				views: String(course.enrolled),
+				author: course.instructor,
+				videoUrl: course.videoUrl || '',
+				description: course.description,
+				subscriber: '',
+				isLive: false,
+			})}
 			accessibilityLabel={`Course: ${course.title}`}
 		>
 			<ImageBackground
@@ -236,20 +256,7 @@ export default function CoursesScreen() {
 
 	return (
 		<View style={styles.container}>
-			{/* Header with Voice Guide */}
-			<View style={styles.header}>
-				<View style={styles.headerContent}>
-					<Text style={styles.headerTitle}>Course Library</Text>
-					<Text style={styles.headerSubtitle}>
-						Learn practical skills for life
-					</Text>
-				</View>
-				<VoiceButton
-					onPress={toggleVoiceGuide}
-					state={isListening ? "listening" : "idle"}
-				/>
-			</View>
-
+			{/* <Header title="Course Library" subtitle="Learn practical skills for life" /> */}
 			{/* Voice Instructions */}
 			{isListening && (
 				<View style={styles.voiceInstructions}>
@@ -273,7 +280,13 @@ export default function CoursesScreen() {
 					/>
 				</View>
 			) : (
-				<ScrollView showsVerticalScrollIndicator={false} style={styles.content}>
+				<ScrollView
+					showsVerticalScrollIndicator={false}
+					style={styles.content}
+					keyboardShouldPersistTaps="handled"
+					nestedScrollEnabled
+					scrollEventThrottle={16}
+				>
 					{/* Category Filter Buttons */}
 					<View style={styles.categoryFilters}>
 						<ScrollView

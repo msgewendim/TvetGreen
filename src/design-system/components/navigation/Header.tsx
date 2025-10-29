@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		paddingHorizontal: spacing.md,
-		paddingTop: spacing["2xl"] + spacing.md, // Account for status bar
+		paddingTop: spacing.lg,
 		paddingBottom: spacing.md,
 		// ...spacing.shadow.sm,
 	},

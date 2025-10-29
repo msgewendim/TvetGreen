@@ -8,15 +8,12 @@ import {
 	Globe,
 	CircleHelp as HelpCircle,
 	LogOut,
-	Mic,
-	MicOff,
 	Smartphone,
 	Star,
 	Target,
 	TrendingUp,
 	Volume2,
 } from "lucide-react-native";
-import { useState } from "react";
 import {
 	Alert,
 	Dimensions,
@@ -31,12 +28,6 @@ import {
 const { width } = Dimensions.get("window");
 
 export default function ProfileScreen() {
-	const [isListening, setIsListening] = useState(false);
-
-	const toggleVoiceGuide = () => {
-		setIsListening(!isListening);
-	};
-
 	const userStats = {
 		name: "Fatima Okonkwo",
 		location: "Addis Ababa, Ethiopia",
@@ -139,37 +130,6 @@ export default function ProfileScreen() {
 
 	return (
 		<View style={styles.container}>
-			{/* Header with Voice Guide */}
-			<View style={styles.header}>
-				<View style={styles.headerContent}>
-					<Text style={styles.headerTitle}>My Profile</Text>
-					<Text style={styles.headerSubtitle}>Track your learning journey</Text>
-				</View>
-				<TouchableOpacity
-					style={[styles.voiceButton, isListening && styles.voiceButtonActive]}
-					onPress={toggleVoiceGuide}
-					accessibilityLabel="Voice Guide"
-				>
-					{isListening ? (
-						<View style={styles.listeningIndicator}>
-							<MicOff size={24} color="#FDF5E6" strokeWidth={2} />
-							<View style={styles.pulseRing} />
-						</View>
-					) : (
-						<Mic size={24} color="#FDF5E6" strokeWidth={2} />
-					)}
-				</TouchableOpacity>
-			</View>
-
-			{/* Voice Instructions */}
-			{isListening && (
-				<View style={styles.voiceInstructions}>
-					<Text style={styles.voiceText}>
-						🎤 Say "Show certificates" or "View achievements" or "Settings"
-					</Text>
-				</View>
-			)}
-
 			<ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
 				{/* Profile Header */}
 				<View style={styles.profileHeader}>
@@ -307,7 +267,7 @@ export default function ProfileScreen() {
 											<View
 												style={[
 													styles.achievementProgressFill,
-													{ width: `${achievement.progress}%` },
+													{ width: `${achievement.progress ?? 0}%` },
 												]}
 											/>
 										</View>

@@ -16,7 +16,6 @@ import { useCallback, useEffect, useRef } from "react";
 import {
 	Animated,
 	Dimensions,
-	StyleProp,
 	StyleSheet,
 	Text,
 	TouchableOpacity,
