@@ -10,7 +10,7 @@ import type React from "react";
 import { useEffect, useRef } from "react";
 import { Animated, StyleSheet, TouchableOpacity, View } from "react-native";
 import type { VoiceButtonProps } from "../../../types/design-system";
-import { colors, spacing } from "../../tokens";
+import { colors } from "../../tokens";
 
 export const VoiceButton: React.FC<VoiceButtonProps> = ({
 	size = "medium",

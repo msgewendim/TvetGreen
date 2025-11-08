@@ -1,20 +1,32 @@
 {
 	"expo": {
-		"name": "bolt-expo-nativewind",
-		"slug": "bolt-expo-nativewind",
+		"name": "TvetGreen Skill Hub",
+		"slug": "tvetgreen-skill-hub",
 		"version": "1.0.0",
 		"orientation": "portrait",
-		"icon": "./assets/images/icon.png",
+		"icon": "./assets/logos/icon.png",
 		"scheme": "myapp",
 		"userInterfaceStyle": "automatic",
 		"newArchEnabled": true,
+		"description": "TVET Green learning platform - Access courses and educational content",
 		"ios": {
 			"supportsTablet": true
 		},
 		"web": {
 			"bundler": "metro",
 			"output": "single",
-			"favicon": "./assets/images/favicon.png"
+			"favicon": "./assets/logos/icon.png",
+			"name": "TvetGreen Skill Hub",
+			"shortName": "TvetGreen",
+			"lang": "en",
+			"scope": "/",
+			"themeColor": "#000000",
+			"backgroundColor": "#ffffff",
+			"display": "standalone",
+			"orientation": "portrait",
+			"startUrl": "/",
+			"crossorigin": "use-credentials",
+			"preferRelatedApplications": false
 		},
 		"plugins": ["expo-router", "expo-font", "expo-web-browser"],
 		"experiments": {

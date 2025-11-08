@@ -20,7 +20,6 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
 	testID,
 	accessibilityLabel,
 	accessibilityHint,
-	style,
 }) => {
 	return (
 		<Card

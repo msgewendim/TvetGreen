@@ -31,4 +31,4 @@ export type {
 	ChipProps,
 	BadgeProps,
 	AvatarProps,
-} from "../../types/design-system";
+} from "../types/design-system";

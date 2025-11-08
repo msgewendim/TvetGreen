@@ -64,7 +64,7 @@ export default function LanguageSelectionScreen() {
 	const handleContinue = () => {
 		// Save language preference
 		console.log("Selected language:", selectedLanguage);
-		router.push("/onboarding/goals");
+		router.replace("/(tabs)");
 	};
 
 	const testVoice = (languageCode: string) => {

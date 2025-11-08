@@ -2,15 +2,12 @@ import { useRouter } from "expo-router";
 import { ChevronRight, Volume2, VolumeX } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import {
-	Dimensions,
 	ImageBackground,
 	StyleSheet,
 	Text,
 	TouchableOpacity,
 	View,
 } from "react-native";
-
-const { width, height } = Dimensions.get("window");
 
 export default function WelcomeScreen() {
 	const router = useRouter();
