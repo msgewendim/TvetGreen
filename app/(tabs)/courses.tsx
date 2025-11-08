@@ -4,7 +4,9 @@ import { usePlayer } from '@/src/providers/player/PlayerProvider'
 import {
 	colors,
 	EmptyState,
+	Header,
 	LoadingSpinner,
+	ScreenLayout,
 	spacing,
 	typography,
 } from '@/design-system'
@@ -84,7 +86,8 @@ export default function CoursesScreen() {
 	}
 
 	return (
-		<View style={styles.container}>
+		<ScreenLayout scrollable={false} style={styles.container}>
+			<Header title="Courses" subtitle="Explore our learning paths" />
 			{isLoading ? (
 				<View style={styles.centerContainer}>
 					<LoadingSpinner size="large" />
@@ -125,7 +128,7 @@ export default function CoursesScreen() {
 					/>
 				</ScrollView>
 			)}
-		</View>
+		</ScreenLayout>
 	)
 }
 
