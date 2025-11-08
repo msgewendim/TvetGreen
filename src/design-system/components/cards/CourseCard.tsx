@@ -24,7 +24,6 @@ export const CourseCard: React.FC<CourseCardProps> = ({
 	testID,
 	accessibilityLabel,
 	accessibilityHint,
-	style,
 }) => {
 	return (
 		<Card

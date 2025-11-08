@@ -7,7 +7,7 @@
 import type React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import type { AvatarProps } from "../../../types/design-system";
-import { colors, spacing, typography } from "../../tokens";
+import { colors, typography } from "../../tokens";
 
 export const Avatar: React.FC<AvatarProps> = ({
 	source,

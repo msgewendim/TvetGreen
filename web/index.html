@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	
+	<!-- PWA Meta Tags -->
+	<meta name="application-name" content="TvetGreen Skill Hub" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+	<meta name="apple-mobile-web-app-title" content="TvetGreen" />
+	<meta name="description" content="TVET Green learning platform - Access courses and educational content" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="mobile-web-app-capable" content="yes" />
+	<meta name="msapplication-TileColor" content="#000000" />
+	<meta name="msapplication-tap-highlight" content="no" />
+	<meta name="theme-color" content="#000000" />
+	
+	<!-- Apple Touch Icons -->
+	<link rel="apple-touch-icon" href="/icon.png" />
+	<link rel="apple-touch-icon" sizes="152x152" href="/icon.png" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/icon.png" />
+	<link rel="apple-touch-icon" sizes="167x167" href="/icon.png" />
+	
+	<!-- Favicon -->
+	<link rel="icon" type="image/png" href="/favicon.png" />
+	<link rel="shortcut icon" type="image/png" href="/favicon.png" />
+	
+	<!-- Manifest - Expo will generate this automatically -->
+	<link rel="manifest" href="/manifest.json" />
+	
+	<!-- Preconnect for performance -->
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+	
+	<title>TvetGreen Skill Hub</title>
+	
+	<style>
+		html, body, #root {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}
+		
+		/* Prevent pull-to-refresh on mobile */
+		body {
+			overscroll-behavior-y: contain;
+			-webkit-overflow-scrolling: touch;
+		}
+		
+		/* Loading spinner */
+		.loading-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
+			height: 100vh;
+			background-color: #ffffff;
+		}
+		
+		.loading-spinner {
+			border: 4px solid #f3f3f3;
+			border-top: 4px solid #000000;
+			border-radius: 50%;
+			width: 40px;
+			height: 40px;
+			animation: spin 1s linear infinite;
+		}
+		
+		@keyframes spin {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
+		}
+	</style>
+</head>
+<body>
+	<noscript>You need to enable JavaScript to run this app.</noscript>
+	<div id="root">
+		<div class="loading-container">
+			<div class="loading-spinner"></div>
+		</div>
+	</div>
+	<script>
+		// Prevent zoom on double tap (iOS)
+		let lastTouchEnd = 0;
+		document.addEventListener('touchend', (event) => {
+			const now = Date.now();
+			if (now - lastTouchEnd <= 300) {
+				event.preventDefault();
+			}
+			lastTouchEnd = now;
+		}, false);
+	</script>
+	<!-- Expo Router will inject scripts here -->
+</body>
+</html>
+

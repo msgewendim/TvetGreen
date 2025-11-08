@@ -107,7 +107,7 @@ export const fetchPlaylistVideos = async (
 	const base = 'https://www.googleapis.com/youtube/v3';
 
 	// 1) Get up to 50 items from the playlist
-	const playlistItemsUrl = new URL(base + '/playlistItems');
+	const playlistItemsUrl = new URL(`${base}/playlistItems`);
 	playlistItemsUrl.searchParams.set('part', 'snippet,contentDetails');
 	playlistItemsUrl.searchParams.set('maxResults', '50');
 	playlistItemsUrl.searchParams.set('playlistId', playlistId);
@@ -126,7 +126,7 @@ export const fetchPlaylistVideos = async (
 		.filter((v: string | undefined): v is string => Boolean(v));
 
 	// 2) Fetch video details (duration, views, live status)
-	const videosUrl = new URL(base + '/videos');
+	const videosUrl = new URL(`${base}/videos`);
 	videosUrl.searchParams.set('part', 'snippet,contentDetails,statistics,liveStreamingDetails');
 	videosUrl.searchParams.set('id', videoIds.join(','));
 	videosUrl.searchParams.set('key', apiKey);

@@ -1,4 +1,5 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
+import type React from 'react'
+import { createContext, useCallback, useContext, useMemo, useState } from 'react'
 import { Modal, View, TouchableOpacity, Text, StyleSheet, Platform } from 'react-native'
 import { X } from 'lucide-react-native'
 import { WebView } from 'react-native-webview'
