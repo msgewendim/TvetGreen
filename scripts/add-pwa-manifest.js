@@ -14,9 +14,11 @@ const filesToCopy = ['manifest.json', 'logo192.png', 'logo512.png']
 filesToCopy.forEach(file => {
   const source = path.join(publicDir, file)
   const dest = path.join(distDir, file)
-  if (fs.existsSync(source) && !fs.existsSync(dest)) {
+  if (fs.existsSync(source)) {
     fs.copyFileSync(source, dest)
     console.log(`✓ Copied ${file} to dist`)
+  } else {
+    console.warn(`⚠ Warning: ${file} not found in public directory`)
   }
 })
 

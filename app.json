@@ -4,7 +4,7 @@
 		"slug": "tvetgreen-skill-hub",
 		"version": "1.0.0",
 		"orientation": "portrait",
-		"icon": "./assets/images/icon.png",
+		"icon": "./assets/logos/icon.png",
 		"scheme": "myapp",
 		"userInterfaceStyle": "automatic",
 		"newArchEnabled": true,
@@ -15,7 +15,7 @@
 		"web": {
 			"bundler": "metro",
 			"output": "single",
-			"favicon": "./assets/images/favicon.png",
+			"favicon": "./assets/logos/icon.png",
 			"name": "TvetGreen Skill Hub",
 			"shortName": "TvetGreen",
 			"lang": "en",
