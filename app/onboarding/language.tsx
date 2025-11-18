@@ -13,57 +13,25 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
+import { useLanguage } from "@/hooks/useLanguage";
+import type { SupportedLanguage } from "@/i18n.config";
 
 export default function LanguageSelectionScreen() {
 	const router = useRouter();
-	const [selectedLanguage, setSelectedLanguage] = useState("english");
+	const { t, currentLanguage, supportedLanguages, changeLanguage } = useLanguage();
+	const [selectedLanguage, setSelectedLanguage] = useState<SupportedLanguage>(currentLanguage);
 
-	const languages = [
-		{
-			code: "english",
-			name: "English",
-			nativeName: "English",
-			flag: "🇺🇸",
-			description: "International language",
-			voiceSupport: true,
-		},
-		{
-			code: "amharic",
-			name: "Amharic",
-			nativeName: "አማርኛ",
-			flag: "🇪🇹",
-			description: "Ethiopia's official language",
-			voiceSupport: true,
-		},
-		{
-			code: "swahili",
-			name: "Swahili",
-			nativeName: "Kiswahili",
-			flag: "🇰🇪",
-			description: "East African lingua franca",
-			voiceSupport: true,
-		},
-		{
-			code: "oromo",
-			name: "Oromo",
-			nativeName: "Afaan Oromoo",
-			flag: "🇪🇹",
-			description: "Widely spoken in Ethiopia",
-			voiceSupport: false,
-		},
-		{
-			code: "tigrinya",
-			name: "Tigrinya",
-			nativeName: "ትግርኛ",
-			flag: "🇪🇷",
-			description: "Eritrea and Northern Ethiopia",
-			voiceSupport: false,
-		},
-	];
+	const languages = supportedLanguages.map(lang => ({
+		...lang,
+		voiceSupport: true, // All our supported languages have voice support
+		description: lang.code === 'en' ? 'International language' :
+					 lang.code === 'sw' ? 'East African lingua franca' :
+					 'Ethiopia\'s official language',
+	}));
 
-	const handleContinue = () => {
+	const handleContinue = async () => {
 		// Save language preference
-		console.log("Selected language:", selectedLanguage);
+		await changeLanguage(selectedLanguage);
 		router.replace("/(tabs)");
 	};
 
@@ -84,9 +52,9 @@ export default function LanguageSelectionScreen() {
 				</TouchableOpacity>
 
 				<View style={styles.headerContent}>
-					<Text style={styles.headerTitle}>Choose Your Language</Text>
+					<Text style={styles.headerTitle}>{t('onboarding.selectLanguage')}</Text>
 					<Text style={styles.headerSubtitle}>
-						Select your preferred learning language
+						{t('profile.selectLanguage')}
 					</Text>
 				</View>
 			</View>
@@ -101,7 +69,7 @@ export default function LanguageSelectionScreen() {
 
 			{/* Language Options */}
 			<ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-				<Text style={styles.sectionTitle}>Available Languages</Text>
+				<Text style={styles.sectionTitle}>{t('courses.allCourses')}</Text>
 
 				{languages.map((language) => (
 					<TouchableOpacity
@@ -110,7 +78,7 @@ export default function LanguageSelectionScreen() {
 							styles.languageCard,
 							selectedLanguage === language.code && styles.languageCardSelected,
 						]}
-						onPress={() => setSelectedLanguage(language.code)}
+						onPress={() => setSelectedLanguage(language.code as SupportedLanguage)}
 					>
 						<View style={styles.languageInfo}>
 							<View style={styles.languageHeader}>
@@ -173,7 +141,7 @@ export default function LanguageSelectionScreen() {
 												: styles.featureTextInactive,
 										]}
 									>
-										Voice Support
+										{t('profile.voiceGuide')}
 									</Text>
 								</View>
 
@@ -182,7 +150,7 @@ export default function LanguageSelectionScreen() {
 										style={styles.testVoiceButton}
 										onPress={() => testVoice(language.code)}
 									>
-										<Text style={styles.testVoiceText}>Test Voice</Text>
+										<Text style={styles.testVoiceText}>{t('voice.tapToSpeak')}</Text>
 									</TouchableOpacity>
 								)}
 							</View>
@@ -207,7 +175,7 @@ export default function LanguageSelectionScreen() {
 					style={styles.continueButton}
 					onPress={handleContinue}
 				>
-					<Text style={styles.continueText}>Continue</Text>
+					<Text style={styles.continueText}>{t('common.continue')}</Text>
 					<ChevronRight size={24} color="#FDF5E6" strokeWidth={2} />
 				</TouchableOpacity>
 			</View>
