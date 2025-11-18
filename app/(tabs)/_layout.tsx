@@ -1,15 +1,16 @@
 import { Tabs } from "expo-router";
 import { PlayerProvider } from "@/src/providers/player/PlayerProvider";
 import { BookOpen, Download, Home, User, GraduationCap } from "lucide-react-native";
-// import { Header } from "@/src/design-system/components/navigation/Header";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export default function TabLayout() {
+	const { t } = useLanguage();
+
     return (
         <PlayerProvider>
         <Tabs
 			screenOptions={{
 				headerShown: false,
-				// header: () => <Header title="Home" subtitle="Welcome to the home screen" />,
 				tabBarStyle: {
 					backgroundColor: "#FDF5E6",
 					borderTopColor: "#2E8B57",
@@ -29,7 +30,7 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name="index"
 				options={{
-					title: "Home",
+					title: t('navigation.home'),
 					tabBarIcon: ({ size, color }) => (
 						<Home size={size} color={color} strokeWidth={2} />
 					),
@@ -38,7 +39,7 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name="courses"
 				options={{
-					title: "Courses",
+					title: t('navigation.courses'),
 					tabBarIcon: ({ size, color }) => (
 						<BookOpen size={size} color={color} strokeWidth={2} />
 					),
@@ -47,7 +48,7 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name="learn"
 				options={{
-					title: "Learn",
+					title: t('navigation.learn'),
 					tabBarIcon: ({ size, color }) => (
 						<GraduationCap size={size} color={color} strokeWidth={2} />
 					),
@@ -56,7 +57,7 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name="downloads"
 				options={{
-					title: "Downloads",
+					title: t('navigation.downloads'),
 					tabBarIcon: ({ size, color }) => (
 						<Download size={size} color={color} strokeWidth={2} />
 					),
@@ -65,7 +66,7 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name="profile"
 				options={{
-					title: "Profile",
+					title: t('navigation.profile'),
 					tabBarIcon: ({ size, color }) => (
 						<User size={size} color={color} strokeWidth={2} />
 					),
