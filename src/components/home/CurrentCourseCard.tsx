@@ -7,6 +7,7 @@
 import { Play } from 'lucide-react-native'
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { colors, ProgressBar, spacing, typography } from '@/design-system'
+import { useLanguage } from '@/hooks/useLanguage'
 
 export interface CurrentCourse {
 	title: string
@@ -24,6 +25,7 @@ export const CurrentCourseCard: React.FC<CurrentCourseCardProps> = ({
 	course,
 	onContinue,
 }) => {
+	const { t } = useLanguage()
 	return (
 		<View style={styles.container}>
 			<ImageBackground
@@ -46,10 +48,10 @@ export const CurrentCourseCard: React.FC<CurrentCourseCardProps> = ({
 					<TouchableOpacity
 						style={styles.continueButton}
 						onPress={onContinue}
-						accessibilityLabel="Continue course"
+						accessibilityLabel={t('common.continue')}
 					>
 						<Play size={20} color={colors.text.inverse} strokeWidth={2} />
-						<Text style={styles.continueButtonText}>Continue</Text>
+						<Text style={styles.continueButtonText}>{t('common.continue')}</Text>
 					</TouchableOpacity>
 				</View>
 			</ImageBackground>

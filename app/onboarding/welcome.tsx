@@ -8,16 +8,18 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export default function WelcomeScreen() {
 	const router = useRouter();
+	const { t } = useLanguage();
 	const [audioEnabled, setAudioEnabled] = useState(true);
 	const [currentSlide, setCurrentSlide] = useState(0);
 
 	const welcomeSlides = [
 		{
-			title: "Welcome to SkillBridge",
-			subtitle: "Learn practical skills for life",
+			title: t('onboarding.welcome'),
+			subtitle: t('onboarding.welcomeMessage'),
 			description:
 				"Join thousands of learners across East Africa building better futures through education.",
 			image:
@@ -28,7 +30,7 @@ export default function WelcomeScreen() {
 			title: "Learn Anywhere, Anytime",
 			subtitle: "Offline-first education",
 			description:
-				"Download courses and learn without internet. Perfect for rural areas and limited connectivity.",
+				t('downloads.downloadCourses'),
 			image:
 				"https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg",
 			emoji: "📱",
@@ -37,7 +39,7 @@ export default function WelcomeScreen() {
 			title: "Voice-Guided Learning",
 			subtitle: "Designed for everyone",
 			description:
-				"Navigate with your voice in your preferred language. No reading required.",
+				t('onboarding.voiceDescription'),
 			image:
 				"https://images.pexels.com/photos/3277808/pexels-photo-3277808.jpeg",
 			emoji: "🎤",
@@ -107,7 +109,7 @@ export default function WelcomeScreen() {
 							style={styles.getStartedButton}
 							onPress={() => router.push("/onboarding/language")}
 						>
-							<Text style={styles.getStartedText}>Get Started</Text>
+							<Text style={styles.getStartedText}>{t('onboarding.getStarted')}</Text>
 							<ChevronRight size={24} color="#FDF5E6" strokeWidth={2} />
 						</TouchableOpacity>
 
@@ -115,7 +117,7 @@ export default function WelcomeScreen() {
 							style={styles.skipButton}
 							onPress={() => router.replace("/(tabs)")}
 						>
-							<Text style={styles.skipText}>Skip for now</Text>
+							<Text style={styles.skipText}>{t('onboarding.skip')}</Text>
 						</TouchableOpacity>
 					</View>
 				</View>
