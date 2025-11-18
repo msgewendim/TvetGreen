@@ -7,6 +7,7 @@ import {
 	StyleSheet,
 	Image,
 	Alert,
+	Modal,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { useLearningStore } from "@/src/store/learningStore";
@@ -18,7 +19,18 @@ import {
 	CheckCircle2,
 	Lock,
 	PlayCircle,
+	ChevronDown,
+	ChevronUp,
+	Users,
+	Star,
+	X,
+	Award,
 } from "lucide-react-native";
+import {
+	EnrollButton,
+	LessonListItem,
+	ProgressBar,
+} from "@/src/components/learning";
 
 type TabType = "overview" | "curriculum" | "about";
 
@@ -28,6 +40,11 @@ export function CourseDetailScreen() {
 	const courseId = params.id as string;
 
 	const [activeTab, setActiveTab] = useState<TabType>("overview");
+	const [showEnrollModal, setShowEnrollModal] = useState(false);
+	const [expandedModules, setExpandedModules] = useState<Set<string>>(
+		new Set()
+	);
+	const [enrolling, setEnrolling] = useState(false);
 
 	const getCourseById = useLearningStore((state) => state.getCourseById);
 	const getLessonsByModule = useLearningStore((state) => state.getLessonsByModule);
@@ -48,26 +65,35 @@ export function CourseDetailScreen() {
 		);
 	}
 
-	const handleEnroll = async () => {
-		if (course.isPaid) {
-			Alert.alert(
-				"Paid Course",
-				"Payment functionality will be available soon. For now, this course is free to enroll.",
-				[
-					{ text: "Cancel", style: "cancel" },
-					{
-						text: "Enroll",
-						onPress: async () => {
-							await enrollInCourse(courseId);
-							Alert.alert("Success", "You've been enrolled in this course!");
-						},
-					},
-				]
-			);
-		} else {
+	const handleEnrollClick = () => {
+		setShowEnrollModal(true);
+	};
+
+	const handleConfirmEnroll = async () => {
+		setEnrolling(true);
+		try {
 			await enrollInCourse(courseId);
-			Alert.alert("Success", "You've been enrolled in this course!");
+			setShowEnrollModal(false);
+			Alert.alert("Success!", "You've been enrolled in this course!");
+			// Auto-switch to curriculum tab after enrollment
+			setTimeout(() => setActiveTab("curriculum"), 300);
+		} catch (error) {
+			Alert.alert("Error", "Failed to enroll. Please try again.");
+		} finally {
+			setEnrolling(false);
 		}
+	};
+
+	const toggleModule = (moduleId: string) => {
+		setExpandedModules((prev) => {
+			const newSet = new Set(prev);
+			if (newSet.has(moduleId)) {
+				newSet.delete(moduleId);
+			} else {
+				newSet.add(moduleId);
+			}
+			return newSet;
+		});
 	};
 
 	const handleStartLearning = () => {
@@ -118,6 +144,26 @@ export function CourseDetailScreen() {
 					<Text style={styles.courseTitle}>{course.title}</Text>
 					<Text style={styles.instructor}>by {course.instructor.name}</Text>
 
+					{/* Rating and Enrollment Stats */}
+					<View style={styles.statsRow}>
+						{course.rating && (
+							<View style={styles.statItem}>
+								<Star size={18} color="#DAA520" fill="#DAA520" />
+								<Text style={styles.statText}>
+									{course.rating} ({course.enrollmentCount || 0} ratings)
+								</Text>
+							</View>
+						)}
+						{course.enrollmentCount && (
+							<View style={styles.statItem}>
+								<Users size={18} color="#2E8B57" />
+								<Text style={styles.statText}>
+									{course.enrollmentCount.toLocaleString()} students
+								</Text>
+							</View>
+						)}
+					</View>
+
 					<View style={styles.metaContainer}>
 						<View style={styles.metaItem}>
 							<BookOpen size={16} color="#8B4513" />
@@ -127,11 +173,12 @@ export function CourseDetailScreen() {
 							<Clock size={16} color="#8B4513" />
 							<Text style={styles.metaText}>{course.duration}</Text>
 						</View>
-						{course.rating && (
-							<View style={styles.metaItem}>
-								<Text style={styles.metaText}>⭐ {course.rating}</Text>
-							</View>
-						)}
+						<View style={styles.metaItem}>
+							<BarChart3 size={16} color="#8B4513" />
+							<Text style={styles.metaText}>
+								{course.level.charAt(0).toUpperCase() + course.level.slice(1)}
+							</Text>
+						</View>
 					</View>
 
 					{enrolled && (
@@ -140,9 +187,7 @@ export function CourseDetailScreen() {
 								<Text style={styles.progressLabel}>Your Progress</Text>
 								<Text style={styles.progressPercentage}>{progress}%</Text>
 							</View>
-							<View style={styles.progressBar}>
-								<View style={[styles.progressFill, { width: `${progress}%` }]} />
-							</View>
+							<ProgressBar progress={progress} height={10} showLabel={false} />
 						</View>
 					)}
 				</View>
@@ -204,63 +249,83 @@ export function CourseDetailScreen() {
 									<Text style={styles.listItemText}>{outcome}</Text>
 								</View>
 							))}
+
+							{course.tags && course.tags.length > 0 && (
+								<>
+									<Text style={styles.sectionTitle}>Topics Covered</Text>
+									<View style={styles.tagsContainer}>
+										{course.tags.map((tag, index) => (
+											<View key={index} style={styles.tag}>
+												<Text style={styles.tagText}>{tag}</Text>
+											</View>
+										))}
+									</View>
+								</>
+							)}
+
+							{course.prerequisites && course.prerequisites.length > 0 && (
+								<>
+									<Text style={styles.sectionTitle}>Prerequisites</Text>
+									{course.prerequisites.map((prereq, index) => (
+										<View key={index} style={styles.listItem}>
+											<Award size={18} color="#FF8C42" />
+											<Text style={styles.listItemText}>{prereq}</Text>
+										</View>
+									))}
+								</>
+							)}
 						</View>
 					)}
 
 					{activeTab === "curriculum" && (
 						<View>
-							{modules.map((module, moduleIndex) => (
-								<View key={module.id} style={styles.module}>
-									<Text style={styles.moduleName}>
-										Module {moduleIndex + 1}: {module.name}
-									</Text>
-									{module.lessons.map((lesson) => {
-										const isLocked = !enrolled && !lesson.isPreview;
-										return (
-											<TouchableOpacity
-												key={lesson.id}
-												style={styles.lessonItem}
-												onPress={() => handleLessonPress(lesson.id, isLocked)}
-												disabled={isLocked}
-											>
-												<View style={styles.lessonLeft}>
-													{lesson.isCompleted ? (
-														<CheckCircle2 size={20} color="#32CD32" />
-													) : isLocked ? (
-														<Lock size={20} color="#8B4513" />
-													) : (
-														<PlayCircle size={20} color="#2E8B57" />
-													)}
-													<View style={styles.lessonInfo}>
-														<Text
-															style={[
-																styles.lessonTitle,
-																isLocked && styles.lockedText,
-															]}
-															numberOfLines={2}
-														>
-															{lesson.title}
-														</Text>
-														<View style={styles.lessonMeta}>
-															<Text style={styles.lessonDuration}>
-																{lesson.duration}
-															</Text>
-															{lesson.isPreview && (
-																<View style={styles.previewBadge}>
-																	<Text style={styles.previewText}>PREVIEW</Text>
-																</View>
-															)}
-														</View>
-													</View>
-												</View>
-												{lesson.isCompleted && (
-													<Text style={styles.completedText}>Completed</Text>
-												)}
-											</TouchableOpacity>
-										);
-									})}
-								</View>
-							))}
+							{modules.map((module, moduleIndex) => {
+								const isExpanded = expandedModules.has(module.id);
+								const completedLessons = module.lessons.filter(
+									(l) => l.isCompleted
+								).length;
+								const totalLessons = module.lessons.length;
+
+								return (
+									<View key={module.id} style={styles.module}>
+										<TouchableOpacity
+											style={styles.moduleHeader}
+											onPress={() => toggleModule(module.id)}
+										>
+											<View style={styles.moduleHeaderLeft}>
+												<Text style={styles.moduleName}>
+													Module {moduleIndex + 1}: {module.name}
+												</Text>
+												<Text style={styles.moduleProgress}>
+													{completedLessons}/{totalLessons} lessons
+												</Text>
+											</View>
+											{isExpanded ? (
+												<ChevronUp size={20} color="#2E8B57" />
+											) : (
+												<ChevronDown size={20} color="#2E8B57" />
+											)}
+										</TouchableOpacity>
+
+										{isExpanded && (
+											<View style={styles.moduleLessons}>
+												{module.lessons.map((lesson) => {
+													const isLocked = !enrolled && !lesson.isPreview;
+													return (
+														<LessonListItem
+															key={lesson.id}
+															lesson={lesson}
+															onPress={() => handleLessonPress(lesson.id, isLocked)}
+															isLocked={isLocked}
+															disabled={isLocked}
+														/>
+													);
+												})}
+											</View>
+										)}
+									</View>
+								);
+							})}
 						</View>
 					)}
 
@@ -309,24 +374,125 @@ export function CourseDetailScreen() {
 
 			{/* Bottom CTA */}
 			<View style={styles.bottomBar}>
-				{enrolled ? (
-					<TouchableOpacity
-						style={styles.ctaButton}
-						onPress={handleStartLearning}
-					>
-						<Play size={20} color="#FDF5E6" />
-						<Text style={styles.ctaButtonText}>
-							{progress > 0 ? "Continue Learning" : "Start Learning"}
-						</Text>
-					</TouchableOpacity>
-				) : (
-					<TouchableOpacity style={styles.ctaButton} onPress={handleEnroll}>
-						<Text style={styles.ctaButtonText}>
-							{course.isPaid ? `Enroll for ${course.currency} ${course.price}` : "Enroll Now - Free"}
-						</Text>
-					</TouchableOpacity>
-				)}
+				<EnrollButton
+					state={
+						!enrolled
+							? "enroll"
+							: progress === 0
+								? "start"
+								: progress === 100
+									? "completed"
+									: "continue"
+					}
+					onPress={enrolled ? handleStartLearning : handleEnrollClick}
+					progress={progress}
+					fullWidth
+					loading={enrolling}
+				/>
 			</View>
+
+			{/* Enrollment Modal */}
+			<Modal
+				visible={showEnrollModal}
+				transparent
+				animationType="slide"
+				onRequestClose={() => setShowEnrollModal(false)}
+			>
+				<View style={styles.modalOverlay}>
+					<View style={styles.modalContent}>
+						<TouchableOpacity
+							style={styles.modalClose}
+							onPress={() => setShowEnrollModal(false)}
+						>
+							<X size={24} color="#2F4F4F" />
+						</TouchableOpacity>
+
+						<View style={styles.modalHeader}>
+							<View style={styles.modalIconContainer}>
+								<BookOpen size={40} color="#2E8B57" />
+							</View>
+							<Text style={styles.modalTitle}>Enroll in Course</Text>
+						</View>
+
+						<Image
+							source={{ uri: course.thumbnail }}
+							style={styles.modalThumbnail}
+							resizeMode="cover"
+						/>
+
+						<Text style={styles.modalCourseTitle}>{course.title}</Text>
+						<Text style={styles.modalInstructor}>
+							by {course.instructor.name}
+						</Text>
+
+						<View style={styles.modalInfo}>
+							<View style={styles.modalInfoItem}>
+								<BookOpen size={16} color="#8B4513" />
+								<Text style={styles.modalInfoText}>
+									{course.lessonCount} lessons
+								</Text>
+							</View>
+							<View style={styles.modalInfoItem}>
+								<Clock size={16} color="#8B4513" />
+								<Text style={styles.modalInfoText}>{course.duration}</Text>
+							</View>
+							<View style={styles.modalInfoItem}>
+								<BarChart3 size={16} color="#8B4513" />
+								<Text style={styles.modalInfoText}>
+									{course.level.charAt(0).toUpperCase() + course.level.slice(1)}
+								</Text>
+							</View>
+						</View>
+
+						{course.isPaid ? (
+							<>
+								<View style={styles.modalPriceContainer}>
+									<Text style={styles.modalPrice}>
+										{course.currency} {course.price}
+									</Text>
+									<Text style={styles.modalPriceNote}>
+										Payment coming soon - Free for now
+									</Text>
+								</View>
+								<TouchableOpacity
+									style={[
+										styles.modalButton,
+										enrolling && styles.modalButtonDisabled,
+									]}
+									onPress={handleConfirmEnroll}
+									disabled={enrolling}
+								>
+									<Text style={styles.modalButtonText}>
+										{enrolling ? "Enrolling..." : "Enroll Now"}
+									</Text>
+								</TouchableOpacity>
+							</>
+						) : (
+							<>
+								<View style={styles.modalFreeTag}>
+									<Text style={styles.modalFreeText}>FREE COURSE</Text>
+								</View>
+								<TouchableOpacity
+									style={[
+										styles.modalButton,
+										enrolling && styles.modalButtonDisabled,
+									]}
+									onPress={handleConfirmEnroll}
+									disabled={enrolling}
+								>
+									<Text style={styles.modalButtonText}>
+										{enrolling ? "Enrolling..." : "Enroll for Free"}
+									</Text>
+								</TouchableOpacity>
+							</>
+						)}
+
+						<Text style={styles.modalNote}>
+							Get lifetime access to all course content and updates
+						</Text>
+					</View>
+				</View>
+			</Modal>
 		</View>
 	);
 }
@@ -415,6 +581,21 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		color: "#8B4513",
 	},
+	statsRow: {
+		flexDirection: "row",
+		gap: 20,
+		marginVertical: 12,
+	},
+	statItem: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 6,
+	},
+	statText: {
+		fontSize: 14,
+		color: "#2F4F4F",
+		fontWeight: "500",
+	},
 	progressSection: {
 		marginTop: 20,
 		padding: 16,
@@ -436,16 +617,23 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		color: "#2E8B57",
 	},
-	progressBar: {
-		height: 8,
-		backgroundColor: "#E5E5E5",
-		borderRadius: 4,
-		overflow: "hidden",
+	tagsContainer: {
+		flexDirection: "row",
+		flexWrap: "wrap",
+		gap: 8,
 	},
-	progressFill: {
-		height: "100%",
-		backgroundColor: "#32CD32",
-		borderRadius: 4,
+	tag: {
+		paddingHorizontal: 12,
+		paddingVertical: 6,
+		backgroundColor: "#2E8B5720",
+		borderRadius: 16,
+		borderWidth: 1,
+		borderColor: "#2E8B5740",
+	},
+	tagText: {
+		fontSize: 13,
+		color: "#2E8B57",
+		fontWeight: "500",
 	},
 	tabsContainer: {
 		flexDirection: "row",
@@ -505,67 +693,35 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 	},
 	module: {
-		marginBottom: 24,
+		marginBottom: 16,
+		backgroundColor: "#FFFFFF",
+		borderRadius: 12,
+		overflow: "hidden",
+		borderWidth: 1,
+		borderColor: "#E5E5E5",
 	},
-	moduleName: {
-		fontSize: 17,
-		fontWeight: "bold",
-		color: "#2F4F4F",
-		marginBottom: 12,
-	},
-	lessonItem: {
+	moduleHeader: {
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
-		backgroundColor: "#FFFFFF",
-		padding: 12,
-		borderRadius: 8,
-		marginBottom: 8,
+		padding: 16,
+		backgroundColor: "#F8F8F8",
 	},
-	lessonLeft: {
-		flexDirection: "row",
-		gap: 12,
-		flex: 1,
-		alignItems: "center",
-	},
-	lessonInfo: {
+	moduleHeaderLeft: {
 		flex: 1,
 	},
-	lessonTitle: {
-		fontSize: 14,
-		fontWeight: "500",
+	moduleName: {
+		fontSize: 16,
+		fontWeight: "bold",
 		color: "#2F4F4F",
-		lineHeight: 20,
 		marginBottom: 4,
 	},
-	lockedText: {
-		color: "#8B4513",
-		opacity: 0.6,
-	},
-	lessonMeta: {
-		flexDirection: "row",
-		alignItems: "center",
-		gap: 8,
-	},
-	lessonDuration: {
-		fontSize: 12,
+	moduleProgress: {
+		fontSize: 13,
 		color: "#8B4513",
 	},
-	previewBadge: {
-		paddingHorizontal: 6,
-		paddingVertical: 2,
-		borderRadius: 4,
-		backgroundColor: "#FF8C4220",
-	},
-	previewText: {
-		fontSize: 10,
-		fontWeight: "700",
-		color: "#FF8C42",
-	},
-	completedText: {
-		fontSize: 12,
-		color: "#32CD32",
-		fontWeight: "600",
+	moduleLessons: {
+		padding: 8,
 	},
 	instructorCard: {
 		flexDirection: "row",
@@ -610,20 +766,126 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.1,
 		shadowRadius: 4,
 	},
-	ctaButton: {
-		flexDirection: "row",
-		backgroundColor: "#2E8B57",
-		paddingVertical: 16,
-		paddingHorizontal: 24,
-		borderRadius: 12,
+	modalOverlay: {
+		flex: 1,
+		backgroundColor: "rgba(0, 0, 0, 0.5)",
+		justifyContent: "flex-end",
+	},
+	modalContent: {
+		backgroundColor: "#FDF5E6",
+		borderTopLeftRadius: 24,
+		borderTopRightRadius: 24,
+		padding: 24,
+		maxHeight: "90%",
+	},
+	modalClose: {
+		position: "absolute",
+		top: 16,
+		right: 16,
+		zIndex: 10,
+		padding: 8,
+	},
+	modalHeader: {
+		alignItems: "center",
+		marginBottom: 20,
+	},
+	modalIconContainer: {
+		width: 70,
+		height: 70,
+		borderRadius: 35,
+		backgroundColor: "#2E8B5720",
 		alignItems: "center",
 		justifyContent: "center",
-		gap: 8,
+		marginBottom: 12,
+	},
+	modalTitle: {
+		fontSize: 22,
+		fontWeight: "bold",
+		color: "#2F4F4F",
+	},
+	modalThumbnail: {
+		width: "100%",
+		height: 160,
+		borderRadius: 12,
+		marginBottom: 16,
+	},
+	modalCourseTitle: {
+		fontSize: 20,
+		fontWeight: "bold",
+		color: "#2F4F4F",
+		textAlign: "center",
+		marginBottom: 8,
+	},
+	modalInstructor: {
+		fontSize: 15,
+		color: "#8B4513",
+		textAlign: "center",
+		marginBottom: 16,
+	},
+	modalInfo: {
+		flexDirection: "row",
+		justifyContent: "center",
+		gap: 20,
+		marginBottom: 24,
+	},
+	modalInfoItem: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 6,
+	},
+	modalInfoText: {
+		fontSize: 13,
+		color: "#8B4513",
+	},
+	modalPriceContainer: {
+		alignItems: "center",
+		marginBottom: 20,
+	},
+	modalPrice: {
+		fontSize: 32,
+		fontWeight: "bold",
+		color: "#2E8B57",
+		marginBottom: 4,
+	},
+	modalPriceNote: {
+		fontSize: 13,
+		color: "#FF8C42",
+		fontStyle: "italic",
+	},
+	modalFreeTag: {
+		alignSelf: "center",
+		paddingHorizontal: 20,
+		paddingVertical: 10,
+		backgroundColor: "#32CD3220",
+		borderRadius: 20,
+		marginBottom: 20,
+	},
+	modalFreeText: {
+		fontSize: 16,
+		fontWeight: "bold",
+		color: "#32CD32",
+	},
+	modalButton: {
+		backgroundColor: "#2E8B57",
+		paddingVertical: 16,
+		borderRadius: 12,
+		alignItems: "center",
+		marginBottom: 12,
 		elevation: 2,
 	},
-	ctaButtonText: {
+	modalButtonDisabled: {
+		backgroundColor: "#8B8B8B",
+		opacity: 0.6,
+	},
+	modalButtonText: {
 		color: "#FDF5E6",
 		fontSize: 16,
 		fontWeight: "600",
+	},
+	modalNote: {
+		fontSize: 13,
+		color: "#8B4513",
+		textAlign: "center",
+		fontStyle: "italic",
 	},
 });
