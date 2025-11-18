@@ -9,8 +9,10 @@ import {
 	type DownloadedCourse,
 	type QueuedDownload,
 } from '@/src/components/downloads'
+import { useLanguage } from '@/hooks/useLanguage'
 
 export default function DownloadsScreen() {
+	const { t } = useLanguage()
 	const [storageUsed] = useState(2.4) // GB
 	const [storageTotal] = useState(8.0) // GB
 
@@ -71,12 +73,12 @@ export default function DownloadsScreen() {
 
 	const handleDeleteCourse = (courseId: number, courseTitle: string) => {
 		Alert.alert(
-			'Delete Course',
+			t('downloads.deleteDownload'),
 			`Remove "${courseTitle}" from your device? You can re-download it later.`,
 			[
-				{ text: 'Cancel', style: 'cancel' },
+				{ text: t('common.cancel'), style: 'cancel' },
 				{
-					text: 'Delete',
+					text: t('common.delete'),
 					style: 'destructive',
 					onPress: () => console.log('Delete course', courseId),
 				},
@@ -86,7 +88,7 @@ export default function DownloadsScreen() {
 
 	return (
 		<ScreenLayout>
-			<Header title="Downloads" subtitle="Manage offline content" />
+			<Header title={t('navigation.downloads')} subtitle={t('downloads.offline')} />
 
 			<StorageCard
 				storageUsed={storageUsed}
@@ -100,14 +102,14 @@ export default function DownloadsScreen() {
 				<View style={styles.connectionIndicator}>
 					<WifiOff size={20} color={colors.feedback.error} strokeWidth={2} />
 					<Text style={styles.connectionText}>
-						Offline Mode - Downloaded content available
+						{t('downloads.offline')}
 					</Text>
 				</View>
 			</View>
 
 			{/* Downloaded Courses */}
 			<View style={styles.section}>
-				<Text style={styles.sectionTitle}>Downloaded Courses</Text>
+				<Text style={styles.sectionTitle}>{t('downloads.downloaded')}</Text>
 				{downloadedCourses.map((course) => (
 					<DownloadedCourseCard
 						key={course.id}
@@ -121,7 +123,7 @@ export default function DownloadsScreen() {
 			{/* Download Queue */}
 			<View style={styles.section}>
 				<View style={styles.queueHeader}>
-					<Text style={styles.sectionTitle}>Download Queue</Text>
+					<Text style={styles.sectionTitle}>{t('downloads.queued')}</Text>
 					<TouchableOpacity style={styles.refreshButton}>
 						<RefreshCw size={20} color={colors.primary.main} strokeWidth={2} />
 					</TouchableOpacity>

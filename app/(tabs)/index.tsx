@@ -10,8 +10,10 @@ import {
 	type NextLesson,
 	type QuickAction,
 } from '@/src/components/home'
+import { useLanguage } from '@/hooks/useLanguage'
 
 export default function HomeScreen() {
+	const { t } = useLanguage()
 	const currentCourse: CurrentCourse = {
 		title: 'Sustainable Agriculture Basics',
 		category: 'Agriculture',
@@ -28,25 +30,25 @@ export default function HomeScreen() {
 	const quickActions: QuickAction[] = [
 		{
 			id: 'agriculture',
-			label: 'Agriculture',
+			label: t('courses.agriculture'),
 			emoji: '🌾',
 			color: colors.categories.agriculture,
 		},
 		{
 			id: 'energy',
-			label: 'Green Energy',
+			label: t('courses.greenEnergy'),
 			emoji: '🔆',
 			color: colors.categories.greenEnergy,
 		},
 		{
 			id: 'construction',
-			label: 'Construction',
+			label: t('courses.construction'),
 			emoji: '🔨',
 			color: colors.categories.construction,
 		},
 		{
 			id: 'business',
-			label: 'Business',
+			label: t('courses.business'),
 			emoji: '💼',
 			color: colors.categories.business,
 		},
@@ -72,7 +74,7 @@ export default function HomeScreen() {
 
 	return (
 		<ScreenLayout>
-			<Header title="Home" subtitle="Welcome back to TvetGreen" />
+			<Header title={t('navigation.home')} subtitle={t('home.welcomeMessage')} />
 
 			<CurrentCourseCard course={currentCourse} onContinue={() => {}} />
 
@@ -83,7 +85,7 @@ export default function HomeScreen() {
 			<ActivityList activities={recentActivities} />
 
 			<AchievementBanner
-				title="🎉 Well Done!"
+				title={`🎉 ${t('home.congratulations')}`}
 				subtitle="You've completed 3 courses this month"
 			/>
 		</ScreenLayout>
