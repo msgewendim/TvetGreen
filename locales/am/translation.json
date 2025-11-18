@@ -29,6 +29,7 @@
   "navigation": {
     "home": "መነሻ",
     "courses": "ኮርሶች",
+    "learn": "ተማር",
     "downloads": "የወረዱ",
     "profile": "መገለጫ",
     "settings": "ቅንብሮች",
@@ -206,5 +207,109 @@
     "voiceDescription": "በድምፅ ትዕዛዞች ያለ እጅ ይማሩ",
     "enableVoice": "የድምፅ መመሪያን አንቃ",
     "finish": "መማር ጀምር"
+  },
+  "learning": {
+    "myLearning": "የእኔ ትምህርት",
+    "dashboard": "ዳሽቦርድ",
+    "categories": "ምድቦች",
+    "browseCategories": "ምድቦችን ያስሱ",
+    "allCategories": "ሁሉም ምድቦች",
+    "coursesList": "ኮርሶች",
+    "courseDetail": "የኮርስ ዝርዝሮች",
+    "enrollNow": "አሁን ተመዝገብ",
+    "enrollForFree": "በነጻ ተመዝገብ",
+    "enrolling": "በመመዝገብ ላይ...",
+    "enrolled": "ተመዝግበዋል",
+    "startLearning": "ትምህርት ጀምር",
+    "continueLearning": "ትምህርት ቀጥል",
+    "continueLearningWithProgress": "ትምህርት ቀጥል ({{progress}}%)",
+    "completed": "ተጠናቅቋል",
+    "inProgress": "በሂደት ላይ",
+    "notStarted": "አልተጀመረም",
+    "totalEnrolled": "ጠቅላላ የተመዘገቡ",
+    "coursesInProgress": "በሂደት ላይ",
+    "coursesCompleted": "ተጠናቅቋል",
+    "totalWatchTime": "የእይታ ጊዜ",
+    "hours": "{{count}} ሰዓታት",
+    "hours_one": "{{count}} ሰዓት",
+    "hours_other": "{{count}} ሰዓታት",
+    "students": "{{count}} ተማሪዎች",
+    "students_one": "{{count}} ተማሪ",
+    "students_other": "{{count}} ተማሪዎች",
+    "ratings": "{{count}} ደረጃዎች",
+    "ratings_one": "{{count}} ደረጃ",
+    "ratings_other": "{{count}} ደረጃዎች",
+    "overview": "አጠቃላይ እይታ",
+    "curriculum": "ስርዓተ ትምህርት",
+    "about": "ስለ",
+    "description": "መግለጫ",
+    "whatYouLearn": "ምን ይማራሉ",
+    "topicsCovered": "የተሸፈኑ ርዕሶች",
+    "prerequisites": "ቅድመ ሁኔታዎች",
+    "requirements": "መስፈርቶች",
+    "languages": "ቋንቋዎች",
+    "availableIn": "የሚገኝበት: {{languages}}",
+    "instructor": "አስተማሪ",
+    "module": "ክፍል {{number}}",
+    "lesson": "ትምህርት {{number}}",
+    "lessons": "{{count}} ትምህርቶች",
+    "lessons_one": "{{count}} ትምህርት",
+    "lessons_other": "{{count}} ትምህርቶች",
+    "duration": "{{duration}}",
+    "level": "ደረጃ",
+    "beginner": "ጀማሪ",
+    "intermediate": "መካከለኛ",
+    "advanced": "ከፍተኛ",
+    "preview": "ቅድመ እይታ",
+    "locked": "ተቆልፏል",
+    "yourProgress": "የእርስዎ እድገት",
+    "progress": "እድገት",
+    "enrollmentModal": {
+      "title": "በኮርስ ውስጥ ተመዝገብ",
+      "freeCourse": "ነፃ ኮርስ",
+      "paidCourse": "የሚከፈል ኮርስ",
+      "paymentComingSoon": "ክፍያ በቅርቡ ይመጣል - ለአሁን ነፃ",
+      "lifetimeAccess": "ለሁሉም የኮርስ ይዘት እና ዝመናዎች የዕድሜ ልክ መዳረሻ ያግኙ",
+      "enrollNow": "አሁን ተመዝገብ",
+      "enrollForFree": "በነፃ ተመዝገብ",
+      "close": "ዝጋ"
+    },
+    "success": {
+      "enrolled": "በዚህ ኮርስ ውስጥ ተመዝግበዋል!",
+      "lessonComplete": "ትምህርት ተጠናቅቋል!",
+      "courseComplete": "ኮርስ ተጠናቅቋል! እንኳን ደስ አለዎት!"
+    },
+    "errors": {
+      "enrollFailed": "ማስመዝገብ አልተሳካም። እባክዎ እንደገና ይሞክሩ።",
+      "courseNotFound": "ኮርስ አልተገኘም",
+      "lessonNotFound": "ትምህርት አልተገኘም",
+      "loadFailed": "ይዘት መጫን አልተሳካም"
+    },
+    "filter": {
+      "all": "ሁሉም",
+      "enrolled": "ተመዝግበዋል",
+      "completed": "ተጠናቅቋል",
+      "notStarted": "አልተጀመረም"
+    },
+    "sort": {
+      "newest": "አዲስ",
+      "popular": "ታዋቂ",
+      "alphabetical": "ሀ-ፀ"
+    },
+    "search": {
+      "placeholder": "ኮርሶችን ፈልግ...",
+      "noResults": "ምንም ኮርሶች አልተገኙም",
+      "searching": "በመፈለግ ላይ..."
+    },
+    "empty": {
+      "noCourses": "ምንም ኮርሶች የሉም",
+      "noEnrolledCourses": "ገና በማንኛውም ኮርስ ውስጥ አልተመዘገቡም",
+      "startBrowsing": "የመማር ጉዞዎን ለመጀመር ኮርሶችን ማሰስ ይጀምሩ"
+    },
+    "loading": {
+      "courses": "ኮርሶችን በመጫን ላይ...",
+      "lessons": "ትምህርቶችን በመጫን ላይ...",
+      "enrolling": "በኮርስ ውስጥ እያስመዘገብንዎት ነው..."
+    }
   }
 }

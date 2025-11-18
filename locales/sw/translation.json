@@ -29,6 +29,7 @@
   "navigation": {
     "home": "Nyumbani",
     "courses": "Kozi",
+    "learn": "Jifunze",
     "downloads": "Vilivyopakuliwa",
     "profile": "Wasifu",
     "settings": "Mipangilio",
@@ -206,5 +207,109 @@
     "voiceDescription": "Jifunze bila kutumia mikono kwa amri za sauti",
     "enableVoice": "Washa Mwongozo wa Sauti",
     "finish": "Anza Kujifunza"
+  },
+  "learning": {
+    "myLearning": "Kujifunza Kwangu",
+    "dashboard": "Dashibodi",
+    "categories": "Kategoria",
+    "browseCategories": "Vinjari Kategoria",
+    "allCategories": "Kategoria Zote",
+    "coursesList": "Kozi",
+    "courseDetail": "Maelezo ya Kozi",
+    "enrollNow": "Jiandikishe Sasa",
+    "enrollForFree": "Jiandikishe Bure",
+    "enrolling": "Inaandikisha...",
+    "enrolled": "Umeandikishwa",
+    "startLearning": "Anza Kujifunza",
+    "continueLearning": "Endelea Kujifunza",
+    "continueLearningWithProgress": "Endelea Kujifunza ({{progress}}%)",
+    "completed": "Imekamilika",
+    "inProgress": "Inaendelea",
+    "notStarted": "Haijaanza",
+    "totalEnrolled": "Jumla Iliyoandikishwa",
+    "coursesInProgress": "Zinaendelea",
+    "coursesCompleted": "Zimekamilika",
+    "totalWatchTime": "Muda wa Kutazama",
+    "hours": "Masaa {{count}}",
+    "hours_one": "Saa {{count}}",
+    "hours_other": "Masaa {{count}}",
+    "students": "Wanafunzi {{count}}",
+    "students_one": "Mwanafunzi {{count}}",
+    "students_other": "Wanafunzi {{count}}",
+    "ratings": "Ukadiriaji {{count}}",
+    "ratings_one": "Ukadiriaji {{count}}",
+    "ratings_other": "Ukadiriaji {{count}}",
+    "overview": "Muhtasari",
+    "curriculum": "Mtaala",
+    "about": "Kuhusu",
+    "description": "Maelezo",
+    "whatYouLearn": "Utakachojifunza",
+    "topicsCovered": "Mada Zilizoshughulikiwa",
+    "prerequisites": "Mahitaji ya Awali",
+    "requirements": "Mahitaji",
+    "languages": "Lugha",
+    "availableIn": "Inapatikana kwa: {{languages}}",
+    "instructor": "Mwalimu",
+    "module": "Moduli {{number}}",
+    "lesson": "Somo {{number}}",
+    "lessons": "Masomo {{count}}",
+    "lessons_one": "Somo {{count}}",
+    "lessons_other": "Masomo {{count}}",
+    "duration": "{{duration}}",
+    "level": "Kiwango",
+    "beginner": "Anayeanza",
+    "intermediate": "Wastani",
+    "advanced": "Juu",
+    "preview": "Onyesho la Awali",
+    "locked": "Imefungwa",
+    "yourProgress": "Maendeleo Yako",
+    "progress": "Maendeleo",
+    "enrollmentModal": {
+      "title": "Jiandikishe kwa Kozi",
+      "freeCourse": "KOZI BURE",
+      "paidCourse": "Kozi ya Malipo",
+      "paymentComingSoon": "Malipo yanakuja hivi karibuni - Bure kwa sasa",
+      "lifetimeAccess": "Pata ufikiaji wa maisha yote kwa maudhui yote ya kozi na visasisho",
+      "enrollNow": "Jiandikishe Sasa",
+      "enrollForFree": "Jiandikishe Bure",
+      "close": "Funga"
+    },
+    "success": {
+      "enrolled": "Umeandikishwa kwa kozi hii!",
+      "lessonComplete": "Somo limekamilika!",
+      "courseComplete": "Kozi imekamilika! Hongera!"
+    },
+    "errors": {
+      "enrollFailed": "Kujiandikisha kumeshindwa. Tafadhali jaribu tena.",
+      "courseNotFound": "Kozi haijapatikana",
+      "lessonNotFound": "Somo halijapatikana",
+      "loadFailed": "Kupakia maudhui kumeshindwa"
+    },
+    "filter": {
+      "all": "Zote",
+      "enrolled": "Umeandikishwa",
+      "completed": "Zimekamilika",
+      "notStarted": "Hazijaanza"
+    },
+    "sort": {
+      "newest": "Mpya",
+      "popular": "Maarufu",
+      "alphabetical": "A-Z"
+    },
+    "search": {
+      "placeholder": "Tafuta kozi...",
+      "noResults": "Hakuna kozi zilizopatikana",
+      "searching": "Inatafuta..."
+    },
+    "empty": {
+      "noCourses": "Hakuna kozi zinazopatikana",
+      "noEnrolledCourses": "Hujajiandikisha kwa kozi yoyote bado",
+      "startBrowsing": "Anza kuvinjari kozi kuanza safari yako ya kujifunza"
+    },
+    "loading": {
+      "courses": "Inapakia kozi...",
+      "lessons": "Inapakia masomo...",
+      "enrolling": "Inakuandikisha kwa kozi..."
+    }
   }
 }
