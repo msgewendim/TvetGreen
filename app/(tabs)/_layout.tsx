@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 import { PlayerProvider } from "@/src/providers/player/PlayerProvider";
-import { BookOpen, Download, Home, User } from "lucide-react-native";
+import { BookOpen, Download, Home, User, GraduationCap } from "lucide-react-native";
 // import { Header } from "@/src/design-system/components/navigation/Header";
 
 export default function TabLayout() {
@@ -41,6 +41,15 @@ export default function TabLayout() {
 					title: "Courses",
 					tabBarIcon: ({ size, color }) => (
 						<BookOpen size={size} color={color} strokeWidth={2} />
+					),
+				}}
+			/>
+			<Tabs.Screen
+				name="learn"
+				options={{
+					title: "Learn",
+					tabBarIcon: ({ size, color }) => (
+						<GraduationCap size={size} color={color} strokeWidth={2} />
 					),
 				}}
 			/>
