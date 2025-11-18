@@ -10,8 +10,13 @@ import {
 	type UserStats,
 	type LearningGoal,
 } from '@/src/components/profile'
+import { useLanguage } from '@/hooks/useLanguage'
+import { LanguageSelector } from '@/src/components/settings'
+import { useState } from 'react'
 
 export default function ProfileScreen() {
+	const { t, languageInfo } = useLanguage()
+	const [showLanguageSelector, setShowLanguageSelector] = useState(false)
 	const userProfile: UserProfile = {
 		name: 'Fatima Okonkwo',
 		location: 'Addis Ababa, Ethiopia',
@@ -48,12 +53,12 @@ export default function ProfileScreen() {
 
 	const handleLogout = () => {
 		Alert.alert(
-			'Sign Out',
+			t('profile.signOut'),
 			'Are you sure you want to sign out? Your progress will be saved.',
 			[
-				{ text: 'Cancel', style: 'cancel' },
+				{ text: t('common.cancel'), style: 'cancel' },
 				{
-					text: 'Sign Out',
+					text: t('profile.signOut'),
 					style: 'destructive',
 					onPress: () => console.log('Logout'),
 				},
@@ -63,7 +68,7 @@ export default function ProfileScreen() {
 
 	return (
 		<ScreenLayout>
-			<Header title="Profile" subtitle="Manage your account" />
+			<Header title={t('navigation.profile')} subtitle={t('profile.myProfile')} />
 
 			<ProfileHeader profile={userProfile} onEditPress={() => {}} />
 
@@ -72,9 +77,9 @@ export default function ProfileScreen() {
 			{/* Learning Goals */}
 			<View style={styles.section}>
 				<View style={styles.sectionHeader}>
-					<Text style={styles.sectionTitle}>Learning Goals</Text>
+					<Text style={styles.sectionTitle}>{t('profile.learningGoals')}</Text>
 					<TouchableOpacity style={styles.addButton}>
-						<Text style={styles.addButtonText}>+ Add Goal</Text>
+						<Text style={styles.addButtonText}>+ {t('profile.addGoal')}</Text>
 					</TouchableOpacity>
 				</View>
 
@@ -85,39 +90,45 @@ export default function ProfileScreen() {
 
 			{/* Settings Menu */}
 			<View style={styles.section}>
-				<Text style={styles.sectionTitle}>Settings & Support</Text>
+				<Text style={styles.sectionTitle}>{t('profile.settings')}</Text>
 
 				<SettingItem
 					icon={<Globe size={20} color={colors.primary.main} strokeWidth={2} />}
-					title="Language & Region"
-					subtitle="English, Amharic available"
-					onPress={() => {}}
+					title={t('profile.language')}
+					subtitle={languageInfo.nativeName}
+					onPress={() => setShowLanguageSelector(!showLanguageSelector)}
 				/>
+
+				{showLanguageSelector && (
+					<View style={styles.languageSelectorContainer}>
+						<LanguageSelector />
+					</View>
+				)}
 
 				<SettingItem
 					icon={<Volume2 size={20} color={colors.secondary.main} strokeWidth={2} />}
-					title="Voice & Audio"
+					title={t('profile.voiceGuide')}
 					subtitle="Voice commands, audio quality"
 					onPress={() => {}}
 				/>
 
 				<SettingItem
 					icon={<Download size={20} color={colors.feedback.info} strokeWidth={2} />}
-					title="Download Preferences"
-					subtitle="WiFi only, quality settings"
+					title={t('downloads.title')}
+					subtitle={t('profile.wifiOnly')}
 					onPress={() => {}}
 				/>
 
 				<SettingItem
 					icon={<Smartphone size={20} color={colors.categories.construction} strokeWidth={2} />}
-					title="Data & Storage"
-					subtitle="Manage offline content"
+					title={t('profile.dataUsage')}
+					subtitle={t('downloads.manage')}
 					onPress={() => {}}
 				/>
 
 				<SettingItem
 					icon={<HelpCircle size={20} color={colors.text.secondary} strokeWidth={2} />}
-					title="Help & Support"
+					title={t('profile.help')}
 					subtitle="FAQs, contact support"
 					onPress={() => {}}
 				/>
@@ -149,7 +160,7 @@ export default function ProfileScreen() {
 			<View style={styles.accountActions}>
 				<TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
 					<LogOut size={20} color={colors.feedback.error} strokeWidth={2} />
-					<Text style={styles.logoutText}>Sign Out</Text>
+					<Text style={styles.logoutText}>{t('profile.signOut')}</Text>
 				</TouchableOpacity>
 			</View>
 		</ScreenLayout>
@@ -245,5 +256,10 @@ const styles = StyleSheet.create({
 		fontWeight: typography.fontWeight.semibold,
 		color: colors.feedback.error,
 		marginLeft: spacing.sm,
+	},
+	languageSelectorContainer: {
+		marginTop: spacing.md,
+		marginBottom: spacing.md,
+		paddingHorizontal: spacing.sm,
 	},
 })

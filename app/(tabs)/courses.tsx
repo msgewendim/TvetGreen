@@ -19,47 +19,49 @@ import {
 	type Category,
 	type Course,
 } from '@/src/components/course'
-
-const categories: Category[] = [
-	{
-		id: 'agriculture',
-		title: 'Agriculture',
-		emoji: '🌾',
-		color: '#2E8B57',
-		courseCount: 5,
-		description: 'Sustainable farming & crop management',
-		image: 'https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg',
-	},
-	{
-		id: 'energy',
-		title: 'Green Energy',
-		emoji: '🔆',
-		color: '#FF8C42',
-		courseCount: 3,
-		description: 'Solar power & renewable energy',
-		image: 'https://images.pexels.com/photos/356036/pexels-photo-356036.jpeg',
-	},
-	{
-		id: 'construction',
-		title: 'Construction',
-		emoji: '🔨',
-		color: '#DAA520',
-		courseCount: 4,
-		description: 'Building skills & techniques',
-		image: 'https://images.pexels.com/photos/416405/pexels-photo-416405.jpeg',
-	},
-	{
-		id: 'business',
-		title: 'Business',
-		emoji: '💼',
-		color: '#87CEEB',
-		courseCount: 6,
-		description: 'Entrepreneurship & market skills',
-		image: 'https://images.pexels.com/photos/3277808/pexels-photo-3277808.jpeg',
-	},
-]
+import { useLanguage } from '@/hooks/useLanguage'
 
 export default function CoursesScreen() {
+	const { t } = useLanguage()
+
+	const categories: Category[] = [
+		{
+			id: 'agriculture',
+			title: t('courses.agriculture'),
+			emoji: '🌾',
+			color: '#2E8B57',
+			courseCount: 5,
+			description: 'Sustainable farming & crop management',
+			image: 'https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg',
+		},
+		{
+			id: 'energy',
+			title: t('courses.greenEnergy'),
+			emoji: '🔆',
+			color: '#FF8C42',
+			courseCount: 3,
+			description: 'Solar power & renewable energy',
+			image: 'https://images.pexels.com/photos/356036/pexels-photo-356036.jpeg',
+		},
+		{
+			id: 'construction',
+			title: t('courses.construction'),
+			emoji: '🔨',
+			color: '#DAA520',
+			courseCount: 4,
+			description: 'Building skills & techniques',
+			image: 'https://images.pexels.com/photos/416405/pexels-photo-416405.jpeg',
+		},
+		{
+			id: 'business',
+			title: t('courses.business'),
+			emoji: '💼',
+			color: '#87CEEB',
+			courseCount: 6,
+			description: 'Entrepreneurship & market skills',
+			image: 'https://images.pexels.com/photos/3277808/pexels-photo-3277808.jpeg',
+		},
+	]
 	const { courses, isLoading, error } = useCourses()
 	const { selectedCategory, setSelectedCategory, filteredCourses } =
 		useCourseFilters(courses)
@@ -87,18 +89,18 @@ export default function CoursesScreen() {
 
 	return (
 		<ScreenLayout scrollable={false} style={styles.container}>
-			<Header title="Courses" subtitle="Explore our learning paths" />
+			<Header title={t('navigation.courses')} subtitle={t('courses.allCourses')} />
 			{isLoading ? (
 				<View style={styles.centerContainer}>
 					<LoadingSpinner size="large" />
-					<Text style={styles.loadingText}>Loading courses...</Text>
+					<Text style={styles.loadingText}>{t('common.loading')}</Text>
 				</View>
 			) : error ? (
 				<View style={styles.centerContainer}>
 					<EmptyState
 						icon={<Star size={48} color={colors.text.tertiary} />}
-						title="Unable to Load Courses"
-						description="Please check your connection and try again"
+						title={t('courses.noResults')}
+						description={t('errors.network')}
 					/>
 				</View>
 			) : (

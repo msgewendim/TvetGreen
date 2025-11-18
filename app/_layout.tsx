@@ -4,6 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import { ThemeProvider } from "@/design-system";
 import { useFrameworkReady } from "@/hooks/useFrameworkReady";
 import { queryClient } from "@/src/services/query/QueryClient";
+import "../i18n.config"; // Initialize i18n
 
 export default function RootLayout() {
 	useFrameworkReady();
