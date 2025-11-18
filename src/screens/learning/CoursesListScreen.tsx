@@ -11,11 +11,13 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useLearningStore } from "@/src/store/learningStore";
+import { useLanguage } from "@/hooks/useLanguage";
 import { Search, X, Filter } from "lucide-react-native";
 import { CourseCard, EmptyState, LoadingSpinner, CourseCardSkeleton } from "@/src/components/learning";
 import type { CourseFilter, CourseSortOption } from "@/src/types/learning";
 
 export function CoursesListScreen() {
+	const { t } = useLanguage();
 	const router = useRouter();
 	const courses = useLearningStore((state) => state.courses);
 	const selectedCategory = useLearningStore((state) => state.selectedCategory);

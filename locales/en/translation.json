@@ -185,6 +185,21 @@
     "sayRepeat": "Say 'Repeat' to replay",
     "notRecognized": "Not recognized. Please try again."
   },
+  "time": {
+    "justNow": "Just now",
+    "minutesAgo": "{{count}} minutes ago",
+    "minutesAgo_one": "{{count}} minute ago",
+    "minutesAgo_other": "{{count}} minutes ago",
+    "hoursAgo": "{{count}} hours ago",
+    "hoursAgo_one": "{{count}} hour ago",
+    "hoursAgo_other": "{{count}} hours ago",
+    "daysAgo": "{{count}} days ago",
+    "daysAgo_one": "{{count}} day ago",
+    "daysAgo_other": "{{count}} days ago",
+    "yesterday": "Yesterday",
+    "tomorrow": "Tomorrow",
+    "today": "Today"
+  },
   "errors": {
     "general": "Something went wrong",
     "network": "Network error. Please check your connection.",
@@ -230,6 +245,7 @@
     "coursesInProgress": "In Progress",
     "coursesCompleted": "Completed",
     "totalWatchTime": "Watch Time",
+    "by": "by",
     "hours": "{{count}} hours",
     "hours_one": "{{count}} hour",
     "hours_other": "{{count}} hours",
@@ -264,6 +280,25 @@
     "locked": "Locked",
     "yourProgress": "Your Progress",
     "progress": "Progress",
+    "trackProgress": "Track your progress and continue learning",
+    "watchTime": "Watch Time",
+    "achievements": "Achievements",
+    "continueWatching": "Continue Watching",
+    "searchCourses": "Search your courses...",
+    "sortBy": "Sort By",
+    "recentlyAccessed": "Recently Accessed",
+    "byProgress": "By Progress",
+    "alphabetical": "Alphabetical",
+    "all": "All",
+    "review": "Review Course",
+    "nextUp": "Next up",
+    "loadingJourney": "Loading your learning journey...",
+    "startYourJourney": "Start Your Learning Journey",
+    "emptySubtitle": "Explore our courses and enroll to begin building your skills",
+    "browseCourses": "Browse Courses",
+    "browseMoreCourses": "Browse More Courses",
+    "noSearchResults": "No courses match your search",
+    "noCoursesInTab": "No courses in this category",
     "enrollmentModal": {
       "title": "Enroll in Course",
       "freeCourse": "FREE COURSE",
@@ -283,6 +318,7 @@
       "enrollFailed": "Failed to enroll. Please try again.",
       "courseNotFound": "Course not found",
       "lessonNotFound": "Lesson not found",
+      "lessonLocked": "Please enroll in this course to access this lesson.",
       "loadFailed": "Failed to load content"
     },
     "filter": {
@@ -309,7 +345,9 @@
     "loading": {
       "courses": "Loading courses...",
       "lessons": "Loading lessons...",
+      "categories": "Loading categories...",
       "enrolling": "Enrolling you in the course..."
-    }
+    },
+    "browseCategoriesSubtitle": "Explore courses organized by vocational skills"
   }
 }

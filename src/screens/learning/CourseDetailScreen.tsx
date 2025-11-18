@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { useLearningStore } from "@/src/store/learningStore";
+import { useLanguage } from "@/hooks/useLanguage";
 import {
 	Play,
 	Clock,
@@ -35,6 +36,7 @@ import {
 type TabType = "overview" | "curriculum" | "about";
 
 export function CourseDetailScreen() {
+	const { t } = useLanguage();
 	const router = useRouter();
 	const params = useLocalSearchParams();
 	const courseId = params.id as string;
@@ -60,7 +62,7 @@ export function CourseDetailScreen() {
 	if (!course) {
 		return (
 			<View style={styles.errorContainer}>
-				<Text style={styles.errorText}>Course not found</Text>
+				<Text style={styles.errorText}>{t("learning.errors.courseNotFound")}</Text>
 			</View>
 		);
 	}
@@ -74,11 +76,11 @@ export function CourseDetailScreen() {
 		try {
 			await enrollInCourse(courseId);
 			setShowEnrollModal(false);
-			Alert.alert("Success!", "You've been enrolled in this course!");
+			Alert.alert(t("common.success"), t("learning.success.enrolled"));
 			// Auto-switch to curriculum tab after enrollment
 			setTimeout(() => setActiveTab("curriculum"), 300);
 		} catch (error) {
-			Alert.alert("Error", "Failed to enroll. Please try again.");
+			Alert.alert(t("common.error"), t("learning.errors.enrollFailed"));
 		} finally {
 			setEnrolling(false);
 		}
@@ -105,7 +107,7 @@ export function CourseDetailScreen() {
 
 	const handleLessonPress = (lessonId: string, isLocked: boolean) => {
 		if (isLocked) {
-			Alert.alert("Locked", "Please enroll in this course to access this lesson.");
+			Alert.alert(t("learning.locked"), t("learning.errors.lessonLocked"));
 			return;
 		}
 		router.push(`/learning/lesson/${lessonId}`);
@@ -142,7 +144,9 @@ export function CourseDetailScreen() {
 				{/* Course Info */}
 				<View style={styles.infoContainer}>
 					<Text style={styles.courseTitle}>{course.title}</Text>
-					<Text style={styles.instructor}>by {course.instructor.name}</Text>
+					<Text style={styles.instructor}>
+						{t("learning.by")} {course.instructor.name}
+					</Text>
 
 					{/* Rating and Enrollment Stats */}
 					<View style={styles.statsRow}>
@@ -150,7 +154,7 @@ export function CourseDetailScreen() {
 							<View style={styles.statItem}>
 								<Star size={18} color="#DAA520" fill="#DAA520" />
 								<Text style={styles.statText}>
-									{course.rating} ({course.enrollmentCount || 0} ratings)
+									{course.rating} ({t("learning.ratings", { count: course.enrollmentCount || 0 })})
 								</Text>
 							</View>
 						)}
@@ -158,7 +162,7 @@ export function CourseDetailScreen() {
 							<View style={styles.statItem}>
 								<Users size={18} color="#2E8B57" />
 								<Text style={styles.statText}>
-									{course.enrollmentCount.toLocaleString()} students
+									{t("learning.students", { count: course.enrollmentCount })}
 								</Text>
 							</View>
 						)}
@@ -167,7 +171,9 @@ export function CourseDetailScreen() {
 					<View style={styles.metaContainer}>
 						<View style={styles.metaItem}>
 							<BookOpen size={16} color="#8B4513" />
-							<Text style={styles.metaText}>{course.lessonCount} lessons</Text>
+							<Text style={styles.metaText}>
+								{t("learning.lessons", { count: course.lessonCount })}
+							</Text>
 						</View>
 						<View style={styles.metaItem}>
 							<Clock size={16} color="#8B4513" />
@@ -176,7 +182,7 @@ export function CourseDetailScreen() {
 						<View style={styles.metaItem}>
 							<BarChart3 size={16} color="#8B4513" />
 							<Text style={styles.metaText}>
-								{course.level.charAt(0).toUpperCase() + course.level.slice(1)}
+								{t(`learning.${course.level}`)}
 							</Text>
 						</View>
 					</View>
@@ -184,7 +190,7 @@ export function CourseDetailScreen() {
 					{enrolled && (
 						<View style={styles.progressSection}>
 							<View style={styles.progressHeader}>
-								<Text style={styles.progressLabel}>Your Progress</Text>
+								<Text style={styles.progressLabel}>{t("learning.yourProgress")}</Text>
 								<Text style={styles.progressPercentage}>{progress}%</Text>
 							</View>
 							<ProgressBar progress={progress} height={10} showLabel={false} />
@@ -204,7 +210,7 @@ export function CourseDetailScreen() {
 								activeTab === "overview" && styles.activeTabText,
 							]}
 						>
-							Overview
+							{t("learning.overview")}
 						</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
@@ -217,7 +223,7 @@ export function CourseDetailScreen() {
 								activeTab === "curriculum" && styles.activeTabText,
 							]}
 						>
-							Curriculum
+							{t("learning.curriculum")}
 						</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
@@ -230,7 +236,7 @@ export function CourseDetailScreen() {
 								activeTab === "about" && styles.activeTabText,
 							]}
 						>
-							About
+							{t("learning.about")}
 						</Text>
 					</TouchableOpacity>
 				</View>
@@ -239,10 +245,10 @@ export function CourseDetailScreen() {
 				<View style={styles.tabContent}>
 					{activeTab === "overview" && (
 						<View>
-							<Text style={styles.sectionTitle}>Description</Text>
+							<Text style={styles.sectionTitle}>{t("learning.description")}</Text>
 							<Text style={styles.description}>{course.description}</Text>
 
-							<Text style={styles.sectionTitle}>What You'll Learn</Text>
+							<Text style={styles.sectionTitle}>{t("learning.whatYouLearn")}</Text>
 							{course.learningOutcomes.map((outcome, index) => (
 								<View key={index} style={styles.listItem}>
 									<CheckCircle2 size={18} color="#32CD32" />
@@ -252,7 +258,7 @@ export function CourseDetailScreen() {
 
 							{course.tags && course.tags.length > 0 && (
 								<>
-									<Text style={styles.sectionTitle}>Topics Covered</Text>
+									<Text style={styles.sectionTitle}>{t("learning.topicsCovered")}</Text>
 									<View style={styles.tagsContainer}>
 										{course.tags.map((tag, index) => (
 											<View key={index} style={styles.tag}>
@@ -265,7 +271,7 @@ export function CourseDetailScreen() {
 
 							{course.prerequisites && course.prerequisites.length > 0 && (
 								<>
-									<Text style={styles.sectionTitle}>Prerequisites</Text>
+									<Text style={styles.sectionTitle}>{t("learning.prerequisites")}</Text>
 									{course.prerequisites.map((prereq, index) => (
 										<View key={index} style={styles.listItem}>
 											<Award size={18} color="#FF8C42" />
@@ -294,10 +300,10 @@ export function CourseDetailScreen() {
 										>
 											<View style={styles.moduleHeaderLeft}>
 												<Text style={styles.moduleName}>
-													Module {moduleIndex + 1}: {module.name}
+													{t("learning.module", { number: moduleIndex + 1 })}: {module.name}
 												</Text>
 												<Text style={styles.moduleProgress}>
-													{completedLessons}/{totalLessons} lessons
+													{completedLessons}/{totalLessons} {t("learning.lessons", { count: totalLessons })}
 												</Text>
 											</View>
 											{isExpanded ? (
@@ -331,7 +337,7 @@ export function CourseDetailScreen() {
 
 					{activeTab === "about" && (
 						<View>
-							<Text style={styles.sectionTitle}>Instructor</Text>
+							<Text style={styles.sectionTitle}>{t("learning.instructor")}</Text>
 							<View style={styles.instructorCard}>
 								{course.instructor.avatar && (
 									<Image
@@ -353,7 +359,7 @@ export function CourseDetailScreen() {
 
 							{course.requirements.length > 0 && (
 								<>
-									<Text style={styles.sectionTitle}>Requirements</Text>
+									<Text style={styles.sectionTitle}>{t("learning.requirements")}</Text>
 									{course.requirements.map((req, index) => (
 										<View key={index} style={styles.listItem}>
 											<Text style={styles.bullet}>•</Text>
@@ -363,9 +369,9 @@ export function CourseDetailScreen() {
 								</>
 							)}
 
-							<Text style={styles.sectionTitle}>Languages</Text>
+							<Text style={styles.sectionTitle}>{t("learning.languages")}</Text>
 							<Text style={styles.description}>
-								Available in: {course.language.join(", ").toUpperCase()}
+								{t("learning.availableIn", { languages: course.language.join(", ").toUpperCase() })}
 							</Text>
 						</View>
 					)}
@@ -411,7 +417,7 @@ export function CourseDetailScreen() {
 							<View style={styles.modalIconContainer}>
 								<BookOpen size={40} color="#2E8B57" />
 							</View>
-							<Text style={styles.modalTitle}>Enroll in Course</Text>
+							<Text style={styles.modalTitle}>{t("learning.enrollmentModal.title")}</Text>
 						</View>
 
 						<Image
@@ -422,14 +428,14 @@ export function CourseDetailScreen() {
 
 						<Text style={styles.modalCourseTitle}>{course.title}</Text>
 						<Text style={styles.modalInstructor}>
-							by {course.instructor.name}
+							{t("learning.by")} {course.instructor.name}
 						</Text>
 
 						<View style={styles.modalInfo}>
 							<View style={styles.modalInfoItem}>
 								<BookOpen size={16} color="#8B4513" />
 								<Text style={styles.modalInfoText}>
-									{course.lessonCount} lessons
+									{t("learning.lessons", { count: course.lessonCount })}
 								</Text>
 							</View>
 							<View style={styles.modalInfoItem}>
@@ -439,7 +445,7 @@ export function CourseDetailScreen() {
 							<View style={styles.modalInfoItem}>
 								<BarChart3 size={16} color="#8B4513" />
 								<Text style={styles.modalInfoText}>
-									{course.level.charAt(0).toUpperCase() + course.level.slice(1)}
+									{t(`learning.${course.level}`)}
 								</Text>
 							</View>
 						</View>
@@ -451,7 +457,7 @@ export function CourseDetailScreen() {
 										{course.currency} {course.price}
 									</Text>
 									<Text style={styles.modalPriceNote}>
-										Payment coming soon - Free for now
+										{t("learning.enrollmentModal.paymentComingSoon")}
 									</Text>
 								</View>
 								<TouchableOpacity
@@ -463,14 +469,14 @@ export function CourseDetailScreen() {
 									disabled={enrolling}
 								>
 									<Text style={styles.modalButtonText}>
-										{enrolling ? "Enrolling..." : "Enroll Now"}
+										{enrolling ? t("learning.enrolling") : t("learning.enrollmentModal.enrollNow")}
 									</Text>
 								</TouchableOpacity>
 							</>
 						) : (
 							<>
 								<View style={styles.modalFreeTag}>
-									<Text style={styles.modalFreeText}>FREE COURSE</Text>
+									<Text style={styles.modalFreeText}>{t("learning.enrollmentModal.freeCourse")}</Text>
 								</View>
 								<TouchableOpacity
 									style={[
@@ -481,14 +487,14 @@ export function CourseDetailScreen() {
 									disabled={enrolling}
 								>
 									<Text style={styles.modalButtonText}>
-										{enrolling ? "Enrolling..." : "Enroll for Free"}
+										{enrolling ? t("learning.enrolling") : t("learning.enrollmentModal.enrollForFree")}
 									</Text>
 								</TouchableOpacity>
 							</>
 						)}
 
 						<Text style={styles.modalNote}>
-							Get lifetime access to all course content and updates
+							{t("learning.enrollmentModal.lifetimeAccess")}
 						</Text>
 					</View>
 				</View>

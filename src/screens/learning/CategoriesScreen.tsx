@@ -9,9 +9,11 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useLearningStore } from "@/src/store/learningStore";
+import { useLanguage } from "@/hooks/useLanguage";
 import * as Icons from "lucide-react-native";
 
 export function CategoriesScreen() {
+	const { t } = useLanguage();
 	const router = useRouter();
 	const categories = useLearningStore((state) => state.categories);
 	const setSelectedCategory = useLearningStore((state) => state.setSelectedCategory);
@@ -25,7 +27,7 @@ export function CategoriesScreen() {
 	if (isLoading) {
 		return (
 			<View style={styles.loadingContainer}>
-				<Text style={styles.loadingText}>Loading categories...</Text>
+				<Text style={styles.loadingText}>{t("learning.loading.categories")}</Text>
 			</View>
 		);
 	}
@@ -34,9 +36,9 @@ export function CategoriesScreen() {
 		<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
 			{/* Header */}
 			<View style={styles.header}>
-				<Text style={styles.headerTitle}>Browse by Category</Text>
+				<Text style={styles.headerTitle}>{t("learning.browseCategories")}</Text>
 				<Text style={styles.headerSubtitle}>
-					Explore courses organized by vocational skills
+					{t("learning.browseCategoriesSubtitle")}
 				</Text>
 			</View>
 
@@ -72,7 +74,7 @@ export function CategoriesScreen() {
 								{category.name}
 							</Text>
 							<Text style={styles.courseCount}>
-								{category.courseCount} {category.courseCount === 1 ? "course" : "courses"}
+								{t("courses.lessons", { count: category.courseCount })}
 							</Text>
 						</TouchableOpacity>
 					);
@@ -88,7 +90,7 @@ export function CategoriesScreen() {
 						router.push("/learning/courses");
 					}}
 				>
-					<Text style={styles.viewAllButtonText}>View All Courses</Text>
+					<Text style={styles.viewAllButtonText}>{t("common.viewAll")}</Text>
 					<Icons.ArrowRight size={20} color="#FDF5E6" />
 				</TouchableOpacity>
 			</View>

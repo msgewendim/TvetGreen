@@ -446,6 +446,26 @@ export const useLearningStore = create<LearningState>((set, get) => ({
   },
 
   /**
+   * Get previous lesson in a course
+   */
+  getPreviousLesson: (currentLessonId) => {
+    const { lessons } = get()
+    const currentLesson = lessons.find((l) => l.id === currentLessonId)
+
+    if (!currentLesson) return null
+
+    const courseLessons = lessons
+      .filter((l) => l.courseId === currentLesson.courseId)
+      .sort((a, b) => a.order - b.order)
+
+    const currentIndex = courseLessons.findIndex((l) => l.id === currentLessonId)
+
+    return currentIndex > 0
+      ? courseLessons[currentIndex - 1]
+      : null
+  },
+
+  /**
    * Get course by ID
    */
   getCourseById: (courseId) => {

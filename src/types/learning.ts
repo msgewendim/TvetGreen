@@ -202,6 +202,7 @@ export interface LearningState {
   getLessonsByCourse: (courseId: string) => LessonWithProgress[]
   getLessonsByModule: (courseId: string) => Module[]
   getNextLesson: (currentLessonId: string) => Lesson | null
+  getPreviousLesson: (currentLessonId: string) => Lesson | null
   getCourseById: (courseId: string) => Course | undefined
   getLessonById: (lessonId: string) => Lesson | undefined
   getCategoryById: (categoryId: string) => Category | undefined
