@@ -17,12 +17,12 @@ import type {
   LessonWithProgress,
   Module,
   STORAGE_KEYS,
-} from '@/types/learning'
+} from '@/src/types/learning'
 
 // Import static data
-import categoriesData from '@/data/courses/categories.json'
-import coursesData from '@/data/courses/courses.json'
-import lessonsData from '@/data/courses/lessons.json'
+import categoriesData from '@/src/data/courses/categories.json'
+import coursesData from '@/src/data/courses/courses.json'
+import lessonsData from '@/src/data/courses/lessons.json'
 
 // Storage keys
 const ENROLLMENTS_KEY = '@learning_enrollments'
