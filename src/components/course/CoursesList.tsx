@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View } from 'react-native'
-import { colors, spacing, typography } from '@/design-system'
-import { CourseCard } from './CourseCard'
-import type { Course } from './CourseCard'
+import { StyleSheet, Text, View } from "react-native";
+import { colors, spacing, typography } from "@/design-system";
+import { CourseCard } from "./CourseCard";
+import type { Course } from "./CourseCard";
 
 interface CoursesListProps {
-	courses: Course[]
-	onCoursePress: (course: Course) => void
+	courses: Course[];
+	onCoursePress: (course: Course) => void;
 }
 
 export function CoursesList({ courses, onCoursePress }: CoursesListProps) {
@@ -24,7 +24,7 @@ export function CoursesList({ courses, onCoursePress }: CoursesListProps) {
 				))}
 			</View>
 		</View>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
@@ -46,5 +46,4 @@ const styles = StyleSheet.create({
 	coursesContainer: {
 		gap: 0,
 	},
-})
-
+});

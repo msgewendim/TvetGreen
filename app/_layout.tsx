@@ -12,12 +12,12 @@ export default function RootLayout() {
 	return (
 		<ThemeProvider>
 			<QueryClientProvider client={queryClient}>
-			<Stack screenOptions={{ headerShown: false }}>
-				<Stack.Screen name="onboarding" />
-				<Stack.Screen name="video" />
-				<Stack.Screen name="+not-found" />
-			</Stack>
-			<StatusBar style="auto" />
+				<Stack screenOptions={{ headerShown: false }}>
+					<Stack.Screen name="onboarding" />
+					<Stack.Screen name="video" />
+					<Stack.Screen name="+not-found" />
+				</Stack>
+				<StatusBar style="auto" />
 			</QueryClientProvider>
 		</ThemeProvider>
 	);

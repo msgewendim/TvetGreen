@@ -1,11 +1,17 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { colors, spacing, typography } from '@/design-system'
-import type { Category } from './CategoryCard'
+import {
+	ScrollView,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from "react-native";
+import { colors, spacing, typography } from "@/design-system";
+import type { Category } from "./CategoryCard";
 
 interface CategoryFiltersProps {
-	categories: Category[]
-	selectedCategory: string
-	onCategoryChange: (categoryId: string) => void
+	categories: Category[];
+	selectedCategory: string;
+	onCategoryChange: (categoryId: string) => void;
 }
 
 export function CategoryFilters({
@@ -23,14 +29,14 @@ export function CategoryFilters({
 				<TouchableOpacity
 					style={[
 						styles.filterButton,
-						selectedCategory === 'all' && styles.filterButtonActive,
+						selectedCategory === "all" && styles.filterButtonActive,
 					]}
-					onPress={() => onCategoryChange('all')}
+					onPress={() => onCategoryChange("all")}
 				>
 					<Text
 						style={[
 							styles.filterButtonText,
-							selectedCategory === 'all' && styles.filterButtonTextActive,
+							selectedCategory === "all" && styles.filterButtonTextActive,
 						]}
 					>
 						All Courses
@@ -59,7 +65,7 @@ export function CategoryFilters({
 				))}
 			</ScrollView>
 		</View>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
@@ -70,15 +76,15 @@ const styles = StyleSheet.create({
 		paddingHorizontal: spacing.lg,
 	},
 	filterButton: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		backgroundColor: colors.background.secondary,
 		paddingHorizontal: spacing.md,
 		paddingVertical: spacing.sm + 2,
 		borderRadius: spacing.radius.full,
 		marginRight: spacing.sm,
 		borderWidth: 2,
-		borderColor: 'transparent',
+		borderColor: "transparent",
 		minHeight: spacing.minTouchTarget,
 	},
 	filterButtonActive: {
@@ -97,5 +103,4 @@ const styles = StyleSheet.create({
 	filterButtonTextActive: {
 		color: colors.text.inverse,
 	},
-})
-
+});

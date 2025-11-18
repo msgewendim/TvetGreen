@@ -4,21 +4,21 @@
  * Displays individual learning goal with progress
  */
 
-import { Target } from 'lucide-react-native'
-import { StyleSheet, Text, View } from 'react-native'
-import { colors, spacing, typography } from '@/design-system'
+import { Target } from "lucide-react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { colors, spacing, typography } from "@/design-system";
 
 export interface LearningGoal {
-	id: number
-	title: string
-	progress: number
-	target: number
-	current: number
-	deadline: string
+	id: number;
+	title: string;
+	progress: number;
+	target: number;
+	current: number;
+	deadline: string;
 }
 
 interface GoalCardProps {
-	goal: LearningGoal
+	goal: LearningGoal;
 }
 
 export const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
@@ -38,8 +38,8 @@ export const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
 				</Text>
 			</View>
 		</View>
-	)
-}
+	);
+};
 
 const styles = StyleSheet.create({
 	container: {
@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
 		...spacing.shadow.sm,
 	},
 	header: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		marginBottom: spacing.sm,
 	},
 	title: {
@@ -69,8 +69,8 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.sm,
 	},
 	progress: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		gap: spacing.sm,
 	},
 	progressBar: {
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
 		borderRadius: spacing.radius.sm,
 	},
 	progressFill: {
-		height: '100%',
+		height: "100%",
 		backgroundColor: colors.primary.main,
 		borderRadius: spacing.radius.sm,
 	},
@@ -90,4 +90,4 @@ const styles = StyleSheet.create({
 		color: colors.text.primary,
 		minWidth: 80,
 	},
-})
+});

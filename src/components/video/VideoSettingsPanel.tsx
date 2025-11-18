@@ -1,29 +1,32 @@
+import { ChevronDown, CircleCheck as CheckCircle } from "lucide-react-native";
 import {
-	ChevronDown,
-	CircleCheck as CheckCircle,
-} from 'lucide-react-native'
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { colors, spacing, typography } from '@/design-system'
+	Dimensions,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from "react-native";
+import { colors, spacing, typography } from "@/design-system";
 
-const { height } = Dimensions.get('window')
+const { height } = Dimensions.get("window");
 
 interface SubtitleLanguage {
-	code: string
-	name: string
-	flag: string
+	code: string;
+	name: string;
+	flag: string;
 }
 
 interface VideoSettingsPanelProps {
-	showSettings: boolean
-	playbackSpeed: number
-	selectedLanguage: string
-	showSubtitles: boolean
-	playbackSpeeds: number[]
-	subtitleLanguages: SubtitleLanguage[]
-	onClose: () => void
-	onSpeedChange: (speed: number) => void
-	onLanguageChange: (language: string) => void
-	onToggleSubtitles: () => void
+	showSettings: boolean;
+	playbackSpeed: number;
+	selectedLanguage: string;
+	showSubtitles: boolean;
+	playbackSpeeds: number[];
+	subtitleLanguages: SubtitleLanguage[];
+	onClose: () => void;
+	onSpeedChange: (speed: number) => void;
+	onLanguageChange: (language: string) => void;
+	onToggleSubtitles: () => void;
 }
 
 export function VideoSettingsPanel({
@@ -38,7 +41,7 @@ export function VideoSettingsPanel({
 	onLanguageChange,
 	onToggleSubtitles,
 }: VideoSettingsPanelProps) {
-	if (!showSettings) return null
+	if (!showSettings) return null;
 
 	return (
 		<View style={styles.panel}>
@@ -46,7 +49,11 @@ export function VideoSettingsPanel({
 				<View style={styles.header}>
 					<Text style={styles.title}>Video Settings</Text>
 					<TouchableOpacity onPress={onClose}>
-						<ChevronDown size={24} color={colors.text.primary} strokeWidth={2} />
+						<ChevronDown
+							size={24}
+							color={colors.text.primary}
+							strokeWidth={2}
+						/>
 					</TouchableOpacity>
 				</View>
 
@@ -98,16 +105,23 @@ export function VideoSettingsPanel({
 								{lang.name}
 							</Text>
 							{selectedLanguage === lang.code && (
-								<CheckCircle size={20} color={colors.primary.main} strokeWidth={2} />
+								<CheckCircle
+									size={20}
+									color={colors.primary.main}
+									strokeWidth={2}
+								/>
 							)}
 						</TouchableOpacity>
 					))}
 				</View>
 
 				{/* Subtitle Toggle */}
-				<TouchableOpacity style={styles.subtitleToggle} onPress={onToggleSubtitles}>
+				<TouchableOpacity
+					style={styles.subtitleToggle}
+					onPress={onToggleSubtitles}
+				>
 					<Text style={styles.subtitleToggleText}>
-						{showSubtitles ? 'Hide' : 'Show'} Subtitles
+						{showSubtitles ? "Hide" : "Show"} Subtitles
 					</Text>
 					<View style={[styles.toggle, showSubtitles && styles.toggleActive]}>
 						<View
@@ -120,16 +134,16 @@ export function VideoSettingsPanel({
 				</TouchableOpacity>
 			</View>
 		</View>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
 	panel: {
-		position: 'absolute',
+		position: "absolute",
 		bottom: 0,
 		left: 0,
 		right: 0,
-		backgroundColor: 'rgba(253, 245, 230, 0.98)',
+		backgroundColor: "rgba(253, 245, 230, 0.98)",
 		borderTopLeftRadius: spacing.radius.md,
 		borderTopRightRadius: spacing.radius.md,
 		maxHeight: height * 0.6,
@@ -138,9 +152,9 @@ const styles = StyleSheet.create({
 		padding: spacing.lg,
 	},
 	header: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
 		marginBottom: spacing.lg,
 		paddingBottom: spacing.md,
 		borderBottomWidth: 1,
@@ -161,8 +175,8 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.sm,
 	},
 	speedOptions: {
-		flexDirection: 'row',
-		flexWrap: 'wrap',
+		flexDirection: "row",
+		flexWrap: "wrap",
 		gap: spacing.sm,
 	},
 	speedOption: {
@@ -171,7 +185,7 @@ const styles = StyleSheet.create({
 		paddingVertical: spacing.sm,
 		borderRadius: spacing.radius.full,
 		borderWidth: 2,
-		borderColor: 'transparent',
+		borderColor: "transparent",
 	},
 	speedOptionActive: {
 		backgroundColor: colors.primary.main,
@@ -186,14 +200,14 @@ const styles = StyleSheet.create({
 		color: colors.text.inverse,
 	},
 	languageOption: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		backgroundColor: colors.background.secondary,
 		padding: spacing.sm,
 		borderRadius: spacing.radius.sm,
 		marginBottom: spacing.sm,
 		borderWidth: 2,
-		borderColor: 'transparent',
+		borderColor: "transparent",
 	},
 	languageOptionActive: {
 		borderColor: colors.primary.main,
@@ -213,9 +227,9 @@ const styles = StyleSheet.create({
 		color: colors.primary.main,
 	},
 	subtitleToggle: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
 		backgroundColor: colors.background.secondary,
 		padding: spacing.md,
 		borderRadius: spacing.radius.sm,
@@ -230,7 +244,7 @@ const styles = StyleSheet.create({
 		height: 30,
 		borderRadius: 15,
 		backgroundColor: colors.neutral[300],
-		justifyContent: 'center',
+		justifyContent: "center",
 		paddingHorizontal: 2,
 	},
 	toggleActive: {
@@ -241,10 +255,9 @@ const styles = StyleSheet.create({
 		height: 26,
 		borderRadius: 13,
 		backgroundColor: colors.text.inverse,
-		alignSelf: 'flex-start',
+		alignSelf: "flex-start",
 	},
 	toggleThumbActive: {
-		alignSelf: 'flex-end',
+		alignSelf: "flex-end",
 	},
-})
-
+});

@@ -7,13 +7,13 @@ import {
 	StyleSheet,
 	FlatList,
 	TextInput,
-	RefreshControl,
+	Image,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useLearningStore } from "@/src/store/learningStore";
 import { useLanguage } from "@/hooks/useLanguage";
-import { Search, X, Filter } from "lucide-react-native";
-import { CourseCard, EmptyState, LoadingSpinner, CourseCardSkeleton } from "@/src/components/learning";
+import { Search, X, Filter, ChevronRight } from "lucide-react-native";
+import { LoadingSpinner } from "@/src/components/learning";
 import type { CourseFilter, CourseSortOption } from "@/src/types/learning";
 
 export function CoursesListScreen() {
@@ -23,7 +23,9 @@ export function CoursesListScreen() {
 	const selectedCategory = useLearningStore((state) => state.selectedCategory);
 	const getCategoryById = useLearningStore((state) => state.getCategoryById);
 	const isEnrolled = useLearningStore((state) => state.isEnrolled);
-	const getCourseProgress = useLearningStore((state) => state.getCourseProgress);
+	const getCourseProgress = useLearningStore(
+		(state) => state.getCourseProgress,
+	);
 	const isLoading = useLearningStore((state) => state.isLoading);
 	const loadData = useLearningStore((state) => state.loadData);
 
@@ -55,7 +57,7 @@ export function CoursesListScreen() {
 			result = result.filter((c) => isEnrolled(c.id));
 		} else if (filter === "completed") {
 			result = result.filter(
-				(c) => isEnrolled(c.id) && getCourseProgress(c.id) === 100
+				(c) => isEnrolled(c.id) && getCourseProgress(c.id) === 100,
 			);
 		}
 
@@ -67,7 +69,7 @@ export function CoursesListScreen() {
 					c.title.toLowerCase().includes(query) ||
 					c.description.toLowerCase().includes(query) ||
 					c.instructor.name.toLowerCase().includes(query) ||
-					c.tags?.some((tag) => tag.toLowerCase().includes(query))
+					c.tags?.some((tag) => tag.toLowerCase().includes(query)),
 			);
 		}
 
@@ -75,10 +77,12 @@ export function CoursesListScreen() {
 		if (sortBy === "newest") {
 			result.sort(
 				(a, b) =>
-					new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+					new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
 			);
 		} else if (sortBy === "popular") {
-			result.sort((a, b) => (b.enrollmentCount || 0) - (a.enrollmentCount || 0));
+			result.sort(
+				(a, b) => (b.enrollmentCount || 0) - (a.enrollmentCount || 0),
+			);
 		} else if (sortBy === "alphabetical") {
 			result.sort((a, b) => a.title.localeCompare(b.title));
 		}
@@ -138,7 +142,10 @@ export function CoursesListScreen() {
 				contentContainerStyle={styles.filtersContent}
 			>
 				<TouchableOpacity
-					style={[styles.filterChip, filter === "all" && styles.filterChipActive]}
+					style={[
+						styles.filterChip,
+						filter === "all" && styles.filterChipActive,
+					]}
 					onPress={() => setFilter("all")}
 				>
 					<Text
@@ -186,7 +193,10 @@ export function CoursesListScreen() {
 				<View style={styles.divider} />
 
 				<TouchableOpacity
-					style={[styles.filterChip, sortBy === "newest" && styles.filterChipActive]}
+					style={[
+						styles.filterChip,
+						sortBy === "newest" && styles.filterChipActive,
+					]}
 					onPress={() => setSortBy("newest")}
 				>
 					<Text
@@ -293,7 +303,10 @@ export function CoursesListScreen() {
 										<View style={styles.progressContainer}>
 											<View style={styles.progressBar}>
 												<View
-													style={[styles.progressFill, { width: `${progress}%` }]}
+													style={[
+														styles.progressFill,
+														{ width: `${progress}%` },
+													]}
 												/>
 											</View>
 											<Text style={styles.progressText}>{progress}%</Text>

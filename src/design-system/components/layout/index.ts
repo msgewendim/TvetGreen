@@ -2,4 +2,4 @@
  * Layout Components
  */
 
-export { ScreenLayout, type ScreenLayoutProps } from './ScreenLayout'
+export { ScreenLayout, type ScreenLayoutProps } from "./ScreenLayout";

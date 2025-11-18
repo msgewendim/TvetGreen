@@ -18,8 +18,8 @@ export default function WelcomeScreen() {
 
 	const welcomeSlides = [
 		{
-			title: t('onboarding.welcome'),
-			subtitle: t('onboarding.welcomeMessage'),
+			title: t("onboarding.welcome"),
+			subtitle: t("onboarding.welcomeMessage"),
 			description:
 				"Join thousands of learners across East Africa building better futures through education.",
 			image:
@@ -29,8 +29,7 @@ export default function WelcomeScreen() {
 		{
 			title: "Learn Anywhere, Anytime",
 			subtitle: "Offline-first education",
-			description:
-				t('downloads.downloadCourses'),
+			description: t("downloads.downloadCourses"),
 			image:
 				"https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg",
 			emoji: "📱",
@@ -38,8 +37,7 @@ export default function WelcomeScreen() {
 		{
 			title: "Voice-Guided Learning",
 			subtitle: "Designed for everyone",
-			description:
-				t('onboarding.voiceDescription'),
+			description: t("onboarding.voiceDescription"),
 			image:
 				"https://images.pexels.com/photos/3277808/pexels-photo-3277808.jpeg",
 			emoji: "🎤",
@@ -52,7 +50,7 @@ export default function WelcomeScreen() {
 		}, 4000);
 
 		return () => clearInterval(timer);
-	}, []);
+	}, [welcomeSlides.length]);
 
 	const currentSlideData = welcomeSlides[currentSlide];
 
@@ -109,7 +107,9 @@ export default function WelcomeScreen() {
 							style={styles.getStartedButton}
 							onPress={() => router.push("/onboarding/language")}
 						>
-							<Text style={styles.getStartedText}>{t('onboarding.getStarted')}</Text>
+							<Text style={styles.getStartedText}>
+								{t("onboarding.getStarted")}
+							</Text>
 							<ChevronRight size={24} color="#FDF5E6" strokeWidth={2} />
 						</TouchableOpacity>
 
@@ -117,7 +117,7 @@ export default function WelcomeScreen() {
 							style={styles.skipButton}
 							onPress={() => router.replace("/(tabs)")}
 						>
-							<Text style={styles.skipText}>{t('onboarding.skip')}</Text>
+							<Text style={styles.skipText}>{t("onboarding.skip")}</Text>
 						</TouchableOpacity>
 					</View>
 				</View>

@@ -36,7 +36,7 @@ export function LessonPlayerScreen() {
 	const { t } = useLanguage();
 
 	const playerRef = useRef<any>(null);
-	const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
+	const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 	const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
 	const [isPlaying, setIsPlaying] = useState(false);
@@ -52,17 +52,21 @@ export function LessonPlayerScreen() {
 	const getLessonById = useLearningStore((state) => state.getLessonById);
 	const getCourseById = useLearningStore((state) => state.getCourseById);
 	const getLessonsByModule = useLearningStore(
-		(state) => state.getLessonsByModule
+		(state) => state.getLessonsByModule,
 	);
 	const getNextLesson = useLearningStore((state) => state.getNextLesson);
-	const getPreviousLesson = useLearningStore((state) => state.getPreviousLesson);
+	const getPreviousLesson = useLearningStore(
+		(state) => state.getPreviousLesson,
+	);
 	const updateLessonProgress = useLearningStore(
-		(state) => state.updateLessonProgress
+		(state) => state.updateLessonProgress,
 	);
 	const markLessonComplete = useLearningStore(
-		(state) => state.markLessonComplete
+		(state) => state.markLessonComplete,
 	);
-	const getLessonProgress = useLearningStore((state) => state.getLessonProgress);
+	const getLessonProgress = useLearningStore(
+		(state) => state.getLessonProgress,
+	);
 
 	const lesson = getLessonById(lessonId);
 	const course = lesson ? getCourseById(lesson.courseId) : null;
@@ -81,28 +85,25 @@ export function LessonPlayerScreen() {
 			if (isPlaying) {
 				setShowControls(false);
 			}
-		}, 3000);
+		}, 3000) as unknown as NodeJS.Timeout;
 	}, [isPlaying]);
 
 	// Handle player state change
-	const onStateChange = useCallback(
-		(state: string) => {
-			if (state === "playing") {
-				setIsPlaying(true);
-				setIsBuffering(false);
-			} else if (state === "paused") {
-				setIsPlaying(false);
-				setIsBuffering(false);
-			} else if (state === "buffering") {
-				setIsBuffering(true);
-			} else if (state === "ended") {
-				setIsPlaying(false);
-				// Auto-suggest next lesson
-				handleLessonComplete();
-			}
-		},
-		[]
-	);
+	const onStateChange = useCallback((state: "playing" | "paused" | "buffering" | "ended") => {
+		if (state === "playing") {
+			setIsPlaying(true);
+			setIsBuffering(false);
+		} else if (state === "paused") {
+			setIsPlaying(false);
+			setIsBuffering(false);
+		} else if (state === "buffering") {
+			setIsBuffering(true);
+		} else if (state === "ended") {
+			setIsPlaying(false);
+			// Auto-suggest next lesson
+			handleLessonComplete();
+		}
+	}, []);
 
 	// Track progress every 5 seconds
 	useEffect(() => {
@@ -119,7 +120,7 @@ export function LessonPlayerScreen() {
 					lesson.courseId,
 					currentTimeSeconds,
 					duration,
-					currentTimeSeconds
+					currentTimeSeconds,
 				);
 
 				// Auto-complete at 90%
@@ -138,7 +139,7 @@ export function LessonPlayerScreen() {
 				clearInterval(progressIntervalRef.current);
 			}
 		};
-	}, [isPlaying, lesson, duration, progress]);
+	}, [isPlaying, lesson, duration, progress, markLessonComplete, updateLessonProgress]);
 
 	// Load saved progress and resume
 	useEffect(() => {
@@ -162,7 +163,9 @@ export function LessonPlayerScreen() {
 	if (!lesson || !course) {
 		return (
 			<View style={styles.errorContainer}>
-				<Text style={styles.errorText}>{t("learning.errors.lessonNotFound")}</Text>
+				<Text style={styles.errorText}>
+					{t("learning.errors.lessonNotFound")}
+				</Text>
 			</View>
 		);
 	}
@@ -215,9 +218,7 @@ export function LessonPlayerScreen() {
 
 		Alert.alert(
 			t("video.completed"),
-			nextLesson
-				? t("video.upNext")
-				: t("learning.success.courseComplete"),
+			nextLesson ? t("video.upNext") : t("learning.success.courseComplete"),
 			nextLesson
 				? [
 						{
@@ -227,13 +228,13 @@ export function LessonPlayerScreen() {
 							},
 						},
 						{ text: t("common.cancel"), style: "cancel" },
-				  ]
+					]
 				: [
 						{
 							text: t("common.done"),
 							onPress: () => router.push(`/learning/courses/${course.id}`),
 						},
-				  ]
+					],
 		);
 	};
 
@@ -290,7 +291,7 @@ export function LessonPlayerScreen() {
 						}
 					}}
 					playbackRate={playbackRate}
-					onPlaybackRateChange={(rate) => setPlaybackRate(rate)}
+					onPlaybackRateChange={(rate: number) => handlePlaybackRateChange(rate)}
 					initialPlayerParams={{
 						preventFullScreen: false,
 						modestbranding: true,
@@ -309,10 +310,7 @@ export function LessonPlayerScreen() {
 					<View style={styles.controlsOverlay}>
 						{/* Top Controls */}
 						<View style={styles.topControls}>
-							<TouchableOpacity
-								style={styles.iconButton}
-								onPress={handleClose}
-							>
+							<TouchableOpacity style={styles.iconButton} onPress={handleClose}>
 								<X size={28} color="#FDF5E6" />
 							</TouchableOpacity>
 
@@ -423,7 +421,8 @@ export function LessonPlayerScreen() {
 				{duration > 0 && (
 					<View style={styles.progressIndicator}>
 						<Text style={styles.progressText}>
-							{t("learning.progress")}: {Math.round((currentTime / duration) * 100)}%
+							{t("learning.progress")}:{" "}
+							{Math.round((currentTime / duration) * 100)}%
 						</Text>
 					</View>
 				)}
@@ -449,9 +448,7 @@ export function LessonPlayerScreen() {
 							style={styles.navButton}
 							onPress={handleNextLesson}
 						>
-							<Text style={styles.navButtonText}>
-								{t("video.nextLesson")}
-							</Text>
+							<Text style={styles.navButtonText}>{t("video.nextLesson")}</Text>
 							<ChevronRight size={20} color="#2E8B57" />
 						</TouchableOpacity>
 					)}
@@ -462,7 +459,9 @@ export function LessonPlayerScreen() {
 					{progress?.isCompleted ? (
 						<View style={styles.completedBadge}>
 							<CheckCircle2 size={20} color="#32CD32" />
-							<Text style={styles.completedText}>{t("learning.completed")}</Text>
+							<Text style={styles.completedText}>
+								{t("learning.completed")}
+							</Text>
 						</View>
 					) : (
 						<TouchableOpacity
@@ -494,7 +493,8 @@ export function LessonPlayerScreen() {
 							{modules.map((module, moduleIndex) => (
 								<View key={module.id} style={styles.module}>
 									<Text style={styles.moduleName}>
-										{t("learning.module", { number: moduleIndex + 1 })}: {module.name}
+										{t("learning.module", { number: moduleIndex + 1 })}:{" "}
+										{module.name}
 									</Text>
 									{module.lessons.map((moduleLesson) => (
 										<TouchableOpacity

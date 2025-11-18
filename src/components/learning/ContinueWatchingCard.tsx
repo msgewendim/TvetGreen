@@ -31,11 +31,7 @@ export function ContinueWatchingCard({
 	const progressPercent = lesson.progress || 0;
 
 	return (
-		<TouchableOpacity
-			style={styles.card}
-			onPress={onPress}
-			activeOpacity={0.8}
-		>
+		<TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.8}>
 			{/* Thumbnail with Play Overlay */}
 			<View style={styles.thumbnailContainer}>
 				<Image

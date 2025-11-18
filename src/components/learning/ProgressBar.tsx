@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, ViewStyle } from "react-native";
+import { View, Text, StyleSheet, type ViewStyle } from "react-native";
 
 interface ProgressBarProps {
 	progress: number; // 0-100
@@ -29,7 +29,9 @@ export function ProgressBar({
 				{showLabel && (
 					<View style={styles.topLabelContainer}>
 						<Text style={styles.label}>Progress</Text>
-						<Text style={styles.percentage}>{Math.round(clampedProgress)}%</Text>
+						<Text style={styles.percentage}>
+							{Math.round(clampedProgress)}%
+						</Text>
 					</View>
 				)}
 				<View style={[styles.bar, { height, backgroundColor }]}>

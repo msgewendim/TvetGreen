@@ -4,21 +4,21 @@
  * Displays user profile information with avatar and edit button
  */
 
-import { CreditCard as Edit3, Star } from 'lucide-react-native'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { colors, spacing, typography } from '@/design-system'
+import { CreditCard as Edit3, Star } from "lucide-react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { colors, spacing, typography } from "@/design-system";
 
 export interface UserProfile {
-	name: string
-	location: string
-	joinDate: string
-	skillLevel: string
-	profileImage: string
+	name: string;
+	location: string;
+	joinDate: string;
+	skillLevel: string;
+	profileImage: string;
 }
 
 interface ProfileHeaderProps {
-	profile: UserProfile
-	onEditPress?: () => void
+	profile: UserProfile;
+	onEditPress?: () => void;
 }
 
 export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
@@ -44,13 +44,17 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 				<Text style={styles.joinDate}>Learning since {profile.joinDate}</Text>
 
 				<View style={styles.skillBadge}>
-					<Star size={16} color={colors.categories.construction} strokeWidth={2} />
+					<Star
+						size={16}
+						color={colors.categories.construction}
+						strokeWidth={2}
+					/>
 					<Text style={styles.skillText}>{profile.skillLevel} Learner</Text>
 				</View>
 			</View>
 		</View>
-	)
-}
+	);
+};
 
 const styles = StyleSheet.create({
 	container: {
@@ -61,10 +65,10 @@ const styles = StyleSheet.create({
 		padding: spacing.lg,
 		borderRadius: spacing.radius.md,
 		...spacing.shadow.md,
-		alignItems: 'center',
+		alignItems: "center",
 	},
 	imageContainer: {
-		position: 'relative',
+		position: "relative",
 		marginBottom: spacing.md,
 	},
 	image: {
@@ -75,20 +79,20 @@ const styles = StyleSheet.create({
 		borderColor: colors.primary.main,
 	},
 	editButton: {
-		position: 'absolute',
+		position: "absolute",
 		bottom: 0,
 		right: 0,
 		backgroundColor: colors.secondary.main,
 		width: 32,
 		height: 32,
 		borderRadius: spacing.radius.full,
-		justifyContent: 'center',
-		alignItems: 'center',
+		justifyContent: "center",
+		alignItems: "center",
 		borderWidth: 3,
 		borderColor: colors.neutral.white,
 	},
 	info: {
-		alignItems: 'center',
+		alignItems: "center",
 	},
 	name: {
 		fontSize: typography.fontSize.xl,
@@ -107,8 +111,8 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.sm,
 	},
 	skillBadge: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		backgroundColor: colors.secondary.surface,
 		paddingHorizontal: spacing.sm,
 		paddingVertical: spacing.xs,
@@ -122,4 +126,4 @@ const styles = StyleSheet.create({
 		color: colors.text.primary,
 		marginLeft: spacing.xs,
 	},
-})
+});

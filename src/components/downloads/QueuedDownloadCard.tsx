@@ -4,21 +4,21 @@
  * Displays information about a queued download
  */
 
-import { Clock } from 'lucide-react-native'
-import { StyleSheet, Text, View } from 'react-native'
-import { colors, spacing, typography } from '@/design-system'
+import { Clock } from "lucide-react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { colors, spacing, typography } from "@/design-system";
 
 export interface QueuedDownload {
-	id: number
-	title: string
-	category: string
-	size: string
-	progress: number
-	estimatedTime: string
+	id: number;
+	title: string;
+	category: string;
+	size: string;
+	progress: number;
+	estimatedTime: string;
 }
 
 interface QueuedDownloadCardProps {
-	download: QueuedDownload
+	download: QueuedDownload;
 }
 
 export const QueuedDownloadCard: React.FC<QueuedDownloadCardProps> = ({
@@ -39,7 +39,10 @@ export const QueuedDownloadCard: React.FC<QueuedDownloadCardProps> = ({
 					<>
 						<View style={styles.progressBar}>
 							<View
-								style={[styles.progressFill, { width: `${download.progress}%` }]}
+								style={[
+									styles.progressFill,
+									{ width: `${download.progress}%` },
+								]}
 							/>
 						</View>
 						<Text style={styles.progressText}>
@@ -54,8 +57,8 @@ export const QueuedDownloadCard: React.FC<QueuedDownloadCardProps> = ({
 				)}
 			</View>
 		</View>
-	)
-}
+	);
+};
 
 const styles = StyleSheet.create({
 	container: {
@@ -96,7 +99,7 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.xs,
 	},
 	progressFill: {
-		height: '100%',
+		height: "100%",
 		backgroundColor: colors.secondary.main,
 		borderRadius: spacing.radius.sm,
 	},
@@ -106,8 +109,8 @@ const styles = StyleSheet.create({
 		fontWeight: typography.fontWeight.medium,
 	},
 	waitingStatus: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		gap: spacing.xs,
 	},
 	waitingText: {
@@ -115,4 +118,4 @@ const styles = StyleSheet.create({
 		color: colors.text.secondary,
 		fontWeight: typography.fontWeight.medium,
 	},
-})
+});

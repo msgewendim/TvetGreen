@@ -6,31 +6,37 @@ import {
 	Play,
 	Star,
 	Users,
-} from 'lucide-react-native'
-import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { colors, spacing, typography } from '@/design-system'
+} from "lucide-react-native";
+import {
+	ImageBackground,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from "react-native";
+import { colors, spacing, typography } from "@/design-system";
 
 export interface Course {
-	id: string | number
-	title: string
-	category: string
-	instructor: string
-	duration: string
-	lessons: number
-	difficulty: string
-	rating: number
-	enrolled: number
-	progress: number
-	isDownloaded: boolean
-	isFree: boolean
-	image: string
-	description: string
-	videoUrl: string
+	id: string | number;
+	title: string;
+	category: string;
+	instructor: string;
+	duration: string;
+	lessons: number;
+	difficulty: string;
+	rating: number;
+	enrolled: number;
+	progress: number;
+	isDownloaded: boolean;
+	isFree: boolean;
+	image: string;
+	description: string;
+	videoUrl: string;
 }
 
 interface CourseCardProps {
-	course: Course
-	onPress: () => void
+	course: Course;
+	onPress: () => void;
 }
 
 export function CourseCard({ course, onPress }: CourseCardProps) {
@@ -51,7 +57,11 @@ export function CourseCard({ course, onPress }: CourseCardProps) {
 				<View style={styles.imageOverlay}>
 					{course.progress > 0 ? (
 						<View style={styles.progressIndicator}>
-							<CheckCircle size={20} color={colors.feedback.success} strokeWidth={2} />
+							<CheckCircle
+								size={20}
+								color={colors.feedback.success}
+								strokeWidth={2}
+							/>
 							<Text style={styles.progressText}>{course.progress}%</Text>
 						</View>
 					) : (
@@ -70,11 +80,19 @@ export function CourseCard({ course, onPress }: CourseCardProps) {
 					<View style={styles.actions}>
 						{course.isDownloaded ? (
 							<View style={styles.downloadedBadge}>
-								<Download size={16} color={colors.feedback.success} strokeWidth={2} />
+								<Download
+									size={16}
+									color={colors.feedback.success}
+									strokeWidth={2}
+								/>
 							</View>
 						) : (
 							<TouchableOpacity style={styles.downloadButton}>
-								<Download size={16} color={colors.text.secondary} strokeWidth={2} />
+								<Download
+									size={16}
+									color={colors.text.secondary}
+									strokeWidth={2}
+								/>
 							</TouchableOpacity>
 						)}
 					</View>
@@ -119,13 +137,17 @@ export function CourseCard({ course, onPress }: CourseCardProps) {
 						</View>
 						<TouchableOpacity style={styles.continueButton}>
 							<Text style={styles.continueButtonText}>Continue Learning</Text>
-							<ChevronRight size={16} color={colors.text.inverse} strokeWidth={2} />
+							<ChevronRight
+								size={16}
+								color={colors.text.inverse}
+								strokeWidth={2}
+							/>
 						</TouchableOpacity>
 					</View>
 				)}
 			</View>
 		</TouchableOpacity>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
@@ -134,12 +156,12 @@ const styles = StyleSheet.create({
 		borderRadius: spacing.radius.md,
 		marginBottom: spacing.md,
 		...spacing.shadow.sm,
-		overflow: 'hidden',
+		overflow: "hidden",
 	},
 	image: {
 		height: 120,
-		justifyContent: 'flex-end',
-		alignItems: 'flex-end',
+		justifyContent: "flex-end",
+		alignItems: "flex-end",
 		padding: spacing.sm,
 	},
 	imageStyle: {
@@ -147,23 +169,23 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: spacing.radius.md,
 	},
 	imageOverlay: {
-		position: 'absolute',
+		position: "absolute",
 		top: 0,
 		left: 0,
 		right: 0,
 		bottom: 0,
-		backgroundColor: 'rgba(46, 139, 87, 0.3)',
+		backgroundColor: "rgba(46, 139, 87, 0.3)",
 		borderTopLeftRadius: spacing.radius.md,
 		borderTopRightRadius: spacing.radius.md,
 	},
 	progressIndicator: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		backgroundColor: 'rgba(255, 255, 255, 0.9)',
+		flexDirection: "row",
+		alignItems: "center",
+		backgroundColor: "rgba(255, 255, 255, 0.9)",
 		paddingHorizontal: spacing.sm,
 		paddingVertical: spacing.xs,
 		borderRadius: spacing.radius.sm,
-		position: 'absolute',
+		position: "absolute",
 		top: spacing.sm,
 		right: spacing.sm,
 	},
@@ -174,13 +196,13 @@ const styles = StyleSheet.create({
 		marginLeft: spacing.xs,
 	},
 	playButton: {
-		backgroundColor: 'rgba(255, 140, 66, 0.9)',
+		backgroundColor: "rgba(255, 140, 66, 0.9)",
 		width: 32,
 		height: 32,
 		borderRadius: 16,
-		justifyContent: 'center',
-		alignItems: 'center',
-		position: 'absolute',
+		justifyContent: "center",
+		alignItems: "center",
+		position: "absolute",
 		top: spacing.sm,
 		right: spacing.sm,
 	},
@@ -188,9 +210,9 @@ const styles = StyleSheet.create({
 		padding: spacing.md,
 	},
 	header: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'flex-start',
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "flex-start",
 		marginBottom: spacing.sm,
 	},
 	title: {
@@ -201,7 +223,7 @@ const styles = StyleSheet.create({
 		marginRight: spacing.sm,
 	},
 	actions: {
-		flexDirection: 'row',
+		flexDirection: "row",
 		gap: spacing.sm,
 	},
 	downloadedBadge: {
@@ -220,14 +242,14 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.sm,
 	},
 	metrics: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		gap: spacing.md,
 		marginBottom: spacing.sm,
 	},
 	metricItem: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		gap: spacing.xs,
 	},
 	metricText: {
@@ -242,9 +264,9 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.sm,
 	},
 	footer: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
 	},
 	difficultyBadge: {
 		backgroundColor: colors.neutral[50],
@@ -277,18 +299,18 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.sm,
 	},
 	progressFill: {
-		height: '100%',
+		height: "100%",
 		backgroundColor: colors.feedback.success,
 		borderRadius: 2,
 	},
 	continueButton: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		backgroundColor: colors.primary.main,
 		paddingVertical: spacing.sm,
 		paddingHorizontal: spacing.sm,
 		borderRadius: spacing.xs + 2,
-		alignSelf: 'flex-start',
+		alignSelf: "flex-start",
 	},
 	continueButtonText: {
 		color: colors.text.inverse,
@@ -296,5 +318,4 @@ const styles = StyleSheet.create({
 		fontWeight: typography.fontWeight.semibold,
 		marginRight: spacing.xs,
 	},
-})
-
+});

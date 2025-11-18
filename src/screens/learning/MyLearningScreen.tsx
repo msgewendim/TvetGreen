@@ -10,10 +10,7 @@ import {
 	RefreshControl,
 } from "react-native";
 import { useRouter } from "expo-router";
-import {
-	useLearningStore,
-	getLearningStats,
-} from "@/src/store/learningStore";
+import { useLearningStore, getLearningStats } from "@/src/store/learningStore";
 import { useLanguage } from "@/hooks/useLanguage";
 import {
 	GraduationCap,
@@ -47,10 +44,10 @@ export function MyLearningScreen() {
 	const [refreshing, setRefreshing] = useState(false);
 
 	const getEnrolledCourses = useLearningStore(
-		(state) => state.getEnrolledCourses
+		(state) => state.getEnrolledCourses,
 	);
 	const getLessonsByCourse = useLearningStore(
-		(state) => state.getLessonsByCourse
+		(state) => state.getLessonsByCourse,
 	);
 	const getCourseById = useLearningStore((state) => state.getCourseById);
 	const getLessonById = useLearningStore((state) => state.getLessonById);
@@ -68,7 +65,7 @@ export function MyLearningScreen() {
 	// Generate achievements
 	const achievements = useMemo(
 		() => generateAchievements(stats),
-		[stats.completed, stats.totalWatchTime]
+		[stats.completed, stats.totalWatchTime],
 	);
 
 	// Get continue watching lessons (recent incomplete lessons)
@@ -78,7 +75,7 @@ export function MyLearningScreen() {
 			.sort(
 				(a, b) =>
 					new Date(b.updatedAt || 0).getTime() -
-					new Date(a.updatedAt || 0).getTime()
+					new Date(a.updatedAt || 0).getTime(),
 			)
 			.slice(0, 10);
 
@@ -94,7 +91,7 @@ export function MyLearningScreen() {
 					watchedSeconds: progress.watchedSeconds,
 					totalSeconds: progress.totalSeconds,
 					progress: Math.round(
-						(progress.watchedSeconds / progress.totalSeconds) * 100
+						(progress.watchedSeconds / progress.totalSeconds) * 100,
 					),
 					course,
 				};
@@ -119,7 +116,7 @@ export function MyLearningScreen() {
 			filtered = filtered.filter(
 				(c) =>
 					c.title.toLowerCase().includes(query) ||
-					c.instructor.name.toLowerCase().includes(query)
+					c.instructor.name.toLowerCase().includes(query),
 			);
 		}
 
@@ -157,9 +154,7 @@ export function MyLearningScreen() {
 	if (isLoading && !refreshing) {
 		return (
 			<View style={styles.loadingContainer}>
-				<Text style={styles.loadingText}>
-					{t("learning.loadingJourney")}
-				</Text>
+				<Text style={styles.loadingText}>{t("learning.loadingJourney")}</Text>
 			</View>
 		);
 	}
@@ -175,12 +170,8 @@ export function MyLearningScreen() {
 				}
 			>
 				<GraduationCap size={80} color="#2E8B57" strokeWidth={1.5} />
-				<Text style={styles.emptyTitle}>
-					{t("learning.startYourJourney")}
-				</Text>
-				<Text style={styles.emptySubtitle}>
-					{t("learning.emptySubtitle")}
-				</Text>
+				<Text style={styles.emptyTitle}>{t("learning.startYourJourney")}</Text>
+				<Text style={styles.emptySubtitle}>{t("learning.emptySubtitle")}</Text>
 				<TouchableOpacity
 					style={styles.exploreButton}
 					onPress={() => router.push("/learning/categories")}
@@ -208,9 +199,7 @@ export function MyLearningScreen() {
 			{/* Header */}
 			<View style={styles.header}>
 				<Text style={styles.headerTitle}>{t("learning.myLearning")}</Text>
-				<Text style={styles.headerSubtitle}>
-					{t("learning.trackProgress")}
-				</Text>
+				<Text style={styles.headerSubtitle}>{t("learning.trackProgress")}</Text>
 			</View>
 
 			{/* Statistics Cards */}
@@ -385,10 +374,7 @@ export function MyLearningScreen() {
 					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
-					style={[
-						styles.tab,
-						activeTab === "in_progress" && styles.tabActive,
-					]}
+					style={[styles.tab, activeTab === "in_progress" && styles.tabActive]}
 					onPress={() => setActiveTab("in_progress")}
 				>
 					<Text

@@ -4,19 +4,19 @@
  * Displays a grid of quick action category buttons
  */
 
-import { StyleSheet, Text, View } from 'react-native'
-import { CategoryButton, colors, spacing, typography } from '@/design-system'
+import { StyleSheet, Text, View } from "react-native";
+import { CategoryButton, colors, spacing, typography } from "@/design-system";
 
 export interface QuickAction {
-	id: string
-	label: string
-	emoji: string
-	color: string
+	id: string;
+	label: string;
+	emoji: string;
+	color: string;
 }
 
 interface QuickActionsGridProps {
-	actions: QuickAction[]
-	onActionPress?: (actionId: string) => void
+	actions: QuickAction[];
+	onActionPress?: (actionId: string) => void;
 }
 
 export const QuickActionsGrid: React.FC<QuickActionsGridProps> = ({
@@ -38,8 +38,8 @@ export const QuickActionsGrid: React.FC<QuickActionsGridProps> = ({
 				))}
 			</View>
 		</View>
-	)
-}
+	);
+};
 
 const styles = StyleSheet.create({
 	container: {
@@ -53,12 +53,12 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.md,
 	},
 	grid: {
-		flexDirection: 'row',
-		flexWrap: 'wrap',
-		justifyContent: 'space-between',
+		flexDirection: "row",
+		flexWrap: "wrap",
+		justifyContent: "space-between",
 		gap: spacing.sm,
 	},
 	emoji: {
-		fontSize: typography.fontSize['2xl'],
+		fontSize: typography.fontSize["2xl"],
 	},
-})
+});

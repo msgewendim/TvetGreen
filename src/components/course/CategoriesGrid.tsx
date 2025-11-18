@@ -1,23 +1,23 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native'
-import { colors, spacing, typography } from '@/design-system'
-import { CategoryCard, type Category } from './CategoryCard'
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import { colors, spacing, typography } from "@/design-system";
+import { CategoryCard, type Category } from "./CategoryCard";
 
 interface CategoriesGridProps {
-	categories: Category[]
-	onCategoryPress: (category: Category) => void
+	categories: Category[];
+	onCategoryPress: (category: Category) => void;
 }
 
-export function CategoriesGrid({ categories, onCategoryPress }: CategoriesGridProps) {
+export function CategoriesGrid({
+	categories,
+	onCategoryPress,
+}: CategoriesGridProps) {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>Browse by Category</Text>
 			<FlatList
 				data={categories}
 				renderItem={({ item }) => (
-					<CategoryCard
-						category={item}
-						onPress={() => onCategoryPress(item)}
-					/>
+					<CategoryCard category={item} onPress={() => onCategoryPress(item)} />
 				)}
 				keyExtractor={(item) => item.id}
 				numColumns={2}
@@ -25,7 +25,7 @@ export function CategoriesGrid({ categories, onCategoryPress }: CategoriesGridPr
 				scrollEnabled={false}
 			/>
 		</View>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
@@ -40,8 +40,7 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.sm,
 	},
 	row: {
-		justifyContent: 'space-between',
+		justifyContent: "space-between",
 		marginBottom: spacing.sm,
 	},
-})
-
+});

@@ -16,7 +16,9 @@ export function CategoriesScreen() {
 	const { t } = useLanguage();
 	const router = useRouter();
 	const categories = useLearningStore((state) => state.categories);
-	const setSelectedCategory = useLearningStore((state) => state.setSelectedCategory);
+	const setSelectedCategory = useLearningStore(
+		(state) => state.setSelectedCategory,
+	);
 	const isLoading = useLearningStore((state) => state.isLoading);
 
 	const handleCategoryPress = (categoryId: string) => {
@@ -27,7 +29,9 @@ export function CategoriesScreen() {
 	if (isLoading) {
 		return (
 			<View style={styles.loadingContainer}>
-				<Text style={styles.loadingText}>{t("learning.loading.categories")}</Text>
+				<Text style={styles.loadingText}>
+					{t("learning.loading.categories")}
+				</Text>
 			</View>
 		);
 	}
@@ -51,10 +55,7 @@ export function CategoriesScreen() {
 					return (
 						<TouchableOpacity
 							key={category.id}
-							style={[
-								styles.categoryCard,
-								{ borderColor: category.color },
-							]}
+							style={[styles.categoryCard, { borderColor: category.color }]}
 							onPress={() => handleCategoryPress(category.id)}
 							activeOpacity={0.7}
 						>

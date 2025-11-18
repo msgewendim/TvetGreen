@@ -18,15 +18,20 @@ import type { SupportedLanguage } from "@/i18n.config";
 
 export default function LanguageSelectionScreen() {
 	const router = useRouter();
-	const { t, currentLanguage, supportedLanguages, changeLanguage } = useLanguage();
-	const [selectedLanguage, setSelectedLanguage] = useState<SupportedLanguage>(currentLanguage);
+	const { t, currentLanguage, supportedLanguages, changeLanguage } =
+		useLanguage();
+	const [selectedLanguage, setSelectedLanguage] =
+		useState<SupportedLanguage>(currentLanguage);
 
-	const languages = supportedLanguages.map(lang => ({
+	const languages = supportedLanguages.map((lang) => ({
 		...lang,
 		voiceSupport: true, // All our supported languages have voice support
-		description: lang.code === 'en' ? 'International language' :
-					 lang.code === 'sw' ? 'East African lingua franca' :
-					 'Ethiopia\'s official language',
+		description:
+			lang.code === "en"
+				? "International language"
+				: lang.code === "sw"
+					? "East African lingua franca"
+					: "Ethiopia's official language",
 	}));
 
 	const handleContinue = async () => {
@@ -52,9 +57,11 @@ export default function LanguageSelectionScreen() {
 				</TouchableOpacity>
 
 				<View style={styles.headerContent}>
-					<Text style={styles.headerTitle}>{t('onboarding.selectLanguage')}</Text>
+					<Text style={styles.headerTitle}>
+						{t("onboarding.selectLanguage")}
+					</Text>
 					<Text style={styles.headerSubtitle}>
-						{t('profile.selectLanguage')}
+						{t("profile.selectLanguage")}
 					</Text>
 				</View>
 			</View>
@@ -69,7 +76,7 @@ export default function LanguageSelectionScreen() {
 
 			{/* Language Options */}
 			<ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-				<Text style={styles.sectionTitle}>{t('courses.allCourses')}</Text>
+				<Text style={styles.sectionTitle}>{t("courses.allCourses")}</Text>
 
 				{languages.map((language) => (
 					<TouchableOpacity
@@ -78,7 +85,9 @@ export default function LanguageSelectionScreen() {
 							styles.languageCard,
 							selectedLanguage === language.code && styles.languageCardSelected,
 						]}
-						onPress={() => setSelectedLanguage(language.code as SupportedLanguage)}
+						onPress={() =>
+							setSelectedLanguage(language.code as SupportedLanguage)
+						}
 					>
 						<View style={styles.languageInfo}>
 							<View style={styles.languageHeader}>
@@ -141,7 +150,7 @@ export default function LanguageSelectionScreen() {
 												: styles.featureTextInactive,
 										]}
 									>
-										{t('profile.voiceGuide')}
+										{t("profile.voiceGuide")}
 									</Text>
 								</View>
 
@@ -150,7 +159,9 @@ export default function LanguageSelectionScreen() {
 										style={styles.testVoiceButton}
 										onPress={() => testVoice(language.code)}
 									>
-										<Text style={styles.testVoiceText}>{t('voice.tapToSpeak')}</Text>
+										<Text style={styles.testVoiceText}>
+											{t("voice.tapToSpeak")}
+										</Text>
 									</TouchableOpacity>
 								)}
 							</View>
@@ -175,7 +186,7 @@ export default function LanguageSelectionScreen() {
 					style={styles.continueButton}
 					onPress={handleContinue}
 				>
-					<Text style={styles.continueText}>{t('common.continue')}</Text>
+					<Text style={styles.continueText}>{t("common.continue")}</Text>
 					<ChevronRight size={24} color="#FDF5E6" strokeWidth={2} />
 				</TouchableOpacity>
 			</View>

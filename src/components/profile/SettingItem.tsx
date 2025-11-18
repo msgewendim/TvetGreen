@@ -4,16 +4,16 @@
  * Individual settings menu item with icon and description
  */
 
-import { ChevronRight } from 'lucide-react-native'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { colors, spacing, typography } from '@/design-system'
+import { ChevronRight } from "lucide-react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { colors, spacing, typography } from "@/design-system";
 
 interface SettingItemProps {
-	icon: React.ReactNode
-	title: string
-	subtitle: string
-	iconColor?: string
-	onPress?: () => void
+	icon: React.ReactNode;
+	title: string;
+	subtitle: string;
+	iconColor?: string;
+	onPress?: () => void;
 }
 
 export const SettingItem: React.FC<SettingItemProps> = ({
@@ -29,7 +29,9 @@ export const SettingItem: React.FC<SettingItemProps> = ({
 			onPress={onPress}
 			accessibilityLabel={title}
 		>
-			<View style={[styles.iconContainer, { backgroundColor: colors.neutral[100] }]}>
+			<View
+				style={[styles.iconContainer, { backgroundColor: colors.neutral[100] }]}
+			>
 				{icon}
 			</View>
 			<View style={styles.content}>
@@ -38,14 +40,14 @@ export const SettingItem: React.FC<SettingItemProps> = ({
 			</View>
 			<ChevronRight size={20} color={colors.text.secondary} strokeWidth={2} />
 		</TouchableOpacity>
-	)
-}
+	);
+};
 
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: colors.neutral.white,
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		padding: spacing.md,
 		borderRadius: spacing.radius.md,
 		marginBottom: spacing.sm,
@@ -55,8 +57,8 @@ const styles = StyleSheet.create({
 		width: 40,
 		height: 40,
 		borderRadius: spacing.radius.full,
-		justifyContent: 'center',
-		alignItems: 'center',
+		justifyContent: "center",
+		alignItems: "center",
 		marginRight: spacing.md,
 	},
 	content: {
@@ -72,4 +74,4 @@ const styles = StyleSheet.create({
 		fontSize: typography.fontSize.sm,
 		color: colors.text.secondary,
 	},
-})
+});

@@ -5,24 +5,30 @@
  * Provides consistent padding and styling across all app screens
  */
 
-import type React from 'react'
-import { SafeAreaView, ScrollView, StyleSheet, View, type ViewStyle } from 'react-native'
-import { colors } from '../../tokens'
+import type React from "react";
+import {
+	SafeAreaView,
+	ScrollView,
+	StyleSheet,
+	View,
+	type ViewStyle,
+} from "react-native";
+import { colors } from "../../tokens";
 
 export interface ScreenLayoutProps {
-	children: React.ReactNode
+	children: React.ReactNode;
 	/** Whether content should be scrollable (default: true) */
-	scrollable?: boolean
+	scrollable?: boolean;
 	/** Show vertical scroll indicator (default: false) */
-	showsVerticalScrollIndicator?: boolean
+	showsVerticalScrollIndicator?: boolean;
 	/** Background color override */
-	backgroundColor?: string
+	backgroundColor?: string;
 	/** Additional style for the container */
-	style?: ViewStyle
+	style?: ViewStyle;
 	/** Additional style for the content wrapper */
-	contentStyle?: ViewStyle
+	contentStyle?: ViewStyle;
 	/** Test ID for testing */
-	testID?: string
+	testID?: string;
 }
 
 export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
@@ -54,8 +60,8 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
 				<View style={[styles.container, contentStyle]}>{children}</View>
 			)}
 		</SafeAreaView>
-	)
-}
+	);
+};
 
 const styles = StyleSheet.create({
 	safeArea: {
@@ -70,4 +76,4 @@ const styles = StyleSheet.create({
 	contentContainer: {
 		flexGrow: 1,
 	},
-})
+});
