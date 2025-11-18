@@ -10,33 +10,35 @@ import {
 	SubtitlesOverlay,
 } from '@/src/components/video'
 import { colors } from '@/design-system'
-
-const subtitleLanguages = [
-	{ code: 'english', name: 'English', flag: '🇺🇸' },
-	{ code: 'amharic', name: 'አማርኛ', flag: '🇪🇹' },
-	{ code: 'swahili', name: 'Kiswahili', flag: '🇰🇪' },
-]
+import { useLanguage } from '@/hooks/useLanguage'
 
 const playbackSpeeds = [0.5, 0.75, 1.0, 1.25, 1.5, 2.0]
 
 export default function VideoPlayerScreen() {
 	const { courseId, lessonId } = useLocalSearchParams()
 	const router = useRouter()
+	const { t } = useLanguage()
 	const lessonData = useLesson()
+
+	const subtitleLanguages = [
+		{ code: 'en', name: t('navigation.home'), flag: '🇺🇸' },
+		{ code: 'am', name: 'አማርኛ', flag: '🇪🇹' },
+		{ code: 'sw', name: 'Kiswahili', flag: '🇰🇪' },
+	]
 
 	const player = useVideoPlayer({
 		initialShowSubtitles: true,
-		initialLanguage: 'english',
+		initialLanguage: 'en',
 	})
 
 	const handleCompleteLesson = () => {
 		Alert.alert(
-			'Lesson Complete! 🎉',
+			t('video.completed'),
 			"Great job! You've completed this lesson. Ready for the next one?",
 			[
-				{ text: 'Review Again', style: 'cancel' },
+				{ text: t('video.replay'), style: 'cancel' },
 				{
-					text: 'Next Lesson',
+					text: t('video.nextLesson'),
 					onPress: () => {
 						router.push(`/video/${courseId}/${Number.parseInt(lessonId as string, 10) + 1}`)
 					},

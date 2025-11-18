@@ -7,6 +7,7 @@
 import { ChevronRight, Clock, Download } from 'lucide-react-native'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { colors, spacing, typography } from '@/design-system'
+import { useLanguage } from '@/hooks/useLanguage'
 
 export interface NextLesson {
 	title: string
@@ -23,20 +24,22 @@ export const NextLessonCard: React.FC<NextLessonCardProps> = ({
 	lesson,
 	onPress,
 }) => {
+	const { t } = useLanguage()
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
 				<Clock size={20} color={colors.primary.main} strokeWidth={2} />
-				<Text style={styles.headerTitle}>Up Next</Text>
+				<Text style={styles.headerTitle}>{t('video.upNext')}</Text>
 			</View>
 			<TouchableOpacity
 				style={styles.card}
 				onPress={onPress}
-				accessibilityLabel={`Next lesson: ${lesson.title}`}
+				accessibilityLabel={`${t('video.nextLesson')}: ${lesson.title}`}
 			>
 				<View style={styles.info}>
 					<Text style={styles.title}>{lesson.title}</Text>
-					<Text style={styles.duration}>Duration: {lesson.duration}</Text>
+					<Text style={styles.duration}>{lesson.duration}</Text>
 				</View>
 				<View style={styles.actions}>
 					{lesson.isDownloaded && (
