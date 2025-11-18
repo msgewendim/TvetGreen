@@ -7,11 +7,12 @@ import {
 	StyleSheet,
 	FlatList,
 	TextInput,
-	Image,
+	RefreshControl,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useLearningStore } from "@/src/store/learningStore";
-import { Search, X, Filter, ChevronRight } from "lucide-react-native";
+import { Search, X, Filter } from "lucide-react-native";
+import { CourseCard, EmptyState, LoadingSpinner, CourseCardSkeleton } from "@/src/components/learning";
 import type { CourseFilter, CourseSortOption } from "@/src/types/learning";
 
 export function CoursesListScreen() {
@@ -22,10 +23,18 @@ export function CoursesListScreen() {
 	const isEnrolled = useLearningStore((state) => state.isEnrolled);
 	const getCourseProgress = useLearningStore((state) => state.getCourseProgress);
 	const isLoading = useLearningStore((state) => state.isLoading);
+	const loadData = useLearningStore((state) => state.loadData);
 
 	const [searchQuery, setSearchQuery] = useState("");
 	const [filter, setFilter] = useState<CourseFilter>("all");
 	const [sortBy, setSortBy] = useState<CourseSortOption>("newest");
+	const [refreshing, setRefreshing] = useState(false);
+
+	const handleRefresh = async () => {
+		setRefreshing(true);
+		await loadData();
+		setRefreshing(false);
+	};
 
 	// Get category name if filtered
 	const category = selectedCategory ? getCategoryById(selectedCategory) : null;
@@ -84,11 +93,7 @@ export function CoursesListScreen() {
 	]);
 
 	if (isLoading) {
-		return (
-			<View style={styles.loadingContainer}>
-				<Text style={styles.loadingText}>Loading courses...</Text>
-			</View>
-		);
+		return <LoadingSpinner message="Loading courses..." />;
 	}
 
 	return (
