@@ -16,5 +16,9 @@ export * from "./display";
 export * from "./feedback";
 // Input components
 export * from "./inputs";
+
+// Layout components
+export * from "./layout";
+
 // Navigation components
 export * from "./navigation";
