@@ -4,26 +4,26 @@
  * Displays information about a downloaded course
  */
 
-import { CheckCircle, Play, Trash2 } from 'lucide-react-native'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { colors, spacing, typography } from '@/design-system'
+import { CheckCircle, Play, Trash2 } from "lucide-react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { colors, spacing, typography } from "@/design-system";
 
 export interface DownloadedCourse {
-	id: number
-	title: string
-	category: string
-	size: string
-	downloadDate: string
-	progress: number
-	totalLessons: number
-	completedLessons: number
-	lastWatched: string
+	id: number;
+	title: string;
+	category: string;
+	size: string;
+	downloadDate: string;
+	progress: number;
+	totalLessons: number;
+	completedLessons: number;
+	lastWatched: string;
 }
 
 interface DownloadedCourseCardProps {
-	course: DownloadedCourse
-	onPlay?: (courseId: number) => void
-	onDelete?: (courseId: number, courseTitle: string) => void
+	course: DownloadedCourse;
+	onPlay?: (courseId: number) => void;
+	onDelete?: (courseId: number, courseTitle: string) => void;
 }
 
 export const DownloadedCourseCard: React.FC<DownloadedCourseCardProps> = ({
@@ -82,13 +82,17 @@ export const DownloadedCourseCard: React.FC<DownloadedCourseCardProps> = ({
 
 			{course.progress === 100 && (
 				<View style={styles.completedBadge}>
-					<CheckCircle size={16} color={colors.feedback.success} strokeWidth={2} />
+					<CheckCircle
+						size={16}
+						color={colors.feedback.success}
+						strokeWidth={2}
+					/>
 					<Text style={styles.completedText}>Course Completed!</Text>
 				</View>
 			)}
 		</View>
-	)
-}
+	);
+};
 
 const styles = StyleSheet.create({
 	container: {
@@ -99,9 +103,9 @@ const styles = StyleSheet.create({
 		...spacing.shadow.md,
 	},
 	header: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'flex-start',
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "flex-start",
 		marginBottom: spacing.sm,
 	},
 	info: {
@@ -125,7 +129,7 @@ const styles = StyleSheet.create({
 		color: colors.text.secondary,
 	},
 	actions: {
-		flexDirection: 'row',
+		flexDirection: "row",
 		gap: spacing.sm,
 	},
 	playButton: {
@@ -133,16 +137,16 @@ const styles = StyleSheet.create({
 		width: 44,
 		height: 44,
 		borderRadius: spacing.radius.full,
-		justifyContent: 'center',
-		alignItems: 'center',
+		justifyContent: "center",
+		alignItems: "center",
 	},
 	deleteButton: {
 		backgroundColor: colors.neutral[100],
 		width: 44,
 		height: 44,
 		borderRadius: spacing.radius.full,
-		justifyContent: 'center',
-		alignItems: 'center',
+		justifyContent: "center",
+		alignItems: "center",
 	},
 	progressSection: {
 		marginBottom: spacing.sm,
@@ -161,8 +165,8 @@ const styles = StyleSheet.create({
 		color: colors.text.secondary,
 	},
 	progressBarContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		gap: spacing.sm,
 	},
 	progressBar: {
@@ -172,7 +176,7 @@ const styles = StyleSheet.create({
 		borderRadius: spacing.radius.sm,
 	},
 	progressFill: {
-		height: '100%',
+		height: "100%",
 		backgroundColor: colors.feedback.success,
 		borderRadius: spacing.radius.sm,
 	},
@@ -183,13 +187,13 @@ const styles = StyleSheet.create({
 		minWidth: 35,
 	},
 	completedBadge: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		backgroundColor: colors.feedback.successLight,
 		paddingHorizontal: spacing.sm,
 		paddingVertical: spacing.xs,
 		borderRadius: spacing.radius.lg,
-		alignSelf: 'flex-start',
+		alignSelf: "flex-start",
 	},
 	completedText: {
 		fontSize: typography.fontSize.xs,
@@ -197,4 +201,4 @@ const styles = StyleSheet.create({
 		color: colors.feedback.success,
 		marginLeft: spacing.xs / 2,
 	},
-})
+});

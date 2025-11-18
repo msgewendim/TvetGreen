@@ -4,15 +4,15 @@
  * Displays storage usage information
  */
 
-import { HardDrive, Settings } from 'lucide-react-native'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { colors, spacing, typography } from '@/design-system'
+import { HardDrive, Settings } from "lucide-react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { colors, spacing, typography } from "@/design-system";
 
 interface StorageCardProps {
-	storageUsed: number
-	storageTotal: number
-	coursesCount: number
-	onSettingsPress?: () => void
+	storageUsed: number;
+	storageTotal: number;
+	coursesCount: number;
+	onSettingsPress?: () => void;
 }
 
 export const StorageCard: React.FC<StorageCardProps> = ({
@@ -21,7 +21,7 @@ export const StorageCard: React.FC<StorageCardProps> = ({
 	coursesCount,
 	onSettingsPress,
 }) => {
-	const storagePercentage = (storageUsed / storageTotal) * 100
+	const storagePercentage = (storageUsed / storageTotal) * 100;
 
 	return (
 		<View style={styles.container}>
@@ -48,8 +48,8 @@ export const StorageCard: React.FC<StorageCardProps> = ({
 				<Text style={styles.subtext}>{coursesCount} courses downloaded</Text>
 			</View>
 		</View>
-	)
-}
+	);
+};
 
 const styles = StyleSheet.create({
 	container: {
@@ -62,8 +62,8 @@ const styles = StyleSheet.create({
 		...spacing.shadow.md,
 	},
 	header: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		marginBottom: spacing.md,
 	},
 	title: {
@@ -85,14 +85,14 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.sm,
 	},
 	used: {
-		height: '100%',
+		height: "100%",
 		backgroundColor: colors.primary.main,
 		borderRadius: spacing.radius.sm,
 	},
 	info: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
 	},
 	text: {
 		fontSize: typography.fontSize.sm,
@@ -103,4 +103,4 @@ const styles = StyleSheet.create({
 		fontSize: typography.fontSize.xs,
 		color: colors.text.secondary,
 	},
-})
+});

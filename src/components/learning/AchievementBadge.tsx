@@ -9,7 +9,7 @@ import {
 	BookOpen,
 	Clock,
 	Flame,
-	LucideIcon,
+	type LucideIcon,
 } from "lucide-react-native";
 
 export type AchievementType =

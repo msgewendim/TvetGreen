@@ -1,13 +1,13 @@
-import { Mic } from 'lucide-react-native'
-import { StyleSheet, Text, View } from 'react-native'
-import { colors, spacing, typography } from '@/design-system'
+import { Mic } from "lucide-react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { colors, spacing, typography } from "@/design-system";
 
 interface VoiceGuideOverlayProps {
-	isListening: boolean
+	isListening: boolean;
 }
 
 export function VoiceGuideOverlay({ isListening }: VoiceGuideOverlayProps) {
-	if (!isListening) return null
+	if (!isListening) return null;
 
 	return (
 		<View style={styles.overlay}>
@@ -22,33 +22,33 @@ export function VoiceGuideOverlay({ isListening }: VoiceGuideOverlayProps) {
 				</Text>
 			</View>
 		</View>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
 	overlay: {
-		position: 'absolute',
+		position: "absolute",
 		top: 0,
 		left: 0,
 		right: 0,
 		bottom: 0,
-		backgroundColor: 'rgba(0, 0, 0, 0.8)',
-		justifyContent: 'center',
-		alignItems: 'center',
+		backgroundColor: "rgba(0, 0, 0, 0.8)",
+		justifyContent: "center",
+		alignItems: "center",
 	},
 	instructions: {
-		backgroundColor: 'rgba(46, 139, 87, 0.95)',
+		backgroundColor: "rgba(46, 139, 87, 0.95)",
 		padding: spacing.xl,
 		borderRadius: spacing.radius.md,
-		alignItems: 'center',
+		alignItems: "center",
 		marginHorizontal: spacing.xl + 8,
 	},
 	listeningIndicator: {
-		position: 'relative',
+		position: "relative",
 		marginBottom: spacing.md,
 	},
 	pulseRing: {
-		position: 'absolute',
+		position: "absolute",
 		width: 80,
 		height: 80,
 		borderRadius: 40,
@@ -62,15 +62,14 @@ const styles = StyleSheet.create({
 		fontSize: typography.fontSize.lg,
 		fontWeight: typography.fontWeight.bold,
 		color: colors.text.inverse,
-		textAlign: 'center',
+		textAlign: "center",
 		marginBottom: spacing.sm,
 	},
 	commands: {
 		fontSize: typography.fontSize.sm,
 		color: colors.text.inverse,
-		textAlign: 'center',
+		textAlign: "center",
 		opacity: 0.9,
 		lineHeight: 20,
 	},
-})
-
+});

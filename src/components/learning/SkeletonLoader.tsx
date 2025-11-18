@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { View, StyleSheet, Animated, ViewStyle } from "react-native";
+import { View, StyleSheet, Animated, type ViewStyle } from "react-native";
 
 interface SkeletonLoaderProps {
 	width?: number | string;
@@ -29,7 +29,7 @@ export function SkeletonLoader({
 					duration: 1000,
 					useNativeDriver: true,
 				}),
-			])
+			]),
 		);
 		animation.start();
 

@@ -1,6 +1,19 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { Download, Globe, CircleHelp as HelpCircle, LogOut, Smartphone, Volume2 } from 'lucide-react-native'
-import { ScreenLayout, Header, colors, spacing, typography } from '@/design-system'
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+	Download,
+	Globe,
+	CircleHelp as HelpCircle,
+	LogOut,
+	Smartphone,
+	Volume2,
+} from "lucide-react-native";
+import {
+	ScreenLayout,
+	Header,
+	colors,
+	spacing,
+	typography,
+} from "@/design-system";
 import {
 	ProfileHeader,
 	StatsGrid,
@@ -9,66 +22,70 @@ import {
 	type UserProfile,
 	type UserStats,
 	type LearningGoal,
-} from '@/src/components/profile'
-import { useLanguage } from '@/hooks/useLanguage'
-import { LanguageSelector } from '@/src/components/settings'
-import { useState } from 'react'
+} from "@/src/components/profile";
+import { useLanguage } from "@/hooks/useLanguage";
+import { LanguageSelector } from "@/src/components/settings";
+import { useState } from "react";
 
 export default function ProfileScreen() {
-	const { t, languageInfo } = useLanguage()
-	const [showLanguageSelector, setShowLanguageSelector] = useState(false)
+	const { t, languageInfo } = useLanguage();
+	const [showLanguageSelector, setShowLanguageSelector] = useState(false);
 	const userProfile: UserProfile = {
-		name: 'Fatima Okonkwo',
-		location: 'Addis Ababa, Ethiopia',
-		joinDate: 'March 2024',
-		skillLevel: 'Intermediate',
-		profileImage: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg',
-	}
+		name: "Fatima Okonkwo",
+		location: "Addis Ababa, Ethiopia",
+		joinDate: "March 2024",
+		skillLevel: "Intermediate",
+		profileImage:
+			"https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg",
+	};
 
 	const userStats: UserStats = {
 		completedCourses: 3,
 		totalHours: 24,
 		certificates: 3,
 		currentStreak: 7,
-	}
+	};
 
 	const learningGoals: LearningGoal[] = [
 		{
 			id: 1,
-			title: 'Complete 5 Agriculture Courses',
+			title: "Complete 5 Agriculture Courses",
 			progress: 60,
 			target: 5,
 			current: 3,
-			deadline: 'End of June',
+			deadline: "End of June",
 		},
 		{
 			id: 2,
-			title: 'Earn Green Energy Certificate',
+			title: "Earn Green Energy Certificate",
 			progress: 25,
 			target: 1,
 			current: 0,
-			deadline: 'End of July',
+			deadline: "End of July",
 		},
-	]
+	];
 
 	const handleLogout = () => {
 		Alert.alert(
-			t('profile.signOut'),
-			'Are you sure you want to sign out? Your progress will be saved.',
+			t("profile.signOut"),
+			"Are you sure you want to sign out? Your progress will be saved.",
 			[
-				{ text: t('common.cancel'), style: 'cancel' },
+				{ text: t("common.cancel"), style: "cancel" },
 				{
-					text: t('profile.signOut'),
-					style: 'destructive',
-					onPress: () => console.log('Logout'),
+					text: t("profile.signOut"),
+					style: "destructive",
+					onPress: () => console.log("Logout"),
 				},
 			],
-		)
-	}
+		);
+	};
 
 	return (
 		<ScreenLayout>
-			<Header title={t('navigation.profile')} subtitle={t('profile.myProfile')} />
+			<Header
+				title={t("navigation.profile")}
+				subtitle={t("profile.myProfile")}
+			/>
 
 			<ProfileHeader profile={userProfile} onEditPress={() => {}} />
 
@@ -77,9 +94,9 @@ export default function ProfileScreen() {
 			{/* Learning Goals */}
 			<View style={styles.section}>
 				<View style={styles.sectionHeader}>
-					<Text style={styles.sectionTitle}>{t('profile.learningGoals')}</Text>
+					<Text style={styles.sectionTitle}>{t("profile.learningGoals")}</Text>
 					<TouchableOpacity style={styles.addButton}>
-						<Text style={styles.addButtonText}>+ {t('profile.addGoal')}</Text>
+						<Text style={styles.addButtonText}>+ {t("profile.addGoal")}</Text>
 					</TouchableOpacity>
 				</View>
 
@@ -90,11 +107,11 @@ export default function ProfileScreen() {
 
 			{/* Settings Menu */}
 			<View style={styles.section}>
-				<Text style={styles.sectionTitle}>{t('profile.settings')}</Text>
+				<Text style={styles.sectionTitle}>{t("profile.settings")}</Text>
 
 				<SettingItem
 					icon={<Globe size={20} color={colors.primary.main} strokeWidth={2} />}
-					title={t('profile.language')}
+					title={t("profile.language")}
 					subtitle={languageInfo.nativeName}
 					onPress={() => setShowLanguageSelector(!showLanguageSelector)}
 				/>
@@ -106,29 +123,45 @@ export default function ProfileScreen() {
 				)}
 
 				<SettingItem
-					icon={<Volume2 size={20} color={colors.secondary.main} strokeWidth={2} />}
-					title={t('profile.voiceGuide')}
+					icon={
+						<Volume2 size={20} color={colors.secondary.main} strokeWidth={2} />
+					}
+					title={t("profile.voiceGuide")}
 					subtitle="Voice commands, audio quality"
 					onPress={() => {}}
 				/>
 
 				<SettingItem
-					icon={<Download size={20} color={colors.feedback.info} strokeWidth={2} />}
-					title={t('downloads.title')}
-					subtitle={t('profile.wifiOnly')}
+					icon={
+						<Download size={20} color={colors.feedback.info} strokeWidth={2} />
+					}
+					title={t("downloads.title")}
+					subtitle={t("profile.wifiOnly")}
 					onPress={() => {}}
 				/>
 
 				<SettingItem
-					icon={<Smartphone size={20} color={colors.categories.construction} strokeWidth={2} />}
-					title={t('profile.dataUsage')}
-					subtitle={t('downloads.manage')}
+					icon={
+						<Smartphone
+							size={20}
+							color={colors.categories.construction}
+							strokeWidth={2}
+						/>
+					}
+					title={t("profile.dataUsage")}
+					subtitle={t("downloads.manage")}
 					onPress={() => {}}
 				/>
 
 				<SettingItem
-					icon={<HelpCircle size={20} color={colors.text.secondary} strokeWidth={2} />}
-					title={t('profile.help')}
+					icon={
+						<HelpCircle
+							size={20}
+							color={colors.text.secondary}
+							strokeWidth={2}
+						/>
+					}
+					title={t("profile.help")}
 					subtitle="FAQs, contact support"
 					onPress={() => {}}
 				/>
@@ -160,11 +193,11 @@ export default function ProfileScreen() {
 			<View style={styles.accountActions}>
 				<TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
 					<LogOut size={20} color={colors.feedback.error} strokeWidth={2} />
-					<Text style={styles.logoutText}>{t('profile.signOut')}</Text>
+					<Text style={styles.logoutText}>{t("profile.signOut")}</Text>
 				</TouchableOpacity>
 			</View>
 		</ScreenLayout>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
@@ -173,9 +206,9 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.lg,
 	},
 	sectionHeader: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
 		marginBottom: spacing.md,
 	},
 	sectionTitle: {
@@ -209,18 +242,18 @@ const styles = StyleSheet.create({
 		fontWeight: typography.fontWeight.bold,
 		color: colors.text.primary,
 		marginBottom: spacing.md,
-		textAlign: 'center',
+		textAlign: "center",
 	},
 	impactStats: {
-		flexDirection: 'row',
-		justifyContent: 'space-around',
+		flexDirection: "row",
+		justifyContent: "space-around",
 		marginBottom: spacing.md,
 	},
 	impactItem: {
-		alignItems: 'center',
+		alignItems: "center",
 	},
 	impactNumber: {
-		fontSize: typography.fontSize['2xl'],
+		fontSize: typography.fontSize["2xl"],
 		fontWeight: typography.fontWeight.bold,
 		color: colors.feedback.success,
 		marginBottom: spacing.xs / 2,
@@ -229,12 +262,12 @@ const styles = StyleSheet.create({
 		fontSize: typography.fontSize.xs,
 		color: colors.text.primary,
 		fontWeight: typography.fontWeight.medium,
-		textAlign: 'center',
+		textAlign: "center",
 	},
 	impactDescription: {
 		fontSize: typography.fontSize.sm,
 		color: colors.text.primary,
-		textAlign: 'center',
+		textAlign: "center",
 		lineHeight: 20,
 	},
 	accountActions: {
@@ -243,9 +276,9 @@ const styles = StyleSheet.create({
 	},
 	logoutButton: {
 		backgroundColor: colors.neutral[100],
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'center',
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
 		padding: spacing.md,
 		borderRadius: spacing.radius.md,
 		borderWidth: 1,
@@ -262,4 +295,4 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.md,
 		paddingHorizontal: spacing.sm,
 	},
-})
+});

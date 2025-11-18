@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { type ReactNode } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import * as Icons from "lucide-react-native";
 

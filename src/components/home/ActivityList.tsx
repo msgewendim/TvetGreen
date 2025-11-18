@@ -4,18 +4,18 @@
  * Displays a list of recent user activities
  */
 
-import { Download, Play, Trophy } from 'lucide-react-native'
-import { StyleSheet, Text, View } from 'react-native'
-import { colors, spacing, typography } from '@/design-system'
+import { Download, Play, Trophy } from "lucide-react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { colors, spacing, typography } from "@/design-system";
 
 export interface Activity {
-	title: string
-	type: 'completed' | 'download' | 'started'
-	time: string
+	title: string;
+	type: "completed" | "download" | "started";
+	time: string;
 }
 
 interface ActivityListProps {
-	activities: Activity[]
+	activities: Activity[];
 }
 
 export const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {
@@ -27,18 +27,18 @@ export const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {
 					<View
 						style={[
 							styles.icon,
-							activity.type === 'completed' && styles.completedIcon,
-							activity.type === 'download' && styles.downloadIcon,
-							activity.type === 'started' && styles.startedIcon,
+							activity.type === "completed" && styles.completedIcon,
+							activity.type === "download" && styles.downloadIcon,
+							activity.type === "started" && styles.startedIcon,
 						]}
 					>
-						{activity.type === 'completed' && (
+						{activity.type === "completed" && (
 							<Trophy size={16} color={colors.text.inverse} strokeWidth={2} />
 						)}
-						{activity.type === 'download' && (
+						{activity.type === "download" && (
 							<Download size={16} color={colors.text.inverse} strokeWidth={2} />
 						)}
-						{activity.type === 'started' && (
+						{activity.type === "started" && (
 							<Play size={16} color={colors.text.inverse} strokeWidth={2} />
 						)}
 					</View>
@@ -49,8 +49,8 @@ export const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {
 				</View>
 			))}
 		</View>
-	)
-}
+	);
+};
 
 const styles = StyleSheet.create({
 	container: {
@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.md,
 	},
 	item: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		backgroundColor: colors.neutral.white,
 		padding: spacing.md,
 		borderRadius: spacing.radius.sm,
@@ -76,8 +76,8 @@ const styles = StyleSheet.create({
 		width: 40,
 		height: 40,
 		borderRadius: spacing.radius.full,
-		justifyContent: 'center',
-		alignItems: 'center',
+		justifyContent: "center",
+		alignItems: "center",
 		marginRight: spacing.sm,
 	},
 	completedIcon: {
@@ -102,4 +102,4 @@ const styles = StyleSheet.create({
 		fontSize: typography.fontSize.xs,
 		color: colors.text.secondary,
 	},
-})
+});

@@ -5,29 +5,29 @@ import {
 	Play,
 	SkipBack,
 	SkipForward,
-} from 'lucide-react-native'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { colors, spacing, typography } from '@/design-system'
+} from "lucide-react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { colors, spacing, typography } from "@/design-system";
 
 interface NextLesson {
-	id: number
-	title: string
-	duration: string
+	id: number;
+	title: string;
+	duration: string;
 }
 
 interface LessonInfoPanelProps {
-	title: string
-	courseTitle: string
-	instructor: string
-	lessonNumber: number
-	totalLessons: number
-	isDownloaded: boolean
-	nextLesson?: NextLesson
-	onDownload: () => void
-	onPrevious: () => void
-	onNext: () => void
-	onComplete: () => void
-	onNextLessonPress: () => void
+	title: string;
+	courseTitle: string;
+	instructor: string;
+	lessonNumber: number;
+	totalLessons: number;
+	isDownloaded: boolean;
+	nextLesson?: NextLesson;
+	onDownload: () => void;
+	onPrevious: () => void;
+	onNext: () => void;
+	onComplete: () => void;
+	onNextLessonPress: () => void;
 }
 
 export function LessonInfoPanel({
@@ -44,7 +44,7 @@ export function LessonInfoPanel({
 	onComplete,
 	onNextLessonPress,
 }: LessonInfoPanelProps) {
-	const lessonProgress = (lessonNumber / totalLessons) * 100
+	const lessonProgress = (lessonNumber / totalLessons) * 100;
 
 	return (
 		<View style={styles.panel}>
@@ -60,11 +60,18 @@ export function LessonInfoPanel({
 				<View style={styles.actions}>
 					{isDownloaded ? (
 						<View style={styles.downloadedBadge}>
-							<Download size={16} color={colors.feedback.success} strokeWidth={2} />
+							<Download
+								size={16}
+								color={colors.feedback.success}
+								strokeWidth={2}
+							/>
 							<Text style={styles.downloadedText}>Downloaded</Text>
 						</View>
 					) : (
-						<TouchableOpacity style={styles.downloadButton} onPress={onDownload}>
+						<TouchableOpacity
+							style={styles.downloadButton}
+							onPress={onDownload}
+						>
 							<Download size={16} color={colors.primary.main} strokeWidth={2} />
 						</TouchableOpacity>
 					)}
@@ -98,7 +105,9 @@ export function LessonInfoPanel({
 				>
 					<SkipBack
 						size={20}
-						color={lessonNumber === 1 ? colors.text.disabled : colors.text.primary}
+						color={
+							lessonNumber === 1 ? colors.text.disabled : colors.text.primary
+						}
 						strokeWidth={2}
 					/>
 					<Text
@@ -116,7 +125,10 @@ export function LessonInfoPanel({
 					<Text style={styles.completeButtonText}>Mark Complete</Text>
 				</TouchableOpacity>
 
-				<TouchableOpacity style={[styles.navButton, styles.nextButton]} onPress={onNext}>
+				<TouchableOpacity
+					style={[styles.navButton, styles.nextButton]}
+					onPress={onNext}
+				>
 					<Text style={styles.navButtonText}>Next</Text>
 					<SkipForward size={20} color={colors.text.primary} strokeWidth={2} />
 				</TouchableOpacity>
@@ -126,18 +138,23 @@ export function LessonInfoPanel({
 			{nextLesson && (
 				<View style={styles.nextLessonPreview}>
 					<Text style={styles.nextLessonLabel}>Up Next:</Text>
-					<TouchableOpacity style={styles.nextLessonCard} onPress={onNextLessonPress}>
+					<TouchableOpacity
+						style={styles.nextLessonCard}
+						onPress={onNextLessonPress}
+					>
 						<Play size={16} color={colors.primary.main} strokeWidth={2} />
 						<View style={styles.nextLessonInfo}>
 							<Text style={styles.nextLessonTitle}>{nextLesson.title}</Text>
-							<Text style={styles.nextLessonDuration}>{nextLesson.duration}</Text>
+							<Text style={styles.nextLessonDuration}>
+								{nextLesson.duration}
+							</Text>
 						</View>
 						<ArrowRight size={20} color={colors.primary.main} strokeWidth={2} />
 					</TouchableOpacity>
 				</View>
 			)}
 		</View>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
@@ -147,9 +164,9 @@ const styles = StyleSheet.create({
 		paddingVertical: spacing.md,
 	},
 	header: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'flex-start',
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "flex-start",
 		marginBottom: spacing.md,
 	},
 	titleContainer: {
@@ -173,11 +190,11 @@ const styles = StyleSheet.create({
 		color: colors.text.secondary,
 	},
 	actions: {
-		alignItems: 'center',
+		alignItems: "center",
 	},
 	downloadedBadge: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		backgroundColor: colors.primary.surface,
 		paddingHorizontal: spacing.sm,
 		paddingVertical: spacing.xs,
@@ -194,8 +211,8 @@ const styles = StyleSheet.create({
 		width: 40,
 		height: 40,
 		borderRadius: 20,
-		justifyContent: 'center',
-		alignItems: 'center',
+		justifyContent: "center",
+		alignItems: "center",
 	},
 	courseProgress: {
 		marginBottom: spacing.lg,
@@ -207,8 +224,8 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.sm,
 	},
 	progressBarContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		gap: spacing.sm,
 	},
 	courseProgressBar: {
@@ -218,7 +235,7 @@ const styles = StyleSheet.create({
 		borderRadius: 3,
 	},
 	courseProgressFill: {
-		height: '100%',
+		height: "100%",
 		backgroundColor: colors.primary.main,
 		borderRadius: 3,
 	},
@@ -229,15 +246,15 @@ const styles = StyleSheet.create({
 		minWidth: 80,
 	},
 	navigationButtons: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
 		marginBottom: spacing.md,
 		gap: spacing.sm,
 	},
 	navButton: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		backgroundColor: colors.background.secondary,
 		paddingHorizontal: spacing.md,
 		paddingVertical: spacing.sm,
@@ -245,7 +262,7 @@ const styles = StyleSheet.create({
 		borderWidth: 2,
 		borderColor: colors.border.light,
 		flex: 1,
-		justifyContent: 'center',
+		justifyContent: "center",
 		gap: spacing.xs + 2,
 	},
 	previousButton: {
@@ -263,15 +280,15 @@ const styles = StyleSheet.create({
 		color: colors.text.disabled,
 	},
 	completeButton: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		backgroundColor: colors.primary.main,
 		paddingHorizontal: spacing.lg,
 		paddingVertical: spacing.sm,
 		borderRadius: spacing.radius.sm,
 		gap: spacing.sm,
 		flex: 2,
-		justifyContent: 'center',
+		justifyContent: "center",
 	},
 	completeButtonText: {
 		fontSize: typography.fontSize.sm,
@@ -292,8 +309,8 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.sm,
 	},
 	nextLessonCard: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		gap: spacing.sm,
 	},
 	nextLessonInfo: {
@@ -309,5 +326,4 @@ const styles = StyleSheet.create({
 		fontSize: typography.fontSize.sm,
 		color: colors.text.secondary,
 	},
-})
-
+});

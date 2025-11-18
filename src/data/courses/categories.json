@@ -1,84 +1,84 @@
 {
-  "categories": [
-    {
-      "id": "agriculture",
-      "name": "Agriculture & Farming",
-      "nameAmharic": "ግብርና እና የእርሻ አስተዳደር",
-      "nameSwahili": "Kilimo na Ufugaji",
-      "icon": "Sprout",
-      "color": "#10B981",
-      "courseCount": 4,
-      "description": "Learn sustainable farming techniques and modern agricultural practices for smallholder farmers"
-    },
-    {
-      "id": "green-energy",
-      "name": "Green Energy & Sustainability",
-      "nameAmharic": "አረንጓዴ ኃይል እና ዘላቂነት",
-      "nameSwahili": "Nishati ya Kijani na Uendelevu",
-      "icon": "Zap",
-      "color": "#F59E0B",
-      "courseCount": 3,
-      "description": "Explore renewable energy solutions and sustainable practices for communities"
-    },
-    {
-      "id": "construction",
-      "name": "Construction & Building",
-      "nameAmharic": "ግንባታ እና ህንፃ",
-      "nameSwahili": "Ujenzi na Uashi",
-      "icon": "HardHat",
-      "color": "#EF4444",
-      "courseCount": 3,
-      "description": "Master construction skills from foundation to finishing for residential and commercial buildings"
-    },
-    {
-      "id": "entrepreneurship",
-      "name": "Entrepreneurship & Business",
-      "nameAmharic": "ስራ ፈጠራ እና ንግድ",
-      "nameSwahili": "Ujasiriamali na Biashara",
-      "icon": "TrendingUp",
-      "color": "#8B5CF6",
-      "courseCount": 3,
-      "description": "Develop business skills to start and grow successful enterprises in your community"
-    },
-    {
-      "id": "ict",
-      "name": "Information & Communication Technology",
-      "nameAmharic": "መረጃ እና የመገናኛ ቴክኖሎጂ",
-      "nameSwahili": "Teknolojia ya Habari na Mawasiliano",
-      "icon": "Laptop",
-      "color": "#3B82F6",
-      "courseCount": 2,
-      "description": "Build digital literacy and technical skills for the modern workforce"
-    },
-    {
-      "id": "health-safety",
-      "name": "Health & Safety",
-      "nameAmharic": "ጤና እና ደህንነት",
-      "nameSwahili": "Afya na Usalama",
-      "icon": "Heart",
-      "color": "#EC4899",
-      "courseCount": 2,
-      "description": "Learn essential health, safety, and first aid practices for workplace and community"
-    },
-    {
-      "id": "water-management",
-      "name": "Water Management",
-      "nameAmharic": "የውሃ አስተዳደር",
-      "nameSwahili": "Usimamizi wa Maji",
-      "icon": "Droplets",
-      "color": "#06B6D4",
-      "courseCount": 2,
-      "description": "Master water conservation, irrigation, and sustainable water resource management"
-    },
-    {
-      "id": "community-development",
-      "name": "Community Development",
-      "nameAmharic": "የማህበረሰብ ልማት",
-      "nameSwahili": "Maendeleo ya Jamii",
-      "icon": "Users",
-      "color": "#84CC16",
-      "courseCount": 1,
-      "description": "Build skills for community organization, leadership, and sustainable development projects"
-    }
-  ]
+	"categories": [
+		{
+			"id": "agriculture",
+			"name": "Agriculture & Farming",
+			"nameAmharic": "ግብርና እና የእርሻ አስተዳደር",
+			"nameSwahili": "Kilimo na Ufugaji",
+			"icon": "Sprout",
+			"color": "#10B981",
+			"courseCount": 4,
+			"description": "Learn sustainable farming techniques and modern agricultural practices for smallholder farmers"
+		},
+		{
+			"id": "green-energy",
+			"name": "Green Energy & Sustainability",
+			"nameAmharic": "አረንጓዴ ኃይል እና ዘላቂነት",
+			"nameSwahili": "Nishati ya Kijani na Uendelevu",
+			"icon": "Zap",
+			"color": "#F59E0B",
+			"courseCount": 3,
+			"description": "Explore renewable energy solutions and sustainable practices for communities"
+		},
+		{
+			"id": "construction",
+			"name": "Construction & Building",
+			"nameAmharic": "ግንባታ እና ህንፃ",
+			"nameSwahili": "Ujenzi na Uashi",
+			"icon": "HardHat",
+			"color": "#EF4444",
+			"courseCount": 3,
+			"description": "Master construction skills from foundation to finishing for residential and commercial buildings"
+		},
+		{
+			"id": "entrepreneurship",
+			"name": "Entrepreneurship & Business",
+			"nameAmharic": "ስራ ፈጠራ እና ንግድ",
+			"nameSwahili": "Ujasiriamali na Biashara",
+			"icon": "TrendingUp",
+			"color": "#8B5CF6",
+			"courseCount": 3,
+			"description": "Develop business skills to start and grow successful enterprises in your community"
+		},
+		{
+			"id": "ict",
+			"name": "Information & Communication Technology",
+			"nameAmharic": "መረጃ እና የመገናኛ ቴክኖሎጂ",
+			"nameSwahili": "Teknolojia ya Habari na Mawasiliano",
+			"icon": "Laptop",
+			"color": "#3B82F6",
+			"courseCount": 2,
+			"description": "Build digital literacy and technical skills for the modern workforce"
+		},
+		{
+			"id": "health-safety",
+			"name": "Health & Safety",
+			"nameAmharic": "ጤና እና ደህንነት",
+			"nameSwahili": "Afya na Usalama",
+			"icon": "Heart",
+			"color": "#EC4899",
+			"courseCount": 2,
+			"description": "Learn essential health, safety, and first aid practices for workplace and community"
+		},
+		{
+			"id": "water-management",
+			"name": "Water Management",
+			"nameAmharic": "የውሃ አስተዳደር",
+			"nameSwahili": "Usimamizi wa Maji",
+			"icon": "Droplets",
+			"color": "#06B6D4",
+			"courseCount": 2,
+			"description": "Master water conservation, irrigation, and sustainable water resource management"
+		},
+		{
+			"id": "community-development",
+			"name": "Community Development",
+			"nameAmharic": "የማህበረሰብ ልማት",
+			"nameSwahili": "Maendeleo ya Jamii",
+			"icon": "Users",
+			"color": "#84CC16",
+			"courseCount": 1,
+			"description": "Build skills for community organization, leadership, and sustainable development projects"
+		}
+	]
 }

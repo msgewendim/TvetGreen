@@ -4,28 +4,34 @@
  * Displays the current course progress with banner image and continue button
  */
 
-import { Play } from 'lucide-react-native'
-import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { colors, ProgressBar, spacing, typography } from '@/design-system'
-import { useLanguage } from '@/hooks/useLanguage'
+import { Play } from "lucide-react-native";
+import {
+	ImageBackground,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from "react-native";
+import { colors, ProgressBar, spacing, typography } from "@/design-system";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export interface CurrentCourse {
-	title: string
-	category: string
-	progress: number
-	imageUrl: string
+	title: string;
+	category: string;
+	progress: number;
+	imageUrl: string;
 }
 
 interface CurrentCourseCardProps {
-	course: CurrentCourse
-	onContinue?: () => void
+	course: CurrentCourse;
+	onContinue?: () => void;
 }
 
 export const CurrentCourseCard: React.FC<CurrentCourseCardProps> = ({
 	course,
 	onContinue,
 }) => {
-	const { t } = useLanguage()
+	const { t } = useLanguage();
 	return (
 		<View style={styles.container}>
 			<ImageBackground
@@ -48,33 +54,35 @@ export const CurrentCourseCard: React.FC<CurrentCourseCardProps> = ({
 					<TouchableOpacity
 						style={styles.continueButton}
 						onPress={onContinue}
-						accessibilityLabel={t('common.continue')}
+						accessibilityLabel={t("common.continue")}
 					>
 						<Play size={20} color={colors.text.inverse} strokeWidth={2} />
-						<Text style={styles.continueButtonText}>{t('common.continue')}</Text>
+						<Text style={styles.continueButtonText}>
+							{t("common.continue")}
+						</Text>
 					</TouchableOpacity>
 				</View>
 			</ImageBackground>
 		</View>
-	)
-}
+	);
+};
 
 const styles = StyleSheet.create({
 	container: {
 		marginHorizontal: spacing.lg,
 		marginVertical: spacing.lg,
 		borderRadius: spacing.radius.md,
-		overflow: 'hidden',
+		overflow: "hidden",
 	},
 	banner: {
 		height: 200,
-		justifyContent: 'flex-end',
+		justifyContent: "flex-end",
 	},
 	bannerImage: {
 		borderRadius: spacing.radius.md,
 	},
 	overlay: {
-		backgroundColor: 'rgba(22, 163, 74, 0.85)',
+		backgroundColor: "rgba(22, 163, 74, 0.85)",
 		padding: spacing.lg,
 		borderRadius: spacing.radius.md,
 	},
@@ -97,13 +105,13 @@ const styles = StyleSheet.create({
 		marginBottom: 0,
 	},
 	continueButton: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		backgroundColor: colors.secondary.main,
 		paddingVertical: spacing.sm,
 		paddingHorizontal: spacing.lg,
 		borderRadius: spacing.radius.sm,
-		alignSelf: 'flex-start',
+		alignSelf: "flex-start",
 	},
 	continueButtonText: {
 		color: colors.text.inverse,
@@ -111,4 +119,4 @@ const styles = StyleSheet.create({
 		fontWeight: typography.fontWeight.semibold,
 		marginLeft: spacing.sm,
 	},
-})
+});

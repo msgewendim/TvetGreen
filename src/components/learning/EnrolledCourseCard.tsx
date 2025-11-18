@@ -1,11 +1,5 @@
 import React from "react";
-import {
-	View,
-	Text,
-	TouchableOpacity,
-	StyleSheet,
-	Image,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { ChevronRight, Clock, Award, Play } from "lucide-react-native";
 import type { CourseWithStatus } from "@/src/types/learning";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -33,11 +27,7 @@ export function EnrolledCourseCard({
 		: null;
 
 	return (
-		<TouchableOpacity
-			style={styles.card}
-			onPress={onPress}
-			activeOpacity={0.8}
-		>
+		<TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.8}>
 			<Image
 				source={{ uri: course.thumbnail }}
 				style={styles.thumbnail}
@@ -113,10 +103,7 @@ export function EnrolledCourseCard({
 							? t("learning.review")
 							: t("learning.continueLearning")}
 					</Text>
-					<ChevronRight
-						size={18}
-						color={isCompleted ? "#2E8B57" : "#FDF5E6"}
-					/>
+					<ChevronRight size={18} color={isCompleted ? "#2E8B57" : "#FDF5E6"} />
 				</TouchableOpacity>
 			</View>
 		</TouchableOpacity>

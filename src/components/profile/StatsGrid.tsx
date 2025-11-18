@@ -4,21 +4,21 @@
  * Displays user learning statistics in a grid layout
  */
 
-import { Award, BookOpen, Clock, TrendingUp } from 'lucide-react-native'
-import { Dimensions, StyleSheet, Text, View } from 'react-native'
-import { colors, spacing, typography } from '@/design-system'
+import { Award, BookOpen, Clock, TrendingUp } from "lucide-react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { colors, spacing, typography } from "@/design-system";
 
-const { width } = Dimensions.get('window')
+const { width } = Dimensions.get("window");
 
 export interface UserStats {
-	completedCourses: number
-	totalHours: number
-	certificates: number
-	currentStreak: number
+	completedCourses: number;
+	totalHours: number;
+	certificates: number;
+	currentStreak: number;
 }
 
 interface StatsGridProps {
-	stats: UserStats
+	stats: UserStats;
 }
 
 export const StatsGrid: React.FC<StatsGridProps> = ({ stats }) => {
@@ -26,24 +26,32 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ stats }) => {
 		{
 			icon: <BookOpen size={24} color={colors.primary.main} strokeWidth={2} />,
 			value: stats.completedCourses,
-			label: 'Courses Completed',
+			label: "Courses Completed",
 		},
 		{
 			icon: <Clock size={24} color={colors.secondary.main} strokeWidth={2} />,
 			value: `${stats.totalHours}h`,
-			label: 'Hours Learned',
+			label: "Hours Learned",
 		},
 		{
-			icon: <Award size={24} color={colors.categories.construction} strokeWidth={2} />,
+			icon: (
+				<Award
+					size={24}
+					color={colors.categories.construction}
+					strokeWidth={2}
+				/>
+			),
 			value: stats.certificates,
-			label: 'Certificates',
+			label: "Certificates",
 		},
 		{
-			icon: <TrendingUp size={24} color={colors.feedback.success} strokeWidth={2} />,
+			icon: (
+				<TrendingUp size={24} color={colors.feedback.success} strokeWidth={2} />
+			),
 			value: stats.currentStreak,
-			label: 'Day Streak',
+			label: "Day Streak",
 		},
-	]
+	];
 
 	return (
 		<View style={styles.container}>
@@ -58,8 +66,8 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ stats }) => {
 				))}
 			</View>
 		</View>
-	)
-}
+	);
+};
 
 const styles = StyleSheet.create({
 	container: {
@@ -73,9 +81,9 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.md,
 	},
 	grid: {
-		flexDirection: 'row',
-		flexWrap: 'wrap',
-		justifyContent: 'space-between',
+		flexDirection: "row",
+		flexWrap: "wrap",
+		justifyContent: "space-between",
 		gap: spacing.sm,
 	},
 	card: {
@@ -83,11 +91,11 @@ const styles = StyleSheet.create({
 		width: (width - 64) / 2,
 		padding: spacing.md,
 		borderRadius: spacing.radius.md,
-		alignItems: 'center',
+		alignItems: "center",
 		...spacing.shadow.md,
 	},
 	value: {
-		fontSize: typography.fontSize['2xl'],
+		fontSize: typography.fontSize["2xl"],
 		fontWeight: typography.fontWeight.bold,
 		color: colors.text.primary,
 		marginTop: spacing.sm,
@@ -96,7 +104,7 @@ const styles = StyleSheet.create({
 	label: {
 		fontSize: typography.fontSize.xs,
 		color: colors.text.secondary,
-		textAlign: 'center',
+		textAlign: "center",
 		fontWeight: typography.fontWeight.medium,
 	},
-})
+});

@@ -1,246 +1,246 @@
 {
-  "kind": "youtube#playlistItemListResponse",
-  "etag": "-VxSOTWkptdV8umlQF6CQRvMgrc",
-  "nextPageToken": "EAAaHlBUOkNBVWlFRFV5TVRVeVFqUTVORFpETWtZM00wWQ",
-  "items": [
-    {
-      "kind": "youtube#playlistItem",
-      "etag": "lTHk8VXrB_f_EjgaTMIV3O61tUs",
-      "id": "UExTUWwwYTJ2aDRIREVSQ3dfZGRhblhic0RwRldjcEwtUy41NkI0NEY2RDEwNTU3Q0M2",
-      "snippet": {
-        "publishedAt": "2019-04-01T15:38:12Z",
-        "channelId": "UC4a-Gbdw7vOaccHmFo40b9g",
-        "title": "Intro to Economics - Course Trailer",
-        "description": "Sal gives an overview of Khan Academy's mini-course, \"Introduction to Economics.\" In this course, you'll learn:\n\n1. How the scarcity of economic resources leads to tradeoffs\n\n2. You’ll also learn how to use the concept of comparative advantage to demonstrate how specialization and trade can make people better off.\n\n3. And finally, you’ll learn how to use a market model to illustrate how changes in supply and demand affect the price of something and how much of it is sold.\n\nTo explore our full courses on Microeconomics, visit Khan Academy: https://www.khanacademy.org/economics-finance-domain/microeconomics\n \nTo explore our full courses on Macroeconomics, visit Khan Academy: https://www.khanacademy.org/economics-finance-domain/macroeconomics",
-        "thumbnails": {
-          "default": {
-            "url": "https://i.ytimg.com/vi/wCHm5SdNO5U/default.jpg",
-            "width": 120,
-            "height": 90
-          },
-          "medium": {
-            "url": "https://i.ytimg.com/vi/wCHm5SdNO5U/mqdefault.jpg",
-            "width": 320,
-            "height": 180
-          },
-          "high": {
-            "url": "https://i.ytimg.com/vi/wCHm5SdNO5U/hqdefault.jpg",
-            "width": 480,
-            "height": 360
-          },
-          "standard": {
-            "url": "https://i.ytimg.com/vi/wCHm5SdNO5U/sddefault.jpg",
-            "width": 640,
-            "height": 480
-          },
-          "maxres": {
-            "url": "https://i.ytimg.com/vi/wCHm5SdNO5U/maxresdefault.jpg",
-            "width": 1280,
-            "height": 720
-          }
-        },
-        "channelTitle": "Khan Academy",
-        "playlistId": "PLSQl0a2vh4HDERCw_ddanXbsDpFWcpL-S",
-        "position": 0,
-        "resourceId": {
-          "kind": "youtube#video",
-          "videoId": "wCHm5SdNO5U"
-        },
-        "videoOwnerChannelTitle": "Khan Academy",
-        "videoOwnerChannelId": "UC4a-Gbdw7vOaccHmFo40b9g"
-      }
-    },
-    {
-      "kind": "youtube#playlistItem",
-      "etag": "77T_3X878xegP-qDF8e1ICmV-8w",
-      "id": "UExTUWwwYTJ2aDRIREVSQ3dfZGRhblhic0RwRldjcEwtUy4yODlGNEE0NkRGMEEzMEQy",
-      "snippet": {
-        "publishedAt": "2019-04-10T16:24:19Z",
-        "channelId": "UC4a-Gbdw7vOaccHmFo40b9g",
-        "title": "Introduction to economics | Supply, demand, and market equilibrium | Economics | Khan Academy",
-        "description": "Learn about some of the key ideas that influenced early economic thinkers, such as Adam Smith, in this video.\n\nPractice this yourself on Khan Academy right now: \nhttps://www.khanacademy.org/economics-finance-domain/macroeconomics/macro-basic-economics-concepts/macro-scarcity/e/introduction-to-scarcity-and-the-economic-way-of-thinking\n\nhttps://www.youtube.com/watch?v=iy-fhpbTH9E&list=PLSQl0a2vh4HDERCw_ddanXbsDpFWcpL-S&index=3\n\nEconomics on Khan Academy: Economics is the study of individuals and societies allocate scarce resources.  Learn how markets work, how individuals maximize their happiness and firms maximize profits, and how economies grow. We hit the topics you would expect to see in high school and college level introductory economics courses.\n\nAbout Khan Academy: Khan Academy offers practice exercises, instructional videos, and a personalized learning dashboard that empower learners to study at their own pace in and outside of the classroom. We tackle math, science, computer programming, history, art history, economics, and more. Our math missions guide learners from kindergarten to calculus using state-of-the-art, adaptive technology that identifies strengths and learning gaps. We've also partnered with institutions like NASA, The Museum of Modern Art, The California Academy of Sciences, and MIT to offer specialized content.\n\nFor free. For everyone. Forever. #YouCanLearnAnything\n\nhttps://www.youtube.com/subscription_center?add_user=khanacademy",
-        "thumbnails": {
-          "default": {
-            "url": "https://i.ytimg.com/vi/8JYP_wU1JTU/default.jpg",
-            "width": 120,
-            "height": 90
-          },
-          "medium": {
-            "url": "https://i.ytimg.com/vi/8JYP_wU1JTU/mqdefault.jpg",
-            "width": 320,
-            "height": 180
-          },
-          "high": {
-            "url": "https://i.ytimg.com/vi/8JYP_wU1JTU/hqdefault.jpg",
-            "width": 480,
-            "height": 360
-          },
-          "standard": {
-            "url": "https://i.ytimg.com/vi/8JYP_wU1JTU/sddefault.jpg",
-            "width": 640,
-            "height": 480
-          },
-          "maxres": {
-            "url": "https://i.ytimg.com/vi/8JYP_wU1JTU/maxresdefault.jpg",
-            "width": 1280,
-            "height": 720
-          }
-        },
-        "channelTitle": "Khan Academy",
-        "playlistId": "PLSQl0a2vh4HDERCw_ddanXbsDpFWcpL-S",
-        "position": 1,
-        "resourceId": {
-          "kind": "youtube#video",
-          "videoId": "8JYP_wU1JTU"
-        },
-        "videoOwnerChannelTitle": "Khan Academy",
-        "videoOwnerChannelId": "UC4a-Gbdw7vOaccHmFo40b9g"
-      }
-    },
-    {
-      "kind": "youtube#playlistItem",
-      "etag": "kXsLlskdqvsXUdOmkN-1dfMqSh0",
-      "id": "UExTUWwwYTJ2aDRIREVSQ3dfZGRhblhic0RwRldjcEwtUy4wMTcyMDhGQUE4NTIzM0Y5",
-      "snippet": {
-        "publishedAt": "2019-04-10T16:29:03Z",
-        "channelId": "UC4a-Gbdw7vOaccHmFo40b9g",
-        "title": "Scarcity | Basic economics concepts | Economics | Khan Academy",
-        "description": "Courses on Khan Academy are always 100% free. Start practicing—and saving your progress—now:  https://www.khanacademy.org/economics-finance-domain/ap-macroeconomics/basic-economics-concepts-macro/introduction-to-the-economic-way-of-thinking-macro/v/scarcity\n\nIntroduction to scarcity as the notion underpinning the study of economics.\n\nView more lessons or practice this subject at http://www.khanacademy.org/economics-finance-domain/ap-macroeconomics/basic-economics-concepts-macro/introduction-to-the-economic-way-of-thinking-macro/v/scarcity?utm_source=youtube&utm_medium=desc&utm_campaign=apmacroeconomics\n\nAP Macroeconomics on Khan Academy: Welcome to Economics! In this lesson we'll define Economic and introduce some of the fundamental tools and perspectives economists use to understand the world around us!\n\nKhan Academy is a nonprofit organization with the mission of providing a free, world-class education for anyone, anywhere. We offer quizzes, questions, instructional videos, and articles on a range of academic subjects, including math, biology, chemistry, physics, history, economics, finance, grammar, preschool learning, and more. We provide teachers with tools and data so they can help their students develop the skills, habits, and mindsets for success in school and beyond. Khan Academy has been translated into dozens of languages, and 15 million people around the globe learn on Khan Academy every month. As a 501(c)(3) nonprofit organization, we would love your help! Donate or volunteer today! \n\nDonate here: https://www.khanacademy.org/donate?utm_source=youtube&utm_medium=desc\n\nVolunteer here: https://www.khanacademy.org/contribute?utm_source=youtube&utm_medium=desc",
-        "thumbnails": {
-          "default": {
-            "url": "https://i.ytimg.com/vi/iy-fhpbTH9E/default.jpg",
-            "width": 120,
-            "height": 90
-          },
-          "medium": {
-            "url": "https://i.ytimg.com/vi/iy-fhpbTH9E/mqdefault.jpg",
-            "width": 320,
-            "height": 180
-          },
-          "high": {
-            "url": "https://i.ytimg.com/vi/iy-fhpbTH9E/hqdefault.jpg",
-            "width": 480,
-            "height": 360
-          },
-          "standard": {
-            "url": "https://i.ytimg.com/vi/iy-fhpbTH9E/sddefault.jpg",
-            "width": 640,
-            "height": 480
-          },
-          "maxres": {
-            "url": "https://i.ytimg.com/vi/iy-fhpbTH9E/maxresdefault.jpg",
-            "width": 1280,
-            "height": 720
-          }
-        },
-        "channelTitle": "Khan Academy",
-        "playlistId": "PLSQl0a2vh4HDERCw_ddanXbsDpFWcpL-S",
-        "position": 2,
-        "resourceId": {
-          "kind": "youtube#video",
-          "videoId": "iy-fhpbTH9E"
-        },
-        "videoOwnerChannelTitle": "Khan Academy",
-        "videoOwnerChannelId": "UC4a-Gbdw7vOaccHmFo40b9g"
-      }
-    },
-    {
-      "kind": "youtube#playlistItem",
-      "etag": "j5OiRuSnfRVXxdOIUxl4u6IotJM",
-      "id": "UExTUWwwYTJ2aDRIREVSQ3dfZGRhblhic0RwRldjcEwtUy41MzJCQjBCNDIyRkJDN0VD",
-      "snippet": {
-        "publishedAt": "2019-04-10T16:52:36Z",
-        "channelId": "UC4a-Gbdw7vOaccHmFo40b9g",
-        "title": "Four factors of production | AP Microeconomics | Khan Academy",
-        "description": "Keep going! Check out the next lesson and practice what you’re learning:\nhttps://www.khanacademy.org/economics-finance-domain/ap-macroeconomics/basic-economics-concepts-macro/introduction-to-the-economic-way-of-thinking-macro/v/normative-and-positive-statements\n\nEconomists traditionally divide the factors of production into four categories: land, labor, capital, and entrepreneurship. Learn how each of these are defined in this video. \n\nAP(R) Microeconomics on Khan Academy: Microeconomics is the study of individual decisionmakers in an economy, such as people, households, and firms. Learn how markets work, how incentives drive decisionmaking, and how market structure influences market outcomes. We hit the traditional topics from an AP Microeconomics course, including basic economic concepts, markets, production and costs, profit maximization perfect competition, imperfectly competitive market structures, game theory, factor markets, and income inequality.\n\nAbout Khan Academy: Khan Academy offers practice exercises, instructional videos, and a personalized learning dashboard that empower learners to study at their own pace in and outside of the classroom. We tackle math, science, computer programming, history, art history, economics, and more. Our math missions guide learners from kindergarten to calculus using state-of-the-art, adaptive technology that identifies strengths and learning gaps. We've also partnered with institutions like NASA, The Museum of Modern Art, The California Academy of Sciences, and MIT to offer specialized content.\n\nFor free. For everyone. Forever. #YouCanLearnAnything\n\nhttps://www.youtube.com/subscription_center?add_user=khanacademy",
-        "thumbnails": {
-          "default": {
-            "url": "https://i.ytimg.com/vi/-IvwoqPh1_I/default.jpg",
-            "width": 120,
-            "height": 90
-          },
-          "medium": {
-            "url": "https://i.ytimg.com/vi/-IvwoqPh1_I/mqdefault.jpg",
-            "width": 320,
-            "height": 180
-          },
-          "high": {
-            "url": "https://i.ytimg.com/vi/-IvwoqPh1_I/hqdefault.jpg",
-            "width": 480,
-            "height": 360
-          },
-          "standard": {
-            "url": "https://i.ytimg.com/vi/-IvwoqPh1_I/sddefault.jpg",
-            "width": 640,
-            "height": 480
-          },
-          "maxres": {
-            "url": "https://i.ytimg.com/vi/-IvwoqPh1_I/maxresdefault.jpg",
-            "width": 1280,
-            "height": 720
-          }
-        },
-        "channelTitle": "Khan Academy",
-        "playlistId": "PLSQl0a2vh4HDERCw_ddanXbsDpFWcpL-S",
-        "position": 3,
-        "resourceId": {
-          "kind": "youtube#video",
-          "videoId": "-IvwoqPh1_I"
-        },
-        "videoOwnerChannelTitle": "Khan Academy",
-        "videoOwnerChannelId": "UC4a-Gbdw7vOaccHmFo40b9g"
-      }
-    },
-    {
-      "kind": "youtube#playlistItem",
-      "etag": "NPPE_7WnYlyumM8EpWm0nHhS6jo",
-      "id": "UExTUWwwYTJ2aDRIREVSQ3dfZGRhblhic0RwRldjcEwtUy5DQUNERDQ2NkIzRUQxNTY1",
-      "snippet": {
-        "publishedAt": "2019-05-20T14:53:14Z",
-        "channelId": "UC4a-Gbdw7vOaccHmFo40b9g",
-        "title": "Scarcity and rivalry | Basic Economic Concepts | Microeconomics | Khan Academy",
-        "description": "Keep going! Check out the next lesson and practice what you’re learning:\nhttps://www.khanacademy.org/economics-finance-domain/ap-microeconomics/basic-economic-concepts/ap-economics-introduction/v/economic-models\n\nThis video discusses two closely related ideas in economics: scarcity and rivalry. \n\nWatch the next lesson: https://www.khanacademy.org/economics-finance-domain/ap-macroeconomics/basic-economics-concepts-macro/introduction-to-the-economic-way-of-thinking-macro/v/economic-models\n\nMissed the previous lesson? Watch here: https://www.khanacademy.org/economics-finance-domain/ap-macroeconomics/basic-economics-concepts-macro/introduction-to-the-economic-way-of-thinking-macro/v/scarcity\n\n\nAP(R) Microeconomics on Khan Academy: Microeconomics is the study of individual decisionmakers in an economy, such as people, households, and firms. Learn how markets work, how incentives drive decisionmaking, and how market structure influences market outcomes. We hit the traditional topics from an AP Microeconomics course, including basic economic concepts, markets, production and costs, profit maximization perfect competition, imperfectly competitive market structures, game theory, factor markets, and income inequality.\n\nAbout Khan Academy: Khan Academy offers practice exercises, instructional videos, and a personalized learning dashboard that empower learners to study at their own pace in and outside of the classroom. We tackle math, science, computer programming, history, art history, economics, and more. Our math missions guide learners from kindergarten to calculus using state-of-the-art, adaptive technology that identifies strengths and learning gaps. We've also partnered with institutions like NASA, The Museum of Modern Art, The California Academy of Sciences, and MIT to offer specialized content.\n\nFor free. For everyone. Forever. #YouCanLearnAnything\n\nhttps://www.youtube.com/subscription_center?add_user=khanacademy",
-        "thumbnails": {
-          "default": {
-            "url": "https://i.ytimg.com/vi/uVA1-m8SVvA/default.jpg",
-            "width": 120,
-            "height": 90
-          },
-          "medium": {
-            "url": "https://i.ytimg.com/vi/uVA1-m8SVvA/mqdefault.jpg",
-            "width": 320,
-            "height": 180
-          },
-          "high": {
-            "url": "https://i.ytimg.com/vi/uVA1-m8SVvA/hqdefault.jpg",
-            "width": 480,
-            "height": 360
-          },
-          "standard": {
-            "url": "https://i.ytimg.com/vi/uVA1-m8SVvA/sddefault.jpg",
-            "width": 640,
-            "height": 480
-          },
-          "maxres": {
-            "url": "https://i.ytimg.com/vi/uVA1-m8SVvA/maxresdefault.jpg",
-            "width": 1280,
-            "height": 720
-          }
-        },
-        "channelTitle": "Khan Academy",
-        "playlistId": "PLSQl0a2vh4HDERCw_ddanXbsDpFWcpL-S",
-        "position": 4,
-        "resourceId": {
-          "kind": "youtube#video",
-          "videoId": "uVA1-m8SVvA"
-        },
-        "videoOwnerChannelTitle": "Khan Academy",
-        "videoOwnerChannelId": "UC4a-Gbdw7vOaccHmFo40b9g"
-      }
-    }
-  ],
-  "pageInfo": {
-    "totalResults": 31,
-    "resultsPerPage": 5
-  }
+	"kind": "youtube#playlistItemListResponse",
+	"etag": "-VxSOTWkptdV8umlQF6CQRvMgrc",
+	"nextPageToken": "EAAaHlBUOkNBVWlFRFV5TVRVeVFqUTVORFpETWtZM00wWQ",
+	"items": [
+		{
+			"kind": "youtube#playlistItem",
+			"etag": "lTHk8VXrB_f_EjgaTMIV3O61tUs",
+			"id": "UExTUWwwYTJ2aDRIREVSQ3dfZGRhblhic0RwRldjcEwtUy41NkI0NEY2RDEwNTU3Q0M2",
+			"snippet": {
+				"publishedAt": "2019-04-01T15:38:12Z",
+				"channelId": "UC4a-Gbdw7vOaccHmFo40b9g",
+				"title": "Intro to Economics - Course Trailer",
+				"description": "Sal gives an overview of Khan Academy's mini-course, \"Introduction to Economics.\" In this course, you'll learn:\n\n1. How the scarcity of economic resources leads to tradeoffs\n\n2. You’ll also learn how to use the concept of comparative advantage to demonstrate how specialization and trade can make people better off.\n\n3. And finally, you’ll learn how to use a market model to illustrate how changes in supply and demand affect the price of something and how much of it is sold.\n\nTo explore our full courses on Microeconomics, visit Khan Academy: https://www.khanacademy.org/economics-finance-domain/microeconomics\n \nTo explore our full courses on Macroeconomics, visit Khan Academy: https://www.khanacademy.org/economics-finance-domain/macroeconomics",
+				"thumbnails": {
+					"default": {
+						"url": "https://i.ytimg.com/vi/wCHm5SdNO5U/default.jpg",
+						"width": 120,
+						"height": 90
+					},
+					"medium": {
+						"url": "https://i.ytimg.com/vi/wCHm5SdNO5U/mqdefault.jpg",
+						"width": 320,
+						"height": 180
+					},
+					"high": {
+						"url": "https://i.ytimg.com/vi/wCHm5SdNO5U/hqdefault.jpg",
+						"width": 480,
+						"height": 360
+					},
+					"standard": {
+						"url": "https://i.ytimg.com/vi/wCHm5SdNO5U/sddefault.jpg",
+						"width": 640,
+						"height": 480
+					},
+					"maxres": {
+						"url": "https://i.ytimg.com/vi/wCHm5SdNO5U/maxresdefault.jpg",
+						"width": 1280,
+						"height": 720
+					}
+				},
+				"channelTitle": "Khan Academy",
+				"playlistId": "PLSQl0a2vh4HDERCw_ddanXbsDpFWcpL-S",
+				"position": 0,
+				"resourceId": {
+					"kind": "youtube#video",
+					"videoId": "wCHm5SdNO5U"
+				},
+				"videoOwnerChannelTitle": "Khan Academy",
+				"videoOwnerChannelId": "UC4a-Gbdw7vOaccHmFo40b9g"
+			}
+		},
+		{
+			"kind": "youtube#playlistItem",
+			"etag": "77T_3X878xegP-qDF8e1ICmV-8w",
+			"id": "UExTUWwwYTJ2aDRIREVSQ3dfZGRhblhic0RwRldjcEwtUy4yODlGNEE0NkRGMEEzMEQy",
+			"snippet": {
+				"publishedAt": "2019-04-10T16:24:19Z",
+				"channelId": "UC4a-Gbdw7vOaccHmFo40b9g",
+				"title": "Introduction to economics | Supply, demand, and market equilibrium | Economics | Khan Academy",
+				"description": "Learn about some of the key ideas that influenced early economic thinkers, such as Adam Smith, in this video.\n\nPractice this yourself on Khan Academy right now: \nhttps://www.khanacademy.org/economics-finance-domain/macroeconomics/macro-basic-economics-concepts/macro-scarcity/e/introduction-to-scarcity-and-the-economic-way-of-thinking\n\nhttps://www.youtube.com/watch?v=iy-fhpbTH9E&list=PLSQl0a2vh4HDERCw_ddanXbsDpFWcpL-S&index=3\n\nEconomics on Khan Academy: Economics is the study of individuals and societies allocate scarce resources.  Learn how markets work, how individuals maximize their happiness and firms maximize profits, and how economies grow. We hit the topics you would expect to see in high school and college level introductory economics courses.\n\nAbout Khan Academy: Khan Academy offers practice exercises, instructional videos, and a personalized learning dashboard that empower learners to study at their own pace in and outside of the classroom. We tackle math, science, computer programming, history, art history, economics, and more. Our math missions guide learners from kindergarten to calculus using state-of-the-art, adaptive technology that identifies strengths and learning gaps. We've also partnered with institutions like NASA, The Museum of Modern Art, The California Academy of Sciences, and MIT to offer specialized content.\n\nFor free. For everyone. Forever. #YouCanLearnAnything\n\nhttps://www.youtube.com/subscription_center?add_user=khanacademy",
+				"thumbnails": {
+					"default": {
+						"url": "https://i.ytimg.com/vi/8JYP_wU1JTU/default.jpg",
+						"width": 120,
+						"height": 90
+					},
+					"medium": {
+						"url": "https://i.ytimg.com/vi/8JYP_wU1JTU/mqdefault.jpg",
+						"width": 320,
+						"height": 180
+					},
+					"high": {
+						"url": "https://i.ytimg.com/vi/8JYP_wU1JTU/hqdefault.jpg",
+						"width": 480,
+						"height": 360
+					},
+					"standard": {
+						"url": "https://i.ytimg.com/vi/8JYP_wU1JTU/sddefault.jpg",
+						"width": 640,
+						"height": 480
+					},
+					"maxres": {
+						"url": "https://i.ytimg.com/vi/8JYP_wU1JTU/maxresdefault.jpg",
+						"width": 1280,
+						"height": 720
+					}
+				},
+				"channelTitle": "Khan Academy",
+				"playlistId": "PLSQl0a2vh4HDERCw_ddanXbsDpFWcpL-S",
+				"position": 1,
+				"resourceId": {
+					"kind": "youtube#video",
+					"videoId": "8JYP_wU1JTU"
+				},
+				"videoOwnerChannelTitle": "Khan Academy",
+				"videoOwnerChannelId": "UC4a-Gbdw7vOaccHmFo40b9g"
+			}
+		},
+		{
+			"kind": "youtube#playlistItem",
+			"etag": "kXsLlskdqvsXUdOmkN-1dfMqSh0",
+			"id": "UExTUWwwYTJ2aDRIREVSQ3dfZGRhblhic0RwRldjcEwtUy4wMTcyMDhGQUE4NTIzM0Y5",
+			"snippet": {
+				"publishedAt": "2019-04-10T16:29:03Z",
+				"channelId": "UC4a-Gbdw7vOaccHmFo40b9g",
+				"title": "Scarcity | Basic economics concepts | Economics | Khan Academy",
+				"description": "Courses on Khan Academy are always 100% free. Start practicing—and saving your progress—now:  https://www.khanacademy.org/economics-finance-domain/ap-macroeconomics/basic-economics-concepts-macro/introduction-to-the-economic-way-of-thinking-macro/v/scarcity\n\nIntroduction to scarcity as the notion underpinning the study of economics.\n\nView more lessons or practice this subject at http://www.khanacademy.org/economics-finance-domain/ap-macroeconomics/basic-economics-concepts-macro/introduction-to-the-economic-way-of-thinking-macro/v/scarcity?utm_source=youtube&utm_medium=desc&utm_campaign=apmacroeconomics\n\nAP Macroeconomics on Khan Academy: Welcome to Economics! In this lesson we'll define Economic and introduce some of the fundamental tools and perspectives economists use to understand the world around us!\n\nKhan Academy is a nonprofit organization with the mission of providing a free, world-class education for anyone, anywhere. We offer quizzes, questions, instructional videos, and articles on a range of academic subjects, including math, biology, chemistry, physics, history, economics, finance, grammar, preschool learning, and more. We provide teachers with tools and data so they can help their students develop the skills, habits, and mindsets for success in school and beyond. Khan Academy has been translated into dozens of languages, and 15 million people around the globe learn on Khan Academy every month. As a 501(c)(3) nonprofit organization, we would love your help! Donate or volunteer today! \n\nDonate here: https://www.khanacademy.org/donate?utm_source=youtube&utm_medium=desc\n\nVolunteer here: https://www.khanacademy.org/contribute?utm_source=youtube&utm_medium=desc",
+				"thumbnails": {
+					"default": {
+						"url": "https://i.ytimg.com/vi/iy-fhpbTH9E/default.jpg",
+						"width": 120,
+						"height": 90
+					},
+					"medium": {
+						"url": "https://i.ytimg.com/vi/iy-fhpbTH9E/mqdefault.jpg",
+						"width": 320,
+						"height": 180
+					},
+					"high": {
+						"url": "https://i.ytimg.com/vi/iy-fhpbTH9E/hqdefault.jpg",
+						"width": 480,
+						"height": 360
+					},
+					"standard": {
+						"url": "https://i.ytimg.com/vi/iy-fhpbTH9E/sddefault.jpg",
+						"width": 640,
+						"height": 480
+					},
+					"maxres": {
+						"url": "https://i.ytimg.com/vi/iy-fhpbTH9E/maxresdefault.jpg",
+						"width": 1280,
+						"height": 720
+					}
+				},
+				"channelTitle": "Khan Academy",
+				"playlistId": "PLSQl0a2vh4HDERCw_ddanXbsDpFWcpL-S",
+				"position": 2,
+				"resourceId": {
+					"kind": "youtube#video",
+					"videoId": "iy-fhpbTH9E"
+				},
+				"videoOwnerChannelTitle": "Khan Academy",
+				"videoOwnerChannelId": "UC4a-Gbdw7vOaccHmFo40b9g"
+			}
+		},
+		{
+			"kind": "youtube#playlistItem",
+			"etag": "j5OiRuSnfRVXxdOIUxl4u6IotJM",
+			"id": "UExTUWwwYTJ2aDRIREVSQ3dfZGRhblhic0RwRldjcEwtUy41MzJCQjBCNDIyRkJDN0VD",
+			"snippet": {
+				"publishedAt": "2019-04-10T16:52:36Z",
+				"channelId": "UC4a-Gbdw7vOaccHmFo40b9g",
+				"title": "Four factors of production | AP Microeconomics | Khan Academy",
+				"description": "Keep going! Check out the next lesson and practice what you’re learning:\nhttps://www.khanacademy.org/economics-finance-domain/ap-macroeconomics/basic-economics-concepts-macro/introduction-to-the-economic-way-of-thinking-macro/v/normative-and-positive-statements\n\nEconomists traditionally divide the factors of production into four categories: land, labor, capital, and entrepreneurship. Learn how each of these are defined in this video. \n\nAP(R) Microeconomics on Khan Academy: Microeconomics is the study of individual decisionmakers in an economy, such as people, households, and firms. Learn how markets work, how incentives drive decisionmaking, and how market structure influences market outcomes. We hit the traditional topics from an AP Microeconomics course, including basic economic concepts, markets, production and costs, profit maximization perfect competition, imperfectly competitive market structures, game theory, factor markets, and income inequality.\n\nAbout Khan Academy: Khan Academy offers practice exercises, instructional videos, and a personalized learning dashboard that empower learners to study at their own pace in and outside of the classroom. We tackle math, science, computer programming, history, art history, economics, and more. Our math missions guide learners from kindergarten to calculus using state-of-the-art, adaptive technology that identifies strengths and learning gaps. We've also partnered with institutions like NASA, The Museum of Modern Art, The California Academy of Sciences, and MIT to offer specialized content.\n\nFor free. For everyone. Forever. #YouCanLearnAnything\n\nhttps://www.youtube.com/subscription_center?add_user=khanacademy",
+				"thumbnails": {
+					"default": {
+						"url": "https://i.ytimg.com/vi/-IvwoqPh1_I/default.jpg",
+						"width": 120,
+						"height": 90
+					},
+					"medium": {
+						"url": "https://i.ytimg.com/vi/-IvwoqPh1_I/mqdefault.jpg",
+						"width": 320,
+						"height": 180
+					},
+					"high": {
+						"url": "https://i.ytimg.com/vi/-IvwoqPh1_I/hqdefault.jpg",
+						"width": 480,
+						"height": 360
+					},
+					"standard": {
+						"url": "https://i.ytimg.com/vi/-IvwoqPh1_I/sddefault.jpg",
+						"width": 640,
+						"height": 480
+					},
+					"maxres": {
+						"url": "https://i.ytimg.com/vi/-IvwoqPh1_I/maxresdefault.jpg",
+						"width": 1280,
+						"height": 720
+					}
+				},
+				"channelTitle": "Khan Academy",
+				"playlistId": "PLSQl0a2vh4HDERCw_ddanXbsDpFWcpL-S",
+				"position": 3,
+				"resourceId": {
+					"kind": "youtube#video",
+					"videoId": "-IvwoqPh1_I"
+				},
+				"videoOwnerChannelTitle": "Khan Academy",
+				"videoOwnerChannelId": "UC4a-Gbdw7vOaccHmFo40b9g"
+			}
+		},
+		{
+			"kind": "youtube#playlistItem",
+			"etag": "NPPE_7WnYlyumM8EpWm0nHhS6jo",
+			"id": "UExTUWwwYTJ2aDRIREVSQ3dfZGRhblhic0RwRldjcEwtUy5DQUNERDQ2NkIzRUQxNTY1",
+			"snippet": {
+				"publishedAt": "2019-05-20T14:53:14Z",
+				"channelId": "UC4a-Gbdw7vOaccHmFo40b9g",
+				"title": "Scarcity and rivalry | Basic Economic Concepts | Microeconomics | Khan Academy",
+				"description": "Keep going! Check out the next lesson and practice what you’re learning:\nhttps://www.khanacademy.org/economics-finance-domain/ap-microeconomics/basic-economic-concepts/ap-economics-introduction/v/economic-models\n\nThis video discusses two closely related ideas in economics: scarcity and rivalry. \n\nWatch the next lesson: https://www.khanacademy.org/economics-finance-domain/ap-macroeconomics/basic-economics-concepts-macro/introduction-to-the-economic-way-of-thinking-macro/v/economic-models\n\nMissed the previous lesson? Watch here: https://www.khanacademy.org/economics-finance-domain/ap-macroeconomics/basic-economics-concepts-macro/introduction-to-the-economic-way-of-thinking-macro/v/scarcity\n\n\nAP(R) Microeconomics on Khan Academy: Microeconomics is the study of individual decisionmakers in an economy, such as people, households, and firms. Learn how markets work, how incentives drive decisionmaking, and how market structure influences market outcomes. We hit the traditional topics from an AP Microeconomics course, including basic economic concepts, markets, production and costs, profit maximization perfect competition, imperfectly competitive market structures, game theory, factor markets, and income inequality.\n\nAbout Khan Academy: Khan Academy offers practice exercises, instructional videos, and a personalized learning dashboard that empower learners to study at their own pace in and outside of the classroom. We tackle math, science, computer programming, history, art history, economics, and more. Our math missions guide learners from kindergarten to calculus using state-of-the-art, adaptive technology that identifies strengths and learning gaps. We've also partnered with institutions like NASA, The Museum of Modern Art, The California Academy of Sciences, and MIT to offer specialized content.\n\nFor free. For everyone. Forever. #YouCanLearnAnything\n\nhttps://www.youtube.com/subscription_center?add_user=khanacademy",
+				"thumbnails": {
+					"default": {
+						"url": "https://i.ytimg.com/vi/uVA1-m8SVvA/default.jpg",
+						"width": 120,
+						"height": 90
+					},
+					"medium": {
+						"url": "https://i.ytimg.com/vi/uVA1-m8SVvA/mqdefault.jpg",
+						"width": 320,
+						"height": 180
+					},
+					"high": {
+						"url": "https://i.ytimg.com/vi/uVA1-m8SVvA/hqdefault.jpg",
+						"width": 480,
+						"height": 360
+					},
+					"standard": {
+						"url": "https://i.ytimg.com/vi/uVA1-m8SVvA/sddefault.jpg",
+						"width": 640,
+						"height": 480
+					},
+					"maxres": {
+						"url": "https://i.ytimg.com/vi/uVA1-m8SVvA/maxresdefault.jpg",
+						"width": 1280,
+						"height": 720
+					}
+				},
+				"channelTitle": "Khan Academy",
+				"playlistId": "PLSQl0a2vh4HDERCw_ddanXbsDpFWcpL-S",
+				"position": 4,
+				"resourceId": {
+					"kind": "youtube#video",
+					"videoId": "uVA1-m8SVvA"
+				},
+				"videoOwnerChannelTitle": "Khan Academy",
+				"videoOwnerChannelId": "UC4a-Gbdw7vOaccHmFo40b9g"
+			}
+		}
+	],
+	"pageInfo": {
+		"totalResults": 31,
+		"resultsPerPage": 5
+	}
 }

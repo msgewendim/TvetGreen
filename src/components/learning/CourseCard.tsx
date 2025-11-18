@@ -51,7 +51,9 @@ export function CourseCard({
 					{showProgress && (
 						<View style={styles.progressContainer}>
 							<View style={styles.progressBar}>
-								<View style={[styles.progressFill, { width: `${progress}%` }]} />
+								<View
+									style={[styles.progressFill, { width: `${progress}%` }]}
+								/>
 							</View>
 							<Text style={styles.progressText}>{progress}%</Text>
 						</View>
@@ -101,7 +103,9 @@ export function CourseCard({
 					{showProgress && progress > 0 && (
 						<View style={styles.progressContainer}>
 							<View style={styles.progressBar}>
-								<View style={[styles.progressFill, { width: `${progress}%` }]} />
+								<View
+									style={[styles.progressFill, { width: `${progress}%` }]}
+								/>
 							</View>
 							<Text style={styles.progressText}>{progress}%</Text>
 						</View>

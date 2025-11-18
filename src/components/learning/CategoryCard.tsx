@@ -30,7 +30,8 @@ export function CategoryCard({ category, onPress }: CategoryCardProps) {
 				{category.name}
 			</Text>
 			<Text style={styles.courseCount}>
-				{category.courseCount} {category.courseCount === 1 ? "course" : "courses"}
+				{category.courseCount}{" "}
+				{category.courseCount === 1 ? "course" : "courses"}
 			</Text>
 		</TouchableOpacity>
 	);

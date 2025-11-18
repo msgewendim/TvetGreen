@@ -1,19 +1,25 @@
-import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { colors, spacing, typography } from '@/design-system'
+import {
+	ImageBackground,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from "react-native";
+import { colors, spacing, typography } from "@/design-system";
 
 export interface Category {
-	id: string
-	title: string
-	emoji: string
-	color: string
-	courseCount: number
-	description: string
-	image: string
+	id: string;
+	title: string;
+	emoji: string;
+	color: string;
+	courseCount: number;
+	description: string;
+	image: string;
 }
 
 interface CategoryCardProps {
-	category: Category
-	onPress: () => void
+	category: Category;
+	onPress: () => void;
 }
 
 export function CategoryCard({ category, onPress }: CategoryCardProps) {
@@ -32,10 +38,7 @@ export function CategoryCard({ category, onPress }: CategoryCardProps) {
 				imageStyle={styles.backgroundImage}
 			>
 				<View
-					style={[
-						styles.overlay,
-						{ backgroundColor: `${category.color}95` },
-					]}
+					style={[styles.overlay, { backgroundColor: `${category.color}95` }]}
 				>
 					<Text style={styles.emoji}>{category.emoji}</Text>
 					<Text style={styles.title}>{category.title}</Text>
@@ -46,20 +49,20 @@ export function CategoryCard({ category, onPress }: CategoryCardProps) {
 				</View>
 			</ImageBackground>
 		</TouchableOpacity>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
 	card: {
-		width: '48%',
+		width: "48%",
 		height: 140,
 		borderRadius: spacing.radius.md,
-		overflow: 'hidden',
+		overflow: "hidden",
 		...spacing.shadow.md,
 	},
 	background: {
 		flex: 1,
-		justifyContent: 'flex-end',
+		justifyContent: "flex-end",
 	},
 	backgroundImage: {
 		borderRadius: spacing.radius.md,
@@ -89,5 +92,4 @@ const styles = StyleSheet.create({
 		color: colors.text.inverse,
 		fontWeight: typography.fontWeight.medium,
 	},
-})
-
+});
