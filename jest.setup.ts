@@ -1,4 +1,5 @@
-import '@testing-library/react-native/extend-expect';
+// @testing-library/react-native v12+ has built-in matchers
+// No need to import extend-expect separately
 
 // Mock AsyncStorage
 jest.mock('@react-native-async-storage/async-storage', () =>
