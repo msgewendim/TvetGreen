@@ -112,8 +112,8 @@ Plans:
 
 | Phase | Status | Requirements | Success Criteria | Dependencies Met |
 |-------|--------|--------------|------------------|------------------|
-| 0 - Infrastructure Setup | Planned | 4 | 4 | ✓ None |
-| 1 - Security Hardening | Pending | 9 | 5 | ⏳ Phase 0 |
+| 0 - Infrastructure Setup | Complete | 4 | 4 | ✓ None |
+| 1 - Security Hardening | Pending | 9 | 5 | ✓ Phase 0 |
 | 2 - Performance Baseline | Pending | 4 | 4 | ⏳ Phase 1 |
 | 3 - Targeted Optimization | Pending | 11 | 6 | ⏳ Phase 2 |
 | 4 - Bug Fixes & Network Resilience | Pending | 18 | 6 | ⏳ Phase 3 |
@@ -144,4 +144,5 @@ Plans:
 ---
 *Roadmap created: 2026-01-28*
 *Phase 0 planned: 2026-01-28*
-*Next step: `/gsd:execute-phase 0`*
+*Phase 0 completed: 2026-01-28*
+*Next step: `/gsd:plan-phase 1`*
