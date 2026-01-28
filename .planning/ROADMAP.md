@@ -18,6 +18,13 @@ This roadmap delivers a secure, performant, and reliable learning experience for
 
 **Requirements:** INFRA-01, INFRA-02, INFRA-03, INFRA-04
 
+**Plans:** 3 plans
+
+Plans:
+- [ ] 00-01-PLAN.md — EAS Updates configuration and feature flag system
+- [ ] 00-02-PLAN.md — Jest testing framework and critical path tests
+- [ ] 00-03-PLAN.md — Rollback and deployment documentation
+
 **Success Criteria:**
 1. Team can deploy improvements to 5% of users via EAS Updates staged rollout
 2. Team can instantly disable problematic changes using feature flags without app resubmission
@@ -105,7 +112,7 @@ This roadmap delivers a secure, performant, and reliable learning experience for
 
 | Phase | Status | Requirements | Success Criteria | Dependencies Met |
 |-------|--------|--------------|------------------|------------------|
-| 0 - Infrastructure Setup | Pending | 4 | 4 | ✓ None |
+| 0 - Infrastructure Setup | Planned | 4 | 4 | ✓ None |
 | 1 - Security Hardening | Pending | 9 | 5 | ⏳ Phase 0 |
 | 2 - Performance Baseline | Pending | 4 | 4 | ⏳ Phase 1 |
 | 3 - Targeted Optimization | Pending | 11 | 6 | ⏳ Phase 2 |
@@ -136,4 +143,5 @@ This roadmap delivers a secure, performant, and reliable learning experience for
 
 ---
 *Roadmap created: 2026-01-28*
-*Next step: `/gsd:plan-phase 0`*
+*Phase 0 planned: 2026-01-28*
+*Next step: `/gsd:execute-phase 0`*
