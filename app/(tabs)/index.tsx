@@ -10,7 +10,7 @@ import {
 	type NextLesson,
 	type QuickAction,
 } from "@/src/components/home";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLanguage } from "@/src/hooks/useLanguage";
 
 export default function HomeScreen() {
 	const { t } = useLanguage();
@@ -74,17 +74,17 @@ export default function HomeScreen() {
 	];
 
 	return (
-		<ScreenLayout>
+		<ScreenLayout headerExtendsToStatusBar>
 			<Header
 				title={t("navigation.home")}
 				subtitle={t("home.welcomeMessage")}
 			/>
 
-			<CurrentCourseCard course={currentCourse} onContinue={() => {}} />
+			<CurrentCourseCard course={currentCourse} onContinue={() => { }} />
 
-			<NextLessonCard lesson={nextLesson} onPress={() => {}} />
+			<NextLessonCard lesson={nextLesson} onPress={() => { }} />
 
-			<QuickActionsGrid actions={quickActions} onActionPress={() => {}} />
+			<QuickActionsGrid actions={quickActions} onActionPress={() => { }} />
 
 			<ActivityList activities={recentActivities} />
 

@@ -7,7 +7,7 @@ import {
 	User,
 	GraduationCap,
 } from "lucide-react-native";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLanguage } from "@/src/hooks/useLanguage";
 
 export default function TabLayout() {
 	const { t } = useLanguage();

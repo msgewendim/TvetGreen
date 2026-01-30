@@ -15,7 +15,7 @@ import {
 	type DownloadedCourse,
 	type QueuedDownload,
 } from "@/src/components/downloads";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLanguage } from "@/src/hooks/useLanguage";
 
 export default function DownloadsScreen() {
 	const { t } = useLanguage();
@@ -93,7 +93,7 @@ export default function DownloadsScreen() {
 	};
 
 	return (
-		<ScreenLayout>
+		<ScreenLayout headerExtendsToStatusBar>
 			<Header
 				title={t("navigation.downloads")}
 				subtitle={t("downloads.offline")}
@@ -103,7 +103,7 @@ export default function DownloadsScreen() {
 				storageUsed={storageUsed}
 				storageTotal={storageTotal}
 				coursesCount={downloadedCourses.length}
-				onSettingsPress={() => {}}
+				onSettingsPress={() => { }}
 			/>
 
 			{/* Connection Status */}
@@ -121,7 +121,7 @@ export default function DownloadsScreen() {
 					<DownloadedCourseCard
 						key={course.id}
 						course={course}
-						onPlay={() => {}}
+						onPlay={() => { }}
 						onDelete={handleDeleteCourse}
 					/>
 				))}

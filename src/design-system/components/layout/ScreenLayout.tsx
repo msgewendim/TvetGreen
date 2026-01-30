@@ -1,19 +1,21 @@
 /**
  * ScreenLayout Component
  *
- * Reusable screen layout wrapper with SafeAreaView to ensure content stays within phone viewport
- * Provides consistent padding and styling across all app screens
+ * Reusable screen layout wrapper with SafeAreaView to ensure content stays within phone viewport.
+ * When headerExtendsToStatusBar is true, the top edge has no inset so a full-bleed header
+ * (e.g. Header) can extend behind the status bar; the header is responsible for its own top padding.
  */
 
 import type React from "react";
 import {
-	SafeAreaView,
 	ScrollView,
-	StyleSheet,
 	View,
 	type ViewStyle,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../../tokens";
+
+export type SafeAreaEdge = "top" | "left" | "right" | "bottom";
 
 export interface ScreenLayoutProps {
 	children: React.ReactNode;
@@ -29,7 +31,16 @@ export interface ScreenLayoutProps {
 	contentStyle?: ViewStyle;
 	/** Test ID for testing */
 	testID?: string;
+	/**
+	 * When true, top safe area is excluded so the first child (e.g. Header) can extend
+	 * behind the status bar. Use with Header so the green bar goes edge-to-edge and the
+	 * status bar is not blocked (Header adds its own top padding for title/subtitle).
+	 */
+	headerExtendsToStatusBar?: boolean;
 }
+
+const DEFAULT_EDGES: SafeAreaEdge[] = ["top", "left", "right", "bottom"];
+const HEADER_EXTENDS_EDGES: SafeAreaEdge[] = ["left", "right", "bottom"];
 
 export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
 	children,
@@ -39,41 +50,31 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
 	style,
 	contentStyle,
 	testID,
+	headerExtendsToStatusBar = false,
 }) => {
+	const edges = headerExtendsToStatusBar ? HEADER_EXTENDS_EDGES : DEFAULT_EDGES;
+
 	return (
 		<SafeAreaView
-			style={[styles.safeArea, { backgroundColor }, style]}
+			edges={edges}
+			style={[{ backgroundColor, flex: 1 }, style]}
 			testID={testID}
 		>
 			{scrollable ? (
 				<ScrollView
-					style={styles.scrollView}
-					contentContainerStyle={[styles.contentContainer, contentStyle]}
+					contentContainerStyle={contentStyle}
 					showsVerticalScrollIndicator={showsVerticalScrollIndicator}
 					keyboardShouldPersistTaps="handled"
 					nestedScrollEnabled
 					scrollEventThrottle={16}
+					style={[{ flex: 1 }]}
 				>
 					{children}
 				</ScrollView>
 			) : (
-				<View style={[styles.container, contentStyle]}>{children}</View>
+				<View style={{ flex: 1 }}>{children}</View>
 			)}
 		</SafeAreaView>
 	);
 };
 
-const styles = StyleSheet.create({
-	safeArea: {
-		flex: 1,
-	},
-	scrollView: {
-		flex: 1,
-	},
-	container: {
-		flex: 1,
-	},
-	contentContainer: {
-		flexGrow: 1,
-	},
-});

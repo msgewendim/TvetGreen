@@ -10,8 +10,8 @@ import {
 	spacing,
 	typography,
 } from "@/design-system";
-import { useCourses } from "@/hooks/useCourses";
-import { useCourseFilters } from "@/hooks/useCourseFilters";
+import { useCourses } from "@/src/hooks/useCourses";
+import { useCourseFilters } from "@/src/hooks/useCourseFilters";
 import {
 	CategoryFilters,
 	CategoriesGrid,
@@ -19,7 +19,7 @@ import {
 	type Category,
 	type Course,
 } from "@/src/components/course";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLanguage } from "@/src/hooks/useLanguage";
 
 export default function CoursesScreen() {
 	const { t } = useLanguage();
@@ -90,7 +90,7 @@ export default function CoursesScreen() {
 	};
 
 	return (
-		<ScreenLayout scrollable={false} style={styles.container}>
+		<ScreenLayout scrollable={false} style={styles.container} headerExtendsToStatusBar>
 			<Header
 				title={t("navigation.courses")}
 				subtitle={t("courses.allCourses")}

@@ -7,7 +7,7 @@
 import { ChevronRight, Clock, Download } from "lucide-react-native";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, spacing, typography } from "@/design-system";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLanguage } from "@/src/hooks/useLanguage";
 
 export interface NextLesson {
 	title: string;

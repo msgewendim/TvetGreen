@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useLearningStore } from "@/src/store/learningStore";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLanguage } from "@/src/hooks/useLanguage";
 import { Search, X, Filter, ChevronRight } from "lucide-react-native";
 import { LoadingSpinner } from "@/src/components/learning";
 import type { CourseFilter, CourseSortOption } from "@/src/types/learning";
