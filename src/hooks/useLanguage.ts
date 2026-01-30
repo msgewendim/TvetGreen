@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useCallback } from "react";
-import type { SupportedLanguage } from "../i18n.config";
-import { LANGUAGE_INFO, SUPPORTED_LANGUAGES } from "../i18n.config";
+import type { SupportedLanguage } from "../../i18n.config";
+import { LANGUAGE_INFO, SUPPORTED_LANGUAGES } from "../../i18n.config";
 
 /**
  * Custom hook for language management

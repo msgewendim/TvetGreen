@@ -13,7 +13,7 @@ import {
 	View,
 } from "react-native";
 import { colors, ProgressBar, spacing, typography } from "@/design-system";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLanguage } from "@/src/hooks/useLanguage";
 
 export interface CurrentCourse {
 	title: string;

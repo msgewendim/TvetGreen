@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { ChevronRight, Clock, Award, Play } from "lucide-react-native";
 import type { CourseWithStatus } from "@/src/types/learning";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLanguage } from "@/src/hooks/useLanguage";
 
 interface EnrolledCourseCardProps {
 	course: CourseWithStatus;

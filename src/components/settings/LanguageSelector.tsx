@@ -1,7 +1,7 @@
 import type React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Check } from "lucide-react-native";
-import { useLanguage } from "../../../hooks/useLanguage";
+import { useLanguage } from "../../hooks/useLanguage";
 import type { SupportedLanguage } from "../../../i18n.config";
 
 interface LanguageOptionProps {

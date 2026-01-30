@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Play, Clock } from "lucide-react-native";
 import type { LessonWithProgress } from "@/src/types/learning";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLanguage } from "@/src/hooks/useLanguage";
 
 const CARD_WIDTH = Dimensions.get("window").width * 0.6;
 

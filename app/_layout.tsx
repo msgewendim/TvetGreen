@@ -3,7 +3,7 @@ import { QueryClientProvider } from "react-query";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { ThemeProvider } from "@/design-system";
-import { useFrameworkReady } from "@/hooks/useFrameworkReady";
+import { useFrameworkReady } from "@/src/hooks/useFrameworkReady";
 import { queryClient } from "@/src/services/query/QueryClient";
 import { initializeFlags } from "@/src/core/flags";
 import "../i18n.config"; // Initialize i18n

@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useLearningStore } from "@/src/store/learningStore";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLanguage } from "@/src/hooks/useLanguage";
 import * as Icons from "lucide-react-native";
 
 export function CategoriesScreen() {

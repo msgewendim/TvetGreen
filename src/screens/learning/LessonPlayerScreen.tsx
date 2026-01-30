@@ -12,7 +12,7 @@ import {
 import { useRouter, useLocalSearchParams } from "expo-router";
 import YoutubePlayer from "react-native-youtube-iframe";
 import { useLearningStore } from "@/src/store/learningStore";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLanguage } from "@/src/hooks/useLanguage";
 import {
 	X,
 	ChevronLeft,
@@ -221,20 +221,20 @@ export function LessonPlayerScreen() {
 			nextLesson ? t("video.upNext") : t("learning.success.courseComplete"),
 			nextLesson
 				? [
-						{
-							text: t("video.nextLesson"),
-							onPress: () => {
-								router.replace(`/learning/lesson/${nextLesson.id}`);
-							},
+					{
+						text: t("video.nextLesson"),
+						onPress: () => {
+							router.replace(`/learning/lesson/${nextLesson.id}`);
 						},
-						{ text: t("common.cancel"), style: "cancel" },
-					]
+					},
+					{ text: t("common.cancel"), style: "cancel" },
+				]
 				: [
-						{
-							text: t("common.done"),
-							onPress: () => router.push(`/learning/courses/${course.id}`),
-						},
-					],
+					{
+						text: t("common.done"),
+						onPress: () => router.push(`/learning/courses/${course.id}`),
+					},
+				],
 		);
 	};
 
@@ -515,7 +515,7 @@ export function LessonPlayerScreen() {
 													style={[
 														styles.lessonItemTitle,
 														moduleLesson.id === lessonId &&
-															styles.currentLessonText,
+														styles.currentLessonText,
 													]}
 													numberOfLines={2}
 												>

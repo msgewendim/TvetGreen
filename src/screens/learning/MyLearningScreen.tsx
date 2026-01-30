@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState } from "react";
 import {
 	View,
 	Text,
@@ -9,9 +9,10 @@ import {
 	TextInput,
 	RefreshControl,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useLearningStore, getLearningStats } from "@/src/store/learningStore";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLanguage } from "@/src/hooks/useLanguage";
 import {
 	GraduationCap,
 	Clock,
@@ -28,7 +29,6 @@ import {
 	AchievementBadge,
 	generateAchievements,
 } from "@/src/components/learning/AchievementBadge";
-import type { CourseWithStatus } from "@/src/types/learning";
 
 type Tab = "all" | "in_progress" | "completed";
 type SortOption = "recent" | "progress" | "alphabetical";
@@ -36,6 +36,7 @@ type SortOption = "recent" | "progress" | "alphabetical";
 export function MyLearningScreen() {
 	const { t } = useLanguage();
 	const router = useRouter();
+	const insets = useSafeAreaInsets();
 
 	const [activeTab, setActiveTab] = useState<Tab>("all");
 	const [sortBy, setSortBy] = useState<SortOption>("recent");
@@ -63,13 +64,10 @@ export function MyLearningScreen() {
 	const watchMinutes = Math.floor((stats.totalWatchTime % 3600) / 60);
 
 	// Generate achievements
-	const achievements = useMemo(
-		() => generateAchievements(stats),
-		[stats.completed, stats.totalWatchTime],
-	);
+	const achievements = generateAchievements(stats)
 
 	// Get continue watching lessons (recent incomplete lessons)
-	const continueWatchingLessons = useMemo(() => {
+	const continueWatchingLessons = () => {
 		const recentProgress = [...lessonProgress]
 			.filter((p) => !p.isCompleted && p.lastPosition > 0)
 			.sort(
@@ -97,15 +95,15 @@ export function MyLearningScreen() {
 				};
 			})
 			.filter((l) => l !== null);
-	}, [lessonProgress]);
+	};
 
 	// Filter and sort courses
-	const filteredCourses = useMemo(() => {
+	const getFilteredCourses = () => {
 		let filtered = enrolledCourses;
 
 		// Filter by tab
 		if (activeTab === "in_progress") {
-			filtered = filtered.filter((c) => c.progress > 0 && c.progress < 100);
+			filtered = filtered.filter((c) => c.progress && c.progress > 0 && c.progress < 100);
 		} else if (activeTab === "completed") {
 			filtered = filtered.filter((c) => c.progress === 100);
 		}
@@ -135,7 +133,7 @@ export function MyLearningScreen() {
 		});
 
 		return sorted;
-	}, [enrolledCourses, activeTab, searchQuery, sortBy]);
+	}
 
 	// Pull to refresh
 	const onRefresh = async () => {
@@ -150,6 +148,9 @@ export function MyLearningScreen() {
 		const nextLesson = lessons.find((l) => !l.isCompleted);
 		return nextLesson;
 	};
+
+	const filteredCourses = getFilteredCourses();
+	const resultContinueWatchingLessons = continueWatchingLessons();
 
 	if (isLoading && !refreshing) {
 		return (
@@ -196,8 +197,8 @@ export function MyLearningScreen() {
 				/>
 			}
 		>
-			{/* Header */}
-			<View style={styles.header}>
+			{/* Header - paddingTop keeps title/subtitle below status bar */}
+			<View style={[styles.header, { paddingTop: Math.max(insets.top, 16) }]}>
 				<Text style={styles.headerTitle}>{t("learning.myLearning")}</Text>
 				<Text style={styles.headerSubtitle}>{t("learning.trackProgress")}</Text>
 			</View>
@@ -256,7 +257,7 @@ export function MyLearningScreen() {
 			)}
 
 			{/* Continue Watching Section */}
-			{continueWatchingLessons.length > 0 && (
+			{resultContinueWatchingLessons.length > 0 && (
 				<View style={styles.section}>
 					<View style={styles.sectionHeader}>
 						<Text style={styles.sectionTitle}>
@@ -268,7 +269,7 @@ export function MyLearningScreen() {
 						showsHorizontalScrollIndicator={false}
 						contentContainerStyle={styles.continueWatchingContainer}
 					>
-						{continueWatchingLessons.map((lesson) => (
+						{resultContinueWatchingLessons.map((lesson) => (
 							<ContinueWatchingCard
 								key={lesson.id}
 								lesson={lesson}
@@ -509,8 +510,7 @@ const styles = StyleSheet.create({
 	},
 	header: {
 		paddingHorizontal: 20,
-		paddingTop: 60,
-		paddingBottom: 24,
+		paddingVertical: 24,
 		backgroundColor: "#2E8B57",
 	},
 	headerTitle: {

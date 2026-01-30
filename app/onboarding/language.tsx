@@ -13,7 +13,7 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLanguage } from "@/src/hooks/useLanguage";
 import type { SupportedLanguage } from "@/i18n.config";
 
 export default function LanguageSelectionScreen() {
@@ -97,7 +97,7 @@ export default function LanguageSelectionScreen() {
 										style={[
 											styles.languageName,
 											selectedLanguage === language.code &&
-												styles.languageNameSelected,
+											styles.languageNameSelected,
 										]}
 									>
 										{language.name}
@@ -106,7 +106,7 @@ export default function LanguageSelectionScreen() {
 										style={[
 											styles.languageNative,
 											selectedLanguage === language.code &&
-												styles.languageNativeSelected,
+											styles.languageNativeSelected,
 										]}
 									>
 										{language.nativeName}
@@ -122,7 +122,7 @@ export default function LanguageSelectionScreen() {
 								style={[
 									styles.languageDescription,
 									selectedLanguage === language.code &&
-										styles.languageDescriptionSelected,
+									styles.languageDescriptionSelected,
 								]}
 							>
 								{language.description}

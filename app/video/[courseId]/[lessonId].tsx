@@ -7,8 +7,8 @@ import {
 	View,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useVideoPlayer } from "@/hooks/useVideoPlayer";
-import { useLesson } from "@/hooks/useLesson";
+import { useVideoPlayer } from "@/src/hooks/useVideoPlayer";
+import { useLesson } from "@/src/hooks/useLesson";
 import {
 	VideoControls,
 	VideoSettingsPanel,
@@ -17,7 +17,7 @@ import {
 	SubtitlesOverlay,
 } from "@/src/components/video";
 import { colors } from "@/design-system";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLanguage } from "@/src/hooks/useLanguage";
 
 const playbackSpeeds = [0.5, 0.75, 1.0, 1.25, 1.5, 2.0];
 
@@ -140,7 +140,7 @@ export default function VideoPlayerScreen() {
 				totalLessons={lessonData.totalLessons}
 				isDownloaded={lessonData.isDownloaded}
 				nextLesson={lessonData.nextLesson}
-				onDownload={() => {}}
+				onDownload={() => { }}
 				onPrevious={handlePrevious}
 				onNext={handleNext}
 				onComplete={handleCompleteLesson}

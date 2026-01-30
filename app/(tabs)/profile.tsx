@@ -23,7 +23,7 @@ import {
 	type UserStats,
 	type LearningGoal,
 } from "@/src/components/profile";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLanguage } from "@/src/hooks/useLanguage";
 import { LanguageSelector } from "@/src/components/settings";
 import { useState } from "react";
 
@@ -81,13 +81,13 @@ export default function ProfileScreen() {
 	};
 
 	return (
-		<ScreenLayout>
+		<ScreenLayout headerExtendsToStatusBar>
 			<Header
 				title={t("navigation.profile")}
 				subtitle={t("profile.myProfile")}
 			/>
 
-			<ProfileHeader profile={userProfile} onEditPress={() => {}} />
+			<ProfileHeader profile={userProfile} onEditPress={() => { }} />
 
 			<StatsGrid stats={userStats} />
 
@@ -128,7 +128,7 @@ export default function ProfileScreen() {
 					}
 					title={t("profile.voiceGuide")}
 					subtitle="Voice commands, audio quality"
-					onPress={() => {}}
+					onPress={() => { }}
 				/>
 
 				<SettingItem
@@ -137,7 +137,7 @@ export default function ProfileScreen() {
 					}
 					title={t("downloads.title")}
 					subtitle={t("profile.wifiOnly")}
-					onPress={() => {}}
+					onPress={() => { }}
 				/>
 
 				<SettingItem
@@ -150,7 +150,7 @@ export default function ProfileScreen() {
 					}
 					title={t("profile.dataUsage")}
 					subtitle={t("downloads.manage")}
-					onPress={() => {}}
+					onPress={() => { }}
 				/>
 
 				<SettingItem
@@ -163,7 +163,7 @@ export default function ProfileScreen() {
 					}
 					title={t("profile.help")}
 					subtitle="FAQs, contact support"
-					onPress={() => {}}
+					onPress={() => { }}
 				/>
 			</View>
 

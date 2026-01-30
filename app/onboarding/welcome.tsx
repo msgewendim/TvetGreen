@@ -8,7 +8,7 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useLanguage } from "@/src/hooks/useLanguage";
 
 export default function WelcomeScreen() {
 	const router = useRouter();
