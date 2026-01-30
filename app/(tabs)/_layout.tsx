@@ -8,6 +8,7 @@ import {
 	GraduationCap,
 } from "lucide-react-native";
 import { useLanguage } from "@/src/hooks/useLanguage";
+import { colors } from "@/design-system";
 
 export default function TabLayout() {
 	const { t } = useLanguage();
@@ -18,15 +19,15 @@ export default function TabLayout() {
 				screenOptions={{
 					headerShown: false,
 					tabBarStyle: {
-						backgroundColor: "#FDF5E6",
-						borderTopColor: "#2E8B57",
+						backgroundColor: colors.background.primary,
+						borderTopColor: colors.primary.main,
 						borderTopWidth: 2,
 						height: 70,
 						paddingBottom: 10,
 						paddingTop: 10,
 					},
-					tabBarActiveTintColor: "#2E8B57",
-					tabBarInactiveTintColor: "#8B4513",
+					tabBarActiveTintColor: colors.primary.main,
+					tabBarInactiveTintColor: colors.text.secondary,
 					tabBarLabelStyle: {
 						fontSize: 12,
 						fontWeight: "600",

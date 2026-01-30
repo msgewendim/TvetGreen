@@ -13,15 +13,18 @@ import {
 	colors,
 	spacing,
 	typography,
+	commonStyles,
 } from "@/design-system";
 import {
 	ProfileHeader,
 	StatsGrid,
 	GoalCard,
 	SettingItem,
+	CommunityImpactCard,
 	type UserProfile,
 	type UserStats,
 	type LearningGoal,
+	type CommunityImpactStats,
 } from "@/src/components/profile";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import { LanguageSelector } from "@/src/components/settings";
@@ -64,6 +67,12 @@ export default function ProfileScreen() {
 			deadline: "End of July",
 		},
 	];
+
+	const communityImpact: CommunityImpactStats = {
+		peopleHelped: 12,
+		skillsShared: 3,
+		questionsAnswered: 45,
+	};
 
 	const handleLogout = () => {
 		Alert.alert(
@@ -168,26 +177,7 @@ export default function ProfileScreen() {
 			</View>
 
 			{/* Community Impact */}
-			<View style={styles.impactContainer}>
-				<Text style={styles.impactTitle}>🌍 Your Community Impact</Text>
-				<View style={styles.impactStats}>
-					<View style={styles.impactItem}>
-						<Text style={styles.impactNumber}>12</Text>
-						<Text style={styles.impactLabel}>People Helped</Text>
-					</View>
-					<View style={styles.impactItem}>
-						<Text style={styles.impactNumber}>3</Text>
-						<Text style={styles.impactLabel}>Skills Shared</Text>
-					</View>
-					<View style={styles.impactItem}>
-						<Text style={styles.impactNumber}>45</Text>
-						<Text style={styles.impactLabel}>Questions Answered</Text>
-					</View>
-				</View>
-				<Text style={styles.impactDescription}>
-					Your knowledge is making a difference in your community!
-				</Text>
-			</View>
+			<CommunityImpactCard stats={communityImpact} />
 
 			{/* Account Actions */}
 			<View style={styles.accountActions}>
@@ -201,22 +191,9 @@ export default function ProfileScreen() {
 }
 
 const styles = StyleSheet.create({
-	section: {
-		marginHorizontal: spacing.lg,
-		marginBottom: spacing.lg,
-	},
-	sectionHeader: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-		marginBottom: spacing.md,
-	},
-	sectionTitle: {
-		fontSize: typography.fontSize.xl,
-		fontWeight: typography.fontWeight.bold,
-		color: colors.text.primary,
-		marginBottom: spacing.md,
-	},
+	section: commonStyles.section,
+	sectionHeader: commonStyles.sectionHeader,
+	sectionTitle: commonStyles.sectionTitle,
 	addButton: {
 		backgroundColor: colors.primary.surface,
 		paddingHorizontal: spacing.sm,
@@ -227,48 +204,6 @@ const styles = StyleSheet.create({
 		fontSize: typography.fontSize.sm,
 		fontWeight: typography.fontWeight.semibold,
 		color: colors.primary.main,
-	},
-	impactContainer: {
-		backgroundColor: colors.primary.surface,
-		marginHorizontal: spacing.lg,
-		marginBottom: spacing.lg,
-		padding: spacing.lg,
-		borderRadius: spacing.radius.md,
-		borderWidth: 2,
-		borderColor: colors.feedback.success,
-	},
-	impactTitle: {
-		fontSize: typography.fontSize.lg,
-		fontWeight: typography.fontWeight.bold,
-		color: colors.text.primary,
-		marginBottom: spacing.md,
-		textAlign: "center",
-	},
-	impactStats: {
-		flexDirection: "row",
-		justifyContent: "space-around",
-		marginBottom: spacing.md,
-	},
-	impactItem: {
-		alignItems: "center",
-	},
-	impactNumber: {
-		fontSize: typography.fontSize["2xl"],
-		fontWeight: typography.fontWeight.bold,
-		color: colors.feedback.success,
-		marginBottom: spacing.xs / 2,
-	},
-	impactLabel: {
-		fontSize: typography.fontSize.xs,
-		color: colors.text.primary,
-		fontWeight: typography.fontWeight.medium,
-		textAlign: "center",
-	},
-	impactDescription: {
-		fontSize: typography.fontSize.sm,
-		color: colors.text.primary,
-		textAlign: "center",
-		lineHeight: 20,
 	},
 	accountActions: {
 		marginHorizontal: spacing.lg,

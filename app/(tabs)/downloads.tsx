@@ -7,6 +7,7 @@ import {
 	colors,
 	spacing,
 	typography,
+	commonStyles,
 } from "@/design-system";
 import {
 	StorageCard,
@@ -165,16 +166,8 @@ const styles = StyleSheet.create({
 		fontWeight: typography.fontWeight.medium,
 		marginLeft: spacing.sm,
 	},
-	section: {
-		marginHorizontal: spacing.lg,
-		marginBottom: spacing.lg,
-	},
-	sectionTitle: {
-		fontSize: typography.fontSize.xl,
-		fontWeight: typography.fontWeight.bold,
-		color: colors.text.primary,
-		marginBottom: spacing.md,
-	},
+	section: commonStyles.section,
+	sectionTitle: commonStyles.sectionTitle,
 	queueHeader: {
 		flexDirection: "row",
 		justifyContent: "space-between",

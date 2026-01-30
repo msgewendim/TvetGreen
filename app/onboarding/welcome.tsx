@@ -9,6 +9,7 @@ import {
 	View,
 } from "react-native";
 import { useLanguage } from "@/src/hooks/useLanguage";
+import { colors, spacing, typography } from "@/design-system";
 
 export default function WelcomeScreen() {
 	const router = useRouter();
@@ -68,9 +69,9 @@ export default function WelcomeScreen() {
 						onPress={() => setAudioEnabled(!audioEnabled)}
 					>
 						{audioEnabled ? (
-							<Volume2 size={24} color="#FDF5E6" strokeWidth={2} />
+							<Volume2 size={24} color={colors.text.inverse} strokeWidth={2} />
 						) : (
-							<VolumeX size={24} color="#FDF5E6" strokeWidth={2} />
+							<VolumeX size={24} color={colors.text.inverse} strokeWidth={2} />
 						)}
 					</TouchableOpacity>
 
@@ -110,7 +111,7 @@ export default function WelcomeScreen() {
 							<Text style={styles.getStartedText}>
 								{t("onboarding.getStarted")}
 							</Text>
-							<ChevronRight size={24} color="#FDF5E6" strokeWidth={2} />
+							<ChevronRight size={24} color={colors.text.inverse} strokeWidth={2} />
 						</TouchableOpacity>
 
 						<TouchableOpacity
@@ -139,11 +140,11 @@ const styles = StyleSheet.create({
 	},
 	overlay: {
 		flex: 1,
-		backgroundColor: "rgba(46, 139, 87, 0.85)",
+		backgroundColor: "rgba(22, 163, 74, 0.85)", // colors.primary.main with opacity
 		justifyContent: "space-between",
-		paddingHorizontal: 20,
+		paddingHorizontal: spacing.lg,
 		paddingTop: 60,
-		paddingBottom: 40,
+		paddingBottom: spacing.xl,
 	},
 	audioToggle: {
 		alignSelf: "flex-end",
@@ -161,37 +162,37 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 	},
 	emojiContainer: {
-		backgroundColor: "rgba(253, 245, 230, 0.2)",
+		backgroundColor: "rgba(254, 249, 241, 0.2)", // colors.background.primary with opacity
 		width: 100,
 		height: 100,
 		borderRadius: 50,
 		justifyContent: "center",
 		alignItems: "center",
-		marginBottom: 32,
+		marginBottom: spacing.xl,
 	},
 	emoji: {
 		fontSize: 48,
 	},
 	title: {
-		fontSize: 32,
-		fontWeight: "bold",
-		color: "#FDF5E6",
+		fontSize: typography.fontSize["3xl"],
+		fontWeight: typography.fontWeight.bold,
+		color: colors.text.inverse,
 		textAlign: "center",
-		marginBottom: 12,
+		marginBottom: spacing.md,
 	},
 	subtitle: {
-		fontSize: 20,
-		color: "#FDF5E6",
+		fontSize: typography.fontSize.xl,
+		color: colors.text.inverse,
 		textAlign: "center",
-		marginBottom: 16,
+		marginBottom: spacing.md,
 		opacity: 0.9,
 	},
 	description: {
-		fontSize: 16,
-		color: "#FDF5E6",
+		fontSize: typography.fontSize.base,
+		color: colors.text.inverse,
 		textAlign: "center",
 		lineHeight: 24,
-		marginBottom: 40,
+		marginBottom: spacing["2xl"],
 		opacity: 0.9,
 	},
 	slideIndicators: {
@@ -202,10 +203,10 @@ const styles = StyleSheet.create({
 		width: 8,
 		height: 8,
 		borderRadius: 4,
-		backgroundColor: "rgba(253, 245, 230, 0.4)",
+		backgroundColor: "rgba(254, 249, 241, 0.4)", // colors.background.primary with opacity
 	},
 	slideIndicatorActive: {
-		backgroundColor: "#FDF5E6",
+		backgroundColor: colors.text.inverse,
 		width: 24,
 	},
 	buttonContainer: {
@@ -214,29 +215,25 @@ const styles = StyleSheet.create({
 	getStartedButton: {
 		flexDirection: "row",
 		alignItems: "center",
-		backgroundColor: "#FF8C42",
-		paddingHorizontal: 32,
-		paddingVertical: 16,
-		borderRadius: 12,
-		marginBottom: 16,
-		shadowColor: "#000",
-		shadowOffset: { width: 0, height: 4 },
-		shadowOpacity: 0.3,
-		shadowRadius: 8,
-		elevation: 8,
+		backgroundColor: colors.secondary.main,
+		paddingHorizontal: spacing.xl,
+		paddingVertical: spacing.md,
+		borderRadius: spacing.radius.md,
+		marginBottom: spacing.md,
+		...spacing.shadow.lg,
 	},
 	getStartedText: {
-		fontSize: 18,
-		fontWeight: "bold",
-		color: "#FDF5E6",
-		marginRight: 8,
+		fontSize: typography.fontSize.lg,
+		fontWeight: typography.fontWeight.bold,
+		color: colors.text.inverse,
+		marginRight: spacing.sm,
 	},
 	skipButton: {
-		paddingVertical: 12,
+		paddingVertical: spacing.md,
 	},
 	skipText: {
-		fontSize: 16,
-		color: "#FDF5E6",
+		fontSize: typography.fontSize.base,
+		color: colors.text.inverse,
 		opacity: 0.8,
 	},
 });
