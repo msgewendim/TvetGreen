@@ -9,7 +9,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, spacing, typography } from "@/design-system";
 
 export interface DownloadedCourse {
-	id: number;
+	id: number | string;
 	title: string;
 	category: string;
 	size: string;
@@ -22,8 +22,8 @@ export interface DownloadedCourse {
 
 interface DownloadedCourseCardProps {
 	course: DownloadedCourse;
-	onPlay?: (courseId: number) => void;
-	onDelete?: (courseId: number, courseTitle: string) => void;
+	onPlay?: (courseId: number | string) => void;
+	onDelete?: (courseId: number | string, courseTitle: string) => void;
 }
 
 export const DownloadedCourseCard: React.FC<DownloadedCourseCardProps> = ({

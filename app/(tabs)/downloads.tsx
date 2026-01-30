@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { WifiOff, RefreshCw } from "lucide-react-native";
+import { useEffect, useState } from "react";
+import { Alert, StyleSheet, Text, View } from "react-native";
+import { useRouter } from "expo-router";
 import {
 	ScreenLayout,
 	Header,
@@ -17,68 +17,88 @@ import {
 	type QueuedDownload,
 } from "@/src/components/downloads";
 import { useLanguage } from "@/src/hooks/useLanguage";
+import { useDownloadStore } from "@/src/store/downloadStore";
+import { useLearningStore } from "@/src/store/learningStore";
 
 export default function DownloadsScreen() {
 	const { t } = useLanguage();
-	const [storageUsed] = useState(2.4); // GB
-	const [storageTotal] = useState(8.0); // GB
+	const router = useRouter();
 
-	const downloadedCourses: DownloadedCourse[] = [
-		{
-			id: 1,
-			title: "Sustainable Agriculture Basics",
-			category: "Agriculture",
-			size: "850 MB",
-			downloadDate: "2 days ago",
-			progress: 75,
-			totalLessons: 12,
-			completedLessons: 9,
-			lastWatched: "Lesson 9: Composting Techniques",
-		},
-		{
-			id: 2,
-			title: "Home Building Fundamentals",
-			category: "Construction",
-			size: "1.2 GB",
-			downloadDate: "5 days ago",
-			progress: 25,
-			totalLessons: 24,
-			completedLessons: 6,
-			lastWatched: "Lesson 6: Foundation Basics",
-		},
-		{
-			id: 3,
-			title: "Water Conservation Methods",
-			category: "Agriculture",
-			size: "620 MB",
-			downloadDate: "1 week ago",
-			progress: 100,
-			totalLessons: 10,
-			completedLessons: 10,
-			lastWatched: "Course Completed",
-		},
+	const downloadedLessons = useDownloadStore((s) => s.downloadedLessons);
+	const activeDownloads = useDownloadStore((s) => s.activeDownloads);
+	const deleteDownload = useDownloadStore((s) => s.deleteDownload);
+	const deleteCourseDownloads = useDownloadStore(
+		(s) => s.deleteCourseDownloads,
+	);
+	const loadDownloads = useDownloadStore((s) => s.loadDownloads);
+
+	const courses = useLearningStore((s) => s.courses);
+	const lessons = useLearningStore((s) => s.lessons);
+	const getCourseProgress = useLearningStore((s) => s.getCourseProgress);
+	const getLessonsByCourse = useLearningStore((s) => s.getLessonsByCourse);
+
+	const [storageUsed, setStorageUsed] = useState(0);
+	const [storageTotal] = useState(8.0);
+
+	useEffect(() => {
+		loadDownloads();
+	}, [loadDownloads]);
+
+	useEffect(() => {
+		const { totalBytes } = useDownloadStore.getState().getStorageUsage();
+		setStorageUsed(totalBytes / (1024 * 1024 * 1024));
+	}, [downloadedLessons]);
+
+	// Group downloaded lessons by course
+	const courseIds = [
+		...new Set(downloadedLessons.map((d) => d.courseId)),
 	];
 
-	const queuedDownloads: QueuedDownload[] = [
-		{
-			id: 4,
-			title: "Solar Panel Installation",
-			category: "Green Energy",
-			size: "1.5 GB",
-			progress: 45,
-			estimatedTime: "12 min remaining",
-		},
-		{
-			id: 5,
-			title: "Small Business Success",
-			category: "Business",
-			size: "980 MB",
-			progress: 0,
-			estimatedTime: "Waiting for WiFi",
-		},
-	];
+	const downloadedCourses: DownloadedCourse[] = courseIds.map((courseId) => {
+		const course = courses.find((c) => c.id === courseId);
+		const courseDls = downloadedLessons.filter(
+			(d) => d.courseId === courseId,
+		);
+		const courseLessons = getLessonsByCourse(courseId);
+		const completedLessons = courseLessons.filter(
+			(l) => l.isCompleted,
+		).length;
+		const totalSize = courseDls.reduce((sum, d) => sum + d.fileSize, 0);
 
-	const handleDeleteCourse = (courseId: number, courseTitle: string) => {
+		return {
+			id: courseId,
+			title: course?.title ?? "Unknown Course",
+			category: course?.categoryId?.replace("category_", "") ?? "",
+			size: formatBytes(totalSize),
+			downloadDate: courseDls[0]?.downloadedAt
+				? formatRelative(courseDls[0].downloadedAt)
+				: "",
+			progress: getCourseProgress(courseId),
+			totalLessons: courseLessons.length,
+			completedLessons,
+			lastWatched: courseLessons.find((l) => !l.isCompleted)?.title ?? "Completed",
+		};
+	});
+
+	// Active downloads as queued items
+	const queuedDownloads: QueuedDownload[] = Array.from(
+		activeDownloads.entries(),
+	).map(([lessonId, progress]) => {
+		const lesson = lessons.find((l) => l.id === lessonId);
+		const course = courses.find(
+			(c) => c.id === lesson?.courseId,
+		);
+		return {
+			id: lessonId,
+			title: lesson?.title ?? "Downloading...",
+			category: course?.categoryId?.replace("category_", "") ?? "",
+			size: formatBytes(progress.totalBytes),
+			progress: Math.round(progress.progress * 100),
+			estimatedTime: progress.progress > 0 ? "Downloading..." : "Starting...",
+		};
+	});
+
+	const handleDeleteCourse = (courseId: string | number, courseTitle: string) => {
 		Alert.alert(
 			t("downloads.deleteDownload"),
 			`Remove "${courseTitle}" from your device? You can re-download it later.`,
@@ -87,11 +107,24 @@ export default function DownloadsScreen() {
 				{
 					text: t("common.delete"),
 					style: "destructive",
-					onPress: () => console.log("Delete course", courseId),
+					onPress: () =>
+						deleteCourseDownloads(String(courseId)),
 				},
 			],
 		);
 	};
+
+	const handlePlay = (courseId: string | number) => {
+		const cId = String(courseId);
+		const courseLessons = getLessonsByCourse(cId);
+		const firstIncomplete = courseLessons.find((l) => !l.isCompleted);
+		const target = firstIncomplete ?? courseLessons[0];
+		if (target) {
+			router.push(`/video/${cId}/${target.id}`);
+		}
+	};
+
+	const hasDownloads = downloadedCourses.length > 0 || queuedDownloads.length > 0;
 
 	return (
 		<ScreenLayout headerExtendsToStatusBar>
@@ -104,68 +137,70 @@ export default function DownloadsScreen() {
 				storageUsed={storageUsed}
 				storageTotal={storageTotal}
 				coursesCount={downloadedCourses.length}
-				onSettingsPress={() => { }}
+				onSettingsPress={() => {}}
 			/>
 
-			{/* Connection Status */}
-			<View style={styles.connectionStatus}>
-				<View style={styles.connectionIndicator}>
-					<WifiOff size={20} color={colors.feedback.error} strokeWidth={2} />
-					<Text style={styles.connectionText}>{t("downloads.offline")}</Text>
+			{!hasDownloads && (
+				<View style={styles.emptyState}>
+					<Text style={styles.emptyTitle}>No Downloads Yet</Text>
+					<Text style={styles.emptySubtitle}>
+						Download courses to watch offline without internet.
+					</Text>
 				</View>
-			</View>
+			)}
 
-			{/* Downloaded Courses */}
-			<View style={styles.section}>
-				<Text style={styles.sectionTitle}>{t("downloads.downloaded")}</Text>
-				{downloadedCourses.map((course) => (
-					<DownloadedCourseCard
-						key={course.id}
-						course={course}
-						onPlay={() => { }}
-						onDelete={handleDeleteCourse}
-					/>
-				))}
-			</View>
-
-			{/* Download Queue */}
-			<View style={styles.section}>
-				<View style={styles.queueHeader}>
-					<Text style={styles.sectionTitle}>{t("downloads.queued")}</Text>
-					<TouchableOpacity style={styles.refreshButton}>
-						<RefreshCw size={20} color={colors.primary.main} strokeWidth={2} />
-					</TouchableOpacity>
+			{downloadedCourses.length > 0 && (
+				<View style={styles.section}>
+					<Text style={styles.sectionTitle}>
+						{t("downloads.downloaded")}
+					</Text>
+					{downloadedCourses.map((course) => (
+						<DownloadedCourseCard
+							key={course.id}
+							course={course}
+							onPlay={() => handlePlay(course.id)}
+							onDelete={handleDeleteCourse}
+						/>
+					))}
 				</View>
+			)}
 
-				{queuedDownloads.map((download) => (
-					<QueuedDownloadCard key={download.id} download={download} />
-				))}
-			</View>
+			{queuedDownloads.length > 0 && (
+				<View style={styles.section}>
+					<View style={styles.queueHeader}>
+						<Text style={styles.sectionTitle}>
+							{t("downloads.queued")}
+						</Text>
+					</View>
+					{queuedDownloads.map((download) => (
+						<QueuedDownloadCard
+							key={download.id}
+							download={download}
+						/>
+					))}
+				</View>
+			)}
 		</ScreenLayout>
 	);
 }
 
+function formatBytes(bytes: number): string {
+	if (bytes === 0) return "0 B";
+	const k = 1024;
+	const sizes = ["B", "KB", "MB", "GB"];
+	const i = Math.floor(Math.log(bytes) / Math.log(k));
+	return `${Number.parseFloat((bytes / k ** i).toFixed(1))} ${sizes[i]}`;
+}
+
+function formatRelative(iso: string): string {
+	const diff = Date.now() - new Date(iso).getTime();
+	const days = Math.floor(diff / 86400000);
+	if (days === 0) return "Today";
+	if (days === 1) return "Yesterday";
+	return `${days} days ago`;
+}
+
 const styles = StyleSheet.create({
-	connectionStatus: {
-		marginHorizontal: spacing.lg,
-		marginBottom: spacing.md,
-	},
-	connectionIndicator: {
-		flexDirection: "row",
-		alignItems: "center",
-		backgroundColor: colors.neutral[100],
-		paddingHorizontal: spacing.md,
-		paddingVertical: spacing.sm,
-		borderRadius: spacing.radius.md,
-		borderLeftWidth: 4,
-		borderLeftColor: colors.feedback.error,
-	},
-	connectionText: {
-		fontSize: typography.fontSize.sm,
-		color: colors.text.primary,
-		fontWeight: typography.fontWeight.medium,
-		marginLeft: spacing.sm,
-	},
 	section: commonStyles.section,
 	sectionTitle: commonStyles.sectionTitle,
 	queueHeader: {
@@ -174,9 +209,22 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		marginBottom: spacing.md,
 	},
-	refreshButton: {
-		padding: spacing.sm,
-		borderRadius: spacing.radius.sm,
-		backgroundColor: colors.primary.surface,
+	emptyState: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		paddingVertical: spacing["3xl"],
+		paddingHorizontal: spacing.xl,
+	},
+	emptyTitle: {
+		fontSize: typography.fontSize.xl,
+		fontWeight: typography.fontWeight.bold,
+		color: colors.text.primary,
+		marginBottom: spacing.sm,
+	},
+	emptySubtitle: {
+		fontSize: typography.fontSize.base,
+		color: colors.text.secondary,
+		textAlign: "center",
 	},
 });

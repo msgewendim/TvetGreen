@@ -1,12 +1,13 @@
 import {
+	ActivityIndicator,
 	Alert,
 	StatusBar,
 	StyleSheet,
-	Text,
 	TouchableOpacity,
 	View,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { Video, ResizeMode } from "expo-av";
 import { useVideoPlayer } from "@/src/hooks/useVideoPlayer";
 import { useLesson } from "@/src/hooks/useLesson";
 import {
@@ -18,17 +19,23 @@ import {
 } from "@/src/components/video";
 import { colors } from "@/design-system";
 import { useLanguage } from "@/src/hooks/useLanguage";
+import { useEffect } from "react";
+import { useLearningStore } from "@/src/store/learningStore";
 
 const playbackSpeeds = [0.5, 0.75, 1.0, 1.25, 1.5, 2.0];
 
 export default function VideoPlayerScreen() {
-	const { courseId, lessonId } = useLocalSearchParams();
+	const { courseId, lessonId } = useLocalSearchParams<{
+		courseId: string;
+		lessonId: string;
+	}>();
 	const router = useRouter();
 	const { t } = useLanguage();
 	const lessonData = useLesson();
+	const updateLastAccessed = useLearningStore((s) => s.updateLastAccessed);
 
 	const subtitleLanguages = [
-		{ code: "en", name: t("navigation.home"), flag: "🇺🇸" },
+		{ code: "en", name: "English", flag: "🇺🇸" },
 		{ code: "am", name: "አማርኛ", flag: "🇪🇹" },
 		{ code: "sw", name: "Kiswahili", flag: "🇰🇪" },
 	];
@@ -36,7 +43,16 @@ export default function VideoPlayerScreen() {
 	const player = useVideoPlayer({
 		initialShowSubtitles: true,
 		initialLanguage: "en",
+		lessonId: lessonId as string,
+		courseId: courseId as string,
 	});
+
+	// Update last accessed when entering
+	useEffect(() => {
+		if (courseId) {
+			updateLastAccessed(courseId as string);
+		}
+	}, [courseId, updateLastAccessed]);
 
 	const handleCompleteLesson = () => {
 		Alert.alert(
@@ -47,9 +63,11 @@ export default function VideoPlayerScreen() {
 				{
 					text: t("video.nextLesson"),
 					onPress: () => {
-						router.push(
-							`/video/${courseId}/${Number.parseInt(lessonId as string, 10) + 1}`,
-						);
+						if (lessonData.nextLesson) {
+							router.replace(
+								`/video/${courseId}/${lessonData.nextLesson.id}`,
+							);
+						}
 					},
 				},
 			],
@@ -57,21 +75,12 @@ export default function VideoPlayerScreen() {
 	};
 
 	const handlePrevious = () => {
-		const prevLessonId = Number.parseInt(lessonId as string, 10) - 1;
-		if (prevLessonId > 0) {
-			router.push(`/video/${courseId}/${prevLessonId}`);
-		}
+		router.back();
 	};
 
-	const handleNext = () => {
-		router.push(
-			`/video/${courseId}/${Number.parseInt(lessonId as string, 10) + 1}`,
-		);
-	};
-
-	const handleNextLessonPress = () => {
+	const handleNextLesson = () => {
 		if (lessonData.nextLesson) {
-			router.push(`/video/${courseId}/${lessonData.nextLesson.id}`);
+			router.replace(`/video/${courseId}/${lessonData.nextLesson.id}`);
 		}
 	};
 
@@ -79,21 +88,50 @@ export default function VideoPlayerScreen() {
 		<View style={styles.container}>
 			<StatusBar hidden />
 
-			{/* Video Container */}
 			<TouchableOpacity
 				style={styles.videoContainer}
 				onPress={() => player.setShowControls(!player.showControls)}
 				activeOpacity={1}
 			>
-				{/* Mock Video Background */}
-				<View style={styles.videoBackground}>
-					<Text style={styles.videoPlaceholder}>🎥 {lessonData.title}</Text>
-
-					<SubtitlesOverlay
-						showSubtitles={player.showSubtitles}
-						subtitleText='"First, we prepare the soil by removing weeds and rocks..."'
+				{lessonData.videoUrl ? (
+					<Video
+						ref={player.videoRef}
+						source={{ uri: lessonData.videoUrl }}
+						style={styles.video}
+						resizeMode={ResizeMode.CONTAIN}
+						shouldPlay={false}
+						isMuted={player.isMuted}
+						rate={player.playbackSpeed}
+						positionMillis={
+							lessonData.lastPosition > 0
+								? lessonData.lastPosition * 1000
+								: undefined
+						}
+						onPlaybackStatusUpdate={player.onPlaybackStatusUpdate}
+						progressUpdateIntervalMillis={500}
 					/>
-				</View>
+				) : (
+					<View style={styles.videoPlaceholder}>
+						<ActivityIndicator
+							size="large"
+							color={colors.primary.main}
+						/>
+					</View>
+				)}
+
+				{player.isBuffering && (
+					<View style={styles.bufferingOverlay}>
+						<ActivityIndicator
+							size="large"
+							color={colors.text.inverse}
+						/>
+					</View>
+				)}
+
+				<SubtitlesOverlay
+					showSubtitles={player.showSubtitles}
+					subtitleText=""
+				/>
 
 				<VideoControls
 					isPlaying={player.isPlaying}
@@ -140,11 +178,11 @@ export default function VideoPlayerScreen() {
 				totalLessons={lessonData.totalLessons}
 				isDownloaded={lessonData.isDownloaded}
 				nextLesson={lessonData.nextLesson}
-				onDownload={() => { }}
+				onDownload={() => {}}
 				onPrevious={handlePrevious}
-				onNext={handleNext}
+				onNext={handleNextLesson}
 				onComplete={handleCompleteLesson}
-				onNextLessonPress={handleNextLessonPress}
+				onNextLessonPress={handleNextLesson}
 			/>
 		</View>
 	);
@@ -159,16 +197,20 @@ const styles = StyleSheet.create({
 		flex: 1,
 		position: "relative",
 	},
-	videoBackground: {
+	video: {
+		flex: 1,
+		backgroundColor: "#000",
+	},
+	videoPlaceholder: {
 		flex: 1,
 		backgroundColor: "#1a1a1a",
 		justifyContent: "center",
 		alignItems: "center",
 	},
-	videoPlaceholder: {
-		fontSize: 24,
-		color: colors.text.inverse,
-		textAlign: "center",
-		fontWeight: "600",
+	bufferingOverlay: {
+		...StyleSheet.absoluteFillObject,
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: "rgba(0, 0, 0, 0.3)",
 	},
 });

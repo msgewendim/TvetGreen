@@ -10,7 +10,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, spacing, typography } from "@/design-system";
 
 interface NextLesson {
-	id: number;
+	id: number | string;
 	title: string;
 	duration: string;
 }
