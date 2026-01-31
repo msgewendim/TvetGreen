@@ -64,8 +64,11 @@
 			"intermediate": "Wastani",
 			"advanced": "Juu"
 		},
+		"subtitle": "Kozi {{count}} zinapatikana",
 		"searchPlaceholder": "Tafuta kozi...",
 		"noResults": "Hakuna kozi zilizopatikana",
+		"noResultsDescription": "Jaribu neno tofauti la utafutaji au chujio la kundi",
+		"resultsCount": "Kozi {{count}}",
 		"filterBy": "Chuja kwa kundi"
 	},
 	"home": {
@@ -283,6 +286,7 @@
 			"enrollFailed": "Kujiandikisha kumeshindwa. Tafadhali jaribu tena.",
 			"courseNotFound": "Kozi haijapatikana",
 			"lessonNotFound": "Somo halijapatikana",
+			"lessonLocked": "Tafadhali jiandikishe kwa kozi hii ili kupata somo hili.",
 			"loadFailed": "Kupakia maudhui kumeshindwa"
 		},
 		"filter": {

@@ -5,13 +5,11 @@ import {
 	Pause,
 	Play,
 	RotateCcw,
-	SkipBack,
-	SkipForward,
 	Volume2,
 	VolumeX,
-	Bookmark,
-	MessageSquare,
 	Settings,
+	Maximize,
+	Minimize,
 } from "lucide-react-native";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, spacing, typography } from "@/design-system";
@@ -24,11 +22,13 @@ interface VideoControlsProps {
 	currentTime: number;
 	duration: number;
 	progressPercentage: number;
+	isFullscreen?: boolean;
 	onTogglePlayPause: () => void;
 	onToggleMute: () => void;
 	onToggleVoiceGuide: () => void;
 	onSeek: (seconds: number) => void;
 	onShowSettings: () => void;
+	onToggleFullscreen?: () => void;
 	onBack: () => void;
 	lessonTitle: string;
 	lessonNumber: number;
@@ -43,11 +43,13 @@ export function VideoControls({
 	currentTime,
 	duration,
 	progressPercentage,
+	isFullscreen = false,
 	onTogglePlayPause,
 	onToggleMute,
 	onToggleVoiceGuide,
 	onSeek,
 	onShowSettings,
+	onToggleFullscreen,
 	onBack,
 	lessonTitle,
 	lessonNumber,
@@ -63,143 +65,110 @@ export function VideoControls({
 
 	return (
 		<View style={styles.overlay}>
-			{/* Top Controls */}
-			<View style={styles.topControls}>
-				<TouchableOpacity style={styles.backButton} onPress={onBack}>
-					<ArrowLeft size={24} color={colors.text.inverse} strokeWidth={2} />
+			{/* Top Bar */}
+			<View style={styles.topBar}>
+				<TouchableOpacity style={styles.iconBtn} onPress={onBack}>
+					<ArrowLeft size={22} color="#fff" strokeWidth={2.5} />
 				</TouchableOpacity>
 
-				<View style={styles.lessonInfo}>
-					<Text style={styles.lessonTitle} numberOfLines={1}>
+				<View style={styles.titleArea}>
+					<Text style={styles.title} numberOfLines={1}>
 						{lessonTitle}
 					</Text>
-					<Text style={styles.lessonMeta}>
-						Lesson {lessonNumber} of {totalLessons}
+					<Text style={styles.subtitle}>
+						{lessonNumber}/{totalLessons}
 					</Text>
 				</View>
 
 				<TouchableOpacity
-					style={[styles.voiceButton, isListening && styles.voiceButtonActive]}
+					style={[styles.iconBtn, isListening && styles.iconBtnActive]}
 					onPress={onToggleVoiceGuide}
 				>
 					{isListening ? (
-						<MicOff size={20} color={colors.text.inverse} strokeWidth={2} />
+						<MicOff size={20} color="#fff" strokeWidth={2} />
 					) : (
-						<Mic size={20} color={colors.text.inverse} strokeWidth={2} />
+						<Mic size={20} color="#fff" strokeWidth={2} />
 					)}
 				</TouchableOpacity>
 			</View>
 
-			{/* Center Play Button */}
-			<TouchableOpacity
-				style={styles.centerPlayButton}
-				onPress={onTogglePlayPause}
-			>
-				{isPlaying ? (
-					<Pause size={32} color={colors.text.inverse} strokeWidth={2} />
-				) : (
-					<Play size={32} color={colors.text.inverse} strokeWidth={2} />
-				)}
-			</TouchableOpacity>
+			{/* Center Controls */}
+			<View style={styles.centerRow}>
+				<TouchableOpacity
+					style={styles.seekBtn}
+					onPress={() => onSeek(-10)}
+				>
+					<RotateCcw size={28} color="#fff" strokeWidth={2} />
+					<Text style={styles.seekLabel}>10</Text>
+				</TouchableOpacity>
 
-			{/* Bottom Controls */}
-			<View style={styles.bottomControls}>
-				{/* Progress Bar */}
-				<View style={styles.progressContainer}>
-					<Text style={styles.timeText}>{formatTime(currentTime)}</Text>
-					<View style={styles.progressBar}>
+				<TouchableOpacity
+					style={styles.playBtn}
+					onPress={onTogglePlayPause}
+				>
+					{isPlaying ? (
+						<Pause size={32} color="#fff" strokeWidth={2.5} fill="#fff" />
+					) : (
+						<Play size={32} color="#fff" strokeWidth={2.5} fill="#fff" />
+					)}
+				</TouchableOpacity>
+
+				<TouchableOpacity
+					style={styles.seekBtn}
+					onPress={() => onSeek(10)}
+				>
+					<RotateCcw
+						size={28}
+						color="#fff"
+						strokeWidth={2}
+						style={{ transform: [{ scaleX: -1 }] }}
+					/>
+					<Text style={styles.seekLabel}>10</Text>
+				</TouchableOpacity>
+			</View>
+
+			{/* Bottom Bar */}
+			<View style={styles.bottomBar}>
+				{/* Progress */}
+				<View style={styles.progressRow}>
+					<Text style={styles.time}>{formatTime(currentTime)}</Text>
+					<View style={styles.progressTrack}>
 						<View
-							style={[styles.progressFill, { width: `${progressPercentage}%` }]}
+							style={[
+								styles.progressFill,
+								{ width: `${progressPercentage}%` },
+							]}
 						/>
-						<View style={styles.progressThumb} />
 					</View>
-					<Text style={styles.timeText}>{formatTime(duration)}</Text>
+					<Text style={styles.time}>{formatTime(duration)}</Text>
 				</View>
 
-				{/* Control Buttons */}
-				<View style={styles.controlButtons}>
-					<TouchableOpacity
-						style={styles.controlButton}
-						onPress={() => onSeek(-10)}
-					>
-						<RotateCcw size={24} color={colors.text.inverse} strokeWidth={2} />
-						<Text style={styles.controlButtonText}>-10s</Text>
-					</TouchableOpacity>
-
-					<TouchableOpacity
-						style={styles.controlButton}
-						onPress={() => onSeek(-30)}
-					>
-						<SkipBack size={24} color={colors.text.inverse} strokeWidth={2} />
-					</TouchableOpacity>
-
-					<TouchableOpacity
-						style={styles.mainPlayButton}
-						onPress={onTogglePlayPause}
-					>
-						{isPlaying ? (
-							<Pause size={28} color={colors.text.inverse} strokeWidth={2} />
-						) : (
-							<Play size={28} color={colors.text.inverse} strokeWidth={2} />
-						)}
-					</TouchableOpacity>
-
-					<TouchableOpacity
-						style={styles.controlButton}
-						onPress={() => onSeek(30)}
-					>
-						<SkipForward
-							size={24}
-							color={colors.text.inverse}
-							strokeWidth={2}
-						/>
-					</TouchableOpacity>
-
-					<TouchableOpacity
-						style={styles.controlButton}
-						onPress={() => onSeek(10)}
-					>
-						<RotateCcw
-							size={24}
-							color={colors.text.inverse}
-							strokeWidth={2}
-							style={{ transform: [{ scaleX: -1 }] }}
-						/>
-						<Text style={styles.controlButtonText}>+10s</Text>
-					</TouchableOpacity>
-				</View>
-
-				{/* Additional Controls */}
-				<View style={styles.additionalControls}>
-					<TouchableOpacity
-						style={styles.additionalButton}
-						onPress={onToggleMute}
-					>
+				{/* Bottom Icons */}
+				<View style={styles.bottomIcons}>
+					<TouchableOpacity style={styles.smallBtn} onPress={onToggleMute}>
 						{isMuted ? (
-							<VolumeX size={20} color={colors.text.inverse} strokeWidth={2} />
+							<VolumeX size={20} color="#fff" strokeWidth={2} />
 						) : (
-							<Volume2 size={20} color={colors.text.inverse} strokeWidth={2} />
+							<Volume2 size={20} color="#fff" strokeWidth={2} />
 						)}
 					</TouchableOpacity>
 
-					<TouchableOpacity style={styles.additionalButton}>
-						<Bookmark size={20} color={colors.text.inverse} strokeWidth={2} />
+					<TouchableOpacity style={styles.smallBtn} onPress={onShowSettings}>
+						<Settings size={20} color="#fff" strokeWidth={2} />
 					</TouchableOpacity>
 
-					<TouchableOpacity style={styles.additionalButton}>
-						<MessageSquare
-							size={20}
-							color={colors.text.inverse}
-							strokeWidth={2}
-						/>
-					</TouchableOpacity>
-
-					<TouchableOpacity
-						style={styles.additionalButton}
-						onPress={onShowSettings}
-					>
-						<Settings size={20} color={colors.text.inverse} strokeWidth={2} />
-					</TouchableOpacity>
+					{onToggleFullscreen && (
+						<TouchableOpacity
+							style={styles.smallBtn}
+							onPress={onToggleFullscreen}
+						>
+							{isFullscreen ? (
+								<Minimize size={20} color="#fff" strokeWidth={2} />
+							) : (
+								<Maximize size={20} color="#fff" strokeWidth={2} />
+							)}
+						</TouchableOpacity>
+					)}
 				</View>
 			</View>
 		</View>
@@ -208,141 +177,108 @@ export function VideoControls({
 
 const styles = StyleSheet.create({
 	overlay: {
-		position: "absolute",
-		top: 0,
-		left: 0,
-		right: 0,
-		bottom: 0,
-		backgroundColor: "rgba(0, 0, 0, 0.3)",
+		...StyleSheet.absoluteFillObject,
+		backgroundColor: "rgba(0, 0, 0, 0.35)",
 		justifyContent: "space-between",
 	},
-	topControls: {
+	topBar: {
 		flexDirection: "row",
 		alignItems: "center",
-		paddingHorizontal: spacing.lg,
-		paddingTop: 50,
-		paddingBottom: spacing.lg,
+		paddingHorizontal: spacing.md,
+		paddingTop: spacing.xl,
+		gap: spacing.sm,
 	},
-	backButton: {
-		backgroundColor: "rgba(0, 0, 0, 0.5)",
-		width: 44,
-		height: 44,
-		borderRadius: 22,
+	iconBtn: {
+		width: 40,
+		height: 40,
+		borderRadius: 20,
+		backgroundColor: "rgba(0,0,0,0.4)",
 		justifyContent: "center",
 		alignItems: "center",
 	},
-	lessonInfo: {
-		flex: 1,
-		marginHorizontal: spacing.md,
-	},
-	lessonTitle: {
-		fontSize: typography.fontSize.lg,
-		fontWeight: typography.fontWeight.bold,
-		color: colors.text.inverse,
-		marginBottom: spacing.xs,
-	},
-	lessonMeta: {
-		fontSize: typography.fontSize.sm,
-		color: colors.text.inverse,
-		opacity: 0.8,
-	},
-	voiceButton: {
-		backgroundColor: colors.secondary.main,
-		width: 44,
-		height: 44,
-		borderRadius: 22,
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	voiceButtonActive: {
+	iconBtnActive: {
 		backgroundColor: "#DC143C",
 	},
-	centerPlayButton: {
+	titleArea: {
+		flex: 1,
+		alignItems: "center",
+	},
+	title: {
+		fontSize: typography.fontSize.sm,
+		fontWeight: typography.fontWeight.semibold,
+		color: "#fff",
+	},
+	subtitle: {
+		fontSize: typography.fontSize.xs,
+		color: "rgba(255,255,255,0.7)",
+		marginTop: 2,
+	},
+	centerRow: {
+		flexDirection: "row",
+		justifyContent: "center",
+		alignItems: "center",
+		gap: 40,
+	},
+	seekBtn: {
+		alignItems: "center",
+		justifyContent: "center",
+		width: 52,
+		height: 52,
+	},
+	seekLabel: {
 		position: "absolute",
-		top: "50%",
-		left: "50%",
-		transform: [{ translateX: -35 }, { translateY: -35 }],
-		backgroundColor: "rgba(46, 139, 87, 0.9)",
-		width: 70,
-		height: 70,
-		borderRadius: 35,
+		fontSize: 10,
+		fontWeight: typography.fontWeight.bold,
+		color: "#fff",
+		top: 17,
+	},
+	playBtn: {
+		width: 64,
+		height: 64,
+		borderRadius: 32,
+		backgroundColor: "rgba(22,163,74,0.85)",
 		justifyContent: "center",
 		alignItems: "center",
 	},
-	bottomControls: {
-		paddingHorizontal: spacing.lg,
-		paddingBottom: spacing.lg,
+	bottomBar: {
+		paddingHorizontal: spacing.md,
+		paddingBottom: spacing.md,
 	},
-	progressContainer: {
+	progressRow: {
 		flexDirection: "row",
 		alignItems: "center",
-		marginBottom: spacing.lg,
+		gap: spacing.sm,
+		marginBottom: spacing.sm,
 	},
-	timeText: {
-		fontSize: typography.fontSize.sm,
-		color: colors.text.inverse,
+	time: {
+		fontSize: 11,
+		color: "rgba(255,255,255,0.8)",
 		fontWeight: typography.fontWeight.medium,
-		minWidth: 45,
+		fontVariant: ["tabular-nums"],
+		minWidth: 36,
 		textAlign: "center",
 	},
-	progressBar: {
+	progressTrack: {
 		flex: 1,
-		height: 4,
-		backgroundColor: "rgba(253, 245, 230, 0.3)",
+		height: 3,
+		backgroundColor: "rgba(255,255,255,0.25)",
 		borderRadius: 2,
-		marginHorizontal: spacing.sm,
-		position: "relative",
+		overflow: "hidden",
 	},
 	progressFill: {
 		height: "100%",
-		backgroundColor: colors.secondary.main,
+		backgroundColor: colors.primary.light,
 		borderRadius: 2,
 	},
-	progressThumb: {
-		position: "absolute",
-		right: 0,
-		top: -4,
-		width: 12,
-		height: 12,
-		backgroundColor: colors.secondary.main,
-		borderRadius: 6,
-		borderWidth: 2,
-		borderColor: colors.text.inverse,
-	},
-	controlButtons: {
-		flexDirection: "row",
-		justifyContent: "center",
-		alignItems: "center",
-		gap: spacing.lg,
-		marginBottom: spacing.md,
-	},
-	controlButton: {
-		alignItems: "center",
-		gap: spacing.xs,
-	},
-	controlButtonText: {
-		fontSize: typography.fontSize.xs,
-		color: colors.text.inverse,
-		fontWeight: typography.fontWeight.medium,
-	},
-	mainPlayButton: {
-		backgroundColor: "rgba(46, 139, 87, 0.9)",
-		width: 56,
-		height: 56,
-		borderRadius: 28,
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	additionalControls: {
+	bottomIcons: {
 		flexDirection: "row",
 		justifyContent: "center",
 		gap: spacing.lg,
 	},
-	additionalButton: {
-		backgroundColor: "rgba(0, 0, 0, 0.5)",
-		width: 44,
-		height: 44,
-		borderRadius: 22,
+	smallBtn: {
+		width: 36,
+		height: 36,
+		borderRadius: 18,
 		justifyContent: "center",
 		alignItems: "center",
 	},

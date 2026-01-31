@@ -1,11 +1,11 @@
 /**
  * QuickActionsGrid Component
  *
- * Displays a grid of quick action category buttons
+ * Compact single-row grid of quick action category buttons
  */
 
-import { StyleSheet, Text, View } from "react-native";
-import { CategoryButton, colors, spacing, typography } from "@/design-system";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { colors, commonStyles, spacing, typography } from "@/design-system";
 
 export interface QuickAction {
 	id: string;
@@ -19,22 +19,34 @@ interface QuickActionsGridProps {
 	onActionPress?: (actionId: string) => void;
 }
 
-export const QuickActionsGrid: React.FC<QuickActionsGridProps> = ({
+export function QuickActionsGrid({
 	actions,
 	onActionPress,
-}) => {
+}: QuickActionsGridProps) {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>Quick Actions</Text>
-			<View style={styles.grid}>
+			<View style={styles.row}>
 				{actions.map((action) => (
-					<CategoryButton
+					<TouchableOpacity
 						key={action.id}
-						label={action.label}
-						icon={<Text style={styles.emoji}>{action.emoji}</Text>}
-						color={action.color}
+						style={styles.action}
 						onPress={() => onActionPress?.(action.id)}
-					/>
+						accessibilityLabel={action.label}
+						accessibilityRole="button"
+					>
+						<View
+							style={[
+								styles.iconCircle,
+								{ backgroundColor: `${action.color}15` },
+							]}
+						>
+							<Text style={styles.emoji}>{action.emoji}</Text>
+						</View>
+						<Text style={styles.label} numberOfLines={1}>
+							{action.label}
+						</Text>
+					</TouchableOpacity>
 				))}
 			</View>
 		</View>
@@ -42,23 +54,31 @@ export const QuickActionsGrid: React.FC<QuickActionsGridProps> = ({
 };
 
 const styles = StyleSheet.create({
-	container: {
-		marginHorizontal: spacing.lg,
-		marginBottom: spacing.lg,
-	},
-	title: {
-		fontSize: typography.fontSize.xl,
-		fontWeight: typography.fontWeight.bold,
-		color: colors.text.primary,
-		marginBottom: spacing.md,
-	},
-	grid: {
+	container: commonStyles.section,
+	title: commonStyles.sectionTitle,
+	row: {
 		flexDirection: "row",
-		flexWrap: "wrap",
 		justifyContent: "space-between",
-		gap: spacing.sm,
+	},
+	action: {
+		alignItems: "center",
+		flex: 1,
+	},
+	iconCircle: {
+		width: 48,
+		height: 48,
+		borderRadius: 24,
+		justifyContent: "center",
+		alignItems: "center",
+		marginBottom: spacing.xs,
 	},
 	emoji: {
-		fontSize: typography.fontSize["2xl"],
+		fontSize: 22,
+	},
+	label: {
+		fontSize: typography.fontSize.xs,
+		fontWeight: typography.fontWeight.medium,
+		color: colors.text.secondary,
+		textAlign: "center",
 	},
 });

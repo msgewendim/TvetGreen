@@ -17,10 +17,10 @@ export const commonStyles = StyleSheet.create({
 
 	// Section title
 	sectionTitle: {
-		fontSize: typography.fontSize.xl,
+		fontSize: typography.fontSize.lg,
 		fontWeight: typography.fontWeight.bold,
 		color: colors.text.primary,
-		marginBottom: spacing.md,
+		marginBottom: spacing.sm,
 	},
 
 	// Section header (with action button)
@@ -29,5 +29,19 @@ export const commonStyles = StyleSheet.create({
 		justifyContent: "space-between",
 		alignItems: "center",
 		marginBottom: spacing.md,
+	},
+
+	// Search input container (used on Courses, Learn screens)
+	searchContainer: {
+		paddingHorizontal: spacing.lg,
+		paddingBottom: spacing.sm,
+	},
+
+	// Centered empty/loading state
+	centerContainer: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		padding: spacing.xl,
 	},
 });

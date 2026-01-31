@@ -64,8 +64,11 @@
 			"intermediate": "መካከለኛ",
 			"advanced": "ከፍተኛ"
 		},
+		"subtitle": "{{count}} ኮርሶች ይገኛሉ",
 		"searchPlaceholder": "ኮርሶችን ፈልግ...",
 		"noResults": "ምንም ኮርሶች አልተገኙም",
+		"noResultsDescription": "የተለየ የፍለጋ ቃል ወይም የምድብ ማጣሪያ ይሞክሩ",
+		"resultsCount": "{{count}} ኮርሶች",
 		"filterBy": "በምድብ አጣራ"
 	},
 	"home": {
@@ -283,6 +286,7 @@
 			"enrollFailed": "ማስመዝገብ አልተሳካም። እባክዎ እንደገና ይሞክሩ።",
 			"courseNotFound": "ኮርስ አልተገኘም",
 			"lessonNotFound": "ትምህርት አልተገኘም",
+			"lessonLocked": "ይህንን ትምህርት ለመድረስ እባክዎ በዚህ ኮርስ ውስጥ ተመዝገቡ።",
 			"loadFailed": "ይዘት መጫን አልተሳካም"
 		},
 		"filter": {

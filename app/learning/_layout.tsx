@@ -1,20 +1,21 @@
 import { Stack } from "expo-router";
+import { colors } from "@/design-system";
 
 export default function LearningLayout() {
 	return (
 		<Stack
 			screenOptions={{
 				headerStyle: {
-					backgroundColor: "#FDF5E6",
+					backgroundColor: colors.background.tertiary,
 				},
-				headerTintColor: "#2E8B57",
+				headerTintColor: colors.primary.main,
 				headerTitleStyle: {
 					fontWeight: "bold",
 					fontSize: 18,
 				},
 				headerShadowVisible: true,
 				contentStyle: {
-					backgroundColor: "#FDF5E6",
+					backgroundColor: colors.background.tertiary,
 				},
 			}}
 		>

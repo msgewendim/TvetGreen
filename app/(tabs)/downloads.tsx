@@ -4,21 +4,22 @@ import { useRouter } from "expo-router";
 import {
 	ScreenLayout,
 	Header,
+	ModernCourseCard,
+	EmptyState,
+	commonStyles,
 	colors,
 	spacing,
 	typography,
-	commonStyles,
 } from "@/design-system";
 import {
 	StorageCard,
-	DownloadedCourseCard,
 	QueuedDownloadCard,
-	type DownloadedCourse,
 	type QueuedDownload,
 } from "@/src/components/downloads";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import { useDownloadStore } from "@/src/store/downloadStore";
 import { useLearningStore } from "@/src/store/learningStore";
+import { Download } from "lucide-react-native";
 
 export default function DownloadsScreen() {
 	const { t } = useLanguage();
@@ -26,10 +27,7 @@ export default function DownloadsScreen() {
 
 	const downloadedLessons = useDownloadStore((s) => s.downloadedLessons);
 	const activeDownloads = useDownloadStore((s) => s.activeDownloads);
-	const deleteDownload = useDownloadStore((s) => s.deleteDownload);
-	const deleteCourseDownloads = useDownloadStore(
-		(s) => s.deleteCourseDownloads,
-	);
+	const deleteCourseDownloads = useDownloadStore((s) => s.deleteCourseDownloads);
 	const loadDownloads = useDownloadStore((s) => s.loadDownloads);
 
 	const courses = useLearningStore((s) => s.courses);
@@ -49,20 +47,12 @@ export default function DownloadsScreen() {
 		setStorageUsed(totalBytes / (1024 * 1024 * 1024));
 	}, [downloadedLessons]);
 
-	// Group downloaded lessons by course
-	const courseIds = [
-		...new Set(downloadedLessons.map((d) => d.courseId)),
-	];
+	const courseIds = [...new Set(downloadedLessons.map((d) => d.courseId))];
 
-	const downloadedCourses: DownloadedCourse[] = courseIds.map((courseId) => {
+	const downloadedCourses = courseIds.map((courseId) => {
 		const course = courses.find((c) => c.id === courseId);
-		const courseDls = downloadedLessons.filter(
-			(d) => d.courseId === courseId,
-		);
+		const courseDls = downloadedLessons.filter((d) => d.courseId === courseId);
 		const courseLessons = getLessonsByCourse(courseId);
-		const completedLessons = courseLessons.filter(
-			(l) => l.isCompleted,
-		).length;
 		const totalSize = courseDls.reduce((sum, d) => sum + d.fileSize, 0);
 
 		return {
@@ -75,19 +65,16 @@ export default function DownloadsScreen() {
 				: "",
 			progress: getCourseProgress(courseId),
 			totalLessons: courseLessons.length,
-			completedLessons,
-			lastWatched: courseLessons.find((l) => !l.isCompleted)?.title ?? "Completed",
+			thumbnail: course?.thumbnail,
+			instructor: course?.instructor?.name,
 		};
 	});
 
-	// Active downloads as queued items
 	const queuedDownloads: QueuedDownload[] = Array.from(
 		activeDownloads.entries(),
 	).map(([lessonId, progress]) => {
 		const lesson = lessons.find((l) => l.id === lessonId);
-		const course = courses.find(
-			(c) => c.id === lesson?.courseId,
-		);
+		const course = courses.find((c) => c.id === lesson?.courseId);
 		return {
 			id: lessonId,
 			title: lesson?.title ?? "Downloading...",
@@ -98,7 +85,7 @@ export default function DownloadsScreen() {
 		};
 	});
 
-	const handleDeleteCourse = (courseId: string | number, courseTitle: string) => {
+	const handleDeleteCourse = (courseId: string, courseTitle: string) => {
 		Alert.alert(
 			t("downloads.deleteDownload"),
 			`Remove "${courseTitle}" from your device? You can re-download it later.`,
@@ -107,32 +94,28 @@ export default function DownloadsScreen() {
 				{
 					text: t("common.delete"),
 					style: "destructive",
-					onPress: () =>
-						deleteCourseDownloads(String(courseId)),
+					onPress: () => deleteCourseDownloads(courseId),
 				},
 			],
 		);
 	};
 
-	const handlePlay = (courseId: string | number) => {
-		const cId = String(courseId);
-		const courseLessons = getLessonsByCourse(cId);
+	const handlePlay = (courseId: string) => {
+		const courseLessons = getLessonsByCourse(courseId);
 		const firstIncomplete = courseLessons.find((l) => !l.isCompleted);
 		const target = firstIncomplete ?? courseLessons[0];
 		if (target) {
-			router.push(`/video/${cId}/${target.id}`);
+			router.push(`/video/${courseId}/${target.id}`);
 		}
 	};
 
 	const hasDownloads = downloadedCourses.length > 0 || queuedDownloads.length > 0;
 
 	return (
-		<ScreenLayout headerExtendsToStatusBar>
-			<Header
-				title={t("navigation.downloads")}
-				subtitle={t("downloads.offline")}
-			/>
+		<ScreenLayout >
+			<Header variant="minimal" title="Downloads" />
 
+			{/* Compact Storage Bar */}
 			<StorageCard
 				storageUsed={storageUsed}
 				storageTotal={storageTotal}
@@ -141,11 +124,16 @@ export default function DownloadsScreen() {
 			/>
 
 			{!hasDownloads && (
-				<View style={styles.emptyState}>
-					<Text style={styles.emptyTitle}>No Downloads Yet</Text>
-					<Text style={styles.emptySubtitle}>
-						Download courses to watch offline without internet.
-					</Text>
+				<View style={styles.emptyContainer}>
+					<EmptyState
+						icon={<Download size={48} color={colors.text.tertiary} />}
+						title="No Downloads Yet"
+						description="Download courses to watch offline without internet."
+						action={{
+							label: "Browse Courses",
+							onPress: () => router.push("/(tabs)/courses"),
+						}}
+					/>
 				</View>
 			)}
 
@@ -155,11 +143,19 @@ export default function DownloadsScreen() {
 						{t("downloads.downloaded")}
 					</Text>
 					{downloadedCourses.map((course) => (
-						<DownloadedCourseCard
+						<ModernCourseCard
 							key={course.id}
-							course={course}
-							onPlay={() => handlePlay(course.id)}
-							onDelete={handleDeleteCourse}
+							title={course.title}
+							instructor={course.instructor}
+							category={course.category}
+							lessonsCount={course.totalLessons}
+							progress={course.progress}
+							size={course.size}
+							downloadDate={course.downloadDate}
+							thumbnailUrl={course.thumbnail}
+							isOffline
+							onPress={() => handlePlay(course.id)}
+							onDelete={() => handleDeleteCourse(course.id, course.title)}
 						/>
 					))}
 				</View>
@@ -167,16 +163,11 @@ export default function DownloadsScreen() {
 
 			{queuedDownloads.length > 0 && (
 				<View style={styles.section}>
-					<View style={styles.queueHeader}>
-						<Text style={styles.sectionTitle}>
-							{t("downloads.queued")}
-						</Text>
-					</View>
+					<Text style={styles.sectionTitle}>
+						{t("downloads.queued")}
+					</Text>
 					{queuedDownloads.map((download) => (
-						<QueuedDownloadCard
-							key={download.id}
-							download={download}
-						/>
+						<QueuedDownloadCard key={download.id} download={download} />
 					))}
 				</View>
 			)}
@@ -203,28 +194,11 @@ function formatRelative(iso: string): string {
 const styles = StyleSheet.create({
 	section: commonStyles.section,
 	sectionTitle: commonStyles.sectionTitle,
-	queueHeader: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-		marginBottom: spacing.md,
-	},
-	emptyState: {
+	emptyContainer: {
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
 		paddingVertical: spacing["3xl"],
 		paddingHorizontal: spacing.xl,
-	},
-	emptyTitle: {
-		fontSize: typography.fontSize.xl,
-		fontWeight: typography.fontWeight.bold,
-		color: colors.text.primary,
-		marginBottom: spacing.sm,
-	},
-	emptySubtitle: {
-		fontSize: typography.fontSize.base,
-		color: colors.text.secondary,
-		textAlign: "center",
 	},
 });

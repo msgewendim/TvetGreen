@@ -1,8 +1,7 @@
 import { useEffect } from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { ActivityIndicator, StatusBar, StyleSheet, View } from "react-native";
 import { QueryClientProvider } from "react-query";
 import { Stack, useRouter, useSegments } from "expo-router";
-import { StatusBar } from "expo-status-bar";
 import { ThemeProvider, colors } from "@/design-system";
 import { useFrameworkReady } from "@/src/hooks/useFrameworkReady";
 import { queryClient } from "@/src/services/query/QueryClient";
@@ -10,6 +9,7 @@ import { initializeFlags } from "@/src/core/flags";
 import { initializeLearningStore } from "@/src/store/learningStore";
 import { useAuthStore } from "@/src/store/authStore";
 import "../i18n.config";
+import { usePlatform } from "@/src/hooks/usePlatform";
 
 function AuthGuard({ children }: { children: React.ReactNode }) {
 	const router = useRouter();
@@ -51,13 +51,13 @@ const layoutStyles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-		backgroundColor: colors.background.primary,
+		backgroundColor: colors.background.tertiary,
 	},
 });
 
 export default function RootLayout() {
 	useFrameworkReady();
-
+	const { isWeb } = usePlatform();
 	useEffect(() => {
 		initializeFlags();
 		initializeLearningStore();
@@ -76,7 +76,7 @@ export default function RootLayout() {
 						<Stack.Screen name="+not-found" />
 					</Stack>
 				</AuthGuard>
-				<StatusBar style="auto" />
+				<StatusBar hidden={isWeb} barStyle="dark-content" />
 			</QueryClientProvider>
 		</ThemeProvider>
 	);

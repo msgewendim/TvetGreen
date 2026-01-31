@@ -2,45 +2,45 @@
  * Header Component
  *
  * App header with title, subtitle, and optional left/right actions.
- * Uses safe area top inset so the green bar can extend behind the status bar
- * without blocking it; title and subtitle are laid out below the status bar.
- * Matches the My Learning screen header style (large title, subtitle, left-aligned).
+ * Supports "default" (green bg, white text) and "minimal" (cream bg, dark text) variants.
  */
 
-import type React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { HeaderProps } from "../../../types/design-system";
 import { colors, spacing, typography } from "../../tokens";
 
-const HEADER_PADDING_H = 20;
-const HEADER_PADDING_BOTTOM = 24;
-const TITLE_FONT_SIZE = 28;
-const SUBTITLE_FONT_SIZE = 14;
-
-export const Header: React.FC<HeaderProps> = ({
+export function Header({
 	title,
 	subtitle,
+	variant = "default",
 	leftAction,
 	rightAction,
-	backgroundColor = colors.primary.main,
+	backgroundColor,
 	testID,
 	style,
-}) => {
+}: HeaderProps) {
 	const insets = useSafeAreaInsets();
-	const paddingTop = Math.max(insets.top, spacing.md);
+	const isMinimal = variant === "minimal";
+
+	const resolvedBg =
+		backgroundColor ?? (isMinimal ? colors.background.tertiary : colors.primary.light);
+	const paddingTop = spacing.md;
+	const paddingBottom = isMinimal ? spacing.md : spacing.lg;
+	const titleSize = isMinimal ? 22 : 28;
+	const titleColor = isMinimal ? colors.text.primary : colors.text.inverse;
+	const subtitleColor = isMinimal ? colors.text.secondary : colors.text.inverse;
 
 	return (
 		<View
 			style={[
 				styles.container,
-				{ backgroundColor, paddingTop, paddingBottom: HEADER_PADDING_BOTTOM },
+				{ backgroundColor: resolvedBg, paddingTop, paddingBottom },
 				style,
 			]}
 			testID={testID}
 			accessible={false}
 		>
-			{/* Left Action */}
 			{leftAction && (
 				<TouchableOpacity
 					onPress={leftAction.onPress}
@@ -52,24 +52,28 @@ export const Header: React.FC<HeaderProps> = ({
 				</TouchableOpacity>
 			)}
 
-			{/* Title & Subtitle */}
 			<View
 				style={[
 					styles.titleContainer,
 					!leftAction && styles.titleContainerNoLeft,
 				]}
 			>
-				<Text style={styles.title} numberOfLines={1}>
+				<Text
+					style={[styles.title, { fontSize: titleSize, color: titleColor }]}
+					numberOfLines={1}
+				>
 					{title}
 				</Text>
 				{subtitle && (
-					<Text style={styles.subtitle} numberOfLines={1}>
+					<Text
+						style={[styles.subtitle, { color: subtitleColor, opacity: isMinimal ? 1 : 0.9 }]}
+						numberOfLines={1}
+					>
 						{subtitle}
 					</Text>
 				)}
 			</View>
 
-			{/* Right Action */}
 			{rightAction && (
 				<TouchableOpacity
 					onPress={rightAction.onPress}
@@ -88,7 +92,7 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
 		alignItems: "center",
-		paddingHorizontal: HEADER_PADDING_H,
+		paddingHorizontal: spacing.lg,
 	},
 	actionButton: {
 		width: spacing.minTouchTarget,
@@ -104,14 +108,10 @@ const styles = StyleSheet.create({
 		marginLeft: 0,
 	},
 	title: {
-		fontSize: TITLE_FONT_SIZE,
 		fontWeight: typography.fontWeight.bold,
-		color: colors.text.inverse,
 		marginBottom: spacing.xs / 2,
 	},
 	subtitle: {
-		fontSize: SUBTITLE_FONT_SIZE,
-		color: colors.text.inverse,
-		opacity: 0.9,
+		fontSize: typography.fontSize.sm,
 	},
 });

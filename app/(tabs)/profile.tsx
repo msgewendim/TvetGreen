@@ -10,10 +10,10 @@ import {
 import {
 	ScreenLayout,
 	Header,
+	commonStyles,
 	colors,
 	spacing,
 	typography,
-	commonStyles,
 } from "@/design-system";
 import {
 	ProfileHeader,
@@ -33,6 +33,7 @@ import { useState } from "react";
 export default function ProfileScreen() {
 	const { t, languageInfo } = useLanguage();
 	const [showLanguageSelector, setShowLanguageSelector] = useState(false);
+
 	const userProfile: UserProfile = {
 		name: "Fatima Okonkwo",
 		location: "Addis Ababa, Ethiopia",
@@ -90,13 +91,10 @@ export default function ProfileScreen() {
 	};
 
 	return (
-		<ScreenLayout headerExtendsToStatusBar>
-			<Header
-				title={t("navigation.profile")}
-				subtitle={t("profile.myProfile")}
-			/>
+		<ScreenLayout >
+			<Header variant="minimal" title="Profile" />
 
-			<ProfileHeader profile={userProfile} onEditPress={() => { }} />
+			<ProfileHeader profile={userProfile} onEditPress={() => {}} />
 
 			<StatsGrid stats={userStats} />
 
@@ -108,13 +106,12 @@ export default function ProfileScreen() {
 						<Text style={styles.addButtonText}>+ {t("profile.addGoal")}</Text>
 					</TouchableOpacity>
 				</View>
-
 				{learningGoals.map((goal) => (
 					<GoalCard key={goal.id} goal={goal} />
 				))}
 			</View>
 
-			{/* Settings Menu */}
+			{/* Settings */}
 			<View style={styles.section}>
 				<Text style={styles.sectionTitle}>{t("profile.settings")}</Text>
 
@@ -124,62 +121,40 @@ export default function ProfileScreen() {
 					subtitle={languageInfo.nativeName}
 					onPress={() => setShowLanguageSelector(!showLanguageSelector)}
 				/>
-
 				{showLanguageSelector && (
 					<View style={styles.languageSelectorContainer}>
 						<LanguageSelector />
 					</View>
 				)}
-
 				<SettingItem
-					icon={
-						<Volume2 size={20} color={colors.secondary.main} strokeWidth={2} />
-					}
+					icon={<Volume2 size={20} color={colors.secondary.main} strokeWidth={2} />}
 					title={t("profile.voiceGuide")}
 					subtitle="Voice commands, audio quality"
-					onPress={() => { }}
+					onPress={() => {}}
 				/>
-
 				<SettingItem
-					icon={
-						<Download size={20} color={colors.feedback.info} strokeWidth={2} />
-					}
+					icon={<Download size={20} color={colors.feedback.info} strokeWidth={2} />}
 					title={t("downloads.title")}
 					subtitle={t("profile.wifiOnly")}
-					onPress={() => { }}
+					onPress={() => {}}
 				/>
-
 				<SettingItem
-					icon={
-						<Smartphone
-							size={20}
-							color={colors.categories.construction}
-							strokeWidth={2}
-						/>
-					}
+					icon={<Smartphone size={20} color={colors.categories.construction} strokeWidth={2} />}
 					title={t("profile.dataUsage")}
 					subtitle={t("downloads.manage")}
-					onPress={() => { }}
+					onPress={() => {}}
 				/>
-
 				<SettingItem
-					icon={
-						<HelpCircle
-							size={20}
-							color={colors.text.secondary}
-							strokeWidth={2}
-						/>
-					}
+					icon={<HelpCircle size={20} color={colors.text.secondary} strokeWidth={2} />}
 					title={t("profile.help")}
 					subtitle="FAQs, contact support"
-					onPress={() => { }}
+					onPress={() => {}}
 				/>
 			</View>
 
-			{/* Community Impact */}
 			<CommunityImpactCard stats={communityImpact} />
 
-			{/* Account Actions */}
+			{/* Sign Out */}
 			<View style={styles.accountActions}>
 				<TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
 					<LogOut size={20} color={colors.feedback.error} strokeWidth={2} />

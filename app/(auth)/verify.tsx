@@ -145,7 +145,7 @@ export default function VerifyScreen() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: colors.background.primary,
+		backgroundColor: colors.background.tertiary,
 	},
 	content: {
 		flex: 1,

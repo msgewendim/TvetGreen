@@ -9,6 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **TvetGreenBolt** is an Expo-based React Native mobile learning platform targeting TVET (Technical and Vocational Education and Training) education in rural/developing regions. The app features voice-guided learning, multilingual support, offline capabilities, and accessibility-first design.
 
 **Key Features:**
+
 - Voice-guided navigation and video controls
 - Multilingual support (English, Swahili, Amharic)
 - Offline-first course downloads with progress tracking
@@ -20,42 +21,50 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Technology Stack
 
 **Core Framework:**
+
 - **React**: 19.1.0 - UI framework
 - **React Native**: 0.81.5 with New Architecture enabled
 - **Expo**: SDK 54.0.23 - Managed native platform
 - **TypeScript**: 5.9.3 with strict mode enabled
 
 **Navigation:**
+
 - **Expo Router**: 6.0.14 - File-based routing
 - **React Navigation**: 7.0.14 - Navigation primitives
 - **Bottom Tabs**: 7.2.0 - Tab navigation UI
 
 **State Management:**
+
 - **Zustand**: 5.0.8 - Global state management with AsyncStorage persistence
 - **React Query**: 3.39.3 - Server state and data caching
 - **React Context**: For shared providers (PlayerProvider, ThemeProvider)
 
 **UI & Design:**
+
 - **React Native Paper**: 5.14.5 - Material Design components
 - **Lucide React Native**: 0.475.0 - Icon library
 - **Custom Design System**: Centralized tokens and components in `src/design-system/`
 
 **Internationalization:**
+
 - **i18next**: 25.6.2 - i18n framework
 - **react-i18next**: 16.3.3 - React bindings
 - **expo-localization**: 17.0.7 - Device locale detection
 
 **Media & Video:**
-- **expo-av**: 16.0.7 - Audio/video playback
+
+- **expo-video**: 3.0.15 - Video playback (replaced expo-av)
 - **react-native-youtube-iframe**: 2.4.1 - YouTube embedding
 - **react-native-webview**: 13.15.0 - WebView support
 
 **Package Manager:**
+
 - **pnpm** - Primary package manager (use `pnpm` for all scripts)
 
 ## Development Commands
 
 ### Starting Development
+
 ```bash
 pnpm run dev
 # or
@@ -63,24 +72,28 @@ EXPO_NO_TELEMETRY=1 pnpm expo start
 ```
 
 Expo will start the Metro bundler. Press:
+
 - `i` for iOS simulator
 - `a` for Android emulator
 - `w` for web browser
 - Scan QR code for physical device testing
 
 ### Building
+
 ```bash
 pnpm run build:web
 # Outputs to ./dist directory
 ```
 
 ### Linting
+
 ```bash
 pnpm run lint
 # Runs Biome linter with auto-fix
 ```
 
 ### Code Formatting
+
 - **Biome** (primary): Tab indentation, double quotes
 - **Prettier** (secondary): 2-space tabs
 
@@ -205,6 +218,7 @@ TvetGreenBolt/
 ### File-Based Routing
 
 **Route Patterns:**
+
 - `/` → Home tab (main dashboard)
 - `/courses` → Course catalog
 - `/learn` → My Learning (enrolled courses)
@@ -219,11 +233,13 @@ TvetGreenBolt/
 ### Navigation Architecture
 
 **Three-Level Navigation:**
+
 1. **Root Stack** (`app/_layout.tsx`): Controls top-level flows (onboarding, video, tabs, learning)
 2. **Tab Navigator** (`app/(tabs)/_layout.tsx`): Bottom tab bar with 5 tabs (home, courses, learn, downloads, profile)
 3. **Nested Stacks**: Onboarding and Learning flows use nested Stack navigators
 
 **Navigation Patterns:**
+
 - Use `expo-router` hooks: `useRouter()`, `useLocalSearchParams()`
 - Navigate with `router.push()`, `router.back()`, `router.replace()`
 - Dynamic routes use bracket syntax: `[courseId]`, `[lessonId]`, `[id]`
@@ -295,8 +311,9 @@ background: {
 ```
 
 **Usage:**
+
 ```tsx
-import { colors } from "@/design-system";
+import { colors } from '@/design-system';
 
 const styles = StyleSheet.create({
   container: {
@@ -384,10 +401,10 @@ minTouchTarget: 44,
 Reusable style patterns for consistency across screens:
 
 ```tsx
-import { commonStyles } from "@/design-system";
+import { commonStyles } from '@/design-system';
 
 const styles = StyleSheet.create({
-  section: commonStyles.section,           // Standard section container
+  section: commonStyles.section, // Standard section container
   sectionTitle: commonStyles.sectionTitle, // Standard section title
   sectionHeader: commonStyles.sectionHeader, // Header with action button
   // ... custom styles
@@ -437,7 +454,7 @@ import {
 
   // Common styles
   commonStyles,
-} from "@/design-system";
+} from '@/design-system';
 ```
 
 ## State Management
@@ -447,23 +464,30 @@ import {
 **Location**: `src/store/learningStore.ts`
 
 **Features**:
+
 - Course enrollments tracking
 - Lesson progress tracking
 - AsyncStorage persistence (debounced 500ms)
 - Optimistic updates
 
 **Usage**:
+
 ```tsx
-import { useLearningStore } from "@/src/store/learningStore";
+import { useLearningStore } from '@/src/store/learningStore';
 
 function MyComponent() {
-  const enrollments = useLearningStore(state => state.enrollments);
-  const enrollInCourse = useLearningStore(state => state.enrollInCourse);
-  const updateLessonProgress = useLearningStore(state => state.updateLessonProgress);
+  const enrollments = useLearningStore((state) => state.enrollments);
+  const enrollInCourse = useLearningStore((state) => state.enrollInCourse);
+  const updateLessonProgress = useLearningStore(
+    (state) => state.updateLessonProgress
+  );
 
   // Actions
   await enrollInCourse(courseId);
-  await updateLessonProgress(lessonId, { completed: true, watchedDuration: 300 });
+  await updateLessonProgress(lessonId, {
+    completed: true,
+    watchedDuration: 300,
+  });
 }
 ```
 
@@ -472,9 +496,10 @@ function MyComponent() {
 **Location**: `src/services/query/QueryClient.ts`
 
 **Usage**:
+
 ```tsx
-import { useVideos } from "@/hooks/useVideos";
-import { useCourses } from "@/hooks/useCourses";
+import { useVideos } from '@/hooks/useVideos';
+import { useCourses } from '@/hooks/useCourses';
 
 function MyComponent() {
   const { data: videos, isLoading, error } = useVideos();
@@ -485,11 +510,13 @@ function MyComponent() {
 ### Context Providers
 
 **PlayerProvider** (`src/providers/player/PlayerProvider.tsx`):
+
 - Global video player modal
 - YouTube iframe integration
 - Platform-specific rendering
 
 **ThemeProvider** (`src/design-system/theme/ThemeProvider.tsx`):
+
 - SafeAreaProvider wrapper
 - React Native Paper theme
 
@@ -507,7 +534,7 @@ import {
   spacing,
   typography,
   commonStyles,
-} from "@/design-system";
+} from '@/design-system';
 
 export default function MyScreen() {
   return (
@@ -534,12 +561,9 @@ const styles = StyleSheet.create({
 ### Voice Button Pattern
 
 ```tsx
-import { VoiceButton } from "@/design-system";
+import { VoiceButton } from '@/design-system';
 
-<VoiceButton
-  isListening={isListening}
-  onPress={toggleVoiceGuide}
-/>
+<VoiceButton isListening={isListening} onPress={toggleVoiceGuide} />;
 ```
 
 ### Card Component Pattern
@@ -564,6 +588,7 @@ import { Card, CourseCard } from "@/design-system";
 Voice recognition is a core accessibility feature:
 
 **Implementation Patterns:**
+
 - Toggle state: `isListening` boolean
 - Visual feedback: Pulse rings, color changes
 - Pause video/content when voice guide is active
@@ -571,6 +596,7 @@ Voice recognition is a core accessibility feature:
 - Use `VoiceButton` component from design system
 
 **Voice Commands (as designed):**
+
 - "Play", "Pause", "Next", "Previous"
 - "Continue course", "Browse courses"
 - "Repeat", "Bookmark"
@@ -578,6 +604,7 @@ Voice recognition is a core accessibility feature:
 ## Video Player Architecture
 
 **Key Features**:
+
 - Custom controls overlay (auto-hide after 3s)
 - Progress tracking with visual progress bar
 - Playback speed control (0.5x to 2.0x)
@@ -588,6 +615,7 @@ Voice recognition is a core accessibility feature:
 - Download status indicators
 
 **State Management**:
+
 - Local player state via `useVideoPlayer` hook
 - Global progress via `useLearningStore`
 - Player modal via `PlayerProvider` context
@@ -606,6 +634,7 @@ Voice recognition is a core accessibility feature:
 ### Styling Approach
 
 **DO:**
+
 - Import design tokens: `import { colors, spacing, typography } from "@/design-system"`
 - Use `commonStyles` for section/title patterns
 - Apply spacing tokens: `spacing.lg`, `spacing.md`
@@ -613,6 +642,7 @@ Voice recognition is a core accessibility feature:
 - Keep styles at bottom of file with `StyleSheet.create()`
 
 **DON'T:**
+
 - Use hardcoded colors (`#16A34A` → `colors.primary.main`)
 - Use magic numbers (`20` → `spacing.lg`)
 - Use inline styles (use StyleSheet for performance)
@@ -621,11 +651,13 @@ Voice recognition is a core accessibility feature:
 ### Component Organization
 
 **Feature Components** (`src/components/[feature]/`):
+
 - Group by feature domain (home, learning, course, video, downloads, profile)
 - Export via barrel files (`index.ts`)
 - Use design system primitives as building blocks
 
 **Design System Components** (`src/design-system/components/`):
+
 - Reusable, themed primitives
 - Accept design tokens via props
 - Include accessibility compliance
@@ -634,31 +666,37 @@ Voice recognition is a core accessibility feature:
 ### State Management Guidelines
 
 **Local State (useState)**:
+
 - UI state (modals, dropdowns, forms)
 - Component-specific toggles
 - Temporary input values
 
 **Zustand Store**:
+
 - Learning progress
 - Enrollments
 - Persistent user data
 
 **React Query**:
+
 - Server data fetching
 - API responses
 - Cached remote state
 
 **Context**:
+
 - Cross-cutting concerns (theme, video player, i18n)
 
 ### Localization
 
 **Add New Translation**:
+
 1. Add key to `locales/en/translation.json`
 2. Add corresponding keys to `sw/` and `am/`
 3. Use in components: `const { t } = useLanguage(); t("key.path")`
 
 **Supported Languages**:
+
 - English (en) - Default
 - Swahili (sw)
 - Amharic (am)
@@ -674,28 +712,33 @@ Voice recognition is a core accessibility feature:
 ## Naming Conventions
 
 **Files:**
+
 - Screens/routes: lowercase (`index.tsx`, `[id].tsx`, `welcome.tsx`)
 - Components: PascalCase (`CourseCard.tsx`, `VideoControls.tsx`)
 - Hooks: camelCase (`useCourses.ts`, `useVideoPlayer.ts`)
 
 **Functions:**
+
 - camelCase for all functions
 - Prefix handlers with `handle`: `handlePress`, `handleLanguageChange`
 - Prefix toggles with `toggle`: `toggleVoiceGuide`, `togglePlayPause`
 - Prefix setters with `set`: `setIsPlaying`, `setCurrentTime`
 
 **Variables:**
+
 - camelCase for all variables
 - Boolean prefix with `is`, `show`, `has`: `isPlaying`, `showControls`, `hasError`
 - Plural for collections: `courses`, `lessons`, `enrollments`
 
 **Types:**
+
 - PascalCase for interfaces: `Course`, `Lesson`, `UserProfile`
 - Suffix props with `Props`: `CourseCardProps`, `HeaderProps`
 
 ## Common Patterns
 
 ### Data Fetching
+
 ```tsx
 const { courses, isLoading, error } = useCourses();
 
@@ -704,28 +747,33 @@ if (error) return <EmptyState message="Failed to load courses" />;
 ```
 
 ### Navigation
+
 ```tsx
-import { useRouter } from "expo-router";
+import { useRouter } from 'expo-router';
 
 const router = useRouter();
 router.push(`/learning/courses/${courseId}`);
 router.back();
-router.replace("/(tabs)");
+router.replace('/(tabs)');
 ```
 
 ### Enrollments
+
 ```tsx
-const enrollInCourse = useLearningStore(state => state.enrollInCourse);
-const isEnrolled = useLearningStore(state =>
-  state.enrollments.some(e => e.courseId === courseId)
+const enrollInCourse = useLearningStore((state) => state.enrollInCourse);
+const isEnrolled = useLearningStore((state) =>
+  state.enrollments.some((e) => e.courseId === courseId)
 );
 
 await enrollInCourse(courseId);
 ```
 
 ### Progress Tracking
+
 ```tsx
-const updateLessonProgress = useLearningStore(state => state.updateLessonProgress);
+const updateLessonProgress = useLearningStore(
+  (state) => state.updateLessonProgress
+);
 
 await updateLessonProgress(lessonId, {
   completed: true,
@@ -753,21 +801,25 @@ pnpm run dev
 ## Future Considerations
 
 **Backend Integration:**
+
 - Currently uses mock data (static JSON in `src/data/courses/`)
 - Will need API integration for production
 - Consider using tRPC or GraphQL for type-safe APIs
 
 **State Management:**
+
 - React Query for server state (already integrated)
 - Zustand for client state (already integrated)
 - Consider Redux Toolkit for complex state if needed
 
 **Real Video Playback:**
+
 - Currently uses YouTube iframe and mock video URLs
-- Consider implementing native video player with `expo-av`
+- Video playback uses expo-video (direct URLs) and react-native-youtube-iframe (YouTube)
 - Implement video streaming/caching for offline
 
 **Voice Recognition:**
+
 - Integrate `expo-speech` for text-to-speech
 - Integrate speech recognition library for voice commands
 - Currently mock implementation
@@ -780,9 +832,15 @@ pnpm run dev
 - **Accessibility is a priority** - include labels and support voice navigation
 - **Mobile-first approach** - optimize for mobile, enhance for web
 
+## Rules
+
+- **Typescript** - don't suggest to run npx tsc --noEmit - unless requested
+- **Build** - only run build if requested, don't prompt to run it.
+
 ---
 
 **For detailed architecture and conventions**, see `.planning/codebase/` directory:
+
 - `ARCHITECTURE.md` - Overall architecture patterns
 - `STRUCTURE.md` - Directory organization
 - `STACK.md` - Technology stack details

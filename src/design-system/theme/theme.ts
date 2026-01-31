@@ -19,7 +19,7 @@ export const theme = {
 		tertiaryContainer: colors.neutral[100],
 		surface: colors.neutral.white,
 		surfaceVariant: colors.neutral.cream,
-		background: colors.background.primary,
+		background: colors.background.tertiary,
 		error: colors.feedback.error,
 		errorContainer: "#FEE2E2",
 		onPrimary: colors.text.inverse,

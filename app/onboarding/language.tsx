@@ -198,7 +198,7 @@ export default function LanguageSelectionScreen() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: colors.background.primary,
+		backgroundColor: colors.background.tertiary,
 	},
 	header: {
 		flexDirection: "row",

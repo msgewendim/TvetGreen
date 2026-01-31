@@ -1,6 +1,6 @@
-import { File, Directory, Paths } from "expo-file-system";
+import * as FileSystem from "expo-file-system/legacy";
 
-const DOWNLOADS_DIR_NAME = "downloads";
+const DOWNLOADS_DIR = `${FileSystem.documentDirectory}downloads/`;
 
 export interface DownloadTask {
 	lessonId: string;
@@ -19,76 +19,102 @@ export interface DownloadProgress {
 type ProgressCallback = (progress: DownloadProgress) => void;
 
 class DownloadManager {
-	private downloadsDir: Directory;
 	private activeDownloads = new Set<string>();
 
-	constructor() {
-		this.downloadsDir = new Directory(Paths.document, DOWNLOADS_DIR_NAME);
-	}
-
-	private ensureDirectory(): void {
-		if (!this.downloadsDir.exists) {
-			this.downloadsDir.create();
+	private async ensureDirectory(): Promise<void> {
+		const info = await FileSystem.getInfoAsync(DOWNLOADS_DIR);
+		if (!info.exists) {
+			await FileSystem.makeDirectoryAsync(DOWNLOADS_DIR, {
+				intermediates: true,
+			});
 		}
 	}
 
-	private getFile(lessonId: string): File {
-		return new File(this.downloadsDir, `${lessonId}.mp4`);
+	private getFilePath(lessonId: string): string {
+		return `${DOWNLOADS_DIR}${lessonId}.mp4`;
 	}
 
-	isDownloaded(lessonId: string): boolean {
-		return this.getFile(lessonId).exists;
+	async isDownloaded(lessonId: string): Promise<boolean> {
+		const info = await FileSystem.getInfoAsync(this.getFilePath(lessonId));
+		return info.exists;
 	}
 
-	getLocalUri(lessonId: string): string | null {
-		const file = this.getFile(lessonId);
-		return file.exists ? file.uri : null;
+	async getLocalUri(lessonId: string): Promise<string | null> {
+		const path = this.getFilePath(lessonId);
+		const info = await FileSystem.getInfoAsync(path);
+		return info.exists ? path : null;
 	}
 
 	async download(
 		task: DownloadTask,
-		_onProgress?: ProgressCallback,
+		onProgress?: ProgressCallback,
 	): Promise<string> {
-		this.ensureDirectory();
-		const file = this.getFile(task.lessonId);
+		await this.ensureDirectory();
+		const filePath = this.getFilePath(task.lessonId);
 		this.activeDownloads.add(task.lessonId);
 
 		try {
-			const downloadedFile = await File.downloadFileAsync(task.url, file);
-			return downloadedFile.uri;
+			const downloadResumable = FileSystem.createDownloadResumable(
+				task.url,
+				filePath,
+				{},
+				onProgress
+					? (downloadProgress) => {
+							onProgress({
+								lessonId: task.lessonId,
+								totalBytes:
+									downloadProgress.totalBytesExpectedToWrite,
+								downloadedBytes:
+									downloadProgress.totalBytesWritten,
+								progress:
+									downloadProgress.totalBytesExpectedToWrite >
+									0
+										? downloadProgress.totalBytesWritten /
+											downloadProgress.totalBytesExpectedToWrite
+										: 0,
+							});
+						}
+					: undefined,
+			);
+
+			const result = await downloadResumable.downloadAsync();
+			return result?.uri ?? filePath;
 		} finally {
 			this.activeDownloads.delete(task.lessonId);
 		}
 	}
 
 	cancel(lessonId: string): void {
-		// TODO: Implement cancellation when expo-file-system supports AbortSignal
 		this.activeDownloads.delete(lessonId);
 	}
 
-	deleteDownload(lessonId: string): void {
+	async deleteDownload(lessonId: string): Promise<void> {
 		this.cancel(lessonId);
-		const file = this.getFile(lessonId);
-		if (file.exists) {
-			file.delete();
+		const path = this.getFilePath(lessonId);
+		const info = await FileSystem.getInfoAsync(path);
+		if (info.exists) {
+			await FileSystem.deleteAsync(path);
 		}
 	}
 
-	deleteCourseDownloads(lessonIds: string[]): void {
+	async deleteCourseDownloads(lessonIds: string[]): Promise<void> {
 		for (const id of lessonIds) {
-			this.deleteDownload(id);
+			await this.deleteDownload(id);
 		}
 	}
 
-	getStorageUsage(): { totalBytes: number; fileCount: number } {
+	async getStorageUsage(): Promise<{ totalBytes: number; fileCount: number }> {
 		try {
-			this.ensureDirectory();
-			const files = this.downloadsDir.list();
+			await this.ensureDirectory();
+			const files = await FileSystem.readDirectoryAsync(DOWNLOADS_DIR);
 			let totalBytes = 0;
 
-			for (const item of files) {
-				if (item instanceof File && item.exists) {
-					totalBytes += item.size ?? 0;
+			for (const fileName of files) {
+				const info = await FileSystem.getInfoAsync(
+					`${DOWNLOADS_DIR}${fileName}`,
+				);
+				if (info.exists && info.size) {
+					totalBytes += info.size;
 				}
 			}
 

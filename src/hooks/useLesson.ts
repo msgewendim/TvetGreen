@@ -3,6 +3,14 @@ import { useLocalSearchParams } from "expo-router";
 import { useLearningStore } from "@/src/store/learningStore";
 import { useDownloadStore } from "@/src/store/downloadStore";
 
+const SAMPLE_VIDEO_URLS = [
+	"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+	"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+	"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+	"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+	"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+];
+
 interface LessonData {
 	title: string;
 	courseTitle: string;
@@ -64,12 +72,16 @@ export function useLesson(): LessonData {
 		const next = getNextLesson(lesson.id);
 		const progress = getLessonProgress(lesson.id);
 
-		// Check for offline download first, then fall back to streaming URL.
-		// In production, replace the fallback with S3-hosted video URLs.
+		// Priority: local download > YouTube URL (if videoId) > sample MP4
 		const localUri = getLocalUri(lesson.id);
-		const videoUrl =
-			localUri ??
-			"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+		let videoUrl: string;
+		if (localUri) {
+			videoUrl = localUri;
+		} else if (lesson.videoId) {
+			videoUrl = lesson.videoId;
+		} else {
+			videoUrl = SAMPLE_VIDEO_URLS[lessonIndex % SAMPLE_VIDEO_URLS.length];
+		}
 
 		return {
 			title: lesson.title,

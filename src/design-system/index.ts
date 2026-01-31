@@ -33,4 +33,6 @@ export type {
 	ChipProps,
 	BadgeProps,
 	AvatarProps,
+	ModernCourseCardProps,
+	CategoryChipProps,
 } from "../types/design-system";

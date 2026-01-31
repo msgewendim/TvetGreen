@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
 	View,
 	Text,
@@ -13,13 +13,15 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import { useLearningStore } from "@/src/store/learningStore";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import {
-	Play,
+	colors,
+	spacing,
+	typography,
+} from "@/design-system";
+import {
 	Clock,
 	BookOpen,
 	BarChart3,
 	CheckCircle2,
-	Lock,
-	PlayCircle,
 	ChevronDown,
 	ChevronUp,
 	Users,
@@ -83,9 +85,8 @@ export function CourseDetailScreen() {
 			await enrollInCourse(courseId);
 			setShowEnrollModal(false);
 			Alert.alert(t("common.success"), t("learning.success.enrolled"));
-			// Auto-switch to curriculum tab after enrollment
 			setTimeout(() => setActiveTab("curriculum"), 300);
-		} catch (error) {
+		} catch {
 			Alert.alert(t("common.error"), t("learning.errors.enrollFailed"));
 		} finally {
 			setEnrolling(false);
@@ -105,9 +106,8 @@ export function CourseDetailScreen() {
 	};
 
 	const handleStartLearning = () => {
-		// Navigate to first lesson
 		if (modules.length > 0 && modules[0].lessons.length > 0) {
-			router.push(`/learning/lesson/${modules[0].lessons[0].id}`);
+			router.push(`/video/${courseId}/${modules[0].lessons[0].id}`);
 		}
 	};
 
@@ -116,7 +116,7 @@ export function CourseDetailScreen() {
 			Alert.alert(t("learning.locked"), t("learning.errors.lessonLocked"));
 			return;
 		}
-		router.push(`/learning/lesson/${lessonId}`);
+		router.push(`/video/${courseId}/${lessonId}`);
 	};
 
 	return (
@@ -158,7 +158,7 @@ export function CourseDetailScreen() {
 					<View style={styles.statsRow}>
 						{course.rating && (
 							<View style={styles.statItem}>
-								<Star size={18} color="#DAA520" fill="#DAA520" />
+								<Star size={18} color={colors.feedback.warning} fill={colors.feedback.warning} />
 								<Text style={styles.statText}>
 									{course.rating} (
 									{t("learning.ratings", {
@@ -170,7 +170,7 @@ export function CourseDetailScreen() {
 						)}
 						{course.enrollmentCount && (
 							<View style={styles.statItem}>
-								<Users size={18} color="#2E8B57" />
+								<Users size={18} color={colors.primary.main} />
 								<Text style={styles.statText}>
 									{t("learning.students", { count: course.enrollmentCount })}
 								</Text>
@@ -180,17 +180,17 @@ export function CourseDetailScreen() {
 
 					<View style={styles.metaContainer}>
 						<View style={styles.metaItem}>
-							<BookOpen size={16} color="#8B4513" />
+							<BookOpen size={spacing.iconSize.xs} color={colors.text.secondary} />
 							<Text style={styles.metaText}>
 								{t("learning.lessons", { count: course.lessonCount })}
 							</Text>
 						</View>
 						<View style={styles.metaItem}>
-							<Clock size={16} color="#8B4513" />
+							<Clock size={spacing.iconSize.xs} color={colors.text.secondary} />
 							<Text style={styles.metaText}>{course.duration}</Text>
 						</View>
 						<View style={styles.metaItem}>
-							<BarChart3 size={16} color="#8B4513" />
+							<BarChart3 size={spacing.iconSize.xs} color={colors.text.secondary} />
 							<Text style={styles.metaText}>
 								{t(`learning.${course.level}`)}
 							</Text>
@@ -265,9 +265,9 @@ export function CourseDetailScreen() {
 							<Text style={styles.sectionTitle}>
 								{t("learning.whatYouLearn")}
 							</Text>
-							{course.learningOutcomes.map((outcome, index) => (
-								<View key={index} style={styles.listItem}>
-									<CheckCircle2 size={18} color="#32CD32" />
+							{course.learningOutcomes.map((outcome) => (
+								<View key={outcome} style={styles.listItem}>
+									<CheckCircle2 size={18} color={colors.feedback.success} />
 									<Text style={styles.listItemText}>{outcome}</Text>
 								</View>
 							))}
@@ -278,8 +278,8 @@ export function CourseDetailScreen() {
 										{t("learning.topicsCovered")}
 									</Text>
 									<View style={styles.tagsContainer}>
-										{course.tags.map((tag, index) => (
-											<View key={index} style={styles.tag}>
+										{course.tags.map((tag) => (
+											<View key={tag} style={styles.tag}>
 												<Text style={styles.tagText}>{tag}</Text>
 											</View>
 										))}
@@ -287,14 +287,14 @@ export function CourseDetailScreen() {
 								</>
 							)}
 
-							{course.prerequisites && course.prerequisites.length > 0 && (
+							{course.requirements && course.requirements.length > 0 && (
 								<>
 									<Text style={styles.sectionTitle}>
 										{t("learning.prerequisites")}
 									</Text>
-									{course.prerequisites.map((prereq, index) => (
-										<View key={index} style={styles.listItem}>
-											<Award size={18} color="#FF8C42" />
+									{course.requirements.map((prereq) => (
+										<View key={prereq} style={styles.listItem}>
+											<Award size={18} color={colors.secondary.main} />
 											<Text style={styles.listItemText}>{prereq}</Text>
 										</View>
 									))}
@@ -307,9 +307,6 @@ export function CourseDetailScreen() {
 						<View>
 							{modules.map((module, moduleIndex) => {
 								const isExpanded = expandedModules.has(module.id);
-								const completedLessons = module.lessons.filter(
-									(l) => l.isCompleted,
-								).length;
 								const totalLessons = module.lessons.length;
 
 								return (
@@ -324,14 +321,13 @@ export function CourseDetailScreen() {
 													{module.name}
 												</Text>
 												<Text style={styles.moduleProgress}>
-													{completedLessons}/{totalLessons}{" "}
 													{t("learning.lessons", { count: totalLessons })}
 												</Text>
 											</View>
 											{isExpanded ? (
-												<ChevronUp size={20} color="#2E8B57" />
+												<ChevronUp size={spacing.iconSize.sm} color={colors.primary.main} />
 											) : (
-												<ChevronDown size={20} color="#2E8B57" />
+												<ChevronDown size={spacing.iconSize.sm} color={colors.primary.main} />
 											)}
 										</TouchableOpacity>
 
@@ -388,8 +384,8 @@ export function CourseDetailScreen() {
 									<Text style={styles.sectionTitle}>
 										{t("learning.requirements")}
 									</Text>
-									{course.requirements.map((req, index) => (
-										<View key={index} style={styles.listItem}>
+									{course.requirements.map((req) => (
+										<View key={req} style={styles.listItem}>
 											<Text style={styles.bullet}>•</Text>
 											<Text style={styles.listItemText}>{req}</Text>
 										</View>
@@ -422,8 +418,6 @@ export function CourseDetailScreen() {
 					}
 					onPress={enrolled ? handleStartLearning : handleEnrollClick}
 					progress={progress}
-					fullWidth
-					loading={enrolling}
 				/>
 			</View>
 
@@ -440,12 +434,12 @@ export function CourseDetailScreen() {
 							style={styles.modalClose}
 							onPress={() => setShowEnrollModal(false)}
 						>
-							<X size={24} color="#2F4F4F" />
+							<X size={spacing.iconSize.md} color={colors.text.primary} />
 						</TouchableOpacity>
 
 						<View style={styles.modalHeader}>
 							<View style={styles.modalIconContainer}>
-								<BookOpen size={40} color="#2E8B57" />
+								<BookOpen size={40} color={colors.primary.main} />
 							</View>
 							<Text style={styles.modalTitle}>
 								{t("learning.enrollmentModal.title")}
@@ -465,17 +459,17 @@ export function CourseDetailScreen() {
 
 						<View style={styles.modalInfo}>
 							<View style={styles.modalInfoItem}>
-								<BookOpen size={16} color="#8B4513" />
+								<BookOpen size={spacing.iconSize.xs} color={colors.text.secondary} />
 								<Text style={styles.modalInfoText}>
 									{t("learning.lessons", { count: course.lessonCount })}
 								</Text>
 							</View>
 							<View style={styles.modalInfoItem}>
-								<Clock size={16} color="#8B4513" />
+								<Clock size={spacing.iconSize.xs} color={colors.text.secondary} />
 								<Text style={styles.modalInfoText}>{course.duration}</Text>
 							</View>
 							<View style={styles.modalInfoItem}>
-								<BarChart3 size={16} color="#8B4513" />
+								<BarChart3 size={spacing.iconSize.xs} color={colors.text.secondary} />
 								<Text style={styles.modalInfoText}>
 									{t(`learning.${course.level}`)}
 								</Text>
@@ -544,17 +538,17 @@ export function CourseDetailScreen() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#FDF5E6",
+		backgroundColor: colors.background.tertiary,
 	},
 	errorContainer: {
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-		backgroundColor: "#FDF5E6",
+		backgroundColor: colors.background.tertiary,
 	},
 	errorText: {
-		fontSize: 18,
-		color: "#DC143C",
+		fontSize: typography.fontSize.lg,
+		color: colors.feedback.error,
 	},
 	headerContainer: {
 		position: "relative",
@@ -571,227 +565,227 @@ const styles = StyleSheet.create({
 		right: 0,
 		bottom: 0,
 		backgroundColor: "rgba(0,0,0,0.2)",
-		padding: 16,
+		padding: spacing.md,
 	},
 	badges: {
 		flexDirection: "row",
-		gap: 8,
+		gap: spacing.sm,
 	},
 	levelBadge: {
-		paddingHorizontal: 12,
-		paddingVertical: 6,
-		borderRadius: 8,
+		paddingHorizontal: spacing.md,
+		paddingVertical: spacing.xs + 2,
+		borderRadius: spacing.radius.sm,
 		backgroundColor: "rgba(255, 255, 255, 0.9)",
 	},
 	priceBadge: {
-		paddingHorizontal: 12,
-		paddingVertical: 6,
-		borderRadius: 8,
-		backgroundColor: "#DAA520",
+		paddingHorizontal: spacing.md,
+		paddingVertical: spacing.xs + 2,
+		borderRadius: spacing.radius.sm,
+		backgroundColor: colors.feedback.warning,
 	},
 	badgeText: {
-		fontSize: 12,
-		fontWeight: "700",
-		color: "#2F4F4F",
+		fontSize: typography.fontSize.xs,
+		fontWeight: typography.fontWeight.bold,
+		color: colors.text.primary,
 	},
 	infoContainer: {
-		padding: 20,
+		padding: spacing.lg - 4,
 		borderBottomWidth: 1,
-		borderBottomColor: "#E5E5E5",
+		borderBottomColor: colors.border.light,
 	},
 	courseTitle: {
-		fontSize: 24,
-		fontWeight: "bold",
-		color: "#2F4F4F",
+		fontSize: typography.fontSize["2xl"],
+		fontWeight: typography.fontWeight.bold,
+		color: colors.text.primary,
 		lineHeight: 32,
-		marginBottom: 8,
+		marginBottom: spacing.sm,
 	},
 	instructor: {
-		fontSize: 16,
-		color: "#8B4513",
-		marginBottom: 16,
+		fontSize: typography.fontSize.base,
+		color: colors.text.secondary,
+		marginBottom: spacing.md,
 	},
 	metaContainer: {
 		flexDirection: "row",
 		flexWrap: "wrap",
-		gap: 16,
+		gap: spacing.md,
 	},
 	metaItem: {
 		flexDirection: "row",
 		alignItems: "center",
-		gap: 6,
+		gap: spacing.xs + 2,
 	},
 	metaText: {
-		fontSize: 14,
-		color: "#8B4513",
+		fontSize: typography.fontSize.sm,
+		color: colors.text.secondary,
 	},
 	statsRow: {
 		flexDirection: "row",
-		gap: 20,
-		marginVertical: 12,
+		gap: spacing.lg - 4,
+		marginVertical: spacing.md - 4,
 	},
 	statItem: {
 		flexDirection: "row",
 		alignItems: "center",
-		gap: 6,
+		gap: spacing.xs + 2,
 	},
 	statText: {
-		fontSize: 14,
-		color: "#2F4F4F",
-		fontWeight: "500",
+		fontSize: typography.fontSize.sm,
+		color: colors.text.primary,
+		fontWeight: typography.fontWeight.medium,
 	},
 	progressSection: {
-		marginTop: 20,
-		padding: 16,
-		backgroundColor: "#FFFFFF",
-		borderRadius: 12,
+		marginTop: spacing.lg - 4,
+		padding: spacing.md,
+		backgroundColor: colors.background.secondary,
+		borderRadius: spacing.radius.md,
 	},
 	progressHeader: {
 		flexDirection: "row",
 		justifyContent: "space-between",
-		marginBottom: 8,
+		marginBottom: spacing.sm,
 	},
 	progressLabel: {
-		fontSize: 14,
-		fontWeight: "600",
-		color: "#2F4F4F",
+		fontSize: typography.fontSize.sm,
+		fontWeight: typography.fontWeight.semibold,
+		color: colors.text.primary,
 	},
 	progressPercentage: {
-		fontSize: 16,
-		fontWeight: "bold",
-		color: "#2E8B57",
+		fontSize: typography.fontSize.base,
+		fontWeight: typography.fontWeight.bold,
+		color: colors.primary.main,
 	},
 	tagsContainer: {
 		flexDirection: "row",
 		flexWrap: "wrap",
-		gap: 8,
+		gap: spacing.sm,
 	},
 	tag: {
-		paddingHorizontal: 12,
-		paddingVertical: 6,
-		backgroundColor: "#2E8B5720",
-		borderRadius: 16,
+		paddingHorizontal: spacing.md,
+		paddingVertical: spacing.xs + 2,
+		backgroundColor: colors.primary.surface,
+		borderRadius: spacing.radius.lg,
 		borderWidth: 1,
-		borderColor: "#2E8B5740",
+		borderColor: `${colors.primary.main}40`,
 	},
 	tagText: {
-		fontSize: 13,
-		color: "#2E8B57",
-		fontWeight: "500",
+		fontSize: typography.fontSize.xs + 1,
+		color: colors.primary.main,
+		fontWeight: typography.fontWeight.medium,
 	},
 	tabsContainer: {
 		flexDirection: "row",
 		borderBottomWidth: 2,
-		borderBottomColor: "#E5E5E5",
-		backgroundColor: "#FFFFFF",
+		borderBottomColor: colors.border.light,
+		backgroundColor: colors.background.secondary,
 	},
 	tab: {
 		flex: 1,
-		paddingVertical: 16,
+		paddingVertical: spacing.md,
 		alignItems: "center",
 	},
 	activeTab: {
 		borderBottomWidth: 3,
-		borderBottomColor: "#2E8B57",
+		borderBottomColor: colors.primary.main,
 	},
 	tabText: {
-		fontSize: 15,
-		fontWeight: "500",
-		color: "#8B4513",
+		fontSize: typography.fontSize.sm + 1,
+		fontWeight: typography.fontWeight.medium,
+		color: colors.text.secondary,
 	},
 	activeTabText: {
-		color: "#2E8B57",
-		fontWeight: "600",
+		color: colors.primary.main,
+		fontWeight: typography.fontWeight.semibold,
 	},
 	tabContent: {
-		padding: 20,
+		padding: spacing.lg - 4,
 		paddingBottom: 100,
 	},
 	sectionTitle: {
-		fontSize: 18,
-		fontWeight: "bold",
-		color: "#2F4F4F",
-		marginTop: 16,
-		marginBottom: 12,
+		fontSize: typography.fontSize.lg,
+		fontWeight: typography.fontWeight.bold,
+		color: colors.text.primary,
+		marginTop: spacing.md,
+		marginBottom: spacing.md - 4,
 	},
 	description: {
-		fontSize: 15,
-		color: "#2F4F4F",
+		fontSize: typography.fontSize.sm + 1,
+		color: colors.text.primary,
 		lineHeight: 24,
 	},
 	listItem: {
 		flexDirection: "row",
-		gap: 12,
-		marginBottom: 12,
+		gap: spacing.md - 4,
+		marginBottom: spacing.md - 4,
 		alignItems: "flex-start",
 	},
 	listItemText: {
 		flex: 1,
-		fontSize: 15,
-		color: "#2F4F4F",
+		fontSize: typography.fontSize.sm + 1,
+		color: colors.text.primary,
 		lineHeight: 22,
 	},
 	bullet: {
-		fontSize: 18,
-		color: "#2E8B57",
-		fontWeight: "bold",
+		fontSize: typography.fontSize.lg,
+		color: colors.primary.main,
+		fontWeight: typography.fontWeight.bold,
 	},
 	module: {
-		marginBottom: 16,
-		backgroundColor: "#FFFFFF",
-		borderRadius: 12,
+		marginBottom: spacing.md,
+		backgroundColor: colors.background.secondary,
+		borderRadius: spacing.radius.md,
 		overflow: "hidden",
 		borderWidth: 1,
-		borderColor: "#E5E5E5",
+		borderColor: colors.border.light,
 	},
 	moduleHeader: {
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
-		padding: 16,
-		backgroundColor: "#F8F8F8",
+		padding: spacing.md,
+		backgroundColor: colors.neutral[100],
 	},
 	moduleHeaderLeft: {
 		flex: 1,
 	},
 	moduleName: {
-		fontSize: 16,
-		fontWeight: "bold",
-		color: "#2F4F4F",
-		marginBottom: 4,
+		fontSize: typography.fontSize.base,
+		fontWeight: typography.fontWeight.bold,
+		color: colors.text.primary,
+		marginBottom: spacing.xs,
 	},
 	moduleProgress: {
-		fontSize: 13,
-		color: "#8B4513",
+		fontSize: typography.fontSize.xs + 1,
+		color: colors.text.secondary,
 	},
 	moduleLessons: {
-		padding: 8,
+		padding: spacing.sm,
 	},
 	instructorCard: {
 		flexDirection: "row",
-		gap: 16,
-		backgroundColor: "#FFFFFF",
-		padding: 16,
-		borderRadius: 12,
+		gap: spacing.md,
+		backgroundColor: colors.background.secondary,
+		padding: spacing.md,
+		borderRadius: spacing.radius.md,
 	},
 	instructorAvatar: {
 		width: 60,
 		height: 60,
 		borderRadius: 30,
-		backgroundColor: "#E5E5E5",
+		backgroundColor: colors.border.light,
 	},
 	instructorInfo: {
 		flex: 1,
 	},
 	instructorName: {
-		fontSize: 17,
-		fontWeight: "bold",
-		color: "#2F4F4F",
-		marginBottom: 6,
+		fontSize: typography.fontSize.base + 1,
+		fontWeight: typography.fontWeight.bold,
+		color: colors.text.primary,
+		marginBottom: spacing.xs + 2,
 	},
 	instructorBio: {
-		fontSize: 14,
-		color: "#8B4513",
+		fontSize: typography.fontSize.sm,
+		color: colors.text.secondary,
 		lineHeight: 20,
 	},
 	bottomBar: {
@@ -799,136 +793,132 @@ const styles = StyleSheet.create({
 		bottom: 0,
 		left: 0,
 		right: 0,
-		backgroundColor: "#FFFFFF",
-		paddingHorizontal: 20,
-		paddingVertical: 16,
+		backgroundColor: colors.background.secondary,
+		paddingHorizontal: spacing.lg - 4,
+		paddingVertical: spacing.md,
 		borderTopWidth: 1,
-		borderTopColor: "#E5E5E5",
-		elevation: 8,
-		shadowColor: "#000",
-		shadowOffset: { width: 0, height: -2 },
-		shadowOpacity: 0.1,
-		shadowRadius: 4,
+		borderTopColor: colors.border.light,
+		...spacing.shadow.lg,
 	},
 	modalOverlay: {
 		flex: 1,
-		backgroundColor: "rgba(0, 0, 0, 0.5)",
+		backgroundColor: colors.background.overlay,
 		justifyContent: "flex-end",
 	},
 	modalContent: {
-		backgroundColor: "#FDF5E6",
-		borderTopLeftRadius: 24,
-		borderTopRightRadius: 24,
-		padding: 24,
+		backgroundColor: colors.background.tertiary,
+		borderTopLeftRadius: spacing.radius.xl,
+		borderTopRightRadius: spacing.radius.xl,
+		padding: spacing.lg,
 		maxHeight: "90%",
 	},
 	modalClose: {
 		position: "absolute",
-		top: 16,
-		right: 16,
+		top: spacing.md,
+		right: spacing.md,
 		zIndex: 10,
-		padding: 8,
+		padding: spacing.sm,
 	},
 	modalHeader: {
 		alignItems: "center",
-		marginBottom: 20,
+		marginBottom: spacing.lg - 4,
 	},
 	modalIconContainer: {
 		width: 70,
 		height: 70,
 		borderRadius: 35,
-		backgroundColor: "#2E8B5720",
+		backgroundColor: colors.primary.surface,
 		alignItems: "center",
 		justifyContent: "center",
-		marginBottom: 12,
+		marginBottom: spacing.md - 4,
 	},
 	modalTitle: {
-		fontSize: 22,
-		fontWeight: "bold",
-		color: "#2F4F4F",
+		fontSize: typography.fontSize.xl + 2,
+		fontWeight: typography.fontWeight.bold,
+		color: colors.text.primary,
 	},
 	modalThumbnail: {
 		width: "100%",
 		height: 160,
-		borderRadius: 12,
-		marginBottom: 16,
+		borderRadius: spacing.radius.md,
+		marginBottom: spacing.md,
 	},
 	modalCourseTitle: {
-		fontSize: 20,
-		fontWeight: "bold",
-		color: "#2F4F4F",
+		fontSize: typography.fontSize.xl,
+		fontWeight: typography.fontWeight.bold,
+		color: colors.text.primary,
 		textAlign: "center",
-		marginBottom: 8,
+		marginBottom: spacing.sm,
 	},
 	modalInstructor: {
-		fontSize: 15,
-		color: "#8B4513",
+		fontSize: typography.fontSize.sm + 1,
+		color: colors.text.secondary,
 		textAlign: "center",
-		marginBottom: 16,
+		marginBottom: spacing.md,
 	},
 	modalInfo: {
 		flexDirection: "row",
 		justifyContent: "center",
-		gap: 20,
-		marginBottom: 24,
+		gap: spacing.lg - 4,
+		marginBottom: spacing.lg,
 	},
 	modalInfoItem: {
 		flexDirection: "row",
 		alignItems: "center",
-		gap: 6,
+		gap: spacing.xs + 2,
 	},
 	modalInfoText: {
-		fontSize: 13,
-		color: "#8B4513",
+		fontSize: typography.fontSize.xs + 1,
+		color: colors.text.secondary,
 	},
 	modalPriceContainer: {
 		alignItems: "center",
-		marginBottom: 20,
+		marginBottom: spacing.lg - 4,
 	},
 	modalPrice: {
-		fontSize: 32,
-		fontWeight: "bold",
-		color: "#2E8B57",
-		marginBottom: 4,
+		fontSize: typography.fontSize["4xl"] - 4,
+		fontWeight: typography.fontWeight.bold,
+		color: colors.primary.main,
+		marginBottom: spacing.xs,
 	},
 	modalPriceNote: {
-		fontSize: 13,
-		color: "#FF8C42",
+		fontSize: typography.fontSize.xs + 1,
+		color: colors.secondary.main,
 		fontStyle: "italic",
 	},
 	modalFreeTag: {
 		alignSelf: "center",
-		paddingHorizontal: 20,
-		paddingVertical: 10,
-		backgroundColor: "#32CD3220",
-		borderRadius: 20,
-		marginBottom: 20,
+		paddingHorizontal: spacing.lg - 4,
+		paddingVertical: spacing.sm + 2,
+		backgroundColor: colors.feedback.successLight,
+		borderRadius: spacing.radius.xl - 4,
+		marginBottom: spacing.lg - 4,
 	},
 	modalFreeText: {
-		fontSize: 16,
-		fontWeight: "bold",
-		color: "#32CD32",
+		fontSize: typography.fontSize.base,
+		fontWeight: typography.fontWeight.bold,
+		color: colors.feedback.success,
 	},
 	modalButton: {
-		backgroundColor: "#2E8B57",
-		paddingVertical: 16,
-		borderRadius: 12,
+		backgroundColor: colors.primary.main,
+		paddingVertical: spacing.md,
+		borderRadius: spacing.radius.md,
 		alignItems: "center",
-		marginBottom: 12,
-		elevation: 2,
+		marginBottom: spacing.md - 4,
+		...spacing.shadow.sm,
 	},
 	modalButtonDisabled: {
-		backgroundColor: "#8B8B8B",
+		backgroundColor: colors.neutral[400],
 		opacity: 0.6,
 	},
 	modalButtonText: {
-		color: "#FDF5E6",
-		fontSize: 16,
-		fontWeight: "600",
+		color: colors.text.inverse,
+		fontSize: typography.fontSize.base,
+		fontWeight: typography.fontWeight.semibold,
 	},
 	modalNote: {
-		fontSize: 13,
-		color: "#8B4513",
+		fontSize: typography.fontSize.xs + 1,
+		color: colors.text.secondary,
 		textAlign: "center",
 		fontStyle: "italic",
 	},

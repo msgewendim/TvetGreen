@@ -1,139 +1,208 @@
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Star } from "lucide-react-native";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { usePlayer } from "@/src/providers/player/PlayerProvider";
+import { useRouter } from "expo-router";
 import {
 	colors,
+	commonStyles,
 	EmptyState,
 	Header,
 	LoadingSpinner,
+	ModernCourseCard,
+	CategoryChip,
 	ScreenLayout,
+	SearchInput,
 	spacing,
 	typography,
 } from "@/design-system";
-import { useCourses } from "@/src/hooks/useCourses";
-import { useCourseFilters } from "@/src/hooks/useCourseFilters";
-import {
-	CategoryFilters,
-	CategoriesGrid,
-	CoursesList,
-	type Category,
-	type Course,
-} from "@/src/components/course";
+import { useLearningStore } from "@/src/store/learningStore";
+import type { Course } from "@/src/types/learning";
 import { useLanguage } from "@/src/hooks/useLanguage";
 
 export default function CoursesScreen() {
 	const { t } = useLanguage();
+	const router = useRouter();
 
-	const categories: Category[] = [
-		{
-			id: "agriculture",
-			title: t("courses.agriculture"),
-			emoji: "🌾",
-			color: "#2E8B57",
-			courseCount: 5,
-			description: "Sustainable farming & crop management",
-			image:
-				"https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg",
-		},
-		{
-			id: "energy",
-			title: t("courses.greenEnergy"),
-			emoji: "🔆",
-			color: "#FF8C42",
-			courseCount: 3,
-			description: "Solar power & renewable energy",
-			image: "https://images.pexels.com/photos/356036/pexels-photo-356036.jpeg",
-		},
-		{
-			id: "construction",
-			title: t("courses.construction"),
-			emoji: "🔨",
-			color: "#DAA520",
-			courseCount: 4,
-			description: "Building skills & techniques",
-			image: "https://images.pexels.com/photos/416405/pexels-photo-416405.jpeg",
-		},
-		{
-			id: "business",
-			title: t("courses.business"),
-			emoji: "💼",
-			color: "#87CEEB",
-			courseCount: 6,
-			description: "Entrepreneurship & market skills",
-			image:
-				"https://images.pexels.com/photos/3277808/pexels-photo-3277808.jpeg",
-		},
-	];
-	const { courses, isLoading, error } = useCourses();
-	const { selectedCategory, setSelectedCategory, filteredCourses } =
-		useCourseFilters(courses);
-	const player = usePlayer();
+	const courses = useLearningStore((state) => state.courses);
+	const categories = useLearningStore((state) => state.categories);
+	const isLoading = useLearningStore((state) => state.isLoading);
+	const error = useLearningStore((state) => state.error);
+	const loadData = useLearningStore((state) => state.loadData);
 
-	const handleCoursePress = (course: Course) => {
-		player.open({
-			id: String(course.id),
-			title: course.title,
-			thumbnailUrl: course.image,
-			duration: course.duration,
-			uploadTime: "",
-			views: String(course.enrolled),
-			author: course.instructor,
-			videoUrl: course.videoUrl || "",
-			description: course.description,
-			subscriber: "",
-			isLive: false,
-		});
-	};
+	const [searchQuery, setSearchQuery] = useState("");
+	const [selectedCategory, setSelectedCategory] = useState("all");
 
-	const handleCategoryPress = (category: Category) => {
-		setSelectedCategory(category.id);
-	};
+	useEffect(() => {
+		if (courses.length === 0 && !isLoading) {
+			loadData();
+		}
+	}, [courses.length, isLoading, loadData]);
+
+	const categoryChips = useMemo(() => {
+		const chips = [
+			{
+				id: "all",
+				label: t("courses.allCourses"),
+				emoji: "📚",
+				color: colors.primary.main,
+			},
+		];
+		for (const cat of categories) {
+			chips.push({
+				id: cat.id,
+				label: cat.name,
+				emoji: cat.icon,
+				color: cat.color || colors.primary.main,
+			});
+		}
+		return chips;
+	}, [categories, t]);
+
+	const displayCourses = useMemo(() => {
+		let filtered = courses;
+		if (selectedCategory !== "all") {
+			filtered = filtered.filter((c) => c.categoryId === selectedCategory);
+		}
+		if (searchQuery.trim()) {
+			const q = searchQuery.toLowerCase();
+			filtered = filtered.filter(
+				(c) =>
+					c.title.toLowerCase().includes(q) ||
+					c.instructor.name.toLowerCase().includes(q),
+			);
+		}
+		return filtered;
+	}, [courses, selectedCategory, searchQuery]);
+
+	const getCategoryName = useCallback(
+		(categoryId: string) => {
+			const cat = categories.find((c) => c.id === categoryId);
+			return cat?.name ?? "";
+		},
+		[categories],
+	);
+
+	const getCategoryColor = useCallback(
+		(categoryId: string) => {
+			const cat = categories.find((c) => c.id === categoryId);
+			return cat?.color || colors.primary.main;
+		},
+		[categories],
+	);
+
+	const handleCoursePress = useCallback(
+		(course: Course) => {
+			router.push(`/learning/courses/${course.id}`);
+		},
+		[router],
+	);
+
+	const renderCourse = useCallback(
+		({ item }: { item: Course }) => (
+			<ModernCourseCard
+				title={item.title}
+				instructor={item.instructor.name}
+				category={getCategoryName(item.categoryId)}
+				categoryColor={getCategoryColor(item.categoryId)}
+				lessonsCount={item.lessonCount}
+				duration={item.duration}
+				rating={item.rating}
+				thumbnailUrl={item.thumbnail}
+				onPress={() => handleCoursePress(item)}
+			/>
+		),
+		[getCategoryName, getCategoryColor, handleCoursePress],
+	);
+
+	const keyExtractor = useCallback((item: Course) => item.id, []);
+
+	const ListHeaderComponent = useMemo(
+		() => (
+			<View style={styles.listHeader}>
+				<Text style={styles.resultsText}>
+					{t("courses.resultsCount", { count: displayCourses.length })}
+				</Text>
+			</View>
+		),
+		[displayCourses.length, t],
+	);
+
+	const ListEmptyComponent = useMemo(
+		() => (
+			<View style={styles.centerContainer}>
+				<EmptyState
+					title={t("courses.noResults")}
+					description={t("courses.noResultsDescription")}
+				/>
+			</View>
+		),
+		[t],
+	);
 
 	return (
-		<ScreenLayout scrollable={false} style={styles.container} headerExtendsToStatusBar>
+		<ScreenLayout scrollable={false} style={styles.container}>
 			<Header
-				title={t("navigation.courses")}
-				subtitle={t("courses.allCourses")}
+				variant="minimal"
+				title={t("courses.title")}
+				subtitle={t("courses.subtitle", { count: courses.length })}
 			/>
+
+			{/* Search */}
+			<View style={styles.searchContainer}>
+				<SearchInput
+					value={searchQuery}
+					onChangeText={setSearchQuery}
+					placeholder={t("courses.searchPlaceholder")}
+				/>
+			</View>
+
+			{/* Category Filter */}
+			<View style={styles.filterSection}>
+				<Text style={styles.filterLabel}>{t("courses.filterBy")}</Text>
+				<ScrollView
+					horizontal
+					showsHorizontalScrollIndicator={false}
+					contentContainerStyle={styles.chipsRow}
+				>
+					{categoryChips.map((cat) => (
+						<CategoryChip
+							key={cat.id}
+							label={cat.label}
+							emoji={cat.emoji}
+							color={cat.color}
+							isActive={selectedCategory === cat.id}
+							onPress={() => setSelectedCategory(cat.id)}
+						/>
+					))}
+				</ScrollView>
+			</View>
+
 			{isLoading ? (
 				<View style={styles.centerContainer}>
 					<LoadingSpinner size="large" />
-					<Text style={styles.loadingText}>{t("common.loading")}</Text>
+					<Text style={styles.loadingText}>
+						{t("learning.loading.courses")}
+					</Text>
 				</View>
 			) : error ? (
 				<View style={styles.centerContainer}>
 					<EmptyState
-						icon={<Star size={48} color={colors.text.tertiary} />}
-						title={t("courses.noResults")}
+						icon={<Star size={spacing.iconSize.xl} color={colors.text.tertiary} />}
+						title={t("errors.general")}
 						description={t("errors.network")}
 					/>
 				</View>
 			) : (
-				<ScrollView
+				<FlatList
+					data={displayCourses}
+					renderItem={renderCourse}
+					keyExtractor={keyExtractor}
+					style={styles.courseList}
+					contentContainerStyle={styles.courseListContent}
 					showsVerticalScrollIndicator={false}
-					style={styles.content}
-					keyboardShouldPersistTaps="handled"
-					nestedScrollEnabled
-					scrollEventThrottle={16}
-				>
-					<CategoryFilters
-						categories={categories}
-						selectedCategory={selectedCategory}
-						onCategoryChange={setSelectedCategory}
-					/>
-
-					{selectedCategory === "all" && (
-						<CategoriesGrid
-							categories={categories}
-							onCategoryPress={handleCategoryPress}
-						/>
-					)}
-
-					<CoursesList
-						courses={filteredCourses}
-						onCoursePress={handleCoursePress}
-					/>
-				</ScrollView>
+					ListHeaderComponent={ListHeaderComponent}
+					ListEmptyComponent={ListEmptyComponent}
+				/>
 			)}
 		</ScreenLayout>
 	);
@@ -142,20 +211,43 @@ export default function CoursesScreen() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: colors.background.primary,
+		backgroundColor: colors.background.tertiary,
 	},
-	centerContainer: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		padding: spacing.xl,
+	searchContainer: commonStyles.searchContainer,
+	filterSection: {
+		marginBottom: spacing.md,
 	},
+	filterLabel: {
+		fontSize: typography.fontSize.sm,
+		fontWeight: typography.fontWeight.semibold,
+		color: colors.text.secondary,
+		paddingHorizontal: spacing.lg,
+		marginBottom: spacing.xs,
+		textTransform: "uppercase",
+		letterSpacing: typography.letterSpacing.wide,
+	},
+	chipsRow: {
+		paddingHorizontal: spacing.lg,
+		gap: spacing.sm,
+	},
+	centerContainer: commonStyles.centerContainer,
 	loadingText: {
 		marginTop: spacing.md,
 		fontSize: typography.fontSize.base,
 		color: colors.text.secondary,
 	},
-	content: {
+	listHeader: {
+		marginBottom: spacing.sm,
+	},
+	resultsText: {
+		fontSize: typography.fontSize.sm,
+		color: colors.text.tertiary,
+	},
+	courseList: {
 		flex: 1,
+	},
+	courseListContent: {
+		paddingHorizontal: spacing.lg,
+		paddingBottom: spacing.xl,
 	},
 });

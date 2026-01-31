@@ -89,7 +89,7 @@ export default function PhoneScreen() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: colors.background.primary,
+		backgroundColor: colors.background.tertiary,
 	},
 	content: {
 		flex: 1,

@@ -34,7 +34,7 @@ interface DownloadState {
 	isDownloaded: (lessonId: string) => boolean;
 	getLocalUri: (lessonId: string) => string | null;
 	setWifiOnly: (value: boolean) => void;
-	getStorageUsage: () => { totalBytes: number; fileCount: number };
+	getStorageUsage: () => Promise<{ totalBytes: number; fileCount: number }>;
 }
 
 export const useDownloadStore = create<DownloadState>((set, get) => ({
@@ -147,7 +147,7 @@ export const useDownloadStore = create<DownloadState>((set, get) => ({
 	},
 
 	deleteDownload: async (lessonId) => {
-		downloadManager.deleteDownload(lessonId);
+		await downloadManager.deleteDownload(lessonId);
 		const updated = get().downloadedLessons.filter(
 			(d) => d.lessonId !== lessonId,
 		);
@@ -159,7 +159,7 @@ export const useDownloadStore = create<DownloadState>((set, get) => ({
 		const toDelete = get().downloadedLessons.filter(
 			(d) => d.courseId === courseId,
 		);
-		downloadManager.deleteCourseDownloads(
+		await downloadManager.deleteCourseDownloads(
 			toDelete.map((d) => d.lessonId),
 		);
 		const updated = get().downloadedLessons.filter(
@@ -182,7 +182,7 @@ export const useDownloadStore = create<DownloadState>((set, get) => ({
 
 	setWifiOnly: (value) => set({ wifiOnly: value }),
 
-	getStorageUsage: () => {
+	getStorageUsage: async () => {
 		return downloadManager.getStorageUsage();
 	},
 }));

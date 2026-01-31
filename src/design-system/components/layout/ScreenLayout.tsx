@@ -46,7 +46,7 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
 	children,
 	scrollable = true,
 	showsVerticalScrollIndicator = false,
-	backgroundColor = colors.background.primary,
+	backgroundColor = colors.background.tertiary,
 	style,
 	contentStyle,
 	testID,

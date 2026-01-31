@@ -1,10 +1,9 @@
-import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { PlayCircle, CheckCircle2, Lock } from "lucide-react-native";
-import type { LessonWithProgress } from "@/src/types/learning";
+import { PlayCircle, Lock } from "lucide-react-native";
+import type { Lesson } from "@/src/types/learning";
 
 interface LessonListItemProps {
-	lesson: LessonWithProgress;
+	lesson: Lesson;
 	onPress: () => void;
 	isLocked?: boolean;
 	isCurrent?: boolean;
@@ -26,9 +25,7 @@ export function LessonListItem({
 			activeOpacity={0.7}
 		>
 			<View style={styles.left}>
-				{lesson.isCompleted ? (
-					<CheckCircle2 size={20} color="#32CD32" />
-				) : isLocked ? (
+				{isLocked ? (
 					<Lock size={20} color="#8B4513" />
 				) : (
 					<PlayCircle size={20} color="#2E8B57" />
@@ -54,9 +51,6 @@ export function LessonListItem({
 					</View>
 				</View>
 			</View>
-			{lesson.isCompleted && (
-				<Text style={styles.completedLabel}>Completed</Text>
-			)}
 		</TouchableOpacity>
 	);
 }
@@ -119,10 +113,5 @@ const styles = StyleSheet.create({
 		fontSize: 10,
 		fontWeight: "700",
 		color: "#FF8C42",
-	},
-	completedLabel: {
-		fontSize: 12,
-		color: "#32CD32",
-		fontWeight: "600",
 	},
 });
