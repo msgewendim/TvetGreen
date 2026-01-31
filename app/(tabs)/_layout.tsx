@@ -7,10 +7,13 @@ import {
 	User,
 	GraduationCap,
 } from "lucide-react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLanguage } from "@/src/hooks/useLanguage";
+import { colors } from "@/design-system";
 
 export default function TabLayout() {
 	const { t } = useLanguage();
+	const insets = useSafeAreaInsets();
 
 	return (
 		<PlayerProvider>
@@ -18,15 +21,15 @@ export default function TabLayout() {
 				screenOptions={{
 					headerShown: false,
 					tabBarStyle: {
-						backgroundColor: "#FDF5E6",
-						borderTopColor: "#2E8B57",
-						borderTopWidth: 2,
-						height: 70,
-						paddingBottom: 10,
-						paddingTop: 10,
+						backgroundColor: colors.background.tertiary,
+						borderTopColor: colors.border.light,
+						borderTopWidth: 1,
+						height: 72 + insets.bottom,
+						paddingBottom: 10 + insets.bottom,
+						paddingTop: 6,
 					},
-					tabBarActiveTintColor: "#2E8B57",
-					tabBarInactiveTintColor: "#8B4513",
+					tabBarActiveTintColor: colors.primary.main,
+					tabBarInactiveTintColor: colors.text.secondary,
 					tabBarLabelStyle: {
 						fontSize: 12,
 						fontWeight: "600",

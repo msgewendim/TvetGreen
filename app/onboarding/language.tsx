@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import type { SupportedLanguage } from "@/i18n.config";
+import { colors, spacing, typography } from "@/design-system";
 
 export default function LanguageSelectionScreen() {
 	const router = useRouter();
@@ -53,7 +54,7 @@ export default function LanguageSelectionScreen() {
 					style={styles.backButton}
 					onPress={() => router.back()}
 				>
-					<ArrowLeft size={24} color="#2F4F4F" strokeWidth={2} />
+					<ArrowLeft size={24} color={colors.text.primary} strokeWidth={2} />
 				</TouchableOpacity>
 
 				<View style={styles.headerContent}>
@@ -114,7 +115,7 @@ export default function LanguageSelectionScreen() {
 								</View>
 
 								{selectedLanguage === language.code && (
-									<CheckCircle size={24} color="#2E8B57" strokeWidth={2} />
+									<CheckCircle size={24} color={colors.primary.main} strokeWidth={2} />
 								)}
 							</View>
 
@@ -139,7 +140,7 @@ export default function LanguageSelectionScreen() {
 								>
 									<Volume2
 										size={14}
-										color={language.voiceSupport ? "#32CD32" : "#A0A0A0"}
+										color={language.voiceSupport ? colors.feedback.success : colors.text.disabled}
 										strokeWidth={2}
 									/>
 									<Text
@@ -187,7 +188,7 @@ export default function LanguageSelectionScreen() {
 					onPress={handleContinue}
 				>
 					<Text style={styles.continueText}>{t("common.continue")}</Text>
-					<ChevronRight size={24} color="#FDF5E6" strokeWidth={2} />
+					<ChevronRight size={24} color={colors.text.inverse} strokeWidth={2} />
 				</TouchableOpacity>
 			</View>
 		</View>
@@ -197,88 +198,80 @@ export default function LanguageSelectionScreen() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#FDF5E6",
+		backgroundColor: colors.background.tertiary,
 	},
 	header: {
 		flexDirection: "row",
 		alignItems: "center",
-		paddingHorizontal: 20,
+		paddingHorizontal: spacing.lg,
 		paddingTop: 60,
-		paddingBottom: 20,
+		paddingBottom: spacing.lg,
 	},
 	backButton: {
-		backgroundColor: "#FFF",
-		width: 44,
-		height: 44,
-		borderRadius: 22,
+		backgroundColor: colors.background.secondary,
+		width: spacing.minTouchTarget,
+		height: spacing.minTouchTarget,
+		borderRadius: spacing.minTouchTarget / 2,
 		justifyContent: "center",
 		alignItems: "center",
-		marginRight: 16,
-		shadowColor: "#000",
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.1,
-		shadowRadius: 4,
-		elevation: 3,
+		marginRight: spacing.md,
+		...spacing.shadow.sm,
 	},
 	headerContent: {
 		flex: 1,
 	},
 	headerTitle: {
-		fontSize: 24,
-		fontWeight: "bold",
-		color: "#2F4F4F",
-		marginBottom: 4,
+		fontSize: typography.fontSize["2xl"],
+		fontWeight: typography.fontWeight.bold,
+		color: colors.text.primary,
+		marginBottom: spacing.xs,
 	},
 	headerSubtitle: {
-		fontSize: 16,
-		color: "#8B4513",
+		fontSize: typography.fontSize.base,
+		color: colors.text.secondary,
 	},
 	progressContainer: {
-		paddingHorizontal: 20,
-		marginBottom: 24,
+		paddingHorizontal: spacing.lg,
+		marginBottom: spacing.lg,
 	},
 	progressBar: {
 		height: 4,
-		backgroundColor: "#E0E0E0",
+		backgroundColor: colors.neutral[200],
 		borderRadius: 2,
-		marginBottom: 8,
+		marginBottom: spacing.sm,
 	},
 	progressFill: {
 		height: "100%",
-		backgroundColor: "#2E8B57",
+		backgroundColor: colors.primary.main,
 		borderRadius: 2,
 	},
 	progressText: {
-		fontSize: 14,
-		color: "#8B4513",
-		fontWeight: "500",
+		fontSize: typography.fontSize.sm,
+		color: colors.text.secondary,
+		fontWeight: typography.fontWeight.medium,
 	},
 	content: {
 		flex: 1,
-		paddingHorizontal: 20,
+		paddingHorizontal: spacing.lg,
 	},
 	sectionTitle: {
-		fontSize: 20,
-		fontWeight: "bold",
-		color: "#2F4F4F",
-		marginBottom: 16,
+		fontSize: typography.fontSize.xl,
+		fontWeight: typography.fontWeight.bold,
+		color: colors.text.primary,
+		marginBottom: spacing.md,
 	},
 	languageCard: {
-		backgroundColor: "#FFF",
-		borderRadius: 12,
-		padding: 20,
-		marginBottom: 12,
+		backgroundColor: colors.background.secondary,
+		borderRadius: spacing.radius.md,
+		padding: spacing.lg,
+		marginBottom: spacing.md,
 		borderWidth: 2,
 		borderColor: "transparent",
-		shadowColor: "#000",
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.1,
-		shadowRadius: 4,
-		elevation: 3,
+		...spacing.shadow.sm,
 	},
 	languageCardSelected: {
-		borderColor: "#2E8B57",
-		backgroundColor: "#E8F5E8",
+		borderColor: colors.primary.main,
+		backgroundColor: colors.primary.surface,
 	},
 	languageInfo: {
 		flex: 1,
@@ -286,122 +279,118 @@ const styles = StyleSheet.create({
 	languageHeader: {
 		flexDirection: "row",
 		alignItems: "center",
-		marginBottom: 8,
+		marginBottom: spacing.sm,
 	},
 	languageFlag: {
 		fontSize: 32,
-		marginRight: 16,
+		marginRight: spacing.md,
 	},
 	languageNames: {
 		flex: 1,
 	},
 	languageName: {
-		fontSize: 18,
-		fontWeight: "bold",
-		color: "#2F4F4F",
+		fontSize: typography.fontSize.lg,
+		fontWeight: typography.fontWeight.bold,
+		color: colors.text.primary,
 		marginBottom: 2,
 	},
 	languageNameSelected: {
-		color: "#2E8B57",
+		color: colors.primary.main,
 	},
 	languageNative: {
-		fontSize: 16,
-		color: "#8B4513",
+		fontSize: typography.fontSize.base,
+		color: colors.text.secondary,
 	},
 	languageNativeSelected: {
-		color: "#2E8B57",
-		fontWeight: "600",
+		color: colors.primary.main,
+		fontWeight: typography.fontWeight.semibold,
 	},
 	languageDescription: {
-		fontSize: 14,
-		color: "#8B4513",
-		marginBottom: 12,
+		fontSize: typography.fontSize.sm,
+		color: colors.text.secondary,
+		marginBottom: spacing.md,
 		lineHeight: 20,
 	},
 	languageDescriptionSelected: {
-		color: "#2F4F4F",
+		color: colors.text.primary,
 	},
 	languageFeatures: {
 		flexDirection: "row",
 		alignItems: "center",
-		gap: 12,
+		gap: spacing.md,
 	},
 	featureBadge: {
 		flexDirection: "row",
 		alignItems: "center",
-		paddingHorizontal: 8,
-		paddingVertical: 4,
-		borderRadius: 12,
-		gap: 4,
+		paddingHorizontal: spacing.sm,
+		paddingVertical: spacing.xs,
+		borderRadius: spacing.radius.md,
+		gap: spacing.xs,
 	},
 	featureBadgeActive: {
-		backgroundColor: "#E8F5E8",
+		backgroundColor: colors.feedback.successLight,
 	},
 	featureBadgeInactive: {
-		backgroundColor: "#F5F5F5",
+		backgroundColor: colors.neutral[100],
 	},
 	featureText: {
-		fontSize: 12,
-		fontWeight: "500",
+		fontSize: typography.fontSize.xs,
+		fontWeight: typography.fontWeight.medium,
 	},
 	featureTextActive: {
-		color: "#32CD32",
+		color: colors.feedback.success,
 	},
 	featureTextInactive: {
-		color: "#A0A0A0",
+		color: colors.text.disabled,
 	},
 	testVoiceButton: {
-		backgroundColor: "#87CEEB",
-		paddingHorizontal: 12,
-		paddingVertical: 6,
-		borderRadius: 12,
+		backgroundColor: colors.feedback.info,
+		paddingHorizontal: spacing.md,
+		paddingVertical: spacing.sm,
+		borderRadius: spacing.radius.md,
 	},
 	testVoiceText: {
-		fontSize: 12,
-		fontWeight: "600",
-		color: "#2F4F4F",
+		fontSize: typography.fontSize.xs,
+		fontWeight: typography.fontWeight.semibold,
+		color: colors.background.secondary,
 	},
 	noteContainer: {
-		backgroundColor: "#FFF9E6",
-		padding: 16,
-		borderRadius: 12,
-		marginTop: 16,
-		marginBottom: 24,
+		backgroundColor: colors.secondary.surface,
+		padding: spacing.md,
+		borderRadius: spacing.radius.md,
+		marginTop: spacing.md,
+		marginBottom: spacing.lg,
 		borderWidth: 1,
-		borderColor: "#DAA520",
+		borderColor: colors.categories.construction,
 	},
 	noteTitle: {
-		fontSize: 16,
-		fontWeight: "bold",
-		color: "#2F4F4F",
-		marginBottom: 8,
+		fontSize: typography.fontSize.base,
+		fontWeight: typography.fontWeight.bold,
+		color: colors.text.primary,
+		marginBottom: spacing.sm,
 	},
 	noteText: {
-		fontSize: 14,
-		color: "#8B4513",
+		fontSize: typography.fontSize.sm,
+		color: colors.text.secondary,
 		lineHeight: 20,
 	},
 	buttonContainer: {
-		paddingHorizontal: 20,
-		paddingBottom: 40,
+		paddingHorizontal: spacing.lg,
+		paddingBottom: spacing["2xl"],
 	},
 	continueButton: {
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "center",
-		backgroundColor: "#2E8B57",
-		paddingVertical: 16,
-		borderRadius: 12,
-		shadowColor: "#000",
-		shadowOffset: { width: 0, height: 4 },
-		shadowOpacity: 0.3,
-		shadowRadius: 8,
-		elevation: 8,
+		backgroundColor: colors.primary.main,
+		paddingVertical: spacing.md,
+		borderRadius: spacing.radius.md,
+		...spacing.shadow.lg,
 	},
 	continueText: {
-		fontSize: 18,
-		fontWeight: "bold",
-		color: "#FDF5E6",
-		marginRight: 8,
+		fontSize: typography.fontSize.lg,
+		fontWeight: typography.fontWeight.bold,
+		color: colors.text.inverse,
+		marginRight: spacing.sm,
 	},
 });

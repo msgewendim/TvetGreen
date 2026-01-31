@@ -64,8 +64,11 @@
 			"intermediate": "Intermediate",
 			"advanced": "Advanced"
 		},
+		"subtitle": "{{count}} courses available",
 		"searchPlaceholder": "Search courses...",
 		"noResults": "No courses found",
+		"noResultsDescription": "Try a different search term or category filter",
+		"resultsCount": "{{count}} courses",
 		"filterBy": "Filter by category"
 	},
 	"home": {

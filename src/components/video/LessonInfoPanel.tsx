@@ -1,16 +1,15 @@
 import {
 	ArrowRight,
+	ChevronLeft,
+	ChevronRight,
 	CircleCheck as CheckCircle,
 	Download,
-	Play,
-	SkipBack,
-	SkipForward,
 } from "lucide-react-native";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, spacing, typography } from "@/design-system";
 
 interface NextLesson {
-	id: number;
+	id: number | string;
 	title: string;
 	duration: string;
 }
@@ -44,286 +43,219 @@ export function LessonInfoPanel({
 	onComplete,
 	onNextLessonPress,
 }: LessonInfoPanelProps) {
-	const lessonProgress = (lessonNumber / totalLessons) * 100;
+	const progress = (lessonNumber / totalLessons) * 100;
 
 	return (
-		<View style={styles.panel}>
-			<View style={styles.header}>
-				<View style={styles.titleContainer}>
-					<Text style={styles.panelTitle} numberOfLines={2}>
+		<View style={styles.container}>
+			{/* Title Section */}
+			<View style={styles.titleSection}>
+				<View style={styles.titleLeft}>
+					<Text style={styles.lessonTitle} numberOfLines={2}>
 						{title}
 					</Text>
-					<Text style={styles.courseTitleText}>{courseTitle}</Text>
-					<Text style={styles.instructorText}>by {instructor}</Text>
+					<Text style={styles.courseLabel}>{courseTitle}</Text>
+					<Text style={styles.instructorLabel}>by {instructor}</Text>
 				</View>
-
-				<View style={styles.actions}>
-					{isDownloaded ? (
-						<View style={styles.downloadedBadge}>
-							<Download
-								size={16}
-								color={colors.feedback.success}
-								strokeWidth={2}
-							/>
-							<Text style={styles.downloadedText}>Downloaded</Text>
-						</View>
-					) : (
-						<TouchableOpacity
-							style={styles.downloadButton}
-							onPress={onDownload}
-						>
-							<Download size={16} color={colors.primary.main} strokeWidth={2} />
-						</TouchableOpacity>
-					)}
-				</View>
-			</View>
-
-			{/* Course Progress */}
-			<View style={styles.courseProgress}>
-				<Text style={styles.progressLabel}>Course Progress</Text>
-				<View style={styles.progressBarContainer}>
-					<View style={styles.courseProgressBar}>
-						<View
-							style={[
-								styles.courseProgressFill,
-								{ width: `${lessonProgress}%` },
-							]}
-						/>
+				{isDownloaded ? (
+					<View style={styles.downloadedTag}>
+						<Download size={14} color={colors.feedback.success} strokeWidth={2} />
 					</View>
-					<Text style={styles.progressPercentage}>
-						{lessonNumber}/{totalLessons} lessons
-					</Text>
-				</View>
+				) : (
+					<TouchableOpacity style={styles.downloadBtn} onPress={onDownload}>
+						<Download size={18} color={colors.primary.main} strokeWidth={2} />
+					</TouchableOpacity>
+				)}
 			</View>
 
-			{/* Navigation Buttons */}
-			<View style={styles.navigationButtons}>
+			{/* Progress */}
+			<View style={styles.progressSection}>
+				<View style={styles.progressTrack}>
+					<View style={[styles.progressFill, { width: `${progress}%` }]} />
+				</View>
+				<Text style={styles.progressText}>
+					{lessonNumber}/{totalLessons}
+				</Text>
+			</View>
+
+			{/* Actions Row */}
+			<View style={styles.actionsRow}>
 				<TouchableOpacity
-					style={[styles.navButton, styles.previousButton]}
-					disabled={lessonNumber === 1}
+					style={[styles.navBtn, lessonNumber <= 1 && styles.navBtnDisabled]}
+					disabled={lessonNumber <= 1}
 					onPress={onPrevious}
 				>
-					<SkipBack
-						size={20}
-						color={
-							lessonNumber === 1 ? colors.text.disabled : colors.text.primary
-						}
+					<ChevronLeft
+						size={18}
+						color={lessonNumber <= 1 ? colors.text.disabled : colors.text.primary}
 						strokeWidth={2}
 					/>
-					<Text
-						style={[
-							styles.navButtonText,
-							lessonNumber === 1 && styles.navButtonTextDisabled,
-						]}
-					>
-						Previous
-					</Text>
 				</TouchableOpacity>
 
-				<TouchableOpacity style={styles.completeButton} onPress={onComplete}>
-					<CheckCircle size={20} color={colors.text.inverse} strokeWidth={2} />
-					<Text style={styles.completeButtonText}>Mark Complete</Text>
+				<TouchableOpacity style={styles.completeBtn} onPress={onComplete}>
+					<CheckCircle size={18} color="#fff" strokeWidth={2} />
+					<Text style={styles.completeBtnText}>Complete</Text>
 				</TouchableOpacity>
 
-				<TouchableOpacity
-					style={[styles.navButton, styles.nextButton]}
-					onPress={onNext}
-				>
-					<Text style={styles.navButtonText}>Next</Text>
-					<SkipForward size={20} color={colors.text.primary} strokeWidth={2} />
+				<TouchableOpacity style={styles.navBtn} onPress={onNext}>
+					<ChevronRight
+						size={18}
+						color={colors.text.primary}
+						strokeWidth={2}
+					/>
 				</TouchableOpacity>
 			</View>
 
-			{/* Next Lesson Preview */}
+			{/* Up Next */}
 			{nextLesson && (
-				<View style={styles.nextLessonPreview}>
-					<Text style={styles.nextLessonLabel}>Up Next:</Text>
-					<TouchableOpacity
-						style={styles.nextLessonCard}
-						onPress={onNextLessonPress}
-					>
-						<Play size={16} color={colors.primary.main} strokeWidth={2} />
-						<View style={styles.nextLessonInfo}>
-							<Text style={styles.nextLessonTitle}>{nextLesson.title}</Text>
-							<Text style={styles.nextLessonDuration}>
-								{nextLesson.duration}
-							</Text>
-						</View>
-						<ArrowRight size={20} color={colors.primary.main} strokeWidth={2} />
-					</TouchableOpacity>
-				</View>
+				<TouchableOpacity style={styles.nextCard} onPress={onNextLessonPress}>
+					<View style={styles.nextInfo}>
+						<Text style={styles.nextLabel}>Up Next</Text>
+						<Text style={styles.nextTitle} numberOfLines={1}>
+							{nextLesson.title}
+						</Text>
+						<Text style={styles.nextDuration}>{nextLesson.duration}</Text>
+					</View>
+					<ArrowRight size={18} color={colors.primary.main} strokeWidth={2} />
+				</TouchableOpacity>
 			)}
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
-	panel: {
-		backgroundColor: colors.background.cream,
+	container: {
+		backgroundColor: colors.background.secondary,
 		paddingHorizontal: spacing.lg,
-		paddingVertical: spacing.md,
+		paddingTop: spacing.lg,
+		paddingBottom: spacing.md,
+		borderTopLeftRadius: spacing.radius.xl,
+		borderTopRightRadius: spacing.radius.xl,
+		marginTop: -spacing.md,
 	},
-	header: {
+	titleSection: {
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "flex-start",
 		marginBottom: spacing.md,
 	},
-	titleContainer: {
+	titleLeft: {
 		flex: 1,
 		marginRight: spacing.sm,
 	},
-	panelTitle: {
+	lessonTitle: {
 		fontSize: typography.fontSize.lg,
 		fontWeight: typography.fontWeight.bold,
 		color: colors.text.primary,
-		marginBottom: spacing.xs,
+		lineHeight: 24,
+		marginBottom: 4,
 	},
-	courseTitleText: {
+	courseLabel: {
 		fontSize: typography.fontSize.sm,
 		color: colors.primary.main,
-		fontWeight: typography.fontWeight.semibold,
+		fontWeight: typography.fontWeight.medium,
 		marginBottom: 2,
 	},
-	instructorText: {
-		fontSize: typography.fontSize.sm,
-		color: colors.text.secondary,
-	},
-	actions: {
-		alignItems: "center",
-	},
-	downloadedBadge: {
-		flexDirection: "row",
-		alignItems: "center",
-		backgroundColor: colors.primary.surface,
-		paddingHorizontal: spacing.sm,
-		paddingVertical: spacing.xs,
-		borderRadius: spacing.radius.sm,
-	},
-	downloadedText: {
+	instructorLabel: {
 		fontSize: typography.fontSize.xs,
-		fontWeight: typography.fontWeight.semibold,
-		color: colors.feedback.success,
-		marginLeft: spacing.xs,
+		color: colors.text.tertiary,
 	},
-	downloadButton: {
+	downloadBtn: {
+		width: 36,
+		height: 36,
+		borderRadius: 18,
 		backgroundColor: colors.primary.surface,
-		width: 40,
-		height: 40,
-		borderRadius: 20,
 		justifyContent: "center",
 		alignItems: "center",
 	},
-	courseProgress: {
-		marginBottom: spacing.lg,
+	downloadedTag: {
+		width: 28,
+		height: 28,
+		borderRadius: 14,
+		backgroundColor: colors.feedback.successLight,
+		justifyContent: "center",
+		alignItems: "center",
 	},
-	progressLabel: {
-		fontSize: typography.fontSize.sm,
-		fontWeight: typography.fontWeight.semibold,
-		color: colors.text.primary,
-		marginBottom: spacing.sm,
-	},
-	progressBarContainer: {
+	progressSection: {
 		flexDirection: "row",
 		alignItems: "center",
 		gap: spacing.sm,
+		marginBottom: spacing.md,
 	},
-	courseProgressBar: {
+	progressTrack: {
 		flex: 1,
-		height: 6,
-		backgroundColor: colors.neutral[300],
-		borderRadius: 3,
+		height: 4,
+		backgroundColor: colors.neutral[200],
+		borderRadius: 2,
+		overflow: "hidden",
 	},
-	courseProgressFill: {
+	progressFill: {
 		height: "100%",
 		backgroundColor: colors.primary.main,
-		borderRadius: 3,
+		borderRadius: 2,
 	},
-	progressPercentage: {
+	progressText: {
 		fontSize: typography.fontSize.xs,
 		fontWeight: typography.fontWeight.semibold,
-		color: colors.text.primary,
-		minWidth: 80,
+		color: colors.text.secondary,
 	},
-	navigationButtons: {
+	actionsRow: {
 		flexDirection: "row",
-		justifyContent: "space-between",
 		alignItems: "center",
+		gap: spacing.sm,
 		marginBottom: spacing.md,
-		gap: spacing.sm,
 	},
-	navButton: {
-		flexDirection: "row",
+	navBtn: {
+		width: 44,
+		height: 44,
+		borderRadius: 22,
+		backgroundColor: colors.neutral[100],
+		justifyContent: "center",
 		alignItems: "center",
-		backgroundColor: colors.background.secondary,
-		paddingHorizontal: spacing.md,
-		paddingVertical: spacing.sm,
-		borderRadius: spacing.radius.sm,
-		borderWidth: 2,
-		borderColor: colors.border.light,
+	},
+	navBtnDisabled: {
+		opacity: 0.4,
+	},
+	completeBtn: {
 		flex: 1,
-		justifyContent: "center",
-		gap: spacing.xs + 2,
-	},
-	previousButton: {
-		maxWidth: 100,
-	},
-	nextButton: {
-		maxWidth: 100,
-	},
-	navButtonText: {
-		fontSize: typography.fontSize.sm,
-		fontWeight: typography.fontWeight.semibold,
-		color: colors.text.primary,
-	},
-	navButtonTextDisabled: {
-		color: colors.text.disabled,
-	},
-	completeButton: {
 		flexDirection: "row",
 		alignItems: "center",
-		backgroundColor: colors.primary.main,
-		paddingHorizontal: spacing.lg,
-		paddingVertical: spacing.sm,
-		borderRadius: spacing.radius.sm,
-		gap: spacing.sm,
-		flex: 2,
 		justifyContent: "center",
+		backgroundColor: colors.primary.main,
+		height: 44,
+		borderRadius: 22,
+		gap: spacing.sm,
 	},
-	completeButtonText: {
+	completeBtnText: {
 		fontSize: typography.fontSize.sm,
 		fontWeight: typography.fontWeight.semibold,
-		color: colors.text.inverse,
+		color: "#fff",
 	},
-	nextLessonPreview: {
-		backgroundColor: colors.background.secondary,
+	nextCard: {
+		flexDirection: "row",
+		alignItems: "center",
+		backgroundColor: colors.primary.surface,
 		padding: spacing.md,
 		borderRadius: spacing.radius.md,
-		borderWidth: 2,
-		borderColor: colors.primary.surface,
 	},
-	nextLessonLabel: {
-		fontSize: typography.fontSize.sm,
-		fontWeight: typography.fontWeight.semibold,
-		color: colors.primary.main,
-		marginBottom: spacing.sm,
-	},
-	nextLessonCard: {
-		flexDirection: "row",
-		alignItems: "center",
-		gap: spacing.sm,
-	},
-	nextLessonInfo: {
+	nextInfo: {
 		flex: 1,
 	},
-	nextLessonTitle: {
-		fontSize: typography.fontSize.base,
+	nextLabel: {
+		fontSize: 11,
 		fontWeight: typography.fontWeight.semibold,
+		color: colors.primary.main,
+		textTransform: "uppercase",
+		letterSpacing: 0.5,
+		marginBottom: 2,
+	},
+	nextTitle: {
+		fontSize: typography.fontSize.sm,
+		fontWeight: typography.fontWeight.medium,
 		color: colors.text.primary,
 		marginBottom: 2,
 	},
-	nextLessonDuration: {
-		fontSize: typography.fontSize.sm,
-		color: colors.text.secondary,
+	nextDuration: {
+		fontSize: typography.fontSize.xs,
+		color: colors.text.tertiary,
 	},
 });

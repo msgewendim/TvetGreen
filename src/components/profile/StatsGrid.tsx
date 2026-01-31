@@ -1,14 +1,12 @@
 /**
  * StatsGrid Component
  *
- * Displays user learning statistics in a grid layout
+ * Compact horizontal row of learning statistics
  */
 
 import { Award, BookOpen, Clock, TrendingUp } from "lucide-react-native";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { colors, spacing, typography } from "@/design-system";
-
-const { width } = Dimensions.get("window");
 
 export interface UserStats {
 	completedCourses: number;
@@ -21,33 +19,25 @@ interface StatsGridProps {
 	stats: UserStats;
 }
 
-export const StatsGrid: React.FC<StatsGridProps> = ({ stats }) => {
+export function StatsGrid({ stats }: StatsGridProps) {
 	const statsData = [
 		{
-			icon: <BookOpen size={24} color={colors.primary.main} strokeWidth={2} />,
+			icon: <BookOpen size={18} color={colors.primary.main} strokeWidth={2} />,
 			value: stats.completedCourses,
-			label: "Courses Completed",
+			label: "Completed",
 		},
 		{
-			icon: <Clock size={24} color={colors.secondary.main} strokeWidth={2} />,
+			icon: <Clock size={18} color={colors.secondary.main} strokeWidth={2} />,
 			value: `${stats.totalHours}h`,
-			label: "Hours Learned",
+			label: "Hours",
 		},
 		{
-			icon: (
-				<Award
-					size={24}
-					color={colors.categories.construction}
-					strokeWidth={2}
-				/>
-			),
+			icon: <Award size={18} color={colors.categories.construction} strokeWidth={2} />,
 			value: stats.certificates,
 			label: "Certificates",
 		},
 		{
-			icon: (
-				<TrendingUp size={24} color={colors.feedback.success} strokeWidth={2} />
-			),
+			icon: <TrendingUp size={18} color={colors.feedback.success} strokeWidth={2} />,
 			value: stats.currentStreak,
 			label: "Day Streak",
 		},
@@ -55,54 +45,41 @@ export const StatsGrid: React.FC<StatsGridProps> = ({ stats }) => {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>Learning Statistics</Text>
-			<View style={styles.grid}>
-				{statsData.map((stat, index) => (
-					<View key={index} style={styles.card}>
-						{stat.icon}
-						<Text style={styles.value}>{stat.value}</Text>
-						<Text style={styles.label}>{stat.label}</Text>
-					</View>
-				))}
-			</View>
+			{statsData.map((stat) => (
+				<View key={stat.label} style={styles.chip}>
+					{stat.icon}
+					<Text style={styles.value}>{stat.value}</Text>
+					<Text style={styles.label}>{stat.label}</Text>
+				</View>
+			))}
 		</View>
 	);
 };
 
 const styles = StyleSheet.create({
 	container: {
+		flexDirection: "row",
 		marginHorizontal: spacing.lg,
 		marginBottom: spacing.lg,
-	},
-	title: {
-		fontSize: typography.fontSize.xl,
-		fontWeight: typography.fontWeight.bold,
-		color: colors.text.primary,
-		marginBottom: spacing.md,
-	},
-	grid: {
-		flexDirection: "row",
-		flexWrap: "wrap",
-		justifyContent: "space-between",
 		gap: spacing.sm,
 	},
-	card: {
+	chip: {
+		flex: 1,
 		backgroundColor: colors.neutral.white,
-		width: (width - 64) / 2,
-		padding: spacing.md,
-		borderRadius: spacing.radius.md,
+		paddingVertical: spacing.sm,
+		paddingHorizontal: spacing.xs,
+		borderRadius: spacing.radius.sm,
 		alignItems: "center",
-		...spacing.shadow.md,
+		...spacing.shadow.sm,
 	},
 	value: {
-		fontSize: typography.fontSize["2xl"],
+		fontSize: typography.fontSize.lg,
 		fontWeight: typography.fontWeight.bold,
 		color: colors.text.primary,
-		marginTop: spacing.sm,
-		marginBottom: spacing.xs / 2,
+		marginTop: 2,
 	},
 	label: {
-		fontSize: typography.fontSize.xs,
+		fontSize: 10,
 		color: colors.text.secondary,
 		textAlign: "center",
 		fontWeight: typography.fontWeight.medium,

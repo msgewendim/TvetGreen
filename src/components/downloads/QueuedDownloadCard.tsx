@@ -9,7 +9,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { colors, spacing, typography } from "@/design-system";
 
 export interface QueuedDownload {
-	id: number;
+	id: number | string;
 	title: string;
 	category: string;
 	size: string;

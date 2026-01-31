@@ -171,6 +171,7 @@ export interface EmptyStateProps extends BaseComponentProps {
 export interface HeaderProps extends BaseComponentProps {
 	title: string;
 	subtitle?: string;
+	variant?: "default" | "minimal";
 	leftAction?: {
 		icon: ReactNode;
 		onPress: () => void;
@@ -182,6 +183,31 @@ export interface HeaderProps extends BaseComponentProps {
 		accessibilityLabel?: string;
 	};
 	backgroundColor?: string;
+}
+
+export interface ModernCourseCardProps extends BaseComponentProps {
+	title: string;
+	instructor?: string;
+	category?: string;
+	categoryColor?: string;
+	lessonsCount?: number;
+	duration?: string;
+	rating?: number;
+	progress?: number;
+	thumbnailUrl?: string;
+	size?: string;
+	downloadDate?: string;
+	isOffline?: boolean;
+	onPress?: () => void;
+	onDelete?: () => void;
+}
+
+export interface CategoryChipProps extends BaseComponentProps {
+	label: string;
+	emoji?: string;
+	color?: string;
+	isActive?: boolean;
+	onPress?: () => void;
 }
 
 export interface BottomNavProps extends BaseComponentProps {

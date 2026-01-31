@@ -10,6 +10,8 @@ export * from "./components";
 export * from "./theme";
 // Design tokens
 export * from "./tokens";
+// Common styles
+export * from "./styles/commonStyles";
 
 // Re-export types that consumers might need
 export type {
@@ -31,4 +33,6 @@ export type {
 	ChipProps,
 	BadgeProps,
 	AvatarProps,
+	ModernCourseCardProps,
+	CategoryChipProps,
 } from "../types/design-system";

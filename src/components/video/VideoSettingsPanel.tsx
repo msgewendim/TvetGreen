@@ -23,10 +23,14 @@ interface VideoSettingsPanelProps {
 	showSubtitles: boolean;
 	playbackSpeeds: number[];
 	subtitleLanguages: SubtitleLanguage[];
+	autoPlayNext?: boolean;
+	selectedQuality?: string;
 	onClose: () => void;
 	onSpeedChange: (speed: number) => void;
 	onLanguageChange: (language: string) => void;
 	onToggleSubtitles: () => void;
+	onToggleAutoPlay?: () => void;
+	onQualityChange?: (quality: string) => void;
 }
 
 export function VideoSettingsPanel({
@@ -36,11 +40,16 @@ export function VideoSettingsPanel({
 	showSubtitles,
 	playbackSpeeds,
 	subtitleLanguages,
+	autoPlayNext = true,
+	selectedQuality = "auto",
 	onClose,
 	onSpeedChange,
 	onLanguageChange,
 	onToggleSubtitles,
+	onToggleAutoPlay,
+	onQualityChange,
 }: VideoSettingsPanelProps) {
+	const qualities = ["auto", "1080p", "720p", "480p", "360p"];
 	if (!showSettings) return null;
 
 	return (
@@ -132,6 +141,50 @@ export function VideoSettingsPanel({
 						/>
 					</View>
 				</TouchableOpacity>
+
+				{/* Video Quality */}
+				<View style={styles.section}>
+					<Text style={styles.sectionTitle}>Video Quality</Text>
+					<View style={styles.speedOptions}>
+						{qualities.map((quality) => (
+							<TouchableOpacity
+								key={quality}
+								style={[
+									styles.speedOption,
+									selectedQuality === quality && styles.speedOptionActive,
+								]}
+								onPress={() => onQualityChange?.(quality)}
+							>
+								<Text
+									style={[
+										styles.speedOptionText,
+										selectedQuality === quality && styles.speedOptionTextActive,
+									]}
+								>
+									{quality === "auto" ? "Auto" : quality}
+								</Text>
+							</TouchableOpacity>
+						))}
+					</View>
+				</View>
+
+				{/* Auto-play Next Lesson */}
+				{onToggleAutoPlay && (
+					<TouchableOpacity
+						style={styles.subtitleToggle}
+						onPress={onToggleAutoPlay}
+					>
+						<Text style={styles.subtitleToggleText}>Auto-play Next Lesson</Text>
+						<View style={[styles.toggle, autoPlayNext && styles.toggleActive]}>
+							<View
+								style={[
+									styles.toggleThumb,
+									autoPlayNext && styles.toggleThumbActive,
+								]}
+							/>
+						</View>
+					</TouchableOpacity>
+				)}
 			</View>
 		</View>
 	);

@@ -10,6 +10,7 @@ import {
 import {
 	ScreenLayout,
 	Header,
+	commonStyles,
 	colors,
 	spacing,
 	typography,
@@ -19,9 +20,11 @@ import {
 	StatsGrid,
 	GoalCard,
 	SettingItem,
+	CommunityImpactCard,
 	type UserProfile,
 	type UserStats,
 	type LearningGoal,
+	type CommunityImpactStats,
 } from "@/src/components/profile";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import { LanguageSelector } from "@/src/components/settings";
@@ -30,6 +33,7 @@ import { useState } from "react";
 export default function ProfileScreen() {
 	const { t, languageInfo } = useLanguage();
 	const [showLanguageSelector, setShowLanguageSelector] = useState(false);
+
 	const userProfile: UserProfile = {
 		name: "Fatima Okonkwo",
 		location: "Addis Ababa, Ethiopia",
@@ -65,6 +69,12 @@ export default function ProfileScreen() {
 		},
 	];
 
+	const communityImpact: CommunityImpactStats = {
+		peopleHelped: 12,
+		skillsShared: 3,
+		questionsAnswered: 45,
+	};
+
 	const handleLogout = () => {
 		Alert.alert(
 			t("profile.signOut"),
@@ -81,13 +91,10 @@ export default function ProfileScreen() {
 	};
 
 	return (
-		<ScreenLayout headerExtendsToStatusBar>
-			<Header
-				title={t("navigation.profile")}
-				subtitle={t("profile.myProfile")}
-			/>
+		<ScreenLayout >
+			<Header variant="minimal" title="Profile" />
 
-			<ProfileHeader profile={userProfile} onEditPress={() => { }} />
+			<ProfileHeader profile={userProfile} onEditPress={() => {}} />
 
 			<StatsGrid stats={userStats} />
 
@@ -99,13 +106,12 @@ export default function ProfileScreen() {
 						<Text style={styles.addButtonText}>+ {t("profile.addGoal")}</Text>
 					</TouchableOpacity>
 				</View>
-
 				{learningGoals.map((goal) => (
 					<GoalCard key={goal.id} goal={goal} />
 				))}
 			</View>
 
-			{/* Settings Menu */}
+			{/* Settings */}
 			<View style={styles.section}>
 				<Text style={styles.sectionTitle}>{t("profile.settings")}</Text>
 
@@ -115,81 +121,40 @@ export default function ProfileScreen() {
 					subtitle={languageInfo.nativeName}
 					onPress={() => setShowLanguageSelector(!showLanguageSelector)}
 				/>
-
 				{showLanguageSelector && (
 					<View style={styles.languageSelectorContainer}>
 						<LanguageSelector />
 					</View>
 				)}
-
 				<SettingItem
-					icon={
-						<Volume2 size={20} color={colors.secondary.main} strokeWidth={2} />
-					}
+					icon={<Volume2 size={20} color={colors.secondary.main} strokeWidth={2} />}
 					title={t("profile.voiceGuide")}
 					subtitle="Voice commands, audio quality"
-					onPress={() => { }}
+					onPress={() => {}}
 				/>
-
 				<SettingItem
-					icon={
-						<Download size={20} color={colors.feedback.info} strokeWidth={2} />
-					}
+					icon={<Download size={20} color={colors.feedback.info} strokeWidth={2} />}
 					title={t("downloads.title")}
 					subtitle={t("profile.wifiOnly")}
-					onPress={() => { }}
+					onPress={() => {}}
 				/>
-
 				<SettingItem
-					icon={
-						<Smartphone
-							size={20}
-							color={colors.categories.construction}
-							strokeWidth={2}
-						/>
-					}
+					icon={<Smartphone size={20} color={colors.categories.construction} strokeWidth={2} />}
 					title={t("profile.dataUsage")}
 					subtitle={t("downloads.manage")}
-					onPress={() => { }}
+					onPress={() => {}}
 				/>
-
 				<SettingItem
-					icon={
-						<HelpCircle
-							size={20}
-							color={colors.text.secondary}
-							strokeWidth={2}
-						/>
-					}
+					icon={<HelpCircle size={20} color={colors.text.secondary} strokeWidth={2} />}
 					title={t("profile.help")}
 					subtitle="FAQs, contact support"
-					onPress={() => { }}
+					onPress={() => {}}
 				/>
 			</View>
 
-			{/* Community Impact */}
-			<View style={styles.impactContainer}>
-				<Text style={styles.impactTitle}>🌍 Your Community Impact</Text>
-				<View style={styles.impactStats}>
-					<View style={styles.impactItem}>
-						<Text style={styles.impactNumber}>12</Text>
-						<Text style={styles.impactLabel}>People Helped</Text>
-					</View>
-					<View style={styles.impactItem}>
-						<Text style={styles.impactNumber}>3</Text>
-						<Text style={styles.impactLabel}>Skills Shared</Text>
-					</View>
-					<View style={styles.impactItem}>
-						<Text style={styles.impactNumber}>45</Text>
-						<Text style={styles.impactLabel}>Questions Answered</Text>
-					</View>
-				</View>
-				<Text style={styles.impactDescription}>
-					Your knowledge is making a difference in your community!
-				</Text>
-			</View>
+			<CommunityImpactCard stats={communityImpact} />
 
-			{/* Account Actions */}
+			{/* Sign Out */}
 			<View style={styles.accountActions}>
 				<TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
 					<LogOut size={20} color={colors.feedback.error} strokeWidth={2} />
@@ -201,22 +166,9 @@ export default function ProfileScreen() {
 }
 
 const styles = StyleSheet.create({
-	section: {
-		marginHorizontal: spacing.lg,
-		marginBottom: spacing.lg,
-	},
-	sectionHeader: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-		marginBottom: spacing.md,
-	},
-	sectionTitle: {
-		fontSize: typography.fontSize.xl,
-		fontWeight: typography.fontWeight.bold,
-		color: colors.text.primary,
-		marginBottom: spacing.md,
-	},
+	section: commonStyles.section,
+	sectionHeader: commonStyles.sectionHeader,
+	sectionTitle: commonStyles.sectionTitle,
 	addButton: {
 		backgroundColor: colors.primary.surface,
 		paddingHorizontal: spacing.sm,
@@ -227,48 +179,6 @@ const styles = StyleSheet.create({
 		fontSize: typography.fontSize.sm,
 		fontWeight: typography.fontWeight.semibold,
 		color: colors.primary.main,
-	},
-	impactContainer: {
-		backgroundColor: colors.primary.surface,
-		marginHorizontal: spacing.lg,
-		marginBottom: spacing.lg,
-		padding: spacing.lg,
-		borderRadius: spacing.radius.md,
-		borderWidth: 2,
-		borderColor: colors.feedback.success,
-	},
-	impactTitle: {
-		fontSize: typography.fontSize.lg,
-		fontWeight: typography.fontWeight.bold,
-		color: colors.text.primary,
-		marginBottom: spacing.md,
-		textAlign: "center",
-	},
-	impactStats: {
-		flexDirection: "row",
-		justifyContent: "space-around",
-		marginBottom: spacing.md,
-	},
-	impactItem: {
-		alignItems: "center",
-	},
-	impactNumber: {
-		fontSize: typography.fontSize["2xl"],
-		fontWeight: typography.fontWeight.bold,
-		color: colors.feedback.success,
-		marginBottom: spacing.xs / 2,
-	},
-	impactLabel: {
-		fontSize: typography.fontSize.xs,
-		color: colors.text.primary,
-		fontWeight: typography.fontWeight.medium,
-		textAlign: "center",
-	},
-	impactDescription: {
-		fontSize: typography.fontSize.sm,
-		color: colors.text.primary,
-		textAlign: "center",
-		lineHeight: 20,
 	},
 	accountActions: {
 		marginHorizontal: spacing.lg,
