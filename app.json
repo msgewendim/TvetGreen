@@ -41,7 +41,16 @@
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/[PROJECT_ID]"
+      "url": "https://u.expo.dev/163033fb-20b0-4b5f-83b1-80e25c89cb3d"
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "163033fb-20b0-4b5f-83b1-80e25c89cb3d"
+      }
+    },
+    "android": {
+      "package": "com.misganaw.builder"
     }
   }
 }
