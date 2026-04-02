@@ -5,6 +5,7 @@ import {
 	ScrollView,
 	StatusBar,
 	StyleSheet,
+	Text,
 	TouchableOpacity,
 	View,
 } from "react-native";
@@ -42,6 +43,11 @@ export default function VideoPlayerScreen() {
 	const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
 	const { isWeb } = usePlatform();
+
+	// Validate route parameters
+	const hasValidParams = Boolean(courseId?.trim() && lessonId?.trim());
+	const isLessonNotFound = lessonData.title === "Lesson Not Found";
+
 	useEffect(() => {
 		if (courseId) {
 			updateLastAccessed(courseId);
@@ -140,6 +146,33 @@ export default function VideoPlayerScreen() {
 
 	const headerBackground = isWeb ? colors.background.tertiary : "#000";
 
+	if (!hasValidParams || isLessonNotFound) {
+		return (
+			<View style={styles.errorContainer}>
+				<StatusBar barStyle="light-content" />
+				<Text style={styles.errorTitle}>
+					{!hasValidParams
+						? t("common.error")
+						: t("video.lessonNotFound")}
+				</Text>
+				<Text style={styles.errorMessage}>
+					{!hasValidParams
+						? t("video.invalidParams")
+						: t("video.lessonNotFoundMessage")}
+				</Text>
+				<TouchableOpacity
+					style={styles.errorBackButton}
+					onPress={() => router.back()}
+					accessibilityLabel={t("common.back")}
+					accessibilityRole="button"
+				>
+					<ArrowLeft size={20} color={colors.text.inverse} />
+					<Text style={styles.errorBackText}>{t("common.goBack")}</Text>
+				</TouchableOpacity>
+			</View>
+		);
+	}
+
 	return (
 		<View style={[styles.container, { backgroundColor: headerBackground }]}>
 			<StatusBar barStyle="light-content" />
@@ -233,5 +266,39 @@ const styles = StyleSheet.create({
 	infoScroll: {
 		flex: 1,
 		backgroundColor: colors.background.secondary,
+	},
+	errorContainer: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: colors.background.primary,
+		padding: 32,
+	},
+	errorTitle: {
+		fontSize: 20,
+		fontWeight: "700",
+		color: colors.text.primary,
+		marginBottom: 8,
+	},
+	errorMessage: {
+		fontSize: 15,
+		color: colors.text.secondary,
+		textAlign: "center",
+		marginBottom: 24,
+		lineHeight: 22,
+	},
+	errorBackButton: {
+		flexDirection: "row",
+		alignItems: "center",
+		backgroundColor: colors.primary.main,
+		paddingHorizontal: 20,
+		paddingVertical: 12,
+		borderRadius: 12,
+		gap: 8,
+	},
+	errorBackText: {
+		fontSize: 15,
+		fontWeight: "600",
+		color: colors.text.inverse,
 	},
 });

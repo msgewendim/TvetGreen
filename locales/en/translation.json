@@ -24,7 +24,8 @@
 		"refresh": "Refresh",
 		"viewAll": "View All",
 		"seeMore": "See More",
-		"seeLess": "See Less"
+		"seeLess": "See Less",
+		"goBack": "Go Back"
 	},
 	"navigation": {
 		"home": "Home",
@@ -174,7 +175,10 @@
 		"upNext": "Up Next",
 		"autoplayIn": "Autoplay in {{seconds}}s",
 		"completed": "Lesson Completed!",
-		"markComplete": "Mark as Complete"
+		"markComplete": "Mark as Complete",
+		"lessonNotFound": "Lesson Not Found",
+		"lessonNotFoundMessage": "This lesson doesn't exist or may have been removed.",
+		"invalidParams": "The lesson link is invalid. Please go back and try again."
 	},
 	"voice": {
 		"listening": "Listening...",
