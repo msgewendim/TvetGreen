@@ -24,7 +24,8 @@
 		"refresh": "Onyesha Upya",
 		"viewAll": "Tazama Zote",
 		"seeMore": "Angalia Zaidi",
-		"seeLess": "Angalia Kidogo"
+		"seeLess": "Angalia Kidogo",
+		"goBack": "Rudi Nyuma"
 	},
 	"navigation": {
 		"home": "Nyumbani",
@@ -174,7 +175,10 @@
 		"upNext": "Inayofuata",
 		"autoplayIn": "Itacheza otomatiki baada ya sekunde {{seconds}}",
 		"completed": "Somo Limekamilika!",
-		"markComplete": "Weka kama Iliyokamilika"
+		"markComplete": "Weka kama Iliyokamilika",
+		"lessonNotFound": "Somo Halipatikani",
+		"lessonNotFoundMessage": "Somo hili halipo au linaweza kuwa limeondolewa.",
+		"invalidParams": "Kiungo cha somo si sahihi. Tafadhali rudi nyuma ujaribu tena."
 	},
 	"voice": {
 		"listening": "Inasikiliza...",

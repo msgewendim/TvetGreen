@@ -96,10 +96,14 @@ export function LessonInfoPanel({
 					<Text style={styles.completeBtnText}>Complete</Text>
 				</TouchableOpacity>
 
-				<TouchableOpacity style={styles.navBtn} onPress={onNext}>
+				<TouchableOpacity
+					style={[styles.navBtn, lessonNumber >= totalLessons && styles.navBtnDisabled]}
+					disabled={lessonNumber >= totalLessons}
+					onPress={onNext}
+				>
 					<ChevronRight
 						size={18}
-						color={colors.text.primary}
+						color={lessonNumber >= totalLessons ? colors.text.disabled : colors.text.primary}
 						strokeWidth={2}
 					/>
 				</TouchableOpacity>

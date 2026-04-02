@@ -24,7 +24,8 @@
 		"refresh": "አድስ",
 		"viewAll": "ሁሉንም ተመልከት",
 		"seeMore": "ተጨማሪ ይመልከቱ",
-		"seeLess": "ያነሰ ይመልከቱ"
+		"seeLess": "ያነሰ ይመልከቱ",
+		"goBack": "ተመለስ"
 	},
 	"navigation": {
 		"home": "መነሻ",
@@ -174,7 +175,10 @@
 		"upNext": "ቀጥሎ",
 		"autoplayIn": "በራስ-ሰር በ{{seconds}} ሰከንድ ውስጥ ይጫወታል",
 		"completed": "ትምህርት ተጠናቅቋል!",
-		"markComplete": "እንደተጠናቀቀ ምልክት አድርግ"
+		"markComplete": "እንደተጠናቀቀ ምልክት አድርግ",
+		"lessonNotFound": "ትምህርት አልተገኘም",
+		"lessonNotFoundMessage": "ይህ ትምህርት የለም ወይም ተወግዷል።",
+		"invalidParams": "የትምህርት ማገናኛው ልክ አይደለም። እባክዎ ተመልሰው ይሞክሩ።"
 	},
 	"voice": {
 		"listening": "በማዳመጥ ላይ...",

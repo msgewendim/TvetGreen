@@ -40,8 +40,8 @@ type TabType = "overview" | "curriculum" | "about";
 export function CourseDetailScreen() {
 	const { t } = useLanguage();
 	const router = useRouter();
-	const params = useLocalSearchParams();
-	const courseId = params.id as string;
+	const { id } = useLocalSearchParams<{ id: string }>();
+	const courseId = id?.trim() || "";
 
 	const [activeTab, setActiveTab] = useState<TabType>("overview");
 	const [showEnrollModal, setShowEnrollModal] = useState(false);
