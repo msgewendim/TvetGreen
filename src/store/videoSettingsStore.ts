@@ -13,10 +13,16 @@ const VIDEO_SETTINGS_KEY = "@video_settings";
 export const PLAYBACK_SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
 export const SUBTITLE_LANGUAGES = [
-	{ code: "en", name: "English", flag: "🇬🇧" },
-	{ code: "sw", name: "Swahili", flag: "🇰🇪" },
-	{ code: "am", name: "Amharic", flag: "🇪🇹" },
+	{ code: "en", nameKey: "common.languageEnglish", flag: "🇬🇧" },
+	{ code: "sw", nameKey: "common.languageSwahili", flag: "🇰🇪" },
+	{ code: "am", nameKey: "common.languageAmharic", flag: "🇪🇹" },
 ];
+
+interface PersistedVideoSettings {
+	playbackSpeed?: unknown;
+	showSubtitles?: unknown;
+	subtitleLanguage?: unknown;
+}
 
 interface VideoSettingsState {
 	playbackSpeed: number;
@@ -67,11 +73,22 @@ export const useVideoSettingsStore = create<VideoSettingsState>((set, get) => ({
 		try {
 			const json = await AsyncStorage.getItem(VIDEO_SETTINGS_KEY);
 			if (json) {
-				const parsed = JSON.parse(json);
+				const parsed: PersistedVideoSettings = JSON.parse(json);
 				set({
-					playbackSpeed: parsed.playbackSpeed ?? 1,
-					showSubtitles: parsed.showSubtitles ?? false,
-					subtitleLanguage: parsed.subtitleLanguage ?? "en",
+					playbackSpeed:
+						typeof parsed.playbackSpeed === "number" &&
+						PLAYBACK_SPEEDS.includes(parsed.playbackSpeed)
+							? parsed.playbackSpeed
+							: 1,
+					showSubtitles:
+						typeof parsed.showSubtitles === "boolean"
+							? parsed.showSubtitles
+							: false,
+					subtitleLanguage:
+						typeof parsed.subtitleLanguage === "string" &&
+						SUBTITLE_LANGUAGES.some((l) => l.code === parsed.subtitleLanguage)
+							? parsed.subtitleLanguage
+							: "en",
 					isLoaded: true,
 				});
 			} else {

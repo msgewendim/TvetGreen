@@ -12,7 +12,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { ArrowLeft, Settings } from "lucide-react-native";
 import { VideoPlayer } from "@/src/components/VideoPlayer";
 import { LessonInfoPanel, VideoSettingsPanel } from "@/src/components/video";
-import { colors } from "@/design-system";
+import { colors, spacing } from "@/design-system";
 import {
 	useVideoSettingsStore,
 	PLAYBACK_SPEEDS,
@@ -163,7 +163,7 @@ export default function VideoPlayerScreen() {
 					accessibilityLabel={t("common.back")}
 					accessibilityRole="button"
 				>
-					<ArrowLeft size={24} color="#FFFFFF" />
+					<ArrowLeft size={24} color={colors.text.inverse} />
 				</TouchableOpacity>
 				<TouchableOpacity
 					onPress={() => setShowSettings((prev) => !prev)}
@@ -171,7 +171,7 @@ export default function VideoPlayerScreen() {
 					accessibilityLabel={t("video.settings")}
 					accessibilityRole="button"
 				>
-					<Settings size={24} color="#FFFFFF" />
+					<Settings size={24} color={colors.text.inverse} />
 				</TouchableOpacity>
 			</View>
 			{/* Video — native controls handle play/pause/seek/speed */}
@@ -255,8 +255,8 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	settingsButton: {
-		width: 44,
-		height: 44,
+		width: spacing.minTouchTarget,
+		height: spacing.minTouchTarget,
 		justifyContent: "center",
 		alignItems: "center",
 	},

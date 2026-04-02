@@ -24,7 +24,10 @@
 		"refresh": "አድስ",
 		"viewAll": "ሁሉንም ተመልከት",
 		"seeMore": "ተጨማሪ ይመልከቱ",
-		"seeLess": "ያነሰ ይመልከቱ"
+		"seeLess": "ያነሰ ይመልከቱ",
+		"languageEnglish": "እንግሊዝኛ",
+		"languageSwahili": "ስዋሂሊ",
+		"languageAmharic": "አማርኛ"
 	},
 	"navigation": {
 		"home": "መነሻ",
@@ -174,7 +177,13 @@
 		"upNext": "ቀጥሎ",
 		"autoplayIn": "በራስ-ሰር በ{{seconds}} ሰከንድ ውስጥ ይጫወታል",
 		"completed": "ትምህርት ተጠናቅቋል!",
-		"markComplete": "እንደተጠናቀቀ ምልክት አድርግ"
+		"markComplete": "እንደተጠናቀቀ ምልክት አድርግ",
+		"videoSettings": "የቪዲዮ ቅንብሮች",
+		"playbackSpeed": "የማጫወቻ ፍጥነት",
+		"subtitleLanguage": "የትርጉም ቋንቋ",
+		"showSubtitles": "ትርጉም አሳይ",
+		"hideSubtitles": "ትርጉም ደብቅ",
+		"autoplayNext": "ቀጣዩን ትምህርት በራስ-ሰር አጫውት"
 	},
 	"voice": {
 		"listening": "በማዳመጥ ላይ...",

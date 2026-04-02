@@ -7,12 +7,13 @@ import {
 	View,
 } from "react-native";
 import { colors, spacing, typography } from "@/design-system";
+import { useLanguage } from "@/src/hooks/useLanguage";
 
 const { height } = Dimensions.get("window");
 
 interface SubtitleLanguage {
 	code: string;
-	name: string;
+	nameKey: string;
 	flag: string;
 }
 
@@ -49,6 +50,7 @@ export function VideoSettingsPanel({
 	onToggleAutoPlay,
 	onQualityChange,
 }: VideoSettingsPanelProps) {
+	const { t } = useLanguage();
 	const qualities = ["auto", "1080p", "720p", "480p", "360p"];
 	if (!showSettings) return null;
 
@@ -56,7 +58,7 @@ export function VideoSettingsPanel({
 		<View style={styles.panel}>
 			<View style={styles.content}>
 				<View style={styles.header}>
-					<Text style={styles.title}>Video Settings</Text>
+					<Text style={styles.title}>{t("video.videoSettings")}</Text>
 					<TouchableOpacity onPress={onClose}>
 						<ChevronDown
 							size={24}
@@ -68,7 +70,7 @@ export function VideoSettingsPanel({
 
 				{/* Playback Speed */}
 				<View style={styles.section}>
-					<Text style={styles.sectionTitle}>Playback Speed</Text>
+					<Text style={styles.sectionTitle}>{t("video.playbackSpeed")}</Text>
 					<View style={styles.speedOptions}>
 						{playbackSpeeds.map((speed) => (
 							<TouchableOpacity
@@ -94,7 +96,7 @@ export function VideoSettingsPanel({
 
 				{/* Subtitle Language */}
 				<View style={styles.section}>
-					<Text style={styles.sectionTitle}>Subtitle Language</Text>
+					<Text style={styles.sectionTitle}>{t("video.subtitleLanguage")}</Text>
 					{subtitleLanguages.map((lang) => (
 						<TouchableOpacity
 							key={lang.code}
@@ -111,7 +113,7 @@ export function VideoSettingsPanel({
 									selectedLanguage === lang.code && styles.languageTextActive,
 								]}
 							>
-								{lang.name}
+								{t(lang.nameKey)}
 							</Text>
 							{selectedLanguage === lang.code && (
 								<CheckCircle
@@ -130,7 +132,7 @@ export function VideoSettingsPanel({
 					onPress={onToggleSubtitles}
 				>
 					<Text style={styles.subtitleToggleText}>
-						{showSubtitles ? "Hide" : "Show"} Subtitles
+						{showSubtitles ? t("video.hideSubtitles") : t("video.showSubtitles")}
 					</Text>
 					<View style={[styles.toggle, showSubtitles && styles.toggleActive]}>
 						<View
@@ -142,31 +144,33 @@ export function VideoSettingsPanel({
 					</View>
 				</TouchableOpacity>
 
-				{/* Video Quality */}
-				<View style={styles.section}>
-					<Text style={styles.sectionTitle}>Video Quality</Text>
-					<View style={styles.speedOptions}>
-						{qualities.map((quality) => (
-							<TouchableOpacity
-								key={quality}
-								style={[
-									styles.speedOption,
-									selectedQuality === quality && styles.speedOptionActive,
-								]}
-								onPress={() => onQualityChange?.(quality)}
-							>
-								<Text
+				{/* Video Quality — only rendered when a handler is provided */}
+				{onQualityChange && (
+					<View style={styles.section}>
+						<Text style={styles.sectionTitle}>{t("video.videoQuality")}</Text>
+						<View style={styles.speedOptions}>
+							{qualities.map((quality) => (
+								<TouchableOpacity
+									key={quality}
 									style={[
-										styles.speedOptionText,
-										selectedQuality === quality && styles.speedOptionTextActive,
+										styles.speedOption,
+										selectedQuality === quality && styles.speedOptionActive,
 									]}
+									onPress={() => onQualityChange(quality)}
 								>
-									{quality === "auto" ? "Auto" : quality}
-								</Text>
-							</TouchableOpacity>
-						))}
+									<Text
+										style={[
+											styles.speedOptionText,
+											selectedQuality === quality && styles.speedOptionTextActive,
+										]}
+									>
+										{quality === "auto" ? "Auto" : quality}
+									</Text>
+								</TouchableOpacity>
+							))}
+						</View>
 					</View>
-				</View>
+				)}
 
 				{/* Auto-play Next Lesson */}
 				{onToggleAutoPlay && (
@@ -174,7 +178,7 @@ export function VideoSettingsPanel({
 						style={styles.subtitleToggle}
 						onPress={onToggleAutoPlay}
 					>
-						<Text style={styles.subtitleToggleText}>Auto-play Next Lesson</Text>
+						<Text style={styles.subtitleToggleText}>{t("video.autoplayNext")}</Text>
 						<View style={[styles.toggle, autoPlayNext && styles.toggleActive]}>
 							<View
 								style={[

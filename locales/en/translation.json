@@ -24,7 +24,10 @@
 		"refresh": "Refresh",
 		"viewAll": "View All",
 		"seeMore": "See More",
-		"seeLess": "See Less"
+		"seeLess": "See Less",
+		"languageEnglish": "English",
+		"languageSwahili": "Swahili",
+		"languageAmharic": "Amharic"
 	},
 	"navigation": {
 		"home": "Home",
@@ -174,7 +177,13 @@
 		"upNext": "Up Next",
 		"autoplayIn": "Autoplay in {{seconds}}s",
 		"completed": "Lesson Completed!",
-		"markComplete": "Mark as Complete"
+		"markComplete": "Mark as Complete",
+		"videoSettings": "Video Settings",
+		"playbackSpeed": "Playback Speed",
+		"subtitleLanguage": "Subtitle Language",
+		"showSubtitles": "Show Subtitles",
+		"hideSubtitles": "Hide Subtitles",
+		"autoplayNext": "Auto-play Next Lesson"
 	},
 	"voice": {
 		"listening": "Listening...",

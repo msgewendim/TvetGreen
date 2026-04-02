@@ -24,7 +24,10 @@
 		"refresh": "Onyesha Upya",
 		"viewAll": "Tazama Zote",
 		"seeMore": "Angalia Zaidi",
-		"seeLess": "Angalia Kidogo"
+		"seeLess": "Angalia Kidogo",
+		"languageEnglish": "Kiingereza",
+		"languageSwahili": "Kiswahili",
+		"languageAmharic": "Kiamhara"
 	},
 	"navigation": {
 		"home": "Nyumbani",
@@ -174,7 +177,13 @@
 		"upNext": "Inayofuata",
 		"autoplayIn": "Itacheza otomatiki baada ya sekunde {{seconds}}",
 		"completed": "Somo Limekamilika!",
-		"markComplete": "Weka kama Iliyokamilika"
+		"markComplete": "Weka kama Iliyokamilika",
+		"videoSettings": "Mipangilio ya Video",
+		"playbackSpeed": "Kasi ya Uchezaji",
+		"subtitleLanguage": "Lugha ya Manukuu",
+		"showSubtitles": "Onyesha Manukuu",
+		"hideSubtitles": "Ficha Manukuu",
+		"autoplayNext": "Cheza Somo Linalofuata Otomatiki"
 	},
 	"voice": {
 		"listening": "Inasikiliza...",
