@@ -7,6 +7,7 @@ import { useFrameworkReady } from "@/src/hooks/useFrameworkReady";
 import { queryClient } from "@/src/services/query/QueryClient";
 import { initializeFlags } from "@/src/core/flags";
 import { initializeLearningStore } from "@/src/store/learningStore";
+import { initializeVideoSettings } from "@/src/store/videoSettingsStore";
 import { useAuthStore } from "@/src/store/authStore";
 import "../i18n.config";
 import { usePlatform } from "@/src/hooks/usePlatform";
@@ -61,6 +62,7 @@ export default function RootLayout() {
 	useEffect(() => {
 		initializeFlags();
 		initializeLearningStore();
+		initializeVideoSettings();
 	}, []);
 
 	return (

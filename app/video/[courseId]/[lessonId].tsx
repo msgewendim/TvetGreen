@@ -9,10 +9,15 @@ import {
 	View,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { ArrowLeft } from "lucide-react-native";
+import { ArrowLeft, Settings } from "lucide-react-native";
 import { VideoPlayer } from "@/src/components/VideoPlayer";
-import { LessonInfoPanel } from "@/src/components/video";
+import { LessonInfoPanel, VideoSettingsPanel } from "@/src/components/video";
 import { colors } from "@/design-system";
+import {
+	useVideoSettingsStore,
+	PLAYBACK_SPEEDS,
+	SUBTITLE_LANGUAGES,
+} from "@/src/store/videoSettingsStore";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLearningStore } from "@/src/store/learningStore";
@@ -38,8 +43,16 @@ export default function VideoPlayerScreen() {
 
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [isLoaded, setIsLoaded] = useState(false);
+	const [showSettings, setShowSettings] = useState(false);
 	const lastPositionRef = useRef(0);
 	const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+	const playbackSpeed = useVideoSettingsStore((s) => s.playbackSpeed);
+	const showSubtitles = useVideoSettingsStore((s) => s.showSubtitles);
+	const subtitleLanguage = useVideoSettingsStore((s) => s.subtitleLanguage);
+	const setPlaybackSpeed = useVideoSettingsStore((s) => s.setPlaybackSpeed);
+	const setSubtitleLanguage = useVideoSettingsStore((s) => s.setSubtitleLanguage);
+	const toggleSubtitles = useVideoSettingsStore((s) => s.toggleSubtitles);
 
 	const { isWeb } = usePlatform();
 	useEffect(() => {
@@ -152,6 +165,14 @@ export default function VideoPlayerScreen() {
 				>
 					<ArrowLeft size={24} color="#FFFFFF" />
 				</TouchableOpacity>
+				<TouchableOpacity
+					onPress={() => setShowSettings((prev) => !prev)}
+					style={styles.settingsButton}
+					accessibilityLabel={t("video.settings")}
+					accessibilityRole="button"
+				>
+					<Settings size={24} color="#FFFFFF" />
+				</TouchableOpacity>
 			</View>
 			{/* Video — native controls handle play/pause/seek/speed */}
 			<View style={[styles.videoSection, {
@@ -161,6 +182,7 @@ export default function VideoPlayerScreen() {
 					<VideoPlayer
 						ref={playerRef}
 						source={lessonData.videoUrl}
+						playbackRate={playbackSpeed}
 						localSource={lessonData.isDownloaded ? lessonData.videoUrl : undefined}
 						initialPosition={lessonData.lastPosition > 0 ? lessonData.lastPosition : undefined}
 						onPlayingChange={setIsPlaying}
@@ -197,6 +219,19 @@ export default function VideoPlayerScreen() {
 					onNextLessonPress={handleNextLesson}
 				/>
 			</ScrollView>
+
+			<VideoSettingsPanel
+				showSettings={showSettings}
+				playbackSpeed={playbackSpeed}
+				selectedLanguage={subtitleLanguage}
+				showSubtitles={showSubtitles}
+				playbackSpeeds={PLAYBACK_SPEEDS}
+				subtitleLanguages={SUBTITLE_LANGUAGES}
+				onClose={() => setShowSettings(false)}
+				onSpeedChange={setPlaybackSpeed}
+				onLanguageChange={setSubtitleLanguage}
+				onToggleSubtitles={toggleSubtitles}
+			/>
 		</View>
 	);
 }
@@ -206,11 +241,20 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	header: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
 		paddingTop: 44,
 		paddingHorizontal: 8,
 		paddingBottom: 4,
 	},
 	backButton: {
+		width: 44,
+		height: 44,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	settingsButton: {
 		width: 44,
 		height: 44,
 		justifyContent: "center",
