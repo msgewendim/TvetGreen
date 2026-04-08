@@ -53,7 +53,10 @@ export default function VideoPlayerScreen() {
 		if (!isPlaying || !isLoaded || !lessonId || !courseId) return;
 
 		progressIntervalRef.current = setInterval(() => {
-			const ref = playerRef.current as any;
+			const ref = playerRef.current as VideoPlayerRef & {
+				player?: { currentTime?: number; duration?: number };
+				playerRef?: { getCurrentTime?: () => Promise<number>; getDuration?: () => Promise<number> };
+			};
 			if (!ref) return;
 
 			let ct = 0;

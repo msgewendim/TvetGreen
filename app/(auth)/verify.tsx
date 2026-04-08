@@ -102,7 +102,7 @@ export default function VerifyScreen() {
 				inputRefs.current[0]?.focus();
 			}
 		},
-		[otp, phone, verifyOtp, router],
+		[otp, phone, verifyOtp, router, t],
 	);
 
 	const handleResend = async () => {
