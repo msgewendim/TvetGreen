@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
 		color: colors.background.secondary,
 	},
 	noteContainer: {
-		backgroundColor: colors.secondary.surface,
+		backgroundColor: colors.accent.surface,
 		padding: spacing.md,
 		borderRadius: spacing.radius.md,
 		marginTop: spacing.md,

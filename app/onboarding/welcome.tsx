@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
 	getStartedButton: {
 		flexDirection: "row",
 		alignItems: "center",
-		backgroundColor: colors.secondary.main,
+		backgroundColor: colors.accent.main,
 		paddingHorizontal: spacing.xl,
 		paddingVertical: spacing.md,
 		borderRadius: spacing.radius.md,

@@ -294,7 +294,7 @@ export function CourseDetailScreen() {
 									</Text>
 									{course.requirements.map((prereq) => (
 										<View key={prereq} style={styles.listItem}>
-											<Award size={18} color={colors.secondary.main} />
+											<Award size={18} color={colors.accent.main} />
 											<Text style={styles.listItemText}>{prereq}</Text>
 										</View>
 									))}
@@ -883,7 +883,7 @@ const styles = StyleSheet.create({
 	},
 	modalPriceNote: {
 		fontSize: typography.fontSize.xs + 1,
-		color: colors.secondary.main,
+		color: colors.accent.main,
 		fontStyle: "italic",
 	},
 	modalFreeTag: {

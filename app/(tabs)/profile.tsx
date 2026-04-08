@@ -127,7 +127,7 @@ export default function ProfileScreen() {
 					</View>
 				)}
 				<SettingItem
-					icon={<Volume2 size={20} color={colors.secondary.main} strokeWidth={2} />}
+					icon={<Volume2 size={20} color={colors.accent.main} strokeWidth={2} />}
 					title={t("profile.voiceGuide")}
 					subtitle="Voice commands, audio quality"
 					onPress={() => {}}

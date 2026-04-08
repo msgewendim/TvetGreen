@@ -57,7 +57,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
-		backgroundColor: colors.neutral.cream,
+		backgroundColor: colors.neutral[50],
 		borderTopWidth: 2,
 		borderTopColor: colors.primary.main,
 		paddingBottom: spacing.sm,

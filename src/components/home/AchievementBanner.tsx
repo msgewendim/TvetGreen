@@ -38,10 +38,10 @@ const styles = StyleSheet.create({
 	container: {
 		marginHorizontal: spacing.lg,
 		marginBottom: spacing["2xl"],
-		backgroundColor: colors.secondary.surface,
+		backgroundColor: colors.accent.surface,
 		borderRadius: spacing.radius.md,
 		borderWidth: 2,
-		borderColor: colors.secondary.main,
+		borderColor: colors.accent.main,
 		overflow: "hidden",
 	},
 	content: {

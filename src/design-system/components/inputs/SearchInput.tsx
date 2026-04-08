@@ -47,7 +47,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
 					accessibilityRole="button"
 					style={styles.iconButton}
 				>
-					<Mic size={20} color={colors.secondary.main} strokeWidth={2} />
+					<Mic size={20} color={colors.accent.main} strokeWidth={2} />
 				</TouchableOpacity>
 			);
 		}

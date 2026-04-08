@@ -30,7 +30,7 @@ export const Chip: React.FC<ChipProps> = ({
 				};
 			case "secondary":
 				return {
-					backgroundColor: colors.secondary.main,
+					backgroundColor: colors.accent.main,
 					textColor: colors.text.inverse,
 				};
 			case "success":

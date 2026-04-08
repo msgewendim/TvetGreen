@@ -95,7 +95,7 @@ export default function HomeScreen() {
 
 	const statsData = [
 		{ icon: <BookOpen size={16} color={colors.primary.main} />, value: stats.totalEnrolled, label: "Enrolled" },
-		{ icon: <TrendingUp size={16} color={colors.secondary.main} />, value: stats.inProgress, label: "In Progress" },
+		{ icon: <TrendingUp size={16} color={colors.accent.main} />, value: stats.inProgress, label: "In Progress" },
 		{ icon: <Award size={16} color={colors.feedback.success} />, value: stats.completed, label: "Completed" },
 		{ icon: <Clock size={16} color={colors.feedback.info} />, value: `${watchHours}h ${watchMinutes}m`, label: "Watch Time" },
 	];

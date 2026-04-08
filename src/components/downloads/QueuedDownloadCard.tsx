@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
 		padding: spacing.md,
 		marginBottom: spacing.sm,
 		borderLeftWidth: 4,
-		borderLeftColor: colors.secondary.main,
+		borderLeftColor: colors.accent.main,
 		...spacing.shadow.sm,
 	},
 	info: {
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
 	},
 	category: {
 		fontSize: typography.fontSize.sm,
-		color: colors.secondary.main,
+		color: colors.accent.main,
 		fontWeight: typography.fontWeight.semibold,
 		marginBottom: spacing.xs / 2,
 	},
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
 	},
 	progressFill: {
 		height: "100%",
-		backgroundColor: colors.secondary.main,
+		backgroundColor: colors.accent.main,
 		borderRadius: spacing.radius.sm,
 	},
 	progressText: {
