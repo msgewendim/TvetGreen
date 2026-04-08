@@ -23,7 +23,7 @@ export const Badge: React.FC<BadgeProps> = ({
 			case "primary":
 				return colors.primary.main;
 			case "secondary":
-				return colors.secondary.main;
+				return colors.accent.main;
 			case "success":
 				return colors.feedback.success;
 			case "warning":

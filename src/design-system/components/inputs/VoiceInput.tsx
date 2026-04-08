@@ -79,7 +79,7 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
 			{isListening ? (
 				<MicOff size={20} color={colors.text.inverse} strokeWidth={2} />
 			) : (
-				<Mic size={20} color={colors.secondary.main} strokeWidth={2} />
+				<Mic size={20} color={colors.accent.main} strokeWidth={2} />
 			)}
 		</TouchableOpacity>
 	);
@@ -117,6 +117,6 @@ const styles = StyleSheet.create({
 		left: 0,
 		right: 0,
 		height: 2,
-		backgroundColor: colors.secondary.main,
+		backgroundColor: colors.accent.main,
 	},
 });

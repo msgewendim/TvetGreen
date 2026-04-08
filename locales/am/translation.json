@@ -141,6 +141,12 @@
 		"account": "መለያ",
 		"signOut": "ውጣ",
 		"help": "እገዛ እና ድጋፍ",
+		"helpGuides": "እገዛ እና መመሪያዎች",
+		"replayTour": "የመተግበሪያ ጉብኝትን እንደገና ጀምር",
+		"replayTourSubtitle": "መተግበሪያውን እንደገና ይዘዋወሩ",
+		"helpVideos": "የእገዛ ቪዲዮዎች",
+		"helpVideosSubtitle": "መተግበሪያውን እንዴት መጠቀም እንደሚቻል ይመልከቱ",
+		"helpVideosComingSoon": "የእገዛ ቪዲዮዎች በቅርቡ ይገኛሉ።",
 		"about": "ስለ",
 		"version": "ስሪት",
 		"termsOfService": "የአገልግሎት ውሎች",
@@ -199,17 +205,79 @@
 		"insufficientStorage": "በቂ የማከማቻ ቦታ የለም",
 		"tryAgain": "እባክዎ እንደገና ይሞክሩ"
 	},
+	"auth": {
+		"phone": {
+			"title": "እንኳን ወደ ቲቬትግሪን በደህና መጡ",
+			"subtitle": "ለመጀመር ስልክ ቁጥርዎን ያስገቡ",
+			"placeholder": "ስልክ ቁጥር",
+			"sendCode": "የማረጋገጫ ኮድ ላክ",
+			"disclaimer": "ቁጥርዎን ለማረጋገጥ በSMS ኮድ እንልካለን።",
+			"invalidTitle": "ልክ ያልሆነ ቁጥር",
+			"invalidMessage": "እባክዎ ትክክለኛ ስልክ ቁጥር ያስገቡ።",
+			"sendFailed": "ኮዱን መላክ አልተቻለም። እባክዎ እንደገና ይሞክሩ።",
+			"inputLabel": "ስልክ ቁጥር ማስገቢያ",
+			"countryLabel": "ሀገር ይምረጡ"
+		},
+		"verify": {
+			"title": "ስልክዎን ያረጋግጡ",
+			"subtitle": "ወደ ስልክዎ ቁጥር ልከናል። እዚህ ያስገቡት።",
+			"verifyButton": "አረጋግጥ",
+			"resendCode": "ኮድ እንደገና ላክ",
+			"resendIn": "በ{{seconds}} ሰከንድ ውስጥ እንደገና ላክ",
+			"invalidTitle": "ልክ ያልሆነ ኮድ",
+			"invalidMessage": "እባክዎ ባለ 6 አሃዝ ኮዱን ያስገቡ።",
+			"failedTitle": "ማረጋገጥ አልተቻለም",
+			"failedMessage": "ያ ኮድ አልሰራም። እባክዎ እንደገና ይሞክሩ።",
+			"codeSentTitle": "ኮድ ተልኳል",
+			"codeSentMessage": "አዲስ ኮድ ወደ ስልክዎ ተልኳል።",
+			"smsNotArriving": "SMS አልደረሰም?",
+			"whatsappHelp": "በWhatsApp እገዛ ያግኙ"
+		}
+	},
 	"onboarding": {
-		"welcome": "እንኳን ወደ ቲቬትግሪን በደህና መጡ",
-		"welcomeMessage": "ለዘላቂ ወደፊት ተግባራዊ ክህሎቶችን ይማሩ",
 		"getStarted": "ጀምር",
 		"skip": "ዝለል",
 		"selectLanguage": "ቋንቋዎን ይምረጡ",
-		"chooseGoals": "ምን መማር ይፈልጋሉ?",
-		"setupVoice": "የድምፅ መመሪያን አዘጋጅ",
-		"voiceDescription": "በድምፅ ትዕዛዞች ያለ እጅ ይማሩ",
-		"enableVoice": "የድምፅ መመሪያን አንቃ",
+		"language": {
+			"changeLater": "ይህን በኋላ በቅንብሮች ውስጥ መቀየር ይችላሉ"
+		},
+		"welcome": {
+			"slide1": {
+				"title": "ለንግድዎ ክህሎቶችን ይማሩ",
+				"subtitle": "በማንኛውም ጊዜ ሊመለከቷቸው የሚችሏቸው አጫጭር የቪዲዮ ትምህርቶች"
+			},
+			"slide2": {
+				"title": "ያውርዱ እና ያለ ኢንተርኔት ይማሩ",
+				"subtitle": "ያለ ኢንተርኔት ለመመልከት ኮርሶችን ያስቀምጡ"
+			},
+			"slide3": {
+				"title": "እድገትዎን ይከታተሉ",
+				"subtitle": "በመማር ሂደትዎ ምን ያህል እንደደረሱ ይመልከቱ"
+			}
+		},
+		"complete": {
+			"title": "ዝግጁ ነዎት!",
+			"subtitle": "መተግበሪያውን እናሳይዎ"
+		},
 		"finish": "መማር ጀምር"
+	},
+	"tour": {
+		"home": {
+			"welcome": "ይህ የመነሻ ገጽዎ ነው። ኮርሶችዎንና እድገትዎን እዚህ ያያሉ።",
+			"continueLearning": "የአሁኑ ኮርስዎ እዚህ ይታያል። ለመቀጠል ይንኩ።",
+			"categories": "በምድብ ኮርሶችን ያስሱ። ማንኛውንም ይንኩ።",
+			"browseMore": "ሁሉንም ኮርሶች ለማየት ከታች ያለውን የኮርሶች ትር ይንኩ።",
+			"tapCoursesTab": "ለመዘዋወር ከታች ያሉትን ትሮች ይጠቀሙ",
+			"profile": "ቅንብሮችዎ እና እገዛ በመገለጫ ትር ውስጥ ናቸው።",
+			"settingsHint": "ቅንብሮችዎን እዚህ ያግኙ"
+		},
+		"courses": {
+			"search": "ማንኛውንም ኮርስ በስም ወይም በርዕስ ይፈልጉ።",
+			"filter": "የሚፈልጉትን ለማግኘት ኮርሶችን በምድብ ያጣሩ።",
+			"browse": "ዝርዝሮችን ለማየት እና ትምህርት ለመጀመር ማንኛውንም ኮርስ ይንኩ።",
+			"done": "ዝግጁ ነዎት! ኮርሶችን በራስዎ ያስሱ።",
+			"tapCourse": "ለመጀመር ኮርስ ይንኩ"
+		}
 	},
 	"learning": {
 		"myLearning": "የእኔ ትምህርት",

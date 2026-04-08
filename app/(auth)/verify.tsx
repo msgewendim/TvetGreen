@@ -1,20 +1,35 @@
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
 	Alert,
 	KeyboardAvoidingView,
+	Linking,
 	Platform,
 	StyleSheet,
-	Text,
-	TextInput,
-	TouchableOpacity,
+	TextInput as RNTextInput,
 	View,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { ShieldCheck } from "lucide-react-native";
-import { colors, spacing, typography } from "@/design-system";
+import {
+	Button,
+	IconButton,
+	Surface,
+	Text,
+	TouchableRipple,
+} from "react-native-paper";
+import { ScreenLayout, colors, spacing, typography } from "@/design-system";
 import { useAuthStore } from "@/src/store/authStore";
+import { useLanguage } from "@/src/hooks/useLanguage";
 
 const OTP_LENGTH = 6;
+const RESEND_INTERVAL = 60;
+
+function maskPhone(phone: string): string {
+	if (!phone || phone.length < 4) return phone;
+	const digits = phone.replace(/\D/g, "");
+	const last3 = digits.slice(-3);
+	return `${"•".repeat(Math.max(digits.length - 3, 0))}${last3}`;
+}
 
 export default function VerifyScreen() {
 	const { phone } = useLocalSearchParams<{ phone: string }>();
@@ -22,21 +37,34 @@ export default function VerifyScreen() {
 	const verifyOtp = useAuthStore((s) => s.verifyOtp);
 	const requestOtp = useAuthStore((s) => s.requestOtp);
 	const isLoading = useAuthStore((s) => s.isLoading);
+	const { t } = useLanguage();
 
 	const [otp, setOtp] = useState<string[]>(Array(OTP_LENGTH).fill(""));
-	const inputRefs = useRef<(TextInput | null)[]>([]);
+	const [resendTimer, setResendTimer] = useState(RESEND_INTERVAL);
+	const [resendAttempts, setResendAttempts] = useState(0);
+	const inputRefs = useRef<(RNTextInput | null)[]>([]);
+
+	const MAX_RESEND_ATTEMPTS = 2;
+	const showWhatsappFallback = resendAttempts >= MAX_RESEND_ATTEMPTS;
+	const whatsappSupportUrl = "https://wa.me/251911000000";
+
+	useEffect(() => {
+		if (resendTimer <= 0) return;
+		const interval = setInterval(() => {
+			setResendTimer((prev) => prev - 1);
+		}, 1000);
+		return () => clearInterval(interval);
+	}, [resendTimer]);
 
 	const handleChange = (text: string, index: number) => {
 		const newOtp = [...otp];
 		newOtp[index] = text;
 		setOtp(newOtp);
 
-		// Auto-advance to next input
 		if (text && index < OTP_LENGTH - 1) {
 			inputRefs.current[index + 1]?.focus();
 		}
 
-		// Auto-submit when all digits entered
 		if (index === OTP_LENGTH - 1 && text) {
 			const fullOtp = newOtp.join("");
 			if (fullOtp.length === OTP_LENGTH) {
@@ -51,101 +79,169 @@ export default function VerifyScreen() {
 		}
 	};
 
-	const handleVerify = async (code?: string) => {
-		const otpCode = code || otp.join("");
-		if (otpCode.length !== OTP_LENGTH) {
-			Alert.alert("Invalid Code", "Please enter the 6-digit code.");
-			return;
-		}
+	const handleVerify = useCallback(
+		async (code?: string) => {
+			const otpCode = code || otp.join("");
+			if (otpCode.length !== OTP_LENGTH) {
+				Alert.alert(
+					t("auth.verify.invalidTitle"),
+					t("auth.verify.invalidMessage"),
+				);
+				return;
+			}
 
-		const success = await verifyOtp(phone || "", otpCode);
-		if (success) {
-			router.replace("/(tabs)");
-		} else {
-			Alert.alert("Verification Failed", "Invalid code. Please try again.");
-			setOtp(Array(OTP_LENGTH).fill(""));
-			inputRefs.current[0]?.focus();
-		}
-	};
+			const success = await verifyOtp(phone || "", otpCode);
+			if (success) {
+				router.replace("/onboarding/welcome" as never);
+			} else {
+				Alert.alert(
+					t("auth.verify.failedTitle"),
+					t("auth.verify.failedMessage"),
+				);
+				setOtp(Array(OTP_LENGTH).fill(""));
+				inputRefs.current[0]?.focus();
+			}
+		},
+		[otp, phone, verifyOtp, router],
+	);
 
 	const handleResend = async () => {
-		if (phone) {
-			const success = await requestOtp(phone);
-			if (success) {
-				Alert.alert("Code Sent", "A new verification code has been sent.");
-			}
+		if (resendTimer > 0 || !phone) return;
+		setResendAttempts((prev) => prev + 1);
+		const success = await requestOtp(phone);
+		if (success) {
+			setResendTimer(RESEND_INTERVAL);
+			Alert.alert(
+				t("auth.verify.codeSentTitle"),
+				t("auth.verify.codeSentMessage"),
+			);
 		}
 	};
 
+	const canResend = resendTimer <= 0;
+
 	return (
-		<KeyboardAvoidingView
-			style={styles.container}
-			behavior={Platform.OS === "ios" ? "padding" : "height"}
+		<ScreenLayout
+			scrollable={false}
+			backgroundColor={colors.background.primary}
 		>
-			<View style={styles.content}>
-				<View style={styles.iconContainer}>
-					<ShieldCheck
-						size={48}
-						color={colors.primary.main}
-						strokeWidth={1.5}
-					/>
-				</View>
+			<KeyboardAvoidingView
+				style={styles.keyboardView}
+				behavior={Platform.OS === "ios" ? "padding" : "height"}
+			>
+				<IconButton
+					icon="arrow-left"
+					size={24}
+					onPress={() => router.back()}
+					style={styles.backButton}
+					accessibilityLabel={t("common.back")}
+				/>
 
-				<Text style={styles.title}>Verify Your Number</Text>
-				<Text style={styles.subtitle}>
-					Enter the 6-digit code sent to{"\n"}
-					<Text style={styles.phoneText}>{phone}</Text>
-				</Text>
-
-				<View style={styles.otpContainer}>
-					{otp.map((digit, index) => (
-						<TextInput
-							key={`otp-digit-${index}`}
-							ref={(ref) => {
-								inputRefs.current[index] = ref;
-							}}
-							style={[styles.otpInput, digit && styles.otpInputFilled]}
-							value={digit}
-							onChangeText={(text) => handleChange(text, index)}
-							onKeyPress={({ nativeEvent }) =>
-								handleKeyPress(nativeEvent.key, index)
-							}
-							keyboardType="number-pad"
-							maxLength={1}
-							selectTextOnFocus
-							accessibilityLabel={`Digit ${index + 1} of verification code`}
+				<View style={styles.content}>
+					<Surface style={styles.iconContainer} elevation={0}>
+						<ShieldCheck
+							size={48}
+							color={colors.primary.main}
+							strokeWidth={1.5}
 						/>
-					))}
-				</View>
+					</Surface>
 
-				<TouchableOpacity
-					style={[styles.button, isLoading && styles.buttonDisabled]}
-					onPress={() => handleVerify()}
-					disabled={isLoading}
-					accessibilityLabel="Verify code"
-				>
-					<Text style={styles.buttonText}>
-						{isLoading ? "Verifying..." : "Verify"}
+					<Text variant="displaySmall" style={styles.title}>
+						{t("auth.verify.title")}
 					</Text>
-				</TouchableOpacity>
+					<Text variant="bodyLarge" style={styles.subtitle}>
+						{t("auth.verify.subtitle")}
+						{"\n"}
+						<Text variant="bodyLarge" style={styles.phoneText}>
+							{maskPhone(phone || "")}
+						</Text>
+					</Text>
 
-				<TouchableOpacity
-					onPress={handleResend}
-					disabled={isLoading}
-					style={styles.resendButton}
-					accessibilityLabel="Resend verification code"
-				>
-					<Text style={styles.resendText}>Didn't receive the code? Resend</Text>
-				</TouchableOpacity>
-			</View>
-		</KeyboardAvoidingView>
+					<View style={styles.otpContainer}>
+						{otp.map((digit, index) => (
+							<RNTextInput
+								key={`otp-digit-${index}`}
+								ref={(ref) => {
+									inputRefs.current[index] = ref;
+								}}
+								style={[styles.otpInput, digit && styles.otpInputFilled]}
+								value={digit}
+								onChangeText={(text) => handleChange(text, index)}
+								onKeyPress={({ nativeEvent }) =>
+									handleKeyPress(nativeEvent.key, index)
+								}
+								keyboardType="number-pad"
+								maxLength={1}
+								selectTextOnFocus
+								accessibilityLabel={`Digit ${index + 1} of verification code`}
+							/>
+						))}
+					</View>
+
+					<Button
+						mode="contained"
+						onPress={() => handleVerify()}
+						disabled={otp.join("").length !== OTP_LENGTH}
+						loading={isLoading}
+						buttonColor={colors.primary.main}
+						textColor={colors.text.inverse}
+						contentStyle={styles.verifyContent}
+						accessibilityLabel={t("auth.verify.verifyButton")}
+					>
+						{t("auth.verify.verifyButton")}
+					</Button>
+
+					<View style={styles.resendContainer}>
+						{canResend ? (
+							<Button
+								mode="outlined"
+								onPress={handleResend}
+								disabled={isLoading}
+								accessibilityLabel={t("auth.verify.resendCode")}
+							>
+								{t("auth.verify.resendCode")}
+							</Button>
+						) : (
+							<Text variant="bodyMedium" style={styles.resendTimerText}>
+								{t("auth.verify.resendIn", { seconds: resendTimer })}
+							</Text>
+						)}
+					</View>
+
+					{showWhatsappFallback && (
+						<TouchableRipple
+							onPress={() => Linking.openURL(whatsappSupportUrl)}
+							accessibilityLabel={t("auth.verify.whatsappHelp")}
+							accessibilityRole="link"
+							borderless
+							style={styles.whatsappRipple}
+						>
+							<Surface style={styles.whatsappFallback} elevation={1}>
+								<Text variant="bodySmall" style={styles.whatsappText}>
+									{t("auth.verify.smsNotArriving")}
+								</Text>
+								<Text variant="labelLarge" style={styles.whatsappLink}>
+									{t("auth.verify.whatsappHelp")}
+								</Text>
+							</Surface>
+						</TouchableRipple>
+					)}
+				</View>
+			</KeyboardAvoidingView>
+		</ScreenLayout>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: {
+	keyboardView: {
 		flex: 1,
-		backgroundColor: colors.background.tertiary,
+	},
+	backButton: {
+		position: "absolute",
+		top: spacing.lg,
+		left: spacing.md,
+		zIndex: 1,
+		backgroundColor: colors.neutral.white,
 	},
 	content: {
 		flex: 1,
@@ -163,18 +259,13 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.xl,
 	},
 	title: {
-		fontSize: typography.fontSize["3xl"],
-		fontWeight: typography.fontWeight.bold,
-		color: colors.text.primary,
 		textAlign: "center",
 		marginBottom: spacing.sm,
 	},
 	subtitle: {
-		fontSize: typography.fontSize.base,
 		color: colors.text.secondary,
 		textAlign: "center",
 		marginBottom: spacing["2xl"],
-		lineHeight: 24,
 	},
 	phoneText: {
 		fontWeight: typography.fontWeight.semibold,
@@ -202,28 +293,30 @@ const styles = StyleSheet.create({
 		borderColor: colors.primary.main,
 		backgroundColor: colors.primary.surface,
 	},
-	button: {
-		backgroundColor: colors.primary.main,
-		paddingVertical: spacing.md,
+	verifyContent: {
+		height: 56,
+	},
+	resendContainer: {
+		alignItems: "center",
+		marginTop: spacing.lg,
+	},
+	resendTimerText: {
+		color: colors.text.tertiary,
+	},
+	whatsappRipple: {
 		borderRadius: spacing.radius.md,
+		marginTop: spacing.xl,
+	},
+	whatsappFallback: {
 		alignItems: "center",
-		marginBottom: spacing.lg,
+		padding: spacing.md,
+		borderRadius: spacing.radius.md,
 	},
-	buttonDisabled: {
-		opacity: 0.5,
+	whatsappText: {
+		color: colors.text.secondary,
+		marginBottom: spacing.xs,
 	},
-	buttonText: {
-		color: colors.text.inverse,
-		fontSize: typography.fontSize.lg,
-		fontWeight: typography.fontWeight.semibold,
-	},
-	resendButton: {
-		alignItems: "center",
-		paddingVertical: spacing.sm,
-	},
-	resendText: {
-		fontSize: typography.fontSize.base,
-		color: colors.primary.main,
-		fontWeight: typography.fontWeight.medium,
+	whatsappLink: {
+		color: colors.feedback.success,
 	},
 });

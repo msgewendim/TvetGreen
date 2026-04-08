@@ -54,7 +54,7 @@ export const Button: React.FC<ButtonProps> = ({
 			case "primary":
 				return colors.primary.main;
 			case "secondary":
-				return colors.secondary.main;
+				return colors.accent.main;
 			case "outline":
 			case "ghost":
 				return "transparent";

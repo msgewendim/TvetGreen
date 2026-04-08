@@ -141,6 +141,12 @@
 		"account": "Akaunti",
 		"signOut": "Toka",
 		"help": "Msaada na Usaidizi",
+		"helpGuides": "Msaada na Miongozo",
+		"replayTour": "Rudia Ziara ya Programu",
+		"replayTourSubtitle": "Pitia programu tena",
+		"helpVideos": "Video za Msaada",
+		"helpVideosSubtitle": "Tazama jinsi ya kutumia programu",
+		"helpVideosComingSoon": "Video za msaada zitapatikana hivi karibuni.",
 		"about": "Kuhusu",
 		"version": "Toleo",
 		"termsOfService": "Masharti ya Huduma",
@@ -199,17 +205,79 @@
 		"insufficientStorage": "Nafasi ya hifadhi haitoshi",
 		"tryAgain": "Tafadhali jaribu tena"
 	},
+	"auth": {
+		"phone": {
+			"title": "Karibu TvetGreen",
+			"subtitle": "Weka nambari yako ya simu kuanza",
+			"placeholder": "Nambari ya simu",
+			"sendCode": "Tuma Nambari ya Uthibitisho",
+			"disclaimer": "Tutakutumia nambari kwa SMS kuthibitisha nambari yako.",
+			"invalidTitle": "Nambari si Sahihi",
+			"invalidMessage": "Tafadhali weka nambari sahihi ya simu.",
+			"sendFailed": "Hatukuweza kutuma nambari. Tafadhali jaribu tena.",
+			"inputLabel": "Sehemu ya nambari ya simu",
+			"countryLabel": "Chagua nchi"
+		},
+		"verify": {
+			"title": "Angalia Simu Yako",
+			"subtitle": "Tulituma nambari kwenye simu yako. Iandike hapa.",
+			"verifyButton": "Thibitisha",
+			"resendCode": "Tuma Tena Nambari",
+			"resendIn": "Tuma tena baada ya sekunde {{seconds}}",
+			"invalidTitle": "Nambari si Sahihi",
+			"invalidMessage": "Tafadhali weka nambari yenye tarakimu 6.",
+			"failedTitle": "Kuthibitisha Hakukufanikiwa",
+			"failedMessage": "Nambari hiyo haikufanya kazi. Tafadhali jaribu tena.",
+			"codeSentTitle": "Nambari Imetumwa",
+			"codeSentMessage": "Nambari mpya imetumwa kwenye simu yako.",
+			"smsNotArriving": "SMS haifiki?",
+			"whatsappHelp": "Pata msaada kwa WhatsApp"
+		}
+	},
 	"onboarding": {
-		"welcome": "Karibu TvetGreen",
-		"welcomeMessage": "Jifunze ujuzi wa vitendo kwa mustakabali endelevu",
 		"getStarted": "Anza",
 		"skip": "Ruka",
 		"selectLanguage": "Chagua Lugha Yako",
-		"chooseGoals": "Unataka kujifunza nini?",
-		"setupVoice": "Weka Mwongozo wa Sauti",
-		"voiceDescription": "Jifunze bila kutumia mikono kwa amri za sauti",
-		"enableVoice": "Washa Mwongozo wa Sauti",
+		"language": {
+			"changeLater": "Unaweza kubadilisha hii baadaye kwenye Mipangilio"
+		},
+		"welcome": {
+			"slide1": {
+				"title": "Jifunze ujuzi kwa biashara yako",
+				"subtitle": "Masomo mafupi ya video unayoweza kutazama wakati wowote"
+			},
+			"slide2": {
+				"title": "Pakua na ujifunze bila mtandao",
+				"subtitle": "Hifadhi kozi kutazama bila mtandao"
+			},
+			"slide3": {
+				"title": "Fuatilia maendeleo yako",
+				"subtitle": "Angalia umefika wapi katika kujifunza kwako"
+			}
+		},
+		"complete": {
+			"title": "Uko tayari!",
+			"subtitle": "Hebu tukuonyeshe programu"
+		},
 		"finish": "Anza Kujifunza"
+	},
+	"tour": {
+		"home": {
+			"welcome": "Hii ni skrini yako ya nyumbani. Utaona kozi zako na maendeleo hapa.",
+			"continueLearning": "Kozi yako ya sasa inaonekana hapa. Gusa kuendelea kujifunza.",
+			"categories": "Vinjari kozi kwa kategoria. Gusa yoyote kuchunguza.",
+			"browseMore": "Gusa kichupo cha Kozi hapa chini kuona kozi zote.",
+			"tapCoursesTab": "Tumia vichupo hapa chini kuzunguka",
+			"profile": "Mipangilio yako na msaada ziko kwenye kichupo cha Wasifu.",
+			"settingsHint": "Pata mipangilio yako hapa"
+		},
+		"courses": {
+			"search": "Tafuta kozi yoyote kwa jina au mada.",
+			"filter": "Chuja kozi kwa kategoria kupata unachohitaji.",
+			"browse": "Gusa kozi yoyote kuona maelezo na kuanza kujifunza.",
+			"done": "Uko tayari! Chunguza kozi peke yako.",
+			"tapCourse": "Gusa kozi kuanza"
+		}
 	},
 	"learning": {
 		"myLearning": "Kujifunza Kwangu",
