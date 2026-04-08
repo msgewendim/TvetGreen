@@ -4,7 +4,9 @@ import {
 	Globe,
 	CircleHelp as HelpCircle,
 	LogOut,
+	PlayCircle,
 	Smartphone,
+	Video,
 	Volume2,
 } from "lucide-react-native";
 import {
@@ -28,11 +30,20 @@ import {
 } from "@/src/components/profile";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import { LanguageSelector } from "@/src/components/settings";
+import { useOnboardingStore } from "@/src/store/onboardingStore";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 
 export default function ProfileScreen() {
 	const { t, languageInfo } = useLanguage();
+	const router = useRouter();
+	const resetTour = useOnboardingStore((s) => s.resetTour);
 	const [showLanguageSelector, setShowLanguageSelector] = useState(false);
+
+	const handleReplayTour = async () => {
+		await resetTour();
+		router.replace("/(tabs)" as never);
+	};
 
 	const userProfile: UserProfile = {
 		name: "Fatima Okonkwo",
@@ -91,7 +102,7 @@ export default function ProfileScreen() {
 	};
 
 	return (
-		<ScreenLayout >
+		<ScreenLayout>
 			<Header variant="minimal" title="Profile" />
 
 			<ProfileHeader profile={userProfile} onEditPress={() => {}} />
@@ -127,25 +138,41 @@ export default function ProfileScreen() {
 					</View>
 				)}
 				<SettingItem
-					icon={<Volume2 size={20} color={colors.accent.main} strokeWidth={2} />}
+					icon={
+						<Volume2 size={20} color={colors.accent.main} strokeWidth={2} />
+					}
 					title={t("profile.voiceGuide")}
 					subtitle="Voice commands, audio quality"
 					onPress={() => {}}
 				/>
 				<SettingItem
-					icon={<Download size={20} color={colors.feedback.info} strokeWidth={2} />}
+					icon={
+						<Download size={20} color={colors.feedback.info} strokeWidth={2} />
+					}
 					title={t("downloads.title")}
 					subtitle={t("profile.wifiOnly")}
 					onPress={() => {}}
 				/>
 				<SettingItem
-					icon={<Smartphone size={20} color={colors.categories.construction} strokeWidth={2} />}
+					icon={
+						<Smartphone
+							size={20}
+							color={colors.categories.construction}
+							strokeWidth={2}
+						/>
+					}
 					title={t("profile.dataUsage")}
 					subtitle={t("downloads.manage")}
 					onPress={() => {}}
 				/>
 				<SettingItem
-					icon={<HelpCircle size={20} color={colors.text.secondary} strokeWidth={2} />}
+					icon={
+						<HelpCircle
+							size={20}
+							color={colors.text.secondary}
+							strokeWidth={2}
+						/>
+					}
 					title={t("profile.help")}
 					subtitle="FAQs, contact support"
 					onPress={() => {}}
@@ -153,6 +180,30 @@ export default function ProfileScreen() {
 			</View>
 
 			<CommunityImpactCard stats={communityImpact} />
+
+			{/* Help & Guides */}
+			<View style={styles.section}>
+				<Text style={styles.sectionTitle}>{t("profile.helpGuides")}</Text>
+				<SettingItem
+					icon={
+						<PlayCircle size={20} color={colors.primary.main} strokeWidth={2} />
+					}
+					title={t("profile.replayTour")}
+					subtitle={t("profile.replayTourSubtitle")}
+					onPress={handleReplayTour}
+				/>
+				<SettingItem
+					icon={<Video size={20} color={colors.accent.main} strokeWidth={2} />}
+					title={t("profile.helpVideos")}
+					subtitle={t("profile.helpVideosSubtitle")}
+					onPress={() =>
+						Alert.alert(
+							t("profile.helpVideos"),
+							t("profile.helpVideosComingSoon"),
+						)
+					}
+				/>
+			</View>
 
 			{/* Sign Out */}
 			<View style={styles.accountActions}>
