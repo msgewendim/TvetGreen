@@ -270,6 +270,17 @@
 		},
 		"finish": "Start Learning"
 	},
+	"tour": {
+		"home": {
+			"welcome": "This is your home screen. You will see your courses and progress here.",
+			"continueLearning": "Your current course appears here. Tap to continue learning.",
+			"categories": "Browse courses by category. Tap any to explore.",
+			"browseMore": "Tap the Courses tab below to see all available courses.",
+			"tapCoursesTab": "Use the tabs below to navigate",
+			"profile": "Your settings and help are in the Profile tab.",
+			"settingsHint": "Find your settings here"
+		}
+	},
 	"learning": {
 		"myLearning": "My Learning",
 		"dashboard": "Dashboard",
