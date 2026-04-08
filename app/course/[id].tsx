@@ -22,11 +22,11 @@ export default function CourseDetailScreen() {
 	const router = useRouter();
 	const insets = useSafeAreaInsets();
 
-	const getCourseById = useLearningStore((s) => s.getCourseById);
-	const getLessonsByCourse = useLearningStore((s) => s.getLessonsByCourse);
+	const courses = useLearningStore((s) => s.courses);
+	const getLessonsForCourse = useLearningStore((s) => s.getLessonsForCourse);
 
-	const course = id ? getCourseById(id) : undefined;
-	const courseLessons = id ? getLessonsByCourse(id) : [];
+	const course = id ? courses.find((c) => c.id === id) : undefined;
+	const courseLessons = id ? getLessonsForCourse(id) : [];
 
 	if (!course) {
 		return (
@@ -45,13 +45,10 @@ export default function CourseDetailScreen() {
 		);
 	}
 
-	// Calculate total duration from lessons
-	const totalMinutes = courseLessons.reduce((sum, lesson) => {
-		const parts = lesson.duration.split(":").map(Number);
-		if (parts.length === 2) return sum + parts[0]; // mm:ss -> just minutes
-		if (parts.length === 3) return sum + parts[0] * 60 + parts[1]; // hh:mm:ss
-		return sum;
-	}, 0);
+	// Calculate total duration from lessons (duration is in seconds)
+	const totalMinutes = Math.round(
+		courseLessons.reduce((sum, lesson) => sum + lesson.duration, 0) / 60,
+	);
 
 	const firstLesson = courseLessons[0];
 
@@ -73,7 +70,7 @@ export default function CourseDetailScreen() {
 					{getTitle(course.title)}
 				</Text>
 				<Text variant="bodyLarge" style={styles.courseDescription}>
-					{course.description}
+					{getTitle(course.description)}
 				</Text>
 				<Text variant="bodyMedium" style={styles.courseStats}>
 					{courseLessons.length} lessons {"\u00B7"} {totalMinutes} min
@@ -110,7 +107,7 @@ export default function CourseDetailScreen() {
 						{index > 0 && <Divider />}
 						<List.Item
 							title={getTitle(lesson.title)}
-							description={lesson.duration}
+							description={`${Math.round(lesson.duration / 60)} min`}
 							left={() => (
 								<View style={styles.lessonNumber}>
 									<Text variant="labelMedium" style={styles.lessonNumberText}>

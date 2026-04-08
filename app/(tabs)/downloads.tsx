@@ -27,7 +27,7 @@ export default function DownloadsScreen() {
 	const courses = useLearningStore((s) => s.courses);
 	const lessons = useLearningStore((s) => s.lessons);
 	const getCourseProgress = useLearningStore((s) => s.getCourseProgress);
-	const getLessonsByCourse = useLearningStore((s) => s.getLessonsByCourse);
+	const getLessonsForCourse = useLearningStore((s) => s.getLessonsForCourse);
 
 	const [storageUsed, setStorageUsed] = useState(0);
 	const [storageTotal] = useState(8.0);
@@ -46,7 +46,7 @@ export default function DownloadsScreen() {
 	const downloadedCourses = courseIds.map((courseId) => {
 		const course = courses.find((c) => c.id === courseId);
 		const courseDls = downloadedLessons.filter((d) => d.courseId === courseId);
-		const courseLessons = getLessonsByCourse(courseId);
+		const courseLessons = getLessonsForCourse(courseId);
 		const totalSize = courseDls.reduce((sum, d) => sum + d.fileSize, 0);
 
 		return {
@@ -89,7 +89,7 @@ export default function DownloadsScreen() {
 	};
 
 	const handlePlay = (courseId: string) => {
-		const courseLessons = getLessonsByCourse(courseId);
+		const courseLessons = getLessonsForCourse(courseId);
 		const firstIncomplete = courseLessons.find((l) => !l.isCompleted);
 		const target = firstIncomplete ?? courseLessons[0];
 		if (target) {
