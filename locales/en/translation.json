@@ -244,13 +244,29 @@
 		}
 	},
 	"onboarding": {
-		"welcome": "Welcome to TvetGreen",
-		"welcomeMessage": "Learn practical skills for a sustainable future",
 		"getStarted": "Get Started",
 		"skip": "Skip",
 		"selectLanguage": "Select Your Language",
 		"language": {
 			"changeLater": "You can change this later in Settings"
+		},
+		"welcome": {
+			"slide1": {
+				"title": "Learn skills for your business",
+				"subtitle": "Short video lessons you can watch anytime"
+			},
+			"slide2": {
+				"title": "Download and learn offline",
+				"subtitle": "Save courses to watch without internet"
+			},
+			"slide3": {
+				"title": "Track your progress",
+				"subtitle": "See how far you have come as you learn"
+			}
+		},
+		"complete": {
+			"title": "You're all set!",
+			"subtitle": "Let us show you around the app"
 		},
 		"finish": "Start Learning"
 	},
