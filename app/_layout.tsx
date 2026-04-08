@@ -72,6 +72,7 @@ export default function RootLayout() {
 						<Stack.Screen name="(tabs)" />
 						<Stack.Screen name="onboarding" />
 						<Stack.Screen name="video" />
+						<Stack.Screen name="course" />
 						<Stack.Screen name="+not-found" />
 					</Stack>
 				</AuthGuard>
