@@ -134,7 +134,7 @@ export default function VideoPlayerScreen() {
 		if (isWeb) {
 			router.back();
 		} else {
-			router.replace(`/learning/courses/${courseId}`);
+			router.replace("/(tabs)");
 		}
 	};
 

@@ -185,23 +185,6 @@ export interface HeaderProps extends BaseComponentProps {
 	backgroundColor?: string;
 }
 
-export interface ModernCourseCardProps extends BaseComponentProps {
-	title: string;
-	instructor?: string;
-	category?: string;
-	categoryColor?: string;
-	lessonsCount?: number;
-	duration?: string;
-	rating?: number;
-	progress?: number;
-	thumbnailUrl?: string;
-	size?: string;
-	downloadDate?: string;
-	isOffline?: boolean;
-	onPress?: () => void;
-	onDelete?: () => void;
-}
-
 export interface CategoryChipProps extends BaseComponentProps {
 	label: string;
 	emoji?: string;

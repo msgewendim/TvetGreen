@@ -1,16 +1,8 @@
 import { useEffect, useState } from "react";
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
-import {
-	ScreenLayout,
-	Header,
-	ModernCourseCard,
-	EmptyState,
-	commonStyles,
-	colors,
-	spacing,
-	typography,
-} from "@/design-system";
+import { Button, Divider, List, Text } from "react-native-paper";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
 	StorageCard,
 	QueuedDownloadCard,
@@ -20,10 +12,12 @@ import { useLanguage } from "@/src/hooks/useLanguage";
 import { useDownloadStore } from "@/src/store/downloadStore";
 import { useLearningStore } from "@/src/store/learningStore";
 import { Download } from "lucide-react-native";
+import { colors, spacing } from "@/design-system";
 
 export default function DownloadsScreen() {
 	const { t } = useLanguage();
 	const router = useRouter();
+	const insets = useSafeAreaInsets();
 
 	const downloadedLessons = useDownloadStore((s) => s.downloadedLessons);
 	const activeDownloads = useDownloadStore((s) => s.activeDownloads);
@@ -58,15 +52,9 @@ export default function DownloadsScreen() {
 		return {
 			id: courseId,
 			title: course?.title ?? "Unknown Course",
-			category: course?.categoryId?.replace("category_", "") ?? "",
 			size: formatBytes(totalSize),
-			downloadDate: courseDls[0]?.downloadedAt
-				? formatRelative(courseDls[0].downloadedAt)
-				: "",
 			progress: getCourseProgress(courseId),
 			totalLessons: courseLessons.length,
-			thumbnail: course?.thumbnail,
-			instructor: course?.instructor?.name,
 		};
 	});
 
@@ -112,10 +100,14 @@ export default function DownloadsScreen() {
 	const hasDownloads = downloadedCourses.length > 0 || queuedDownloads.length > 0;
 
 	return (
-		<ScreenLayout >
-			<Header variant="minimal" title="Downloads" />
+		<ScrollView
+			style={[styles.container, { paddingTop: insets.top + spacing.md }]}
+			contentContainerStyle={styles.content}
+		>
+			<Text variant="headlineMedium" style={styles.title}>
+				{t("navigation.downloads")}
+			</Text>
 
-			{/* Compact Storage Bar */}
 			<StorageCard
 				storageUsed={storageUsed}
 				storageTotal={storageTotal}
@@ -125,45 +117,46 @@ export default function DownloadsScreen() {
 
 			{!hasDownloads && (
 				<View style={styles.emptyContainer}>
-					<EmptyState
-						icon={<Download size={48} color={colors.text.tertiary} />}
-						title="No Downloads Yet"
-						description="Download courses to watch offline without internet."
-						action={{
-							label: "Browse Courses",
-							onPress: () => router.push("/(tabs)/courses"),
-						}}
-					/>
+					<Download size={48} color={colors.text.tertiary} />
+					<Text variant="titleMedium" style={styles.emptyTitle}>
+						No Downloads Yet
+					</Text>
+					<Text variant="bodyMedium" style={styles.emptyDescription}>
+						Download courses to watch offline without internet.
+					</Text>
+					<Button
+						mode="contained"
+						onPress={() => router.push("/(tabs)")}
+						style={styles.emptyButton}
+					>
+						Browse Courses
+					</Button>
 				</View>
 			)}
 
 			{downloadedCourses.length > 0 && (
 				<View style={styles.section}>
-					<Text style={styles.sectionTitle}>
+					<Text variant="titleMedium" style={styles.sectionTitle}>
 						{t("downloads.downloaded")}
 					</Text>
-					{downloadedCourses.map((course) => (
-						<ModernCourseCard
-							key={course.id}
-							title={course.title}
-							instructor={course.instructor}
-							category={course.category}
-							lessonsCount={course.totalLessons}
-							progress={course.progress}
-							size={course.size}
-							downloadDate={course.downloadDate}
-							thumbnailUrl={course.thumbnail}
-							isOffline
-							onPress={() => handlePlay(course.id)}
-							onDelete={() => handleDeleteCourse(course.id, course.title)}
-						/>
+					{downloadedCourses.map((course, index) => (
+						<View key={course.id}>
+							<List.Item
+								title={course.title}
+								description={`${course.totalLessons} lessons · ${course.size}`}
+								onPress={() => handlePlay(course.id)}
+								onLongPress={() => handleDeleteCourse(course.id, course.title)}
+								left={(props) => <List.Icon {...props} icon="download" />}
+							/>
+							{index < downloadedCourses.length - 1 && <Divider />}
+						</View>
 					))}
 				</View>
 			)}
 
 			{queuedDownloads.length > 0 && (
 				<View style={styles.section}>
-					<Text style={styles.sectionTitle}>
+					<Text variant="titleMedium" style={styles.sectionTitle}>
 						{t("downloads.queued")}
 					</Text>
 					{queuedDownloads.map((download) => (
@@ -171,7 +164,7 @@ export default function DownloadsScreen() {
 					))}
 				</View>
 			)}
-		</ScreenLayout>
+		</ScrollView>
 	);
 }
 
@@ -183,22 +176,41 @@ function formatBytes(bytes: number): string {
 	return `${Number.parseFloat((bytes / k ** i).toFixed(1))} ${sizes[i]}`;
 }
 
-function formatRelative(iso: string): string {
-	const diff = Date.now() - new Date(iso).getTime();
-	const days = Math.floor(diff / 86400000);
-	if (days === 0) return "Today";
-	if (days === 1) return "Yesterday";
-	return `${days} days ago`;
-}
-
 const styles = StyleSheet.create({
-	section: commonStyles.section,
-	sectionTitle: commonStyles.sectionTitle,
-	emptyContainer: {
+	container: {
 		flex: 1,
-		justifyContent: "center",
+		backgroundColor: colors.background.primary,
+	},
+	content: {
+		paddingHorizontal: spacing.lg,
+		paddingBottom: spacing["2xl"],
+	},
+	title: {
+		color: colors.text.primary,
+		marginBottom: spacing.lg,
+	},
+	section: {
+		marginTop: spacing.lg,
+	},
+	sectionTitle: {
+		color: colors.text.primary,
+		marginBottom: spacing.sm,
+	},
+	emptyContainer: {
 		alignItems: "center",
 		paddingVertical: spacing["3xl"],
-		paddingHorizontal: spacing.xl,
+	},
+	emptyTitle: {
+		color: colors.text.primary,
+		marginTop: spacing.md,
+	},
+	emptyDescription: {
+		color: colors.text.secondary,
+		textAlign: "center",
+		marginTop: spacing.xs,
+		marginBottom: spacing.lg,
+	},
+	emptyButton: {
+		marginTop: spacing.sm,
 	},
 });
