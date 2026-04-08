@@ -20,6 +20,17 @@ describe("LanguageSelectionScreen navigation", () => {
 		expect(source).not.toMatch(/router\.replace\(["']\/\(tabs\)["']\)/);
 	});
 
+	it("language.tsx calls markLanguageChosen from onboarding store on continue", () => {
+		const fs = require("fs");
+		const source = fs.readFileSync(
+			require.resolve("../../app/onboarding/language.tsx"),
+			"utf-8",
+		);
+
+		expect(source).toContain("markLanguageChosen");
+		expect(source).toContain("useOnboardingStore");
+	});
+
 	it("language.tsx does not reference goals or voice-setup", () => {
 		const fs = require("fs");
 		const source = fs.readFileSync(

@@ -8,14 +8,17 @@ export type TourPhase =
 	| "complete"
 	| null;
 
+const LANGUAGE_CHOSEN_KEY = "@tvetgreen_language_chosen";
 const ONBOARDING_COMPLETE_KEY = "@onboarding_complete";
 const TOUR_COMPLETE_KEY = "@tour_complete";
 
 interface OnboardingState {
+	languageChosen: boolean;
 	onboardingComplete: boolean;
 	tourComplete: boolean;
 	tourPhase: TourPhase;
 
+	markLanguageChosen: () => Promise<void>;
 	completeOnboarding: () => Promise<void>;
 	completeTour: () => Promise<void>;
 	setTourPhase: (phase: TourPhase) => void;
@@ -24,9 +27,15 @@ interface OnboardingState {
 }
 
 export const useOnboardingStore = create<OnboardingState>((set) => ({
+	languageChosen: false,
 	onboardingComplete: false,
 	tourComplete: false,
 	tourPhase: null,
+
+	markLanguageChosen: async () => {
+		set({ languageChosen: true });
+		await AsyncStorage.setItem(LANGUAGE_CHOSEN_KEY, "true");
+	},
 
 	completeOnboarding: async () => {
 		set({ onboardingComplete: true });
@@ -45,11 +54,13 @@ export const useOnboardingStore = create<OnboardingState>((set) => ({
 		await AsyncStorage.removeItem(TOUR_COMPLETE_KEY);
 	},
 	loadPersistedState: async () => {
-		const [onboardingValue, tourValue] = await Promise.all([
+		const [languageValue, onboardingValue, tourValue] = await Promise.all([
+			AsyncStorage.getItem(LANGUAGE_CHOSEN_KEY),
 			AsyncStorage.getItem(ONBOARDING_COMPLETE_KEY),
 			AsyncStorage.getItem(TOUR_COMPLETE_KEY),
 		]);
 		set({
+			languageChosen: languageValue === "true",
 			onboardingComplete: onboardingValue === "true",
 			tourComplete: tourValue === "true",
 		});

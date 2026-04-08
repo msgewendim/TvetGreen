@@ -26,9 +26,9 @@ const RESEND_INTERVAL = 60;
 
 function maskPhone(phone: string): string {
 	if (!phone || phone.length < 4) return phone;
-	const last3 = phone.slice(-3);
-	const prefix = phone.slice(0, phone.indexOf(" ") + 1 || phone.length - 6);
-	return `${prefix}${"•".repeat(4)}${last3}`;
+	const digits = phone.replace(/\D/g, "");
+	const last3 = digits.slice(-3);
+	return `${"•".repeat(Math.max(digits.length - 3, 0))}${last3}`;
 }
 
 export default function VerifyScreen() {

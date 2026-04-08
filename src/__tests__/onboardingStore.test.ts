@@ -5,6 +5,7 @@ import { useOnboardingStore } from "@/src/store/onboardingStore";
 beforeEach(async () => {
 	await AsyncStorage.clear();
 	useOnboardingStore.setState({
+		languageChosen: false,
 		onboardingComplete: false,
 		tourComplete: false,
 		tourPhase: null,
@@ -15,9 +16,18 @@ describe("OnboardingStore", () => {
 	it("initializes with all flags false and tourPhase null", () => {
 		const state = useOnboardingStore.getState();
 
+		expect(state.languageChosen).toBe(false);
 		expect(state.onboardingComplete).toBe(false);
 		expect(state.tourComplete).toBe(false);
 		expect(state.tourPhase).toBeNull();
+	});
+
+	it("markLanguageChosen sets flag and persists to AsyncStorage", async () => {
+		await useOnboardingStore.getState().markLanguageChosen();
+
+		expect(useOnboardingStore.getState().languageChosen).toBe(true);
+		const stored = await AsyncStorage.getItem("@tvetgreen_language_chosen");
+		expect(stored).toBe("true");
 	});
 
 	it("completeOnboarding sets flag and persists to AsyncStorage", async () => {

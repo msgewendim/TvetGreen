@@ -1,15 +1,14 @@
 import { useRouter } from "expo-router";
-import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import {
 	Button,
-	IconButton,
 	RadioButton,
 	Surface,
 	Text,
 	TouchableRipple,
 } from "react-native-paper";
 import { useLanguage } from "@/src/hooks/useLanguage";
+import { useOnboardingStore } from "@/src/store/onboardingStore";
 import type { SupportedLanguage } from "@/i18n.config";
 import { colors, spacing } from "@/design-system";
 
@@ -17,11 +16,14 @@ export default function LanguageSelectionScreen() {
 	const router = useRouter();
 	const { currentLanguage, supportedLanguages, changeLanguage, t } =
 		useLanguage();
-	const [selectedLanguage, setSelectedLanguage] =
-		useState<SupportedLanguage>(currentLanguage);
+	const markLanguageChosen = useOnboardingStore((s) => s.markLanguageChosen);
+
+	const handleSelectLanguage = async (code: SupportedLanguage) => {
+		await changeLanguage(code);
+	};
 
 	const handleContinue = async () => {
-		await changeLanguage(selectedLanguage);
+		await markLanguageChosen();
 		router.replace("/(auth)/phone" as never);
 	};
 
@@ -35,12 +37,12 @@ export default function LanguageSelectionScreen() {
 				{/* Language Options — self-labeling in own script */}
 				<View style={styles.optionsContainer}>
 					{supportedLanguages.map((language) => {
-						const isSelected = selectedLanguage === language.code;
+						const isSelected = currentLanguage === language.code;
 						return (
 							<TouchableRipple
 								key={language.code}
 								onPress={() =>
-									setSelectedLanguage(language.code as SupportedLanguage)
+									handleSelectLanguage(language.code as SupportedLanguage)
 								}
 								accessibilityLabel={`Select ${language.name}`}
 								accessibilityRole="button"
@@ -74,7 +76,7 @@ export default function LanguageSelectionScreen() {
 											value={language.code}
 											status={isSelected ? "checked" : "unchecked"}
 											onPress={() =>
-												setSelectedLanguage(language.code as SupportedLanguage)
+												handleSelectLanguage(language.code as SupportedLanguage)
 											}
 											color={colors.primary.main}
 										/>
@@ -116,7 +118,7 @@ const styles = StyleSheet.create({
 	content: {
 		flex: 1,
 		paddingHorizontal: spacing.lg,
-		paddingTop: 80,
+		justifyContent: "center",
 		alignItems: "center",
 	},
 	globeIcon: {

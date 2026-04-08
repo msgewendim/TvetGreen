@@ -1,8 +1,10 @@
 import type React from "react";
+import { Platform } from "react-native";
 import { createContext, useCallback, useContext } from "react";
 import { CopilotProvider } from "react-native-copilot";
 import { useOnboardingStore } from "@/src/store/onboardingStore";
-import { colors, spacing, typography } from "@/design-system";
+import { useLanguage } from "@/src/hooks/useLanguage";
+import { colors, spacing } from "@/design-system";
 
 interface TourContextValue {
 	startTour: () => void;
@@ -25,6 +27,7 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
 	const tourPhase = useOnboardingStore((s) => s.tourPhase);
 	const completeTour = useOnboardingStore((s) => s.completeTour);
 	const setTourPhase = useOnboardingStore((s) => s.setTourPhase);
+	const { t } = useLanguage();
 
 	const isTourActive = tourPhase !== null;
 
@@ -40,7 +43,7 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
 	return (
 		<TourContext.Provider value={{ startTour, dismissTour, isTourActive }}>
 			<CopilotProvider
-				overlay="svg"
+				overlay={Platform.OS === "web" ? "view" : "svg"}
 				animated
 				backdropColor="rgba(0, 0, 0, 0.7)"
 				tooltipStyle={{
@@ -48,13 +51,13 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
 					paddingHorizontal: spacing.lg,
 					paddingVertical: spacing.md,
 				}}
-				arrowColor={colors.background.primary}
+				arrowColor="transparent"
 				stopOnOutsideClick
 				labels={{
-					previous: "Back",
-					next: "Next",
-					skip: "Skip",
-					finish: "Done",
+					previous: t("common.back"),
+					next: t("common.next"),
+					skip: t("onboarding.skip"),
+					finish: t("common.done"),
 				}}
 			>
 				{children}

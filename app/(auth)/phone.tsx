@@ -80,6 +80,9 @@ export default function PhoneScreen() {
 							defaultCountry="ET"
 							language="en"
 							placeholder={t("auth.phone.placeholder")}
+							popularCountries={["ET", "UG", "KE", "TZ"]}
+							modalSearchInputPlaceholderTextColor={colors.text.tertiary}
+							modalSearchInputSelectionColor={colors.primary.main}
 							phoneInputStyles={{
 								container: styles.phoneContainer,
 								flagContainer: styles.flagContainer,
@@ -93,6 +96,7 @@ export default function PhoneScreen() {
 								modal: styles.modal,
 								searchInput: styles.modalSearchInput,
 								countryButton: styles.modalCountryButton,
+								countryName: styles.modalCountryName,
 							}}
 							theme="light"
 							accessibilityLabelPhoneInput={t("auth.phone.inputLabel")}
@@ -156,23 +160,26 @@ const styles = StyleSheet.create({
 	phoneContainer: {
 		backgroundColor: colors.neutral.white,
 		borderRadius: spacing.radius.md,
-		borderWidth: 1,
-		borderColor: colors.neutral[200],
+		borderWidth: 2,
+		borderColor: colors.border.light,
+		height: 56,
 	},
 	flagContainer: {
-		backgroundColor: colors.neutral[50],
+		backgroundColor: colors.primary.surface,
 		borderTopLeftRadius: spacing.radius.md,
 		borderBottomLeftRadius: spacing.radius.md,
+		paddingHorizontal: spacing.sm,
 	},
 	flag: {
-		fontSize: typography.fontSize["2xl"],
+		fontSize: 22,
 	},
 	caret: {
-		color: colors.text.secondary,
-		fontSize: typography.fontSize.sm,
+		color: colors.primary.main,
+		fontSize: 10,
 	},
 	divider: {
-		backgroundColor: colors.neutral[200],
+		backgroundColor: colors.border.light,
+		width: 1,
 	},
 	callingCode: {
 		fontSize: typography.fontSize.base,
@@ -186,14 +193,25 @@ const styles = StyleSheet.create({
 	modal: {
 		backgroundColor: colors.neutral.white,
 		borderRadius: spacing.radius.lg,
+		paddingVertical: spacing.md,
 	},
 	modalSearchInput: {
 		borderRadius: spacing.radius.md,
-		borderColor: colors.neutral[200],
+		borderWidth: 1,
+		borderColor: colors.border.light,
 		color: colors.text.primary,
+		backgroundColor: colors.neutral[50],
+		paddingHorizontal: spacing.md,
+		fontSize: typography.fontSize.base,
 	},
 	modalCountryButton: {
-		borderBottomColor: colors.neutral[100],
+		borderBottomWidth: 1,
+		borderBottomColor: colors.border.light,
+		paddingVertical: spacing.sm,
+	},
+	modalCountryName: {
+		fontSize: typography.fontSize.base,
+		color: colors.text.primary,
 	},
 	submitContent: {
 		height: 56,

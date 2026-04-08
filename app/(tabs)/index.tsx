@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 import { Award, BookOpen, Clock, TrendingUp } from "lucide-react-native";
@@ -34,8 +34,10 @@ export default function HomeScreen() {
 	const completeTour = useOnboardingStore((s) => s.completeTour);
 
 	// Auto-trigger tour when onboarding is done but tour hasn't run
+	const tourStartedRef = useRef(false);
 	useEffect(() => {
-		if (onboardingComplete && !tourComplete) {
+		if (onboardingComplete && !tourComplete && !tourStartedRef.current) {
+			tourStartedRef.current = true;
 			const timer = setTimeout(() => {
 				startCopilot();
 			}, 500);
