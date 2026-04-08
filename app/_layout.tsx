@@ -48,12 +48,14 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
 			onboardingComplete,
 		});
 
-		// Avoid unnecessary redirects if already at the right place
+		// These segments are valid app destinations — don't redirect away from them
+		const inApp = inTabs || currentSegment === "course" || currentSegment === "video";
+
 		const isAtDestination =
 			(destination === "/onboarding/language" && inOnboarding) ||
 			(destination === "/(auth)/phone" && inAuthGroup) ||
 			(destination === "/onboarding/welcome" && inOnboarding) ||
-			(destination === "/(tabs)" && inTabs);
+			(destination === "/(tabs)" && inApp);
 
 		if (!isAtDestination) {
 			router.replace(destination as never);
@@ -106,7 +108,6 @@ export default function RootLayout() {
 						<Stack.Screen name="(auth)" />
 						<Stack.Screen name="(tabs)" />
 						<Stack.Screen name="video" />
-						<Stack.Screen name="course" />
 						<Stack.Screen name="+not-found" />
 					</Stack>
 				</AuthGuard>

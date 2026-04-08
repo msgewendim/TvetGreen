@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Alert, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { Button, Divider, List, Text } from "react-native-paper";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
 	StorageCard,
 	QueuedDownloadCard,
@@ -17,7 +16,6 @@ import { colors, spacing } from "@/design-system";
 export default function DownloadsScreen() {
 	const { t } = useLanguage();
 	const router = useRouter();
-	const insets = useSafeAreaInsets();
 
 	const downloadedLessons = useDownloadStore((s) => s.downloadedLessons);
 	const activeDownloads = useDownloadStore((s) => s.activeDownloads);
@@ -101,13 +99,9 @@ export default function DownloadsScreen() {
 
 	return (
 		<ScrollView
-			style={[styles.container, { paddingTop: insets.top + spacing.md }]}
+			style={styles.container}
 			contentContainerStyle={styles.content}
 		>
-			<Text variant="headlineMedium" style={styles.title}>
-				{t("navigation.downloads")}
-			</Text>
-
 			<StorageCard
 				storageUsed={storageUsed}
 				storageTotal={storageTotal}

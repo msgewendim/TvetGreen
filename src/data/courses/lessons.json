@@ -1,276 +1,276 @@
 {
-	"lessons": [
-		{
-			"id": "lesson_dl_001",
-			"courseId": "course_digital_literacy_001",
-			"order": 1,
-			"title": {
-				"en": "Your Smartphone as a Business Tool",
-				"sw": "Simu Yako ya Mkononi kama Chombo cha Biashara",
-				"am": "ስማርትፎንዎ እንደ ንግድ መሳሪያ"
-			},
-			"description": {
-				"en": "Organize apps, manage storage, and use screenshots for business.",
-				"sw": "Panga programu, simamia hifadhi, na tumia picha za skrini kwa biashara.",
-				"am": "አፕሊኬሽኖችን ያደራጁ፣ ማከማቻን ያስተዳድሩ፣ ለንግድ ቅጽበታዊ ገጽ ያንሱ።"
-			},
-			"duration": 480,
-			"videoId": "dQw4w9WgXcQ"
-		},
-		{
-			"id": "lesson_dl_002",
-			"courseId": "course_digital_literacy_001",
-			"order": 2,
-			"title": {
-				"en": "WhatsApp for Business",
-				"sw": "WhatsApp kwa Biashara",
-				"am": "ለንግድ WhatsApp"
-			},
-			"description": {
-				"en": "Set up WhatsApp Business, create catalog, and auto-replies.",
-				"sw": "Weka WhatsApp Business, unda katalogi, na majibu ya kiotomatiki.",
-				"am": "WhatsApp Business ያዘጋጁ፣ ካታሎግ ይፍጠሩ፣ ራስ-ሰር ምላሾችን ያዘጋጁ።"
-			},
-			"duration": 540,
-			"videoId": "ZbZSe6N_BXs"
-		},
-		{
-			"id": "lesson_dl_003",
-			"courseId": "course_digital_literacy_001",
-			"order": 3,
-			"title": {
-				"en": "Google Sheets Basics",
-				"sw": "Misingi ya Google Sheets",
-				"am": "Google Sheets መሰረታዊ"
-			},
-			"description": {
-				"en": "Create a simple inventory or expense tracker spreadsheet.",
-				"sw": "Unda lahajedwali rahisi la kufuatilia hesabu au matumizi.",
-				"am": "ቀላል የእቃ ዝርዝር ወይም የወጪ መከታተያ ስፕሬድሺት ይፍጠሩ።"
-			},
-			"duration": 600,
-			"videoId": "ihJM_7BEPmI"
-		},
-		{
-			"id": "lesson_dl_004",
-			"courseId": "course_digital_literacy_001",
-			"order": 4,
-			"title": {
-				"en": "Finding Business Information Online",
-				"sw": "Kupata Taarifa za Biashara Mtandaoni",
-				"am": "የንግድ መረጃ በመስመር ላይ ማግኘት"
-			},
-			"description": {
-				"en": "Search effectively, evaluate sources, and find market prices.",
-				"sw": "Tafuta kwa ufanisi, tathmini vyanzo, na pata bei za soko.",
-				"am": "ውጤታማ ፍለጋ፣ ምንጮችን ይገምግሙ፣ የገበያ ዋጋዎችን ያግኙ።"
-			},
-			"duration": 480,
-			"videoId": "V-_O7nl0Ii0"
-		},
-		{
-			"id": "lesson_dl_005",
-			"courseId": "course_digital_literacy_001",
-			"order": 5,
-			"title": {
-				"en": "Mobile Money & Digital Payments",
-				"sw": "Pesa za Simu na Malipo ya Kidijitali",
-				"am": "ሞባይል ገንዘብ እና ዲጂታል ክፍያዎች"
-			},
-			"description": {
-				"en": "Set up and manage mobile money for business transactions.",
-				"sw": "Weka na simamia pesa za simu kwa miamala ya biashara.",
-				"am": "ለንግድ ግብይቶች ሞባይል ገንዘብ ያዘጋጁ እና ያስተዳድሩ።"
-			},
-			"duration": 540,
-			"videoId": "9bZkp7q19f0"
-		},
-		{
-			"id": "lesson_dl_006",
-			"courseId": "course_digital_literacy_001",
-			"order": 6,
-			"title": {
-				"en": "Online Presence Basics",
-				"sw": "Misingi ya Uwepo Mtandaoni",
-				"am": "የመስመር ላይ መገኘት መሰረታዊ"
-			},
-			"description": {
-				"en": "Create a Google Business profile and basic social media presence.",
-				"sw": "Unda wasifu wa Google Business na uwepo wa msingi wa mitandao ya kijamii.",
-				"am": "Google Business መገለጫ እና መሰረታዊ ማህበራዊ ሚዲያ ይፍጠሩ።"
-			},
-			"duration": 480,
-			"videoId": "ScMzIvxBSi4"
-		},
-		{
-			"id": "lesson_mm_001",
-			"courseId": "course_mobile_money_001",
-			"order": 1,
-			"title": {
-				"en": "Introduction to Mobile Money",
-				"sw": "Utangulizi wa Pesa za Simu",
-				"am": "ሞባይል ገንዘብ መግቢያ"
-			},
-			"description": {
-				"en": "Understand how mobile money works and why it matters for your business.",
-				"sw": "Elewa jinsi pesa za simu zinavyofanya kazi na kwa nini ni muhimu kwa biashara yako.",
-				"am": "ሞባይል ገንዘብ እንዴት እንደሚሰራ እና ለንግድዎ ለምን አስፈላጊ እንደሆነ ይረዱ።"
-			},
-			"duration": 420,
-			"videoId": "OB1O5MIbFHk"
-		},
-		{
-			"id": "lesson_mm_002",
-			"courseId": "course_mobile_money_001",
-			"order": 2,
-			"title": {
-				"en": "Setting Up MTN Mobile Money",
-				"sw": "Kuweka MTN Mobile Money",
-				"am": "MTN Mobile Money ማዘጋጀት"
-			},
-			"description": {
-				"en": "Register and set up your MTN Mobile Money account for business use.",
-				"sw": "Jisajili na uweke akaunti yako ya MTN Mobile Money kwa matumizi ya biashara.",
-				"am": "ለንግድ አገልግሎት የMTN Mobile Money መለያዎን ያስመዝግቡ እና ያዘጋጁ።"
-			},
-			"duration": 480,
-			"videoId": "2Vv-BfVoq4g"
-		},
-		{
-			"id": "lesson_mm_003",
-			"courseId": "course_mobile_money_001",
-			"order": 3,
-			"title": {
-				"en": "Receiving Payments from Customers",
-				"sw": "Kupokea Malipo kutoka kwa Wateja",
-				"am": "ከደንበኞች ክፍያ መቀበል"
-			},
-			"description": {
-				"en": "Learn to accept payments via mobile money and track transactions.",
-				"sw": "Jifunze kupokea malipo kupitia pesa za simu na kufuatilia miamala.",
-				"am": "በሞባይል ገንዘብ ክፍያዎችን መቀበል እና ግብይቶችን መከታተል ይማሩ።"
-			},
-			"duration": 540,
-			"videoId": "kJQP7kiw5Fk"
-		},
-		{
-			"id": "lesson_mm_004",
-			"courseId": "course_mobile_money_001",
-			"order": 4,
-			"title": {
-				"en": "Saving and Budgeting with Mobile Money",
-				"sw": "Kuhifadhi na Kupanga Bajeti na Pesa za Simu",
-				"am": "በሞባይል ገንዘብ ቁጠባ እና በጀት ማውጣት"
-			},
-			"description": {
-				"en": "Use mobile money savings features and create a business budget.",
-				"sw": "Tumia vipengele vya akiba vya pesa za simu na uunde bajeti ya biashara.",
-				"am": "የሞባይል ገንዘብ ቁጠባ ባህሪያትን ይጠቀሙ እና የንግድ በጀት ይፍጠሩ።"
-			},
-			"duration": 480,
-			"videoId": "fLexgOxsZu0"
-		},
-		{
-			"id": "lesson_mm_005",
-			"courseId": "course_mobile_money_001",
-			"order": 5,
-			"title": {
-				"en": "Mobile Money Safety and Security",
-				"sw": "Usalama wa Pesa za Simu",
-				"am": "የሞባይል ገንዘብ ደህንነት"
-			},
-			"description": {
-				"en": "Protect your mobile money account from fraud and scams.",
-				"sw": "Linda akaunti yako ya pesa za simu dhidi ya ulaghai.",
-				"am": "የሞባይል ገንዘብ መለያዎን ከማጭበርበር ይጠብቁ።"
-			},
-			"duration": 420,
-			"videoId": "Ct6BUPvE2sM"
-		},
-		{
-			"id": "lesson_gt_001",
-			"courseId": "course_google_tools_001",
-			"order": 1,
-			"title": {
-				"en": "Getting Started with Google Account",
-				"sw": "Kuanza na Akaunti ya Google",
-				"am": "Google መለያ መጀመር"
-			},
-			"description": {
-				"en": "Create and set up your Google account to access all free tools.",
-				"sw": "Unda na uweke akaunti yako ya Google ili kupata zana zote za bure.",
-				"am": "ሁሉንም ነፃ መሳሪያዎች ለማግኘት Google መለያዎን ይፍጠሩ እና ያዘጋጁ።"
-			},
-			"duration": 360,
-			"videoId": "8mAITcNt710"
-		},
-		{
-			"id": "lesson_gt_002",
-			"courseId": "course_google_tools_001",
-			"order": 2,
-			"title": {
-				"en": "Google Sheets for Business Tracking",
-				"sw": "Google Sheets kwa Kufuatilia Biashara",
-				"am": "ለንግድ ክትትል Google Sheets"
-			},
-			"description": {
-				"en": "Create spreadsheets to track inventory, sales, and expenses on your phone.",
-				"sw": "Unda lahajedwali za kufuatilia hesabu, mauzo, na matumizi kwenye simu yako.",
-				"am": "በስልክዎ ላይ ክምችት፣ ሽያጭ እና ወጪዎችን ለመከታተል ስፕሬድሺቶችን ይፍጠሩ።"
-			},
-			"duration": 600,
-			"videoId": "N2OpXzBHNRo"
-		},
-		{
-			"id": "lesson_gt_003",
-			"courseId": "course_google_tools_001",
-			"order": 3,
-			"title": {
-				"en": "Google Docs for Business Documents",
-				"sw": "Google Docs kwa Hati za Biashara",
-				"am": "ለንግድ ሰነዶች Google Docs"
-			},
-			"description": {
-				"en": "Write business letters, invoices, and simple reports using Google Docs.",
-				"sw": "Andika barua za biashara, ankara, na ripoti rahisi kwa kutumia Google Docs.",
-				"am": "Google Docs ን በመጠቀም የንግድ ደብዳቤዎችን፣ ደረሰኞችን እና ቀላል ሪፖርቶችን ይጻፉ።"
-			},
-			"duration": 540,
-			"videoId": "K-Oo8jMbq4g"
-		},
-		{
-			"id": "lesson_gt_004",
-			"courseId": "course_google_tools_001",
-			"order": 4,
-			"title": {
-				"en": "Google Drive for File Storage",
-				"sw": "Google Drive kwa Hifadhi ya Faili",
-				"am": "ለፋይል ማከማቻ Google Drive"
-			},
-			"description": {
-				"en": "Organize and share business files using Google Drive on your phone.",
-				"sw": "Panga na shiriki faili za biashara kwa kutumia Google Drive kwenye simu yako.",
-				"am": "በስልክዎ ላይ Google Drive ን በመጠቀም የንግድ ፋይሎችን ያደራጁ እና ያጋሩ።"
-			},
-			"duration": 480,
-			"videoId": "FBn5VAxs4SE"
-		},
-		{
-			"id": "lesson_gt_005",
-			"courseId": "course_google_tools_001",
-			"order": 5,
-			"title": {
-				"en": "Google Maps for Your Business",
-				"sw": "Google Maps kwa Biashara Yako",
-				"am": "ለንግድዎ Google Maps"
-			},
-			"description": {
-				"en": "Put your business on Google Maps so customers can find you easily.",
-				"sw": "Weka biashara yako kwenye Google Maps ili wateja wakupate kwa urahisi.",
-				"am": "ደንበኞች በቀላሉ እንዲያገኝዎት ንግድዎን በGoogle Maps ላይ ያስቀምጡ።"
-			},
-			"duration": 480,
-			"videoId": "WE1cG3yRb8E"
-		}
-	]
+  "lessons": [
+    {
+      "id": "9bab36e8-23f9-4028-922e-0d5078bf1de6",
+      "courseId": "c6b7f22e-cd04-45c3-98a7-b834246231d9",
+      "order": 1,
+      "title": {
+        "en": "Your Smartphone as a Business Tool",
+        "sw": "Simu Yako ya Mkononi kama Chombo cha Biashara",
+        "am": "ስማርትፎንዎ እንደ ንግድ መሳሪያ"
+      },
+      "description": {
+        "en": "Organize apps, manage storage, and use screenshots for business.",
+        "sw": "Panga programu, simamia hifadhi, na tumia picha za skrini kwa biashara.",
+        "am": "አፕሊኬሽኖችን ያደራጁ፣ ማከማቻን ያስተዳድሩ፣ ለንግድ ቅጽበታዊ ገጽ ያንሱ።"
+      },
+      "duration": 480,
+      "videoId": "dQw4w9WgXcQ"
+    },
+    {
+      "id": "a6e7afaf-59e3-43a0-8116-e7678f4055d2",
+      "courseId": "c6b7f22e-cd04-45c3-98a7-b834246231d9",
+      "order": 2,
+      "title": {
+        "en": "WhatsApp for Business",
+        "sw": "WhatsApp kwa Biashara",
+        "am": "ለንግድ WhatsApp"
+      },
+      "description": {
+        "en": "Set up WhatsApp Business, create catalog, and auto-replies.",
+        "sw": "Weka WhatsApp Business, unda katalogi, na majibu ya kiotomatiki.",
+        "am": "WhatsApp Business ያዘጋጁ፣ ካታሎግ ይፍጠሩ፣ ራስ-ሰር ምላሾችን ያዘጋጁ።"
+      },
+      "duration": 540,
+      "videoId": "ZbZSe6N_BXs"
+    },
+    {
+      "id": "6c4539c9-d513-4766-9f6c-252b3666fb74",
+      "courseId": "c6b7f22e-cd04-45c3-98a7-b834246231d9",
+      "order": 3,
+      "title": {
+        "en": "Google Sheets Basics",
+        "sw": "Misingi ya Google Sheets",
+        "am": "Google Sheets መሰረታዊ"
+      },
+      "description": {
+        "en": "Create a simple inventory or expense tracker spreadsheet.",
+        "sw": "Unda lahajedwali rahisi la kufuatilia hesabu au matumizi.",
+        "am": "ቀላል የእቃ ዝርዝር ወይም የወጪ መከታተያ ስፕሬድሺት ይፍጠሩ።"
+      },
+      "duration": 600,
+      "videoId": "ihJM_7BEPmI"
+    },
+    {
+      "id": "a2864971-dcc5-448b-9d77-f619ef9e85e0",
+      "courseId": "c6b7f22e-cd04-45c3-98a7-b834246231d9",
+      "order": 4,
+      "title": {
+        "en": "Finding Business Information Online",
+        "sw": "Kupata Taarifa za Biashara Mtandaoni",
+        "am": "የንግድ መረጃ በመስመር ላይ ማግኘት"
+      },
+      "description": {
+        "en": "Search effectively, evaluate sources, and find market prices.",
+        "sw": "Tafuta kwa ufanisi, tathmini vyanzo, na pata bei za soko.",
+        "am": "ውጤታማ ፍለጋ፣ ምንጮችን ይገምግሙ፣ የገበያ ዋጋዎችን ያግኙ።"
+      },
+      "duration": 480,
+      "videoId": "V-_O7nl0Ii0"
+    },
+    {
+      "id": "83a11027-4471-46ae-a932-2d09de0f79f0",
+      "courseId": "c6b7f22e-cd04-45c3-98a7-b834246231d9",
+      "order": 5,
+      "title": {
+        "en": "Mobile Money & Digital Payments",
+        "sw": "Pesa za Simu na Malipo ya Kidijitali",
+        "am": "ሞባይል ገንዘብ እና ዲጂታል ክፍያዎች"
+      },
+      "description": {
+        "en": "Set up and manage mobile money for business transactions.",
+        "sw": "Weka na simamia pesa za simu kwa miamala ya biashara.",
+        "am": "ለንግድ ግብይቶች ሞባይል ገንዘብ ያዘጋጁ እና ያስተዳድሩ።"
+      },
+      "duration": 540,
+      "videoId": "9bZkp7q19f0"
+    },
+    {
+      "id": "2b0aa166-adab-4729-9933-de4d1e4719d4",
+      "courseId": "c6b7f22e-cd04-45c3-98a7-b834246231d9",
+      "order": 6,
+      "title": {
+        "en": "Online Presence Basics",
+        "sw": "Misingi ya Uwepo Mtandaoni",
+        "am": "የመስመር ላይ መገኘት መሰረታዊ"
+      },
+      "description": {
+        "en": "Create a Google Business profile and basic social media presence.",
+        "sw": "Unda wasifu wa Google Business na uwepo wa msingi wa mitandao ya kijamii.",
+        "am": "Google Business መገለጫ እና መሰረታዊ ማህበራዊ ሚዲያ ይፍጠሩ።"
+      },
+      "duration": 480,
+      "videoId": "ScMzIvxBSi4"
+    },
+    {
+      "id": "0af788d6-9a34-4942-8f0b-ef8ee05ed3b2",
+      "courseId": "62b5acc4-e0e1-4443-bcdb-b9f5c7de86e5",
+      "order": 1,
+      "title": {
+        "en": "Introduction to Mobile Money",
+        "sw": "Utangulizi wa Pesa za Simu",
+        "am": "ሞባይል ገንዘብ መግቢያ"
+      },
+      "description": {
+        "en": "Understand how mobile money works and why it matters for your business.",
+        "sw": "Elewa jinsi pesa za simu zinavyofanya kazi na kwa nini ni muhimu kwa biashara yako.",
+        "am": "ሞባይል ገንዘብ እንዴት እንደሚሰራ እና ለንግድዎ ለምን አስፈላጊ እንደሆነ ይረዱ።"
+      },
+      "duration": 420,
+      "videoId": "OB1O5MIbFHk"
+    },
+    {
+      "id": "cdf917a7-7697-4b10-8c7a-8419c81bcf77",
+      "courseId": "62b5acc4-e0e1-4443-bcdb-b9f5c7de86e5",
+      "order": 2,
+      "title": {
+        "en": "Setting Up MTN Mobile Money",
+        "sw": "Kuweka MTN Mobile Money",
+        "am": "MTN Mobile Money ማዘጋጀት"
+      },
+      "description": {
+        "en": "Register and set up your MTN Mobile Money account for business use.",
+        "sw": "Jisajili na uweke akaunti yako ya MTN Mobile Money kwa matumizi ya biashara.",
+        "am": "ለንግድ አገልግሎት የMTN Mobile Money መለያዎን ያስመዝግቡ እና ያዘጋጁ።"
+      },
+      "duration": 480,
+      "videoId": "2Vv-BfVoq4g"
+    },
+    {
+      "id": "28f72d93-6c8c-440a-8c47-0dc5bb0c22a4",
+      "courseId": "62b5acc4-e0e1-4443-bcdb-b9f5c7de86e5",
+      "order": 3,
+      "title": {
+        "en": "Receiving Payments from Customers",
+        "sw": "Kupokea Malipo kutoka kwa Wateja",
+        "am": "ከደንበኞች ክፍያ መቀበል"
+      },
+      "description": {
+        "en": "Learn to accept payments via mobile money and track transactions.",
+        "sw": "Jifunze kupokea malipo kupitia pesa za simu na kufuatilia miamala.",
+        "am": "በሞባይል ገንዘብ ክፍያዎችን መቀበል እና ግብይቶችን መከታተል ይማሩ።"
+      },
+      "duration": 540,
+      "videoId": "kJQP7kiw5Fk"
+    },
+    {
+      "id": "f222a276-3c77-4e2b-83c2-2557cd703d3c",
+      "courseId": "62b5acc4-e0e1-4443-bcdb-b9f5c7de86e5",
+      "order": 4,
+      "title": {
+        "en": "Saving and Budgeting with Mobile Money",
+        "sw": "Kuhifadhi na Kupanga Bajeti na Pesa za Simu",
+        "am": "በሞባይል ገንዘብ ቁጠባ እና በጀት ማውጣት"
+      },
+      "description": {
+        "en": "Use mobile money savings features and create a business budget.",
+        "sw": "Tumia vipengele vya akiba vya pesa za simu na uunde bajeti ya biashara.",
+        "am": "የሞባይል ገንዘብ ቁጠባ ባህሪያትን ይጠቀሙ እና የንግድ በጀት ይፍጠሩ።"
+      },
+      "duration": 480,
+      "videoId": "fLexgOxsZu0"
+    },
+    {
+      "id": "5b4e516a-d6dc-4b2d-8d8d-44822daf9991",
+      "courseId": "62b5acc4-e0e1-4443-bcdb-b9f5c7de86e5",
+      "order": 5,
+      "title": {
+        "en": "Mobile Money Safety and Security",
+        "sw": "Usalama wa Pesa za Simu",
+        "am": "የሞባይል ገንዘብ ደህንነት"
+      },
+      "description": {
+        "en": "Protect your mobile money account from fraud and scams.",
+        "sw": "Linda akaunti yako ya pesa za simu dhidi ya ulaghai.",
+        "am": "የሞባይል ገንዘብ መለያዎን ከማጭበርበር ይጠብቁ።"
+      },
+      "duration": 420,
+      "videoId": "Ct6BUPvE2sM"
+    },
+    {
+      "id": "9fd9f14c-7b1d-4688-8c5f-5b5287f91772",
+      "courseId": "ad86b2fb-74b4-4268-a103-34fe1729e591",
+      "order": 1,
+      "title": {
+        "en": "Getting Started with Google Account",
+        "sw": "Kuanza na Akaunti ya Google",
+        "am": "Google መለያ መጀመር"
+      },
+      "description": {
+        "en": "Create and set up your Google account to access all free tools.",
+        "sw": "Unda na uweke akaunti yako ya Google ili kupata zana zote za bure.",
+        "am": "ሁሉንም ነፃ መሳሪያዎች ለማግኘት Google መለያዎን ይፍጠሩ እና ያዘጋጁ።"
+      },
+      "duration": 360,
+      "videoId": "8mAITcNt710"
+    },
+    {
+      "id": "4e376ab1-b3ae-4b1d-a75b-e834a219b11e",
+      "courseId": "ad86b2fb-74b4-4268-a103-34fe1729e591",
+      "order": 2,
+      "title": {
+        "en": "Google Sheets for Business Tracking",
+        "sw": "Google Sheets kwa Kufuatilia Biashara",
+        "am": "ለንግድ ክትትል Google Sheets"
+      },
+      "description": {
+        "en": "Create spreadsheets to track inventory, sales, and expenses on your phone.",
+        "sw": "Unda lahajedwali za kufuatilia hesabu, mauzo, na matumizi kwenye simu yako.",
+        "am": "በስልክዎ ላይ ክምችት፣ ሽያጭ እና ወጪዎችን ለመከታተል ስፕሬድሺቶችን ይፍጠሩ።"
+      },
+      "duration": 600,
+      "videoId": "N2OpXzBHNRo"
+    },
+    {
+      "id": "d5153fd3-e453-43b1-9377-36f976933426",
+      "courseId": "ad86b2fb-74b4-4268-a103-34fe1729e591",
+      "order": 3,
+      "title": {
+        "en": "Google Docs for Business Documents",
+        "sw": "Google Docs kwa Hati za Biashara",
+        "am": "ለንግድ ሰነዶች Google Docs"
+      },
+      "description": {
+        "en": "Write business letters, invoices, and simple reports using Google Docs.",
+        "sw": "Andika barua za biashara, ankara, na ripoti rahisi kwa kutumia Google Docs.",
+        "am": "Google Docs ን በመጠቀም የንግድ ደብዳቤዎችን፣ ደረሰኞችን እና ቀላል ሪፖርቶችን ይጻፉ።"
+      },
+      "duration": 540,
+      "videoId": "K-Oo8jMbq4g"
+    },
+    {
+      "id": "749055f4-ea82-46c6-a5c2-59123817f0ed",
+      "courseId": "ad86b2fb-74b4-4268-a103-34fe1729e591",
+      "order": 4,
+      "title": {
+        "en": "Google Drive for File Storage",
+        "sw": "Google Drive kwa Hifadhi ya Faili",
+        "am": "ለፋይል ማከማቻ Google Drive"
+      },
+      "description": {
+        "en": "Organize and share business files using Google Drive on your phone.",
+        "sw": "Panga na shiriki faili za biashara kwa kutumia Google Drive kwenye simu yako.",
+        "am": "በስልክዎ ላይ Google Drive ን በመጠቀም የንግድ ፋይሎችን ያደራጁ እና ያጋሩ።"
+      },
+      "duration": 480,
+      "videoId": "FBn5VAxs4SE"
+    },
+    {
+      "id": "82f0530c-b061-4376-b67a-0596652d975f",
+      "courseId": "ad86b2fb-74b4-4268-a103-34fe1729e591",
+      "order": 5,
+      "title": {
+        "en": "Google Maps for Your Business",
+        "sw": "Google Maps kwa Biashara Yako",
+        "am": "ለንግድዎ Google Maps"
+      },
+      "description": {
+        "en": "Put your business on Google Maps so customers can find you easily.",
+        "sw": "Weka biashara yako kwenye Google Maps ili wateja wakupate kwa urahisi.",
+        "am": "ደንበኞች በቀላሉ እንዲያገኝዎት ንግድዎን በGoogle Maps ላይ ያስቀምጡ።"
+      },
+      "duration": 480,
+      "videoId": "WE1cG3yRb8E"
+    }
+  ]
 }

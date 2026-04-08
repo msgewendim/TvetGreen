@@ -1,34 +1,30 @@
 import { useEffect } from "react";
-import { Image, ScrollView, StyleSheet, View } from "react-native";
+import { Image, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
-import { Card, Divider, List, ProgressBar, Text } from "react-native-paper";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Card, Divider, ProgressBar, Text } from "react-native-paper";
 import { colors, spacing } from "@/design-system";
 import { useLearningStore } from "@/src/store/learningStore";
-
-/**
- * Helper to handle course titles that might be strings or multi-lang objects.
- */
-const getTitle = (t: string | { en: string }): string =>
-	typeof t === "string" ? t : t.en;
+import { useLanguage } from "@/src/hooks/useLanguage";
+import type { MultiLangText } from "@/src/types/learning";
 
 export default function HomeScreen() {
 	const router = useRouter();
-	const insets = useSafeAreaInsets();
+	const { t, currentLanguage } = useLanguage();
+
+	const localized = (text: string | MultiLangText): string =>
+		typeof text === "string" ? text : text[currentLanguage] || text.en;
 
 	const courses = useLearningStore((s) => s.courses);
 	const lessons = useLearningStore((s) => s.lessons);
 	const lessonProgress = useLearningStore((s) => s.lessonProgress);
 	const loadData = useLearningStore((s) => s.loadData);
 
-	// Ensure data is loaded
 	useEffect(() => {
 		if (courses.length === 0) {
 			loadData();
 		}
 	}, [courses.length, loadData]);
 
-	// Find the most recent in-progress lesson for "Continue Learning"
 	const continueItem = (() => {
 		const recentProgress = [...lessonProgress]
 			.filter((p) => !p.completed && p.lastPosition > 0)
@@ -51,24 +47,14 @@ export default function HomeScreen() {
 
 	return (
 		<ScrollView
-			style={[styles.container, { paddingTop: insets.top }]}
+			style={styles.container}
 			contentContainerStyle={styles.content}
 		>
-			{/* Header */}
-			<View style={styles.header}>
-				<Text variant="headlineMedium" style={styles.headerTitle}>
-					GreenSkills
-				</Text>
-				<Text variant="bodyMedium" style={styles.headerSubtitle}>
-					Learn skills for a greener future
-				</Text>
-			</View>
-
-			{/* Continue Learning - conditional */}
+			{/* Continue Learning */}
 			{continueItem && (
 				<View style={styles.section}>
 					<Text variant="titleMedium" style={styles.sectionTitle}>
-						Continue Learning
+						{t("learning.continueLearning")}
 					</Text>
 					<Card
 						style={styles.continueCard}
@@ -80,10 +66,10 @@ export default function HomeScreen() {
 					>
 						<Card.Content>
 							<Text variant="titleSmall" style={styles.continueCourseTitle}>
-								{getTitle(continueItem.course.title)}
+								{localized(continueItem.course.title)}
 							</Text>
 							<Text variant="bodySmall" style={styles.continueLessonTitle}>
-								{getTitle(continueItem.lesson.title)}
+								{localized(continueItem.lesson.title)}
 							</Text>
 							<View style={styles.progressRow}>
 								<ProgressBar
@@ -103,7 +89,7 @@ export default function HomeScreen() {
 			{/* Courses */}
 			<View style={styles.section}>
 				<Text variant="titleMedium" style={styles.sectionTitle}>
-					Courses
+					{t("courses.title")}
 				</Text>
 				{courses.map((course, index) => {
 					const courseLessons = lessons.filter(
@@ -112,21 +98,26 @@ export default function HomeScreen() {
 					return (
 						<View key={course.id}>
 							{index > 0 && <Divider />}
-							<List.Item
-								title={getTitle(course.title)}
-								description={`${getTitle(course.description).slice(0, 60)}... \u00B7 ${courseLessons.length} lessons`}
-								left={() => (
-									<Image
-										source={{ uri: course.thumbnail }}
-										style={styles.thumbnail}
-									/>
-								)}
+							<Pressable
 								onPress={() => router.push(`/course/${course.id}`)}
-								style={styles.listItem}
-								titleStyle={styles.listItemTitle}
-								descriptionStyle={styles.listItemDescription}
-								descriptionNumberOfLines={2}
-							/>
+								style={styles.courseRow}
+							>
+								<Image
+									source={{ uri: course.thumbnail }}
+									style={styles.thumbnail}
+								/>
+								<View style={styles.courseText}>
+									<Text variant="titleMedium" style={styles.courseTitle}>
+										{localized(course.title)}
+									</Text>
+									<Text variant="bodyMedium" style={styles.courseDescription} numberOfLines={2}>
+										{localized(course.description).slice(0, 100)}...
+									</Text>
+									<Text variant="bodySmall" style={styles.lessonCount}>
+										{t("learning.lessons", { count: courseLessons.length })}
+									</Text>
+								</View>
+							</Pressable>
 						</View>
 					);
 				})}
@@ -143,27 +134,14 @@ const styles = StyleSheet.create({
 	content: {
 		paddingBottom: spacing.xl,
 	},
-	header: {
-		paddingHorizontal: spacing.lg,
-		paddingTop: spacing.lg,
-		paddingBottom: spacing.md,
-	},
-	headerTitle: {
-		color: colors.text.primary,
-		fontWeight: "700",
-	},
-	headerSubtitle: {
-		color: colors.text.secondary,
-		marginTop: spacing.xs,
-	},
 	section: {
-		marginTop: spacing.md,
+		marginTop: spacing.lg,
 		paddingHorizontal: spacing.lg,
 	},
 	sectionTitle: {
 		color: colors.text.primary,
 		fontWeight: "600",
-		marginBottom: spacing.sm,
+		marginBottom: spacing.md,
 	},
 	continueCard: {
 		backgroundColor: colors.background.secondary,
@@ -195,22 +173,33 @@ const styles = StyleSheet.create({
 		minWidth: 32,
 		textAlign: "right",
 	},
+	courseRow: {
+		flexDirection: "row",
+		alignItems: "flex-start",
+		paddingVertical: spacing.md,
+		gap: spacing.md,
+	},
 	thumbnail: {
-		width: 48,
-		height: 48,
-		borderRadius: spacing.radius.sm,
+		width: 64,
+		height: 64,
+		borderRadius: spacing.radius.md,
 		backgroundColor: colors.neutral[200],
+		marginTop: spacing.xs,
 	},
-	listItem: {
-		paddingVertical: spacing.xs,
+	courseText: {
+		flex: 1,
 	},
-	listItemTitle: {
+	courseTitle: {
 		color: colors.text.primary,
 		fontWeight: "600",
-		fontSize: 15,
 	},
-	listItemDescription: {
+	courseDescription: {
 		color: colors.text.secondary,
-		fontSize: 13,
+		marginTop: spacing.xs,
+		lineHeight: 20,
+	},
+	lessonCount: {
+		color: colors.text.tertiary,
+		marginTop: spacing.sm,
 	},
 });

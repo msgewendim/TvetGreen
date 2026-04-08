@@ -168,21 +168,16 @@ export interface EmptyStateProps extends BaseComponentProps {
 	};
 }
 
-export interface HeaderProps extends BaseComponentProps {
-	title: string;
+export interface HeaderProps {
+	title?: string;
 	subtitle?: string;
-	variant?: "default" | "minimal";
-	leftAction?: {
-		icon: ReactNode;
-		onPress: () => void;
-		accessibilityLabel?: string;
-	};
+	showBack?: boolean;
+	onBack?: () => void;
 	rightAction?: {
-		icon: ReactNode;
+		icon: string;
 		onPress: () => void;
 		accessibilityLabel?: string;
 	};
-	backgroundColor?: string;
 }
 
 export interface CategoryChipProps extends BaseComponentProps {

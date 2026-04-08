@@ -1,67 +1,67 @@
 {
-	"courses": [
-		{
-			"id": "course_digital_literacy_001",
-			"title": {
-				"en": "Digital Literacy for Business",
-				"sw": "Ujuzi wa Kidijitali kwa Biashara",
-				"am": "ለንግድ ዲጂታል ማንበብና መጻፍ"
-			},
-			"description": {
-				"en": "Learn essential digital skills to run your business more effectively using your smartphone. From organizing apps to using WhatsApp Business and Google Sheets.",
-				"sw": "Jifunze ujuzi muhimu wa kidijitali kuendesha biashara yako kwa ufanisi zaidi kwa kutumia simu yako ya mkononi.",
-				"am": "ስማርትፎንዎን በመጠቀም ንግድዎን ይበልጥ ውጤታማ በሆነ መንገድ ለማካሄድ አስፈላጊ የዲጂታል ክህሎቶችን ይማሩ።"
-			},
-			"thumbnail": "https://images.pexels.com/photos/3184611/pexels-photo-3184611.jpeg?auto=compress&cs=tinysrgb&w=600",
-			"instructor": {
-				"name": "Sarah Nakamya"
-			},
-			"duration": 3600,
-			"lessonCount": 6,
-			"level": "beginner",
-			"categoryId": "digital-literacy"
-		},
-		{
-			"id": "course_mobile_money_001",
-			"title": {
-				"en": "Mobile Money for Business",
-				"sw": "Pesa za Simu kwa Biashara",
-				"am": "ለንግድ ሞባይል ገንዘብ"
-			},
-			"description": {
-				"en": "Set up and manage mobile money for your business. Learn MTN Mobile Money and Airtel Money for payments, savings, and transfers.",
-				"sw": "Weka na simamia pesa za simu kwa biashara yako. Jifunze MTN Mobile Money na Airtel Money kwa malipo, akiba, na uhamisho.",
-				"am": "ለንግድዎ ሞባይል ገንዘብ ያዘጋጁ እና ያስተዳድሩ። ለክፍያዎች፣ ቁጠባ እና ዝውውር MTN Mobile Money እና Airtel Money ይማሩ።"
-			},
-			"thumbnail": "https://images.pexels.com/photos/4968391/pexels-photo-4968391.jpeg?auto=compress&cs=tinysrgb&w=600",
-			"instructor": {
-				"name": "Grace Auma"
-			},
-			"duration": 3000,
-			"lessonCount": 5,
-			"level": "beginner",
-			"categoryId": "mobile-money"
-		},
-		{
-			"id": "course_google_tools_001",
-			"title": {
-				"en": "Google Tools for Business",
-				"sw": "Zana za Google kwa Biashara",
-				"am": "ለንግድ Google መሳሪያዎች"
-			},
-			"description": {
-				"en": "Master free Google tools to grow your business. Learn Google Sheets for tracking, Google Docs for documents, and Google Drive for storage.",
-				"sw": "Jifunze zana za bure za Google kukuza biashara yako. Jifunze Google Sheets, Google Docs, na Google Drive.",
-				"am": "ንግድዎን ለማሳደግ ነፃ የGoogle መሳሪያዎችን ይማሩ። Google Sheets፣ Google Docs እና Google Drive ይማሩ።"
-			},
-			"thumbnail": "https://images.pexels.com/photos/5926382/pexels-photo-5926382.jpeg?auto=compress&cs=tinysrgb&w=600",
-			"instructor": {
-				"name": "David Okello"
-			},
-			"duration": 3000,
-			"lessonCount": 5,
-			"level": "beginner",
-			"categoryId": "google-tools"
-		}
-	]
+  "courses": [
+    {
+      "id": "c6b7f22e-cd04-45c3-98a7-b834246231d9",
+      "title": {
+        "en": "Digital Literacy for Business",
+        "sw": "Ujuzi wa Kidijitali kwa Biashara",
+        "am": "ለንግድ ዲጂታል ማንበብና መጻፍ"
+      },
+      "description": {
+        "en": "Learn essential digital skills to run your business more effectively using your smartphone. From organizing apps to using WhatsApp Business and Google Sheets.",
+        "sw": "Jifunze ujuzi muhimu wa kidijitali kuendesha biashara yako kwa ufanisi zaidi kwa kutumia simu yako ya mkononi.",
+        "am": "ስማርትፎንዎን በመጠቀም ንግድዎን ይበልጥ ውጤታማ በሆነ መንገድ ለማካሄድ አስፈላጊ የዲጂታል ክህሎቶችን ይማሩ።"
+      },
+      "thumbnail": "https://images.pexels.com/photos/3184611/pexels-photo-3184611.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "instructor": {
+        "name": "Sarah Nakamya"
+      },
+      "duration": 3600,
+      "lessonCount": 6,
+      "level": "beginner",
+      "categoryId": "digital-literacy"
+    },
+    {
+      "id": "62b5acc4-e0e1-4443-bcdb-b9f5c7de86e5",
+      "title": {
+        "en": "Mobile Money for Business",
+        "sw": "Pesa za Simu kwa Biashara",
+        "am": "ለንግድ ሞባይል ገንዘብ"
+      },
+      "description": {
+        "en": "Set up and manage mobile money for your business. Learn MTN Mobile Money and Airtel Money for payments, savings, and transfers.",
+        "sw": "Weka na simamia pesa za simu kwa biashara yako. Jifunze MTN Mobile Money na Airtel Money kwa malipo, akiba, na uhamisho.",
+        "am": "ለንግድዎ ሞባይል ገንዘብ ያዘጋጁ እና ያስተዳድሩ። ለክፍያዎች፣ ቁጠባ እና ዝውውር MTN Mobile Money እና Airtel Money ይማሩ።"
+      },
+      "thumbnail": "https://images.pexels.com/photos/4968391/pexels-photo-4968391.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "instructor": {
+        "name": "Grace Auma"
+      },
+      "duration": 3000,
+      "lessonCount": 5,
+      "level": "beginner",
+      "categoryId": "mobile-money"
+    },
+    {
+      "id": "ad86b2fb-74b4-4268-a103-34fe1729e591",
+      "title": {
+        "en": "Google Tools for Business",
+        "sw": "Zana za Google kwa Biashara",
+        "am": "ለንግድ Google መሳሪያዎች"
+      },
+      "description": {
+        "en": "Master free Google tools to grow your business. Learn Google Sheets for tracking, Google Docs for documents, and Google Drive for storage.",
+        "sw": "Jifunze zana za bure za Google kukuza biashara yako. Jifunze Google Sheets, Google Docs, na Google Drive.",
+        "am": "ንግድዎን ለማሳደግ ነፃ የGoogle መሳሪያዎችን ይማሩ። Google Sheets፣ Google Docs እና Google Drive ይማሩ።"
+      },
+      "thumbnail": "https://images.pexels.com/photos/5926382/pexels-photo-5926382.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "instructor": {
+        "name": "David Okello"
+      },
+      "duration": 3000,
+      "lessonCount": 5,
+      "level": "beginner",
+      "categoryId": "google-tools"
+    }
+  ]
 }

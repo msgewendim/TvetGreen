@@ -33,7 +33,6 @@ export default function VideoPlayerScreen() {
 	const lessonData = useLesson();
 	const playerRef = useRef<VideoPlayerRef>(null);
 
-	const updateLastAccessed = useLearningStore((s) => s.updateLastAccessed);
 	const updateLessonProgress = useLearningStore((s) => s.updateLessonProgress);
 
 	const [isPlaying, setIsPlaying] = useState(false);
@@ -42,11 +41,6 @@ export default function VideoPlayerScreen() {
 	const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
 	const { isWeb } = usePlatform();
-	useEffect(() => {
-		if (courseId) {
-			updateLastAccessed(courseId);
-		}
-	}, [courseId, updateLastAccessed]);
 
 	// Save progress every 10s while playing
 	useEffect(() => {
@@ -71,7 +65,7 @@ export default function VideoPlayerScreen() {
 					ref.playerRef.getDuration?.().then((d: number) => {
 						if (t > 0 && d > 0) {
 							lastPositionRef.current = t;
-							updateLessonProgress(lessonId, courseId, t, d, t);
+							updateLessonProgress(lessonId, t, d);
 						}
 					});
 				});
@@ -80,7 +74,7 @@ export default function VideoPlayerScreen() {
 
 			if (ct > 0 && dur > 0) {
 				lastPositionRef.current = ct;
-				updateLessonProgress(lessonId, courseId, ct, dur, ct);
+				updateLessonProgress(lessonId, ct, dur);
 			}
 		}, 10000);
 
@@ -94,21 +88,19 @@ export default function VideoPlayerScreen() {
 	// Save on unmount
 	useEffect(() => {
 		return () => {
-			if (lessonId && courseId && lastPositionRef.current > 0) {
+			if (lessonId && lastPositionRef.current > 0) {
 				updateLessonProgress(
 					lessonId,
-					courseId,
 					lastPositionRef.current,
 					0,
-					lastPositionRef.current,
 				);
 			}
 		};
-	}, [lessonId, courseId, updateLessonProgress]);
+	}, [lessonId, updateLessonProgress]);
 
 	const handleComplete = useCallback(() => {
-		if (lessonId && courseId) {
-			updateLessonProgress(lessonId, courseId, 0, 0, 0);
+		if (lessonId) {
+			useLearningStore.getState().markLessonComplete(lessonId);
 		}
 		Alert.alert(
 			t("video.completed"),
@@ -125,7 +117,7 @@ export default function VideoPlayerScreen() {
 				},
 			],
 		);
-	}, [t, courseId, lessonId, lessonData.nextLesson, router, updateLessonProgress]);
+	}, [t, courseId, lessonId, lessonData.nextLesson, router]);
 
 	const handleNextLesson = () => {
 		if (lessonData.nextLesson) {

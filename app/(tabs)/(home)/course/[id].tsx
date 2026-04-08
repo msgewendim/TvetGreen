@@ -1,26 +1,23 @@
-import { ScrollView, StyleSheet, View } from "react-native";
+import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import {
 	Button,
 	Divider,
-	IconButton,
 	List,
 	Text,
 } from "react-native-paper";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors, spacing } from "@/design-system";
 import { useLearningStore } from "@/src/store/learningStore";
-
-/**
- * Helper to handle course/lesson titles that might be strings or multi-lang objects.
- */
-const getTitle = (t: string | { en: string }): string =>
-	typeof t === "string" ? t : t.en;
+import { useLanguage } from "@/src/hooks/useLanguage";
+import type { MultiLangText } from "@/src/types/learning";
 
 export default function CourseDetailScreen() {
 	const { id } = useLocalSearchParams<{ id: string }>();
 	const router = useRouter();
-	const insets = useSafeAreaInsets();
+	const { t, currentLanguage } = useLanguage();
+
+	const localized = (text: string | MultiLangText): string =>
+		typeof text === "string" ? text : text[currentLanguage] || text.en;
 
 	const courses = useLearningStore((s) => s.courses);
 	const getLessonsForCourse = useLearningStore((s) => s.getLessonsForCourse);
@@ -30,22 +27,16 @@ export default function CourseDetailScreen() {
 
 	if (!course) {
 		return (
-			<View style={[styles.container, { paddingTop: insets.top }]}>
-				<IconButton
-					icon="arrow-left"
-					onPress={() => router.back()}
-					style={styles.backButton}
-				/>
+			<View style={styles.container}>
 				<View style={styles.emptyContainer}>
 					<Text variant="bodyLarge" style={styles.emptyText}>
-						Course not found
+						{t("learning.errors.courseNotFound")}
 					</Text>
 				</View>
 			</View>
 		);
 	}
 
-	// Calculate total duration from lessons (duration is in seconds)
 	const totalMinutes = Math.round(
 		courseLessons.reduce((sum, lesson) => sum + lesson.duration, 0) / 60,
 	);
@@ -53,27 +44,21 @@ export default function CourseDetailScreen() {
 	const firstLesson = courseLessons[0];
 
 	return (
-		<ScrollView
-			style={[styles.container, { paddingTop: insets.top }]}
-			contentContainerStyle={styles.content}
-		>
-			{/* Back button */}
-			<IconButton
-				icon="arrow-left"
-				onPress={() => router.back()}
-				style={styles.backButton}
+		<ScrollView style={styles.container} contentContainerStyle={styles.content}>
+			{/* Course thumbnail */}
+			<Image
+				source={{ uri: course.thumbnail }}
+				style={styles.thumbnail}
+				resizeMode="cover"
 			/>
 
 			{/* Course info */}
 			<View style={styles.courseInfo}>
-				<Text variant="headlineMedium" style={styles.courseTitle}>
-					{getTitle(course.title)}
-				</Text>
 				<Text variant="bodyLarge" style={styles.courseDescription}>
-					{getTitle(course.description)}
+					{localized(course.description)}
 				</Text>
 				<Text variant="bodyMedium" style={styles.courseStats}>
-					{courseLessons.length} lessons {"\u00B7"} {totalMinutes} min
+					{t("learning.lessons", { count: courseLessons.length })} {"\u00B7"} {totalMinutes} min
 				</Text>
 			</View>
 
@@ -90,7 +75,7 @@ export default function CourseDetailScreen() {
 						style={styles.startButton}
 						contentStyle={styles.startButtonContent}
 					>
-						Start Learning
+						{t("learning.startLearning")}
 					</Button>
 				</View>
 			)}
@@ -100,13 +85,13 @@ export default function CourseDetailScreen() {
 			{/* Lesson list */}
 			<View style={styles.lessonSection}>
 				<Text variant="titleMedium" style={styles.sectionTitle}>
-					Lessons
+					{t("learning.curriculum")}
 				</Text>
 				{courseLessons.map((lesson, index) => (
 					<View key={lesson.id}>
 						{index > 0 && <Divider />}
 						<List.Item
-							title={getTitle(lesson.title)}
+							title={localized(lesson.title)}
 							description={`${Math.round(lesson.duration / 60)} min`}
 							left={() => (
 								<View style={styles.lessonNumber}>
@@ -137,9 +122,10 @@ const styles = StyleSheet.create({
 	content: {
 		paddingBottom: spacing.xl,
 	},
-	backButton: {
-		alignSelf: "flex-start",
-		marginLeft: spacing.sm,
+	thumbnail: {
+		width: "100%",
+		height: 200,
+		backgroundColor: colors.neutral[200],
 	},
 	emptyContainer: {
 		flex: 1,
@@ -152,20 +138,17 @@ const styles = StyleSheet.create({
 	},
 	courseInfo: {
 		paddingHorizontal: spacing.lg,
-		paddingBottom: spacing.md,
-	},
-	courseTitle: {
-		color: colors.text.primary,
-		fontWeight: "700",
-		marginBottom: spacing.sm,
+		paddingTop: spacing.lg,
+		paddingBottom: spacing.sm,
 	},
 	courseDescription: {
 		color: colors.text.secondary,
-		marginBottom: spacing.sm,
+		marginBottom: spacing.md,
 		lineHeight: 24,
 	},
 	courseStats: {
 		color: colors.text.tertiary,
+		marginBottom: spacing.sm,
 	},
 	buttonContainer: {
 		paddingHorizontal: spacing.lg,

@@ -12,7 +12,7 @@ jest.mock("react-native-copilot", () => ({
 	}),
 }));
 
-import React from "react";
+import type React from "react";
 import { renderHook, act } from "@testing-library/react-native";
 import { useTour, TourProvider } from "@/src/providers/tour/TourProvider";
 import { useOnboardingStore } from "@/src/store/onboardingStore";

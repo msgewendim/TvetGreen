@@ -11,7 +11,6 @@ import {
 } from "lucide-react-native";
 import {
 	ScreenLayout,
-	Header,
 	commonStyles,
 	colors,
 	spacing,
@@ -103,7 +102,6 @@ export default function ProfileScreen() {
 
 	return (
 		<ScreenLayout>
-			<Header variant="minimal" title="Profile" />
 
 			<ProfileHeader profile={userProfile} onEditPress={() => {}} />
 
