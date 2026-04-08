@@ -1,10 +1,17 @@
 import { useRouter } from "expo-router";
-import { CircleCheck as CheckCircle } from "lucide-react-native";
 import { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import {
+	Button,
+	IconButton,
+	RadioButton,
+	Surface,
+	Text,
+	TouchableRipple,
+} from "react-native-paper";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import type { SupportedLanguage } from "@/i18n.config";
-import { colors, spacing, typography } from "@/design-system";
+import { colors, spacing } from "@/design-system";
 
 export default function LanguageSelectionScreen() {
 	const router = useRouter();
@@ -21,72 +28,81 @@ export default function LanguageSelectionScreen() {
 	return (
 		<View style={styles.container}>
 			<View style={styles.content}>
-				{/* Globe icon area */}
-				<View style={styles.iconContainer}>
-					<Text style={styles.globeIcon}>🌍</Text>
-				</View>
+				<Text variant="displayLarge" style={styles.globeIcon}>
+					🌍
+				</Text>
 
 				{/* Language Options — self-labeling in own script */}
 				<View style={styles.optionsContainer}>
-					{supportedLanguages.map((language) => (
-						<TouchableOpacity
-							key={language.code}
-							style={[
-								styles.languageCard,
-								selectedLanguage === language.code &&
-									styles.languageCardSelected,
-							]}
-							onPress={() =>
-								setSelectedLanguage(language.code as SupportedLanguage)
-							}
-							accessibilityLabel={`Select ${language.name}`}
-							accessibilityRole="button"
-							accessibilityState={{
-								selected: selectedLanguage === language.code,
-							}}
-						>
-							<View style={styles.languageRow}>
-								<Text style={styles.flag}>{language.flag}</Text>
-								<View style={styles.languageNames}>
-									<Text
-										style={[
-											styles.nativeName,
-											selectedLanguage === language.code &&
-												styles.nativeNameSelected,
-										]}
-									>
-										{language.nativeName}
-									</Text>
-									<Text style={styles.englishName}>{language.name}</Text>
-								</View>
-								{selectedLanguage === language.code && (
-									<CheckCircle
-										size={24}
-										color={colors.primary.main}
-										strokeWidth={2}
-									/>
-								)}
-							</View>
-						</TouchableOpacity>
-					))}
+					{supportedLanguages.map((language) => {
+						const isSelected = selectedLanguage === language.code;
+						return (
+							<TouchableRipple
+								key={language.code}
+								onPress={() =>
+									setSelectedLanguage(language.code as SupportedLanguage)
+								}
+								accessibilityLabel={`Select ${language.name}`}
+								accessibilityRole="button"
+								accessibilityState={{ selected: isSelected }}
+								borderless
+								style={styles.ripple}
+							>
+								<Surface
+									style={[
+										styles.languageCard,
+										isSelected && styles.languageCardSelected,
+									]}
+									elevation={isSelected ? 2 : 1}
+								>
+									<View style={styles.languageRow}>
+										<Text style={styles.flag}>{language.flag}</Text>
+										<View style={styles.languageNames}>
+											<Text
+												variant="titleMedium"
+												style={
+													isSelected ? styles.nativeNameSelected : undefined
+												}
+											>
+												{language.nativeName}
+											</Text>
+											<Text variant="bodySmall" style={styles.englishName}>
+												{language.name}
+											</Text>
+										</View>
+										<RadioButton
+											value={language.code}
+											status={isSelected ? "checked" : "unchecked"}
+											onPress={() =>
+												setSelectedLanguage(language.code as SupportedLanguage)
+											}
+											color={colors.primary.main}
+										/>
+									</View>
+								</Surface>
+							</TouchableRipple>
+						);
+					})}
 				</View>
 
-				{/* Change later note */}
-				<Text style={styles.changeLaterNote}>
+				<Text variant="bodySmall" style={styles.changeLaterNote}>
 					{t("onboarding.language.changeLater")}
 				</Text>
 			</View>
 
 			{/* Continue Button */}
 			<View style={styles.buttonContainer}>
-				<TouchableOpacity
-					style={styles.continueButton}
+				<Button
+					mode="contained"
 					onPress={handleContinue}
+					buttonColor={colors.primary.main}
+					textColor={colors.text.inverse}
+					contentStyle={styles.continueContent}
+					labelStyle={styles.continueLabel}
 					accessibilityLabel={t("common.continue")}
-					accessibilityRole="button"
 				>
-					<Text style={styles.continueText}>{t("common.continue")}</Text>
-				</TouchableOpacity>
+					{t("common.continue")}
+				</Button>
 			</View>
 		</View>
 	);
@@ -103,19 +119,19 @@ const styles = StyleSheet.create({
 		paddingTop: 80,
 		alignItems: "center",
 	},
-	iconContainer: {
-		marginBottom: spacing.xl,
-	},
 	globeIcon: {
 		fontSize: 64,
+		marginBottom: spacing.xl,
 	},
 	optionsContainer: {
 		width: "100%",
 		gap: spacing.md,
 		marginBottom: spacing.lg,
 	},
+	ripple: {
+		borderRadius: spacing.radius.md,
+	},
 	languageCard: {
-		backgroundColor: colors.background.secondary,
 		borderRadius: spacing.radius.md,
 		padding: spacing.lg,
 		borderWidth: 2,
@@ -136,21 +152,13 @@ const styles = StyleSheet.create({
 	languageNames: {
 		flex: 1,
 	},
-	nativeName: {
-		fontSize: typography.fontSize.lg,
-		fontWeight: typography.fontWeight.bold,
-		color: colors.text.primary,
-		marginBottom: 2,
-	},
 	nativeNameSelected: {
 		color: colors.primary.main,
 	},
 	englishName: {
-		fontSize: typography.fontSize.sm,
 		color: colors.text.secondary,
 	},
 	changeLaterNote: {
-		fontSize: typography.fontSize.sm,
 		color: colors.text.secondary,
 		textAlign: "center",
 	},
@@ -158,17 +166,11 @@ const styles = StyleSheet.create({
 		paddingHorizontal: spacing.lg,
 		paddingBottom: spacing["2xl"],
 	},
-	continueButton: {
-		alignItems: "center",
-		justifyContent: "center",
-		backgroundColor: colors.primary.main,
-		paddingVertical: spacing.md,
-		borderRadius: spacing.radius.md,
-		minHeight: spacing.minTouchTarget,
+	continueContent: {
+		height: spacing.minTouchTarget,
 	},
-	continueText: {
-		fontSize: typography.fontSize.lg,
-		fontWeight: typography.fontWeight.bold,
-		color: colors.text.inverse,
+	continueLabel: {
+		fontSize: 16,
+		fontWeight: "700",
 	},
 });

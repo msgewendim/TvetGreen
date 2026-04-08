@@ -1,9 +1,10 @@
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Text } from "react-native-paper";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import { useOnboardingStore } from "@/src/store/onboardingStore";
-import { colors, spacing, typography } from "@/design-system";
+import { colors, spacing } from "@/design-system";
 
 const AUTO_TRANSITION_MS = 2000;
 
@@ -25,8 +26,12 @@ export default function CompleteScreen() {
 		<View style={styles.container}>
 			<View style={styles.content}>
 				<Text style={styles.checkmark}>✅</Text>
-				<Text style={styles.title}>{t("onboarding.complete.title")}</Text>
-				<Text style={styles.subtitle}>{t("onboarding.complete.subtitle")}</Text>
+				<Text variant="displayMedium" style={styles.title}>
+					{t("onboarding.complete.title")}
+				</Text>
+				<Text variant="bodyLarge" style={styles.subtitle}>
+					{t("onboarding.complete.subtitle")}
+				</Text>
 			</View>
 		</View>
 	);
@@ -48,14 +53,11 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.xl,
 	},
 	title: {
-		fontSize: typography.fontSize["3xl"],
-		fontWeight: typography.fontWeight.bold,
 		color: colors.text.inverse,
 		textAlign: "center",
 		marginBottom: spacing.md,
 	},
 	subtitle: {
-		fontSize: typography.fontSize.base,
 		color: colors.text.inverse,
 		textAlign: "center",
 		opacity: 0.9,

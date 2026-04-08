@@ -1,9 +1,10 @@
 import { useRouter } from "expo-router";
-import { ChevronRight } from "lucide-react-native";
 import { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Button, Text } from "react-native-paper";
+import { ChevronRight } from "lucide-react-native";
 import { useLanguage } from "@/src/hooks/useLanguage";
-import { colors, spacing, typography } from "@/design-system";
+import { colors, spacing } from "@/design-system";
 
 const SLIDES = [
 	{ key: "slide1", emoji: "📚" },
@@ -39,10 +40,10 @@ export default function WelcomeScreen() {
 					<Text style={styles.emoji}>{slide.emoji}</Text>
 				</View>
 
-				<Text style={styles.title}>
+				<Text variant="displayMedium" style={styles.title}>
 					{t(`onboarding.welcome.${slide.key}.title`)}
 				</Text>
-				<Text style={styles.subtitle}>
+				<Text variant="bodyLarge" style={styles.subtitle}>
 					{t(`onboarding.welcome.${slide.key}.subtitle`)}
 				</Text>
 
@@ -62,29 +63,33 @@ export default function WelcomeScreen() {
 
 			{/* Buttons */}
 			<View style={styles.buttonContainer}>
-				<TouchableOpacity
-					style={styles.nextButton}
+				<Button
+					mode="contained"
 					onPress={handleNext}
+					buttonColor={colors.accent.main}
+					textColor={colors.text.inverse}
+					contentStyle={styles.nextContent}
+					labelStyle={styles.nextLabel}
+					icon={({ color }) => (
+						<ChevronRight size={20} color={color} strokeWidth={2} />
+					)}
+					contentStyleRightIcon
 					accessibilityLabel={
 						isLastSlide ? t("onboarding.getStarted") : t("common.next")
 					}
-					accessibilityRole="button"
 				>
-					<Text style={styles.nextText}>
-						{isLastSlide ? t("onboarding.getStarted") : t("common.next")}
-					</Text>
-					<ChevronRight size={24} color={colors.text.inverse} strokeWidth={2} />
-				</TouchableOpacity>
+					{isLastSlide ? t("onboarding.getStarted") : t("common.next")}
+				</Button>
 
 				{!isLastSlide && (
-					<TouchableOpacity
-						style={styles.skipButton}
+					<Button
+						mode="text"
 						onPress={handleSkip}
+						textColor="rgba(255, 255, 255, 0.8)"
 						accessibilityLabel={t("onboarding.skip")}
-						accessibilityRole="button"
 					>
-						<Text style={styles.skipText}>{t("onboarding.skip")}</Text>
-					</TouchableOpacity>
+						{t("onboarding.skip")}
+					</Button>
 				)}
 			</View>
 		</View>
@@ -118,17 +123,13 @@ const styles = StyleSheet.create({
 		fontSize: 56,
 	},
 	title: {
-		fontSize: typography.fontSize["3xl"],
-		fontWeight: typography.fontWeight.bold,
 		color: colors.text.inverse,
 		textAlign: "center",
 		marginBottom: spacing.md,
 	},
 	subtitle: {
-		fontSize: typography.fontSize.base,
 		color: colors.text.inverse,
 		textAlign: "center",
-		lineHeight: 24,
 		opacity: 0.9,
 		paddingHorizontal: spacing.md,
 		marginBottom: spacing["2xl"],
@@ -150,29 +151,12 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		alignItems: "center",
 	},
-	nextButton: {
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "center",
-		backgroundColor: colors.accent.main,
-		paddingHorizontal: spacing.xl,
-		paddingVertical: spacing.md,
-		borderRadius: spacing.radius.md,
-		marginBottom: spacing.md,
+	nextContent: {
+		height: spacing.minTouchTarget,
 		minWidth: 200,
 	},
-	nextText: {
-		fontSize: typography.fontSize.lg,
-		fontWeight: typography.fontWeight.bold,
-		color: colors.text.inverse,
-		marginRight: spacing.sm,
-	},
-	skipButton: {
-		paddingVertical: spacing.md,
-	},
-	skipText: {
-		fontSize: typography.fontSize.base,
-		color: colors.text.inverse,
-		opacity: 0.8,
+	nextLabel: {
+		fontSize: 16,
+		fontWeight: "700",
 	},
 });

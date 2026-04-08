@@ -1,12 +1,12 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
+import { List, Text as PaperText } from "react-native-paper";
+import { Text } from "react-native";
 import {
 	Download,
 	Globe,
 	CircleHelp as HelpCircle,
 	LogOut,
-	PlayCircle,
 	Smartphone,
-	Video,
 	Volume2,
 } from "lucide-react-native";
 import {
@@ -184,24 +184,38 @@ export default function ProfileScreen() {
 			{/* Help & Guides */}
 			<View style={styles.section}>
 				<Text style={styles.sectionTitle}>{t("profile.helpGuides")}</Text>
-				<SettingItem
-					icon={
-						<PlayCircle size={20} color={colors.primary.main} strokeWidth={2} />
-					}
+				<List.Item
 					title={t("profile.replayTour")}
-					subtitle={t("profile.replayTourSubtitle")}
+					description={t("profile.replayTourSubtitle")}
+					left={(props) => (
+						<List.Icon
+							{...props}
+							icon="play-circle-outline"
+							color={colors.primary.main}
+						/>
+					)}
+					right={(props) => <List.Icon {...props} icon="chevron-right" />}
 					onPress={handleReplayTour}
+					accessibilityLabel={t("profile.replayTour")}
 				/>
-				<SettingItem
-					icon={<Video size={20} color={colors.accent.main} strokeWidth={2} />}
+				<List.Item
 					title={t("profile.helpVideos")}
-					subtitle={t("profile.helpVideosSubtitle")}
+					description={t("profile.helpVideosSubtitle")}
+					left={(props) => (
+						<List.Icon
+							{...props}
+							icon="video-outline"
+							color={colors.accent.main}
+						/>
+					)}
+					right={(props) => <List.Icon {...props} icon="chevron-right" />}
 					onPress={() =>
 						Alert.alert(
 							t("profile.helpVideos"),
 							t("profile.helpVideosComingSoon"),
 						)
 					}
+					accessibilityLabel={t("profile.helpVideos")}
 				/>
 			</View>
 

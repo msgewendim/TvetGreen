@@ -4,21 +4,20 @@ import {
 	KeyboardAvoidingView,
 	Linking,
 	Platform,
-	Pressable,
 	StyleSheet,
-	Text,
-	TextInput,
+	TextInput as RNTextInput,
 	View,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { ArrowLeft, ShieldCheck } from "lucide-react-native";
+import { ShieldCheck } from "lucide-react-native";
 import {
 	Button,
-	ScreenLayout,
-	colors,
-	spacing,
-	typography,
-} from "@/design-system";
+	IconButton,
+	Surface,
+	Text,
+	TouchableRipple,
+} from "react-native-paper";
+import { ScreenLayout, colors, spacing, typography } from "@/design-system";
 import { useAuthStore } from "@/src/store/authStore";
 import { useLanguage } from "@/src/hooks/useLanguage";
 
@@ -43,7 +42,7 @@ export default function VerifyScreen() {
 	const [otp, setOtp] = useState<string[]>(Array(OTP_LENGTH).fill(""));
 	const [resendTimer, setResendTimer] = useState(RESEND_INTERVAL);
 	const [resendAttempts, setResendAttempts] = useState(0);
-	const inputRefs = useRef<(TextInput | null)[]>([]);
+	const inputRefs = useRef<(RNTextInput | null)[]>([]);
 
 	const MAX_RESEND_ATTEMPTS = 2;
 	const showWhatsappFallback = resendAttempts >= MAX_RESEND_ATTEMPTS;
@@ -130,34 +129,37 @@ export default function VerifyScreen() {
 				style={styles.keyboardView}
 				behavior={Platform.OS === "ios" ? "padding" : "height"}
 			>
-				<Pressable
-					style={styles.backButton}
+				<IconButton
+					icon="arrow-left"
+					size={24}
 					onPress={() => router.back()}
-					accessibilityLabel="Go back to phone number"
-					accessibilityRole="button"
-				>
-					<ArrowLeft size={24} color={colors.text.primary} />
-				</Pressable>
+					style={styles.backButton}
+					accessibilityLabel={t("common.back")}
+				/>
 
 				<View style={styles.content}>
-					<View style={styles.iconContainer}>
+					<Surface style={styles.iconContainer} elevation={0}>
 						<ShieldCheck
 							size={48}
 							color={colors.primary.main}
 							strokeWidth={1.5}
 						/>
-					</View>
+					</Surface>
 
-					<Text style={styles.title}>{t("auth.verify.title")}</Text>
-					<Text style={styles.subtitle}>
+					<Text variant="displaySmall" style={styles.title}>
+						{t("auth.verify.title")}
+					</Text>
+					<Text variant="bodyLarge" style={styles.subtitle}>
 						{t("auth.verify.subtitle")}
 						{"\n"}
-						<Text style={styles.phoneText}>{maskPhone(phone || "")}</Text>
+						<Text variant="bodyLarge" style={styles.phoneText}>
+							{maskPhone(phone || "")}
+						</Text>
 					</Text>
 
 					<View style={styles.otpContainer}>
 						{otp.map((digit, index) => (
-							<TextInput
+							<RNTextInput
 								key={`otp-digit-${index}`}
 								ref={(ref) => {
 									inputRefs.current[index] = ref;
@@ -177,12 +179,13 @@ export default function VerifyScreen() {
 					</View>
 
 					<Button
-						variant="primary"
-						size="large"
-						fullWidth
+						mode="contained"
 						onPress={() => handleVerify()}
 						disabled={otp.join("").length !== OTP_LENGTH}
 						loading={isLoading}
+						buttonColor={colors.primary.main}
+						textColor={colors.text.inverse}
+						contentStyle={styles.verifyContent}
 						accessibilityLabel={t("auth.verify.verifyButton")}
 					>
 						{t("auth.verify.verifyButton")}
@@ -191,8 +194,7 @@ export default function VerifyScreen() {
 					<View style={styles.resendContainer}>
 						{canResend ? (
 							<Button
-								variant="outline"
-								size="small"
+								mode="outlined"
 								onPress={handleResend}
 								disabled={isLoading}
 								accessibilityLabel={t("auth.verify.resendCode")}
@@ -200,26 +202,29 @@ export default function VerifyScreen() {
 								{t("auth.verify.resendCode")}
 							</Button>
 						) : (
-							<Text style={styles.resendTimerText}>
+							<Text variant="bodyMedium" style={styles.resendTimerText}>
 								{t("auth.verify.resendIn", { seconds: resendTimer })}
 							</Text>
 						)}
 					</View>
 
 					{showWhatsappFallback && (
-						<Pressable
-							style={styles.whatsappFallback}
+						<TouchableRipple
 							onPress={() => Linking.openURL(whatsappSupportUrl)}
 							accessibilityLabel={t("auth.verify.whatsappHelp")}
 							accessibilityRole="link"
+							borderless
+							style={styles.whatsappRipple}
 						>
-							<Text style={styles.whatsappText}>
-								{t("auth.verify.smsNotArriving")}
-							</Text>
-							<Text style={styles.whatsappLink}>
-								{t("auth.verify.whatsappHelp")}
-							</Text>
-						</Pressable>
+							<Surface style={styles.whatsappFallback} elevation={1}>
+								<Text variant="bodySmall" style={styles.whatsappText}>
+									{t("auth.verify.smsNotArriving")}
+								</Text>
+								<Text variant="labelLarge" style={styles.whatsappLink}>
+									{t("auth.verify.whatsappHelp")}
+								</Text>
+							</Surface>
+						</TouchableRipple>
 					)}
 				</View>
 			</KeyboardAvoidingView>
@@ -235,14 +240,8 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		top: spacing.lg,
 		left: spacing.md,
-		width: spacing.minTouchTarget,
-		height: spacing.minTouchTarget,
-		borderRadius: spacing.radius.full,
-		backgroundColor: colors.neutral.white,
-		justifyContent: "center",
-		alignItems: "center",
 		zIndex: 1,
-		...spacing.shadow.sm,
+		backgroundColor: colors.neutral.white,
 	},
 	content: {
 		flex: 1,
@@ -260,18 +259,13 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.xl,
 	},
 	title: {
-		fontSize: typography.fontSize["3xl"],
-		fontWeight: typography.fontWeight.bold,
-		color: colors.text.primary,
 		textAlign: "center",
 		marginBottom: spacing.sm,
 	},
 	subtitle: {
-		fontSize: typography.fontSize.base,
 		color: colors.text.secondary,
 		textAlign: "center",
 		marginBottom: spacing["2xl"],
-		lineHeight: 24,
 	},
 	phoneText: {
 		fontWeight: typography.fontWeight.semibold,
@@ -294,36 +288,35 @@ const styles = StyleSheet.create({
 		fontSize: typography.fontSize["2xl"],
 		fontWeight: typography.fontWeight.bold,
 		color: colors.text.primary,
-		...spacing.shadow.sm,
 	},
 	otpInputFilled: {
 		borderColor: colors.primary.main,
 		backgroundColor: colors.primary.surface,
+	},
+	verifyContent: {
+		height: 56,
 	},
 	resendContainer: {
 		alignItems: "center",
 		marginTop: spacing.lg,
 	},
 	resendTimerText: {
-		fontSize: typography.fontSize.base,
 		color: colors.text.tertiary,
-		fontWeight: typography.fontWeight.medium,
+	},
+	whatsappRipple: {
+		borderRadius: spacing.radius.md,
+		marginTop: spacing.xl,
 	},
 	whatsappFallback: {
 		alignItems: "center",
-		marginTop: spacing.xl,
 		padding: spacing.md,
-		backgroundColor: colors.background.secondary,
 		borderRadius: spacing.radius.md,
 	},
 	whatsappText: {
-		fontSize: typography.fontSize.sm,
 		color: colors.text.secondary,
 		marginBottom: spacing.xs,
 	},
 	whatsappLink: {
-		fontSize: typography.fontSize.sm,
-		fontWeight: typography.fontWeight.semibold,
 		color: colors.feedback.success,
 	},
 });

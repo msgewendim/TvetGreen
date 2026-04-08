@@ -4,7 +4,6 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 	StyleSheet,
-	Text,
 	View,
 } from "react-native";
 import { useRouter } from "expo-router";
@@ -13,13 +12,8 @@ import PhoneInput, {
 	isValidPhoneNumber,
 	type ICountry,
 } from "react-native-international-phone-number";
-import {
-	Button,
-	ScreenLayout,
-	colors,
-	spacing,
-	typography,
-} from "@/design-system";
+import { Button, Surface, Text } from "react-native-paper";
+import { ScreenLayout, colors, spacing, typography } from "@/design-system";
 import { useAuthStore } from "@/src/store/authStore";
 import { useLanguage } from "@/src/hooks/useLanguage";
 
@@ -66,12 +60,16 @@ export default function PhoneScreen() {
 				behavior={Platform.OS === "ios" ? "padding" : "height"}
 			>
 				<View style={styles.content}>
-					<View style={styles.iconContainer}>
+					<Surface style={styles.iconContainer} elevation={0}>
 						<Phone size={48} color={colors.primary.main} strokeWidth={1.5} />
-					</View>
+					</Surface>
 
-					<Text style={styles.title}>{t("auth.phone.title")}</Text>
-					<Text style={styles.subtitle}>{t("auth.phone.subtitle")}</Text>
+					<Text variant="displaySmall" style={styles.title}>
+						{t("auth.phone.title")}
+					</Text>
+					<Text variant="bodyLarge" style={styles.subtitle}>
+						{t("auth.phone.subtitle")}
+					</Text>
 
 					<View style={styles.phoneInputWrapper}>
 						<PhoneInput
@@ -103,18 +101,21 @@ export default function PhoneScreen() {
 					</View>
 
 					<Button
-						variant="primary"
-						size="large"
-						fullWidth
+						mode="contained"
 						onPress={handleSubmit}
 						disabled={!isValid}
 						loading={isLoading}
+						buttonColor={colors.primary.main}
+						textColor={colors.text.inverse}
+						contentStyle={styles.submitContent}
 						accessibilityLabel={t("auth.phone.sendCode")}
 					>
 						{t("auth.phone.sendCode")}
 					</Button>
 
-					<Text style={styles.disclaimer}>{t("auth.phone.disclaimer")}</Text>
+					<Text variant="bodySmall" style={styles.disclaimer}>
+						{t("auth.phone.disclaimer")}
+					</Text>
 				</View>
 			</KeyboardAvoidingView>
 		</ScreenLayout>
@@ -141,21 +142,16 @@ const styles = StyleSheet.create({
 		marginBottom: spacing.xl,
 	},
 	title: {
-		fontSize: typography.fontSize["3xl"],
-		fontWeight: typography.fontWeight.bold,
-		color: colors.text.primary,
 		textAlign: "center",
 		marginBottom: spacing.sm,
 	},
 	subtitle: {
-		fontSize: typography.fontSize.base,
 		color: colors.text.secondary,
 		textAlign: "center",
 		marginBottom: spacing["2xl"],
 	},
 	phoneInputWrapper: {
 		marginBottom: spacing.lg,
-		...spacing.shadow.md,
 	},
 	phoneContainer: {
 		backgroundColor: colors.neutral.white,
@@ -199,8 +195,10 @@ const styles = StyleSheet.create({
 	modalCountryButton: {
 		borderBottomColor: colors.neutral[100],
 	},
+	submitContent: {
+		height: 56,
+	},
 	disclaimer: {
-		fontSize: typography.fontSize.sm,
 		color: colors.text.tertiary,
 		textAlign: "center",
 		marginTop: spacing.lg,
