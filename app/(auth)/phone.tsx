@@ -13,8 +13,15 @@ import PhoneInput, {
 	isValidPhoneNumber,
 	type ICountry,
 } from "react-native-international-phone-number";
-import { Button, ScreenLayout, colors, spacing, typography } from "@/design-system";
+import {
+	Button,
+	ScreenLayout,
+	colors,
+	spacing,
+	typography,
+} from "@/design-system";
 import { useAuthStore } from "@/src/store/authStore";
+import { useLanguage } from "@/src/hooks/useLanguage";
 
 export default function PhoneScreen() {
 	const [phone, setPhone] = useState("");
@@ -22,16 +29,21 @@ export default function PhoneScreen() {
 	const router = useRouter();
 	const requestOtp = useAuthStore((s) => s.requestOtp);
 	const isLoading = useAuthStore((s) => s.isLoading);
+	const { t } = useLanguage();
 
-	const isValid = selectedCountry ? isValidPhoneNumber(phone, selectedCountry) : false;
+	const isValid = selectedCountry
+		? isValidPhoneNumber(phone, selectedCountry)
+		: false;
 
 	const handleSubmit = async () => {
 		if (!selectedCountry || !isValid) {
-			Alert.alert("Invalid Number", "Please enter a valid phone number.");
+			Alert.alert(t("auth.phone.invalidTitle"), t("auth.phone.invalidMessage"));
 			return;
 		}
 
-		const fullNumber = `${selectedCountry.callingCode} ${phone}`.replace(/\s+/g, " ").trim();
+		const fullNumber = `${selectedCountry.callingCode} ${phone}`
+			.replace(/\s+/g, " ")
+			.trim();
 
 		const success = await requestOtp(fullNumber);
 		if (success) {
@@ -40,7 +52,7 @@ export default function PhoneScreen() {
 				params: { phone: fullNumber },
 			});
 		} else {
-			Alert.alert("Error", "Failed to send OTP. Please try again.");
+			Alert.alert(t("common.error"), t("auth.phone.sendFailed"));
 		}
 	};
 
@@ -58,10 +70,8 @@ export default function PhoneScreen() {
 						<Phone size={48} color={colors.primary.main} strokeWidth={1.5} />
 					</View>
 
-					<Text style={styles.title}>Welcome to TvetGreen</Text>
-					<Text style={styles.subtitle}>
-						Enter your phone number to get started
-					</Text>
+					<Text style={styles.title}>{t("auth.phone.title")}</Text>
+					<Text style={styles.subtitle}>{t("auth.phone.subtitle")}</Text>
 
 					<View style={styles.phoneInputWrapper}>
 						<PhoneInput
@@ -69,9 +79,9 @@ export default function PhoneScreen() {
 							onChangePhoneNumber={setPhone}
 							selectedCountry={selectedCountry}
 							onChangeSelectedCountry={setSelectedCountry}
-							defaultCountry="UG"
+							defaultCountry="ET"
 							language="en"
-							placeholder="Phone number"
+							placeholder={t("auth.phone.placeholder")}
 							phoneInputStyles={{
 								container: styles.phoneContainer,
 								flagContainer: styles.flagContainer,
@@ -87,8 +97,8 @@ export default function PhoneScreen() {
 								countryButton: styles.modalCountryButton,
 							}}
 							theme="light"
-							accessibilityLabelPhoneInput="Phone number input"
-							accessibilityLabelCountriesButton="Select country"
+							accessibilityLabelPhoneInput={t("auth.phone.inputLabel")}
+							accessibilityLabelCountriesButton={t("auth.phone.countryLabel")}
 						/>
 					</View>
 
@@ -99,14 +109,12 @@ export default function PhoneScreen() {
 						onPress={handleSubmit}
 						disabled={!isValid}
 						loading={isLoading}
-						accessibilityLabel="Send verification code"
+						accessibilityLabel={t("auth.phone.sendCode")}
 					>
-						Send Verification Code
+						{t("auth.phone.sendCode")}
 					</Button>
 
-					<Text style={styles.disclaimer}>
-						We'll send you a one-time verification code via SMS.
-					</Text>
+					<Text style={styles.disclaimer}>{t("auth.phone.disclaimer")}</Text>
 				</View>
 			</KeyboardAvoidingView>
 		</ScreenLayout>

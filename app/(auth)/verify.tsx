@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import {
 	Alert,
 	KeyboardAvoidingView,
+	Linking,
 	Platform,
 	Pressable,
 	StyleSheet,
@@ -11,8 +12,15 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { ArrowLeft, ShieldCheck } from "lucide-react-native";
-import { Button, ScreenLayout, colors, spacing, typography } from "@/design-system";
+import {
+	Button,
+	ScreenLayout,
+	colors,
+	spacing,
+	typography,
+} from "@/design-system";
 import { useAuthStore } from "@/src/store/authStore";
+import { useLanguage } from "@/src/hooks/useLanguage";
 
 const OTP_LENGTH = 6;
 const RESEND_INTERVAL = 60;
@@ -30,10 +38,16 @@ export default function VerifyScreen() {
 	const verifyOtp = useAuthStore((s) => s.verifyOtp);
 	const requestOtp = useAuthStore((s) => s.requestOtp);
 	const isLoading = useAuthStore((s) => s.isLoading);
+	const { t } = useLanguage();
 
 	const [otp, setOtp] = useState<string[]>(Array(OTP_LENGTH).fill(""));
 	const [resendTimer, setResendTimer] = useState(RESEND_INTERVAL);
+	const [resendAttempts, setResendAttempts] = useState(0);
 	const inputRefs = useRef<(TextInput | null)[]>([]);
+
+	const MAX_RESEND_ATTEMPTS = 2;
+	const showWhatsappFallback = resendAttempts >= MAX_RESEND_ATTEMPTS;
+	const whatsappSupportUrl = "https://wa.me/251911000000";
 
 	useEffect(() => {
 		if (resendTimer <= 0) return;
@@ -70,15 +84,21 @@ export default function VerifyScreen() {
 		async (code?: string) => {
 			const otpCode = code || otp.join("");
 			if (otpCode.length !== OTP_LENGTH) {
-				Alert.alert("Invalid Code", "Please enter the 6-digit code.");
+				Alert.alert(
+					t("auth.verify.invalidTitle"),
+					t("auth.verify.invalidMessage"),
+				);
 				return;
 			}
 
 			const success = await verifyOtp(phone || "", otpCode);
 			if (success) {
-				router.replace("/(tabs)");
+				router.replace("/onboarding/welcome" as never);
 			} else {
-				Alert.alert("Verification Failed", "Invalid code. Please try again.");
+				Alert.alert(
+					t("auth.verify.failedTitle"),
+					t("auth.verify.failedMessage"),
+				);
 				setOtp(Array(OTP_LENGTH).fill(""));
 				inputRefs.current[0]?.focus();
 			}
@@ -88,10 +108,14 @@ export default function VerifyScreen() {
 
 	const handleResend = async () => {
 		if (resendTimer > 0 || !phone) return;
+		setResendAttempts((prev) => prev + 1);
 		const success = await requestOtp(phone);
 		if (success) {
 			setResendTimer(RESEND_INTERVAL);
-			Alert.alert("Code Sent", "A new verification code has been sent.");
+			Alert.alert(
+				t("auth.verify.codeSentTitle"),
+				t("auth.verify.codeSentMessage"),
+			);
 		}
 	};
 
@@ -124,9 +148,10 @@ export default function VerifyScreen() {
 						/>
 					</View>
 
-					<Text style={styles.title}>Verify Your Number</Text>
+					<Text style={styles.title}>{t("auth.verify.title")}</Text>
 					<Text style={styles.subtitle}>
-						Enter the 6-digit code sent to{"\n"}
+						{t("auth.verify.subtitle")}
+						{"\n"}
 						<Text style={styles.phoneText}>{maskPhone(phone || "")}</Text>
 					</Text>
 
@@ -158,9 +183,9 @@ export default function VerifyScreen() {
 						onPress={() => handleVerify()}
 						disabled={otp.join("").length !== OTP_LENGTH}
 						loading={isLoading}
-						accessibilityLabel="Verify code"
+						accessibilityLabel={t("auth.verify.verifyButton")}
 					>
-						Verify
+						{t("auth.verify.verifyButton")}
 					</Button>
 
 					<View style={styles.resendContainer}>
@@ -170,16 +195,32 @@ export default function VerifyScreen() {
 								size="small"
 								onPress={handleResend}
 								disabled={isLoading}
-								accessibilityLabel="Resend verification code"
+								accessibilityLabel={t("auth.verify.resendCode")}
 							>
-								Resend Code
+								{t("auth.verify.resendCode")}
 							</Button>
 						) : (
 							<Text style={styles.resendTimerText}>
-								Resend in {resendTimer}s
+								{t("auth.verify.resendIn", { seconds: resendTimer })}
 							</Text>
 						)}
 					</View>
+
+					{showWhatsappFallback && (
+						<Pressable
+							style={styles.whatsappFallback}
+							onPress={() => Linking.openURL(whatsappSupportUrl)}
+							accessibilityLabel={t("auth.verify.whatsappHelp")}
+							accessibilityRole="link"
+						>
+							<Text style={styles.whatsappText}>
+								{t("auth.verify.smsNotArriving")}
+							</Text>
+							<Text style={styles.whatsappLink}>
+								{t("auth.verify.whatsappHelp")}
+							</Text>
+						</Pressable>
+					)}
 				</View>
 			</KeyboardAvoidingView>
 		</ScreenLayout>
@@ -267,5 +308,22 @@ const styles = StyleSheet.create({
 		fontSize: typography.fontSize.base,
 		color: colors.text.tertiary,
 		fontWeight: typography.fontWeight.medium,
+	},
+	whatsappFallback: {
+		alignItems: "center",
+		marginTop: spacing.xl,
+		padding: spacing.md,
+		backgroundColor: colors.background.secondary,
+		borderRadius: spacing.radius.md,
+	},
+	whatsappText: {
+		fontSize: typography.fontSize.sm,
+		color: colors.text.secondary,
+		marginBottom: spacing.xs,
+	},
+	whatsappLink: {
+		fontSize: typography.fontSize.sm,
+		fontWeight: typography.fontWeight.semibold,
+		color: colors.feedback.success,
 	},
 });

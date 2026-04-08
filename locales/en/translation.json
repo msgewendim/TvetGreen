@@ -214,6 +214,35 @@
 		"insufficientStorage": "Insufficient storage space",
 		"tryAgain": "Please try again"
 	},
+	"auth": {
+		"phone": {
+			"title": "Welcome to TvetGreen",
+			"subtitle": "Enter your phone number to get started",
+			"placeholder": "Phone number",
+			"sendCode": "Send Verification Code",
+			"disclaimer": "We will send you a code via SMS to verify your number.",
+			"invalidTitle": "Invalid Number",
+			"invalidMessage": "Please enter a valid phone number.",
+			"sendFailed": "Could not send the code. Please try again.",
+			"inputLabel": "Phone number input",
+			"countryLabel": "Select country"
+		},
+		"verify": {
+			"title": "Check Your Phone",
+			"subtitle": "We sent a number to your phone. Type it here.",
+			"verifyButton": "Verify",
+			"resendCode": "Resend Code",
+			"resendIn": "Resend in {{seconds}}s",
+			"invalidTitle": "Wrong Code",
+			"invalidMessage": "Please enter the 6-digit code.",
+			"failedTitle": "Could Not Verify",
+			"failedMessage": "That code did not work. Please try again.",
+			"codeSentTitle": "Code Sent",
+			"codeSentMessage": "A new code has been sent to your phone.",
+			"smsNotArriving": "SMS not arriving?",
+			"whatsappHelp": "Get help on WhatsApp"
+		}
+	},
 	"onboarding": {
 		"welcome": "Welcome to TvetGreen",
 		"welcomeMessage": "Learn practical skills for a sustainable future",
