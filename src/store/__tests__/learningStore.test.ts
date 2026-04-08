@@ -85,9 +85,9 @@ describe("learningStore", () => {
 				.lessonProgress.find((p) => p.lessonId === lesson.id);
 
 			expect(progress).toBeDefined();
-			expect(progress!.lastPosition).toBe(120);
-			expect(progress!.courseId).toBe(lesson.courseId);
-			expect(progress!.completed).toBe(false);
+			expect(progress?.lastPosition).toBe(120);
+			expect(progress?.courseId).toBe(lesson.courseId);
+			expect(progress?.completed).toBe(false);
 		});
 
 		it("updates existing progress entry", async () => {
@@ -141,8 +141,8 @@ describe("learningStore", () => {
 				.getState()
 				.lessonProgress.find((p) => p.lessonId === lesson.id);
 
-			expect(progress!.lastWatchedAt).toBeDefined();
-			expect(new Date(progress!.lastWatchedAt).getTime()).not.toBeNaN();
+			expect(progress?.lastWatchedAt).toBeDefined();
+			expect(new Date(progress?.lastWatchedAt ?? "").getTime()).not.toBeNaN();
 		});
 	});
 
@@ -160,8 +160,8 @@ describe("learningStore", () => {
 				.lessonProgress.find((p) => p.lessonId === lesson.id);
 
 			expect(progress).toBeDefined();
-			expect(progress!.completed).toBe(true);
-			expect(progress!.courseId).toBe(lesson.courseId);
+			expect(progress?.completed).toBe(true);
+			expect(progress?.courseId).toBe(lesson.courseId);
 		});
 
 		it("updates existing progress to completed", async () => {
@@ -277,7 +277,7 @@ describe("learningStore", () => {
 
 			const lastWatched = useLearningStore.getState().getLastWatchedLesson();
 			expect(lastWatched).toBeDefined();
-			expect(lastWatched!.id).toBe(lessons[1].id);
+			expect(lastWatched?.id).toBe(lessons[1].id);
 		});
 	});
 
@@ -296,8 +296,8 @@ describe("learningStore", () => {
 				.getNextLesson(course.id, courseLessons[0].order);
 
 			expect(next).toBeDefined();
-			expect(next!.order).toBe(courseLessons[0].order + 1);
-			expect(next!.courseId).toBe(course.id);
+			expect(next?.order).toBe(courseLessons[0].order + 1);
+			expect(next?.courseId).toBe(course.id);
 		});
 
 		it("returns null for the last lesson", async () => {
@@ -332,8 +332,8 @@ describe("learningStore", () => {
 				.getPreviousLesson(course.id, courseLessons[1].order);
 
 			expect(prev).toBeDefined();
-			expect(prev!.order).toBe(courseLessons[0].order);
-			expect(prev!.courseId).toBe(course.id);
+			expect(prev?.order).toBe(courseLessons[0].order);
+			expect(prev?.courseId).toBe(course.id);
 		});
 
 		it("returns null for the first lesson", async () => {
