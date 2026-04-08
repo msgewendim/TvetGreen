@@ -220,10 +220,9 @@
 		"getStarted": "Get Started",
 		"skip": "Skip",
 		"selectLanguage": "Select Your Language",
-		"chooseGoals": "What do you want to learn?",
-		"setupVoice": "Setup Voice Guide",
-		"voiceDescription": "Learn hands-free with voice commands",
-		"enableVoice": "Enable Voice Guide",
+		"language": {
+			"changeLater": "You can change this later in Settings"
+		},
 		"finish": "Start Learning"
 	},
 	"learning": {
