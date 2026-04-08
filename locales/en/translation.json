@@ -279,6 +279,13 @@
 			"tapCoursesTab": "Use the tabs below to navigate",
 			"profile": "Your settings and help are in the Profile tab.",
 			"settingsHint": "Find your settings here"
+		},
+		"courses": {
+			"search": "Search for any course by name or topic.",
+			"filter": "Filter courses by category to find what you need.",
+			"browse": "Tap any course to see details and start learning.",
+			"done": "You are all set! Explore courses on your own.",
+			"tapCourse": "Tap a course to get started"
 		}
 	},
 	"learning": {
