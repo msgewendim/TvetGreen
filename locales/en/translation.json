@@ -141,6 +141,12 @@
 		"account": "Account",
 		"signOut": "Sign Out",
 		"help": "Help & Support",
+		"helpGuides": "Help & Guides",
+		"replayTour": "Replay App Tour",
+		"replayTourSubtitle": "Walk through the app again",
+		"helpVideos": "Help Videos",
+		"helpVideosSubtitle": "Watch how to use the app",
+		"helpVideosComingSoon": "Help videos will be available soon.",
 		"about": "About",
 		"version": "Version",
 		"termsOfService": "Terms of Service",
@@ -214,17 +220,79 @@
 		"insufficientStorage": "Insufficient storage space",
 		"tryAgain": "Please try again"
 	},
+	"auth": {
+		"phone": {
+			"title": "Welcome to TvetGreen",
+			"subtitle": "Enter your phone number to get started",
+			"placeholder": "Phone number",
+			"sendCode": "Send Verification Code",
+			"disclaimer": "We will send you a code via SMS to verify your number.",
+			"invalidTitle": "Invalid Number",
+			"invalidMessage": "Please enter a valid phone number.",
+			"sendFailed": "Could not send the code. Please try again.",
+			"inputLabel": "Phone number input",
+			"countryLabel": "Select country"
+		},
+		"verify": {
+			"title": "Check Your Phone",
+			"subtitle": "We sent a number to your phone. Type it here.",
+			"verifyButton": "Verify",
+			"resendCode": "Resend Code",
+			"resendIn": "Resend in {{seconds}}s",
+			"invalidTitle": "Wrong Code",
+			"invalidMessage": "Please enter the 6-digit code.",
+			"failedTitle": "Could Not Verify",
+			"failedMessage": "That code did not work. Please try again.",
+			"codeSentTitle": "Code Sent",
+			"codeSentMessage": "A new code has been sent to your phone.",
+			"smsNotArriving": "SMS not arriving?",
+			"whatsappHelp": "Get help on WhatsApp"
+		}
+	},
 	"onboarding": {
-		"welcome": "Welcome to TvetGreen",
-		"welcomeMessage": "Learn practical skills for a sustainable future",
 		"getStarted": "Get Started",
 		"skip": "Skip",
 		"selectLanguage": "Select Your Language",
-		"chooseGoals": "What do you want to learn?",
-		"setupVoice": "Setup Voice Guide",
-		"voiceDescription": "Learn hands-free with voice commands",
-		"enableVoice": "Enable Voice Guide",
+		"language": {
+			"changeLater": "You can change this later in Settings"
+		},
+		"welcome": {
+			"slide1": {
+				"title": "Learn skills for your business",
+				"subtitle": "Short video lessons you can watch anytime"
+			},
+			"slide2": {
+				"title": "Download and learn offline",
+				"subtitle": "Save courses to watch without internet"
+			},
+			"slide3": {
+				"title": "Track your progress",
+				"subtitle": "See how far you have come as you learn"
+			}
+		},
+		"complete": {
+			"title": "You're all set!",
+			"subtitle": "Let us show you around the app"
+		},
 		"finish": "Start Learning"
+	},
+	"tour": {
+		"home": {
+			"welcome": "This is your home screen. You will see your courses and progress here.",
+			"continueLearning": "Your current course appears here. Tap to continue learning.",
+			"categories": "Browse courses by category. Tap any to explore.",
+			"browseMore": "Tap the Courses tab below to see all available courses.",
+			"tapCoursesTab": "Use the tabs below to navigate",
+			"profile": "Your settings and help are in the Profile tab.",
+			"settingsHint": "Find your settings here"
+		},
+		"courses": {
+			"search": "Search for any course by name or topic.",
+			"filter": "Filter courses by category to find what you need.",
+			"browse": "Tap any course to see details and start learning.",
+			"done": "You are all set! Explore courses on your own.",
+			"tapCourse": "Tap a course to get started"
+		}
 	},
 	"learning": {
 		"myLearning": "My Learning",

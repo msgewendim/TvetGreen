@@ -49,7 +49,7 @@ export const VoiceButton: React.FC<VoiceButtonProps> = ({
 			case "processing":
 				return colors.feedback.warning; // Orange/yellow for processing
 			default:
-				return colors.secondary.main; // Orange for idle
+				return colors.accent.main; // Amber for idle
 		}
 	};
 

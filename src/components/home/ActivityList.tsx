@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.feedback.info,
 	},
 	startedIcon: {
-		backgroundColor: colors.secondary.main,
+		backgroundColor: colors.accent.main,
 	},
 	content: {
 		flex: 1,

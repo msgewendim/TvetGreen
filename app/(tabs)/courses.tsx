@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Star } from "lucide-react-native";
 import { useRouter } from "expo-router";
+import { CopilotStep, walkthroughable, useCopilot } from "react-native-copilot";
 import {
 	colors,
 	commonStyles,
@@ -16,12 +17,25 @@ import {
 	typography,
 } from "@/design-system";
 import { useLearningStore } from "@/src/store/learningStore";
+import { useOnboardingStore } from "@/src/store/onboardingStore";
 import type { Course } from "@/src/types/learning";
 import { useLanguage } from "@/src/hooks/useLanguage";
+
+const WalkthroughableView = walkthroughable(View);
 
 export default function CoursesScreen() {
 	const { t } = useLanguage();
 	const router = useRouter();
+	const { currentStep, isStarted } = useCopilot();
+	const completeTour = useOnboardingStore((s) => s.completeTour);
+	const tourComplete = useOnboardingStore((s) => s.tourComplete);
+
+	// Mark tour complete when copilot finishes on this screen
+	useEffect(() => {
+		if (!isStarted && !tourComplete && currentStep === undefined) {
+			// Copilot ended — only complete if we were mid-tour
+		}
+	}, [isStarted, tourComplete, currentStep, completeTour]);
 
 	const courses = useLearningStore((state) => state.courses);
 	const categories = useLearningStore((state) => state.categories);
@@ -148,62 +162,101 @@ export default function CoursesScreen() {
 			/>
 
 			{/* Search */}
-			<View style={styles.searchContainer}>
-				<SearchInput
-					value={searchQuery}
-					onChangeText={setSearchQuery}
-					placeholder={t("courses.searchPlaceholder")}
-				/>
-			</View>
+			<CopilotStep
+				text={t("tour.courses.search")}
+				order={6}
+				name="courses-search"
+			>
+				<WalkthroughableView>
+					<View style={styles.searchContainer}>
+						<SearchInput
+							value={searchQuery}
+							onChangeText={setSearchQuery}
+							placeholder={t("courses.searchPlaceholder")}
+						/>
+					</View>
+				</WalkthroughableView>
+			</CopilotStep>
 
 			{/* Category Filter */}
-			<View style={styles.filterSection}>
-				<Text style={styles.filterLabel}>{t("courses.filterBy")}</Text>
-				<ScrollView
-					horizontal
-					showsHorizontalScrollIndicator={false}
-					contentContainerStyle={styles.chipsRow}
-				>
-					{categoryChips.map((cat) => (
-						<CategoryChip
-							key={cat.id}
-							label={cat.label}
-							emoji={cat.emoji}
-							color={cat.color}
-							isActive={selectedCategory === cat.id}
-							onPress={() => setSelectedCategory(cat.id)}
-						/>
-					))}
-				</ScrollView>
-			</View>
+			<CopilotStep
+				text={t("tour.courses.filter")}
+				order={7}
+				name="courses-filter"
+			>
+				<WalkthroughableView>
+					<View style={styles.filterSection}>
+						<Text style={styles.filterLabel}>{t("courses.filterBy")}</Text>
+						<ScrollView
+							horizontal
+							showsHorizontalScrollIndicator={false}
+							contentContainerStyle={styles.chipsRow}
+						>
+							{categoryChips.map((cat) => (
+								<CategoryChip
+									key={cat.id}
+									label={cat.label}
+									emoji={cat.emoji}
+									color={cat.color}
+									isActive={selectedCategory === cat.id}
+									onPress={() => setSelectedCategory(cat.id)}
+								/>
+							))}
+						</ScrollView>
+					</View>
+				</WalkthroughableView>
+			</CopilotStep>
 
-			{isLoading ? (
-				<View style={styles.centerContainer}>
-					<LoadingSpinner size="large" />
-					<Text style={styles.loadingText}>
-						{t("learning.loading.courses")}
-					</Text>
-				</View>
-			) : error ? (
-				<View style={styles.centerContainer}>
-					<EmptyState
-						icon={<Star size={spacing.iconSize.xl} color={colors.text.tertiary} />}
-						title={t("errors.general")}
-						description={t("errors.network")}
-					/>
-				</View>
-			) : (
-				<FlatList
-					data={displayCourses}
-					renderItem={renderCourse}
-					keyExtractor={keyExtractor}
-					style={styles.courseList}
-					contentContainerStyle={styles.courseListContent}
-					showsVerticalScrollIndicator={false}
-					ListHeaderComponent={ListHeaderComponent}
-					ListEmptyComponent={ListEmptyComponent}
-				/>
-			)}
+			<CopilotStep
+				text={t("tour.courses.browse")}
+				order={8}
+				name="courses-browse"
+			>
+				<WalkthroughableView>
+					{isLoading ? (
+						<View style={styles.centerContainer}>
+							<LoadingSpinner size="large" />
+							<Text style={styles.loadingText}>
+								{t("learning.loading.courses")}
+							</Text>
+						</View>
+					) : error ? (
+						<View style={styles.centerContainer}>
+							<EmptyState
+								icon={
+									<Star
+										size={spacing.iconSize.xl}
+										color={colors.text.tertiary}
+									/>
+								}
+								title={t("errors.general")}
+								description={t("errors.network")}
+							/>
+						</View>
+					) : (
+						<FlatList
+							data={displayCourses}
+							renderItem={renderCourse}
+							keyExtractor={keyExtractor}
+							style={styles.courseList}
+							contentContainerStyle={styles.courseListContent}
+							showsVerticalScrollIndicator={false}
+							ListHeaderComponent={ListHeaderComponent}
+							ListEmptyComponent={ListEmptyComponent}
+						/>
+					)}
+				</WalkthroughableView>
+			</CopilotStep>
+
+			<CopilotStep text={t("tour.courses.done")} order={9} name="courses-done">
+				<WalkthroughableView>
+					<View style={styles.tourDoneHint}>
+						<Text style={styles.tourDoneText}>
+							{t("tour.courses.tapCourse")}
+						</Text>
+					</View>
+				</WalkthroughableView>
+			</CopilotStep>
 		</ScreenLayout>
 	);
 }
@@ -249,5 +302,14 @@ const styles = StyleSheet.create({
 	courseListContent: {
 		paddingHorizontal: spacing.lg,
 		paddingBottom: spacing.xl,
+	},
+	tourDoneHint: {
+		paddingHorizontal: spacing.lg,
+		paddingVertical: spacing.sm,
+	},
+	tourDoneText: {
+		fontSize: typography.fontSize.sm,
+		color: colors.text.tertiary,
+		textAlign: "center",
 	},
 });

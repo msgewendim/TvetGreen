@@ -1,13 +1,17 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
+import { Award, BookOpen, Clock, TrendingUp } from "lucide-react-native";
+import { CopilotStep, walkthroughable, useCopilot } from "react-native-copilot";
 import {
-	Award,
-	BookOpen,
-	Clock,
-	TrendingUp,
-} from "lucide-react-native";
-import { colors, commonStyles, Header, ModernCourseCard, ScreenLayout, spacing, typography } from "@/design-system";
+	colors,
+	commonStyles,
+	Header,
+	ModernCourseCard,
+	ScreenLayout,
+	spacing,
+	typography,
+} from "@/design-system";
 import {
 	CurrentCourseCard,
 	QuickActionsGrid,
@@ -17,10 +21,29 @@ import {
 } from "@/src/components/home";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import { useLearningStore, getLearningStats } from "@/src/store/learningStore";
+import { useOnboardingStore } from "@/src/store/onboardingStore";
+
+const WalkthroughableView = walkthroughable(View);
 
 export default function HomeScreen() {
 	const { t } = useLanguage();
 	const router = useRouter();
+	const { start: startCopilot } = useCopilot();
+	const onboardingComplete = useOnboardingStore((s) => s.onboardingComplete);
+	const tourComplete = useOnboardingStore((s) => s.tourComplete);
+	const completeTour = useOnboardingStore((s) => s.completeTour);
+
+	// Auto-trigger tour when onboarding is done but tour hasn't run
+	const tourStartedRef = useRef(false);
+	useEffect(() => {
+		if (onboardingComplete && !tourComplete && !tourStartedRef.current) {
+			tourStartedRef.current = true;
+			const timer = setTimeout(() => {
+				startCopilot();
+			}, 500);
+			return () => clearTimeout(timer);
+		}
+	}, [onboardingComplete, tourComplete, startCopilot]);
 
 	const enrollments = useLearningStore((s) => s.enrollments);
 	const lessons = useLearningStore((s) => s.lessons);
@@ -57,21 +80,50 @@ export default function HomeScreen() {
 				const lesson = getLessonById(progress.lessonId);
 				const course = getCourseById(progress.courseId);
 				if (!lesson || !course) return null;
-				return { lesson, course, progress: Math.round((progress.watchedSeconds / progress.totalSeconds) * 100) };
+				return {
+					lesson,
+					course,
+					progress: Math.round(
+						(progress.watchedSeconds / progress.totalSeconds) * 100,
+					),
+				};
 			})
 			.filter((l) => l !== null);
 	}, [lessonProgress, getLessonById, getCourseById]);
 
 	const quickActions: QuickAction[] = [
-		{ id: "agriculture", label: t("courses.agriculture"), emoji: "🌾", color: colors.categories.agriculture },
-		{ id: "energy", label: t("courses.greenEnergy"), emoji: "🔆", color: colors.categories.greenEnergy },
-		{ id: "construction", label: t("courses.construction"), emoji: "🔨", color: colors.categories.construction },
-		{ id: "business", label: t("courses.business"), emoji: "💼", color: colors.categories.business },
+		{
+			id: "agriculture",
+			label: t("courses.agriculture"),
+			emoji: "🌾",
+			color: colors.categories.agriculture,
+		},
+		{
+			id: "energy",
+			label: t("courses.greenEnergy"),
+			emoji: "🔆",
+			color: colors.categories.greenEnergy,
+		},
+		{
+			id: "construction",
+			label: t("courses.construction"),
+			emoji: "🔨",
+			color: colors.categories.construction,
+		},
+		{
+			id: "business",
+			label: t("courses.business"),
+			emoji: "💼",
+			color: colors.categories.business,
+		},
 	];
 
 	const recentActivities: Activity[] = lessonProgress
 		.filter((p) => p.updatedAt)
-		.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+		.sort(
+			(a, b) =>
+				new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+		)
 		.slice(0, 3)
 		.map((p) => {
 			const lesson = lessons.find((l) => l.id === p.lessonId);
@@ -94,19 +146,39 @@ export default function HomeScreen() {
 	};
 
 	const statsData = [
-		{ icon: <BookOpen size={16} color={colors.primary.main} />, value: stats.totalEnrolled, label: "Enrolled" },
-		{ icon: <TrendingUp size={16} color={colors.secondary.main} />, value: stats.inProgress, label: "In Progress" },
-		{ icon: <Award size={16} color={colors.feedback.success} />, value: stats.completed, label: "Completed" },
-		{ icon: <Clock size={16} color={colors.feedback.info} />, value: `${watchHours}h ${watchMinutes}m`, label: "Watch Time" },
+		{
+			icon: <BookOpen size={16} color={colors.primary.main} />,
+			value: stats.totalEnrolled,
+			label: "Enrolled",
+		},
+		{
+			icon: <TrendingUp size={16} color={colors.accent.main} />,
+			value: stats.inProgress,
+			label: "In Progress",
+		},
+		{
+			icon: <Award size={16} color={colors.feedback.success} />,
+			value: stats.completed,
+			label: "Completed",
+		},
+		{
+			icon: <Clock size={16} color={colors.feedback.info} />,
+			value: `${watchHours}h ${watchMinutes}m`,
+			label: "Watch Time",
+		},
 	];
 
 	return (
 		<ScreenLayout>
-			<Header
-				variant="minimal"
-				title="Hi, Learner"
-				subtitle={t("home.welcomeMessage")}
-			/>
+			<CopilotStep text={t("tour.home.welcome")} order={1} name="home-welcome">
+				<WalkthroughableView>
+					<Header
+						variant="minimal"
+						title="Hi, Learner"
+						subtitle={t("home.welcomeMessage")}
+					/>
+				</WalkthroughableView>
+			</CopilotStep>
 
 			{/* Stats Row */}
 			{enrollments.length > 0 && (
@@ -122,36 +194,48 @@ export default function HomeScreen() {
 			)}
 
 			{/* Continue Learning */}
-			{continueCourse ? (
-				<CurrentCourseCard
-					course={{
-						title: continueCourse.title,
-						category: continueCourse.categoryId
-							.replace("category_", "")
-							.replace(/_/g, " "),
-						progress: continueCourse.progress ?? 0,
-						imageUrl: continueCourse.thumbnail,
-					}}
-					onContinue={handleContinueLearning}
-				/>
-			) : (
-				<CurrentCourseCard
-					course={{
-						title: "Start Your Learning Journey",
-						category: "Browse courses to get started",
-						progress: 0,
-						imageUrl:
-							"https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg",
-					}}
-					onContinue={() => router.push("/(tabs)/courses")}
-				/>
-			)}
+			<CopilotStep
+				text={t("tour.home.continueLearning")}
+				order={2}
+				name="home-continue"
+			>
+				<WalkthroughableView>
+					{continueCourse ? (
+						<CurrentCourseCard
+							course={{
+								title: continueCourse.title,
+								category: continueCourse.categoryId
+									.replace("category_", "")
+									.replace(/_/g, " "),
+								progress: continueCourse.progress ?? 0,
+								imageUrl: continueCourse.thumbnail,
+							}}
+							onContinue={handleContinueLearning}
+						/>
+					) : (
+						<CurrentCourseCard
+							course={{
+								title: "Start Your Learning Journey",
+								category: "Browse courses to get started",
+								progress: 0,
+								imageUrl:
+									"https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg",
+							}}
+							onContinue={() => router.push("/(tabs)/courses")}
+						/>
+					)}
+				</WalkthroughableView>
+			</CopilotStep>
 
 			{/* Continue Watching */}
 			{continueWatchingLessons.length > 0 && (
 				<View style={styles.section}>
 					<Text style={styles.sectionTitle}>Continue Watching</Text>
-					<ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.continueRow}>
+					<ScrollView
+						horizontal
+						showsHorizontalScrollIndicator={false}
+						contentContainerStyle={styles.continueRow}
+					>
 						{continueWatchingLessons.map((item) => (
 							<View key={item.lesson.id} style={styles.continueCard}>
 								<ModernCourseCard
@@ -159,7 +243,9 @@ export default function HomeScreen() {
 									instructor={item.course.title}
 									progress={item.progress}
 									thumbnailUrl={item.course.thumbnail}
-									onPress={() => router.push(`/video/${item.course.id}/${item.lesson.id}`)}
+									onPress={() =>
+										router.push(`/video/${item.course.id}/${item.lesson.id}`)
+									}
 									style={{ width: 260, marginBottom: 0 }}
 								/>
 							</View>
@@ -169,10 +255,42 @@ export default function HomeScreen() {
 			)}
 
 			{/* Quick Actions */}
-			<QuickActionsGrid
-				actions={quickActions}
-				onActionPress={() => router.push("/(tabs)/courses")}
-			/>
+			<CopilotStep
+				text={t("tour.home.categories")}
+				order={3}
+				name="home-categories"
+			>
+				<WalkthroughableView>
+					<QuickActionsGrid
+						actions={quickActions}
+						onActionPress={() => router.push("/(tabs)/courses")}
+					/>
+				</WalkthroughableView>
+			</CopilotStep>
+
+			<CopilotStep
+				text={t("tour.home.browseMore")}
+				order={4}
+				name="home-browse"
+			>
+				<WalkthroughableView>
+					<View style={styles.tourBrowseHint}>
+						<Text style={styles.tourBrowseText}>
+							{t("tour.home.tapCoursesTab")}
+						</Text>
+					</View>
+				</WalkthroughableView>
+			</CopilotStep>
+
+			<CopilotStep text={t("tour.home.profile")} order={5} name="home-profile">
+				<WalkthroughableView>
+					<View style={styles.tourProfileHint}>
+						<Text style={styles.tourProfileText}>
+							{t("tour.home.settingsHint")}
+						</Text>
+					</View>
+				</WalkthroughableView>
+			</CopilotStep>
 
 			{/* Recent Activity */}
 			{recentActivities.length > 0 && (
@@ -234,5 +352,23 @@ const styles = StyleSheet.create({
 	},
 	continueCard: {
 		width: 260,
+	},
+	tourBrowseHint: {
+		paddingHorizontal: spacing.lg,
+		paddingVertical: spacing.sm,
+	},
+	tourBrowseText: {
+		fontSize: typography.fontSize.sm,
+		color: colors.text.tertiary,
+		textAlign: "center",
+	},
+	tourProfileHint: {
+		paddingHorizontal: spacing.lg,
+		paddingVertical: spacing.sm,
+	},
+	tourProfileText: {
+		fontSize: typography.fontSize.sm,
+		color: colors.text.tertiary,
+		textAlign: "center",
 	},
 });

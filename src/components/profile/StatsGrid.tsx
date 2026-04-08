@@ -27,7 +27,7 @@ export function StatsGrid({ stats }: StatsGridProps) {
 			label: "Completed",
 		},
 		{
-			icon: <Clock size={18} color={colors.secondary.main} strokeWidth={2} />,
+			icon: <Clock size={18} color={colors.accent.main} strokeWidth={2} />,
 			value: `${stats.totalHours}h`,
 			label: "Hours",
 		},

@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		bottom: 0,
 		right: 0,
-		backgroundColor: colors.secondary.main,
+		backgroundColor: colors.accent.main,
 		width: 32,
 		height: 32,
 		borderRadius: spacing.radius.full,
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
 	skillBadge: {
 		flexDirection: "row",
 		alignItems: "center",
-		backgroundColor: colors.secondary.surface,
+		backgroundColor: colors.accent.surface,
 		paddingHorizontal: spacing.sm,
 		paddingVertical: spacing.xs,
 		borderRadius: spacing.radius.lg,

@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
 	},
 	category: {
 		fontSize: typography.fontSize.sm,
-		color: colors.secondary.main,
+		color: colors.accent.main,
 		fontWeight: typography.fontWeight.semibold,
 		marginBottom: spacing.xs,
 	},
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
 	continueButton: {
 		flexDirection: "row",
 		alignItems: "center",
-		backgroundColor: colors.secondary.main,
+		backgroundColor: colors.accent.main,
 		paddingVertical: spacing.sm,
 		paddingHorizontal: spacing.lg,
 		borderRadius: spacing.radius.sm,
