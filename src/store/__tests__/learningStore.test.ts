@@ -127,6 +127,42 @@ describe("learningStore", () => {
 			);
 		});
 
+		it("auto-marks lesson complete when position reaches 90% of duration", async () => {
+			await useLearningStore.getState().loadData();
+
+			const lessons = useLearningStore.getState().lessons;
+			const lesson = lessons[0]; // duration is 480
+
+			// 90% of 480 = 432
+			await useLearningStore
+				.getState()
+				.updateLessonProgress(lesson.id, 440, lesson.duration);
+
+			const progress = useLearningStore
+				.getState()
+				.lessonProgress.find((p) => p.lessonId === lesson.id);
+
+			expect(progress?.completed).toBe(true);
+		});
+
+		it("does NOT auto-complete when below 90%", async () => {
+			await useLearningStore.getState().loadData();
+
+			const lessons = useLearningStore.getState().lessons;
+			const lesson = lessons[0];
+
+			// 80% of 480 = 384
+			await useLearningStore
+				.getState()
+				.updateLessonProgress(lesson.id, 384, lesson.duration);
+
+			const progress = useLearningStore
+				.getState()
+				.lessonProgress.find((p) => p.lessonId === lesson.id);
+
+			expect(progress?.completed).toBe(false);
+		});
+
 		it("sets lastWatchedAt timestamp", async () => {
 			await useLearningStore.getState().loadData();
 

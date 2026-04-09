@@ -44,11 +44,28 @@ jest.mock("@/src/hooks/useLesson", () => ({
 	useLesson: () => mockUseLesson(),
 }));
 
+// Mock expo-router with route params
+jest.mock("expo-router", () => ({
+	useLocalSearchParams: () => ({ courseId: "course-1", lessonId: "lesson-2" }),
+	useRouter: () => ({
+		push: jest.fn(),
+		back: jest.fn(),
+		replace: jest.fn(),
+	}),
+}));
+
+// Mock ROUTES
+jest.mock("@/src/utils/appRoutes", () => ({
+	ROUTES: {
+		VIDEO_PLAYER: (c: string, l: string) => `/video/${c}/${l}`,
+	},
+}));
+
 // Mock useLanguage — return the key with interpolation for verification
 jest.mock("@/src/hooks/useLanguage", () => ({
 	useLanguage: () => ({
 		t: (key: string, params?: Record<string, unknown>) => {
-			if (key === "video.lessonOf" && params) {
+			if (key === "video.lesson_of" && params) {
 				return `Lesson ${params.current} of ${params.total}`;
 			}
 			if (key === "common.previous") return "Previous";
@@ -60,9 +77,23 @@ jest.mock("@/src/hooks/useLanguage", () => ({
 	}),
 }));
 
-// Mock VideoPlayer component
+// Mock VideoPlayer — capture props so we can simulate onProgress
+let capturedVideoPlayerProps: Record<string, unknown> = {};
 jest.mock("@/src/components/VideoPlayer", () => ({
-	VideoPlayer: () => null,
+	VideoPlayer: (props: Record<string, unknown>) => {
+		capturedVideoPlayerProps = props;
+		return null;
+	},
+}));
+
+// Mock learningStore
+const mockUpdateProgress = jest.fn();
+jest.mock("@/src/store/learningStore", () => ({
+	useLearningStore: Object.assign(
+		(selector: (state: Record<string, unknown>) => unknown) =>
+			selector({ updateLessonProgress: mockUpdateProgress }),
+		{ getState: () => ({ markLessonComplete: jest.fn() }) },
+	),
 }));
 
 // Mock react-native-paper components
@@ -105,6 +136,8 @@ const defaultLessonData = {
 describe("VideoPlayerScreen", () => {
 	beforeEach(() => {
 		mockUseLesson.mockReturnValue(defaultLessonData);
+		capturedVideoPlayerProps = {};
+		mockUpdateProgress.mockClear();
 	});
 
 	it("renders lesson title", () => {
@@ -144,6 +177,22 @@ describe("VideoPlayerScreen", () => {
 		expect(idx).toBeGreaterThan(-1);
 		const context = tree.substring(Math.max(0, idx - 200), idx + 100);
 		expect(context).toMatch(/disabled.*?true/);
+	});
+
+	it("passes onProgress to VideoPlayer that saves to store", () => {
+		render(<VideoPlayerScreen />);
+
+		// VideoPlayer should receive an onProgress callback
+		expect(capturedVideoPlayerProps.onProgress).toBeDefined();
+
+		// Simulate a progress event
+		const onProgress = capturedVideoPlayerProps.onProgress as (p: {
+			currentTime: number;
+			duration: number;
+		}) => void;
+		onProgress({ currentTime: 120, duration: 540 });
+
+		expect(mockUpdateProgress).toHaveBeenCalledWith("lesson-2", 120, 540);
 	});
 
 	it("disables Next button on last lesson", () => {

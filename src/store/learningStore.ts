@@ -14,6 +14,7 @@ import type {
 	LessonProgress,
 } from "@/src/types/learning";
 import { STORAGE_KEYS } from "@/src/types/learning";
+import { shouldAutoComplete } from "@/src/utils/progressUtils";
 
 // Import static data
 import coursesData from "@/src/data/courses/courses.json";
@@ -97,20 +98,22 @@ export const useLearningStore = create<LearningState>((set, get) => ({
 
 		const existing = lessonProgress.find((p) => p.lessonId === lessonId);
 		const now = new Date().toISOString();
+		const completed =
+			existing?.completed || shouldAutoComplete(position, lesson.duration);
 
 		let updatedProgress: LessonProgress[];
 
 		if (existing) {
 			updatedProgress = lessonProgress.map((p) =>
 				p.lessonId === lessonId
-					? { ...p, lastPosition: position, lastWatchedAt: now }
+					? { ...p, lastPosition: position, lastWatchedAt: now, completed }
 					: p,
 			);
 		} else {
 			const newEntry: LessonProgress = {
 				lessonId,
 				courseId: lesson.courseId,
-				completed: false,
+				completed,
 				lastPosition: position,
 				lastWatchedAt: now,
 			};

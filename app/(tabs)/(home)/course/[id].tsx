@@ -1,6 +1,6 @@
 import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Button, Divider, List, Text } from "react-native-paper";
+import { Button, Divider, Icon, List, Text } from "react-native-paper";
 import { colors, spacing } from "@/design-system";
 import { ROUTES } from "@/src/utils/appRoutes";
 import { useLearningStore } from "@/src/store/learningStore";
@@ -17,6 +17,7 @@ export default function CourseDetailScreen() {
 
 	const courses = useLearningStore((s) => s.courses);
 	const getLessonsForCourse = useLearningStore((s) => s.getLessonsForCourse);
+	const lessonProgress = useLearningStore((s) => s.lessonProgress);
 
 	const course = id ? courses.find((c) => c.id === id) : undefined;
 	const courseLessons = id ? getLessonsForCourse(id) : [];
@@ -38,6 +39,10 @@ export default function CourseDetailScreen() {
 	);
 
 	const firstLesson = courseLessons[0];
+	const hasStarted = lessonProgress.some((p) => p.courseId === id);
+
+	const isLessonCompleted = (lessonId: string) =>
+		lessonProgress.some((p) => p.lessonId === lessonId && p.completed);
 
 	return (
 		<ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -74,7 +79,9 @@ export default function CourseDetailScreen() {
 						style={styles.startButton}
 						contentStyle={styles.startButtonContent}
 					>
-						{t("learning.startLearning")}
+						{hasStarted
+							? t("learning.continueLearning")
+							: t("learning.startLearning")}
 					</Button>
 				</View>
 			)}
@@ -86,28 +93,49 @@ export default function CourseDetailScreen() {
 				<Text variant="titleMedium" style={styles.sectionTitle}>
 					{t("learning.curriculum")}
 				</Text>
-				{courseLessons.map((lesson, index) => (
-					<View key={lesson.id}>
-						{index > 0 && <Divider />}
-						<List.Item
-							title={localized(lesson.title)}
-							description={`${Math.round(lesson.duration / 60)} min`}
-							left={() => (
-								<View style={styles.lessonNumber}>
-									<Text variant="labelMedium" style={styles.lessonNumberText}>
-										{index + 1}
-									</Text>
-								</View>
-							)}
-							onPress={() =>
-								router.push(ROUTES.VIDEO_PLAYER(course.id, lesson.id) as never)
-							}
-							style={styles.lessonItem}
-							titleStyle={styles.lessonTitle}
-							descriptionStyle={styles.lessonDescription}
-						/>
-					</View>
-				))}
+				{courseLessons.map((lesson, index) => {
+					const completed = isLessonCompleted(lesson.id);
+					return (
+						<View key={lesson.id}>
+							{index > 0 && <Divider />}
+							<List.Item
+								title={localized(lesson.title)}
+								description={`${Math.round(lesson.duration / 60)} min`}
+								left={() => (
+									<View style={styles.lessonNumber}>
+										<Text variant="labelMedium" style={styles.lessonNumberText}>
+											{index + 1}
+										</Text>
+									</View>
+								)}
+								right={
+									completed
+										? () => (
+												<View
+													style={styles.checkmark}
+													testID={`lesson-complete-${lesson.id}`}
+												>
+													<Icon
+														source="check-circle"
+														size={20}
+														color={colors.feedback.success}
+													/>
+												</View>
+											)
+										: undefined
+								}
+								onPress={() =>
+									router.push(
+										ROUTES.VIDEO_PLAYER(course.id, lesson.id) as never,
+									)
+								}
+								style={styles.lessonItem}
+								titleStyle={styles.lessonTitle}
+								descriptionStyle={styles.lessonDescription}
+							/>
+						</View>
+					);
+				})}
 			</View>
 		</ScrollView>
 	);
@@ -194,5 +222,9 @@ const styles = StyleSheet.create({
 	lessonDescription: {
 		color: colors.text.tertiary,
 		fontSize: 13,
+	},
+	checkmark: {
+		justifyContent: "center",
+		alignSelf: "center",
 	},
 });

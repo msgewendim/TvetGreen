@@ -26,6 +26,11 @@ export default function HomeScreen() {
 		}
 	}, [courses.length, loadData]);
 
+	const getCourseProgress = useLearningStore((s) => s.getCourseProgress);
+
+	const getCompletedCount = (courseId: string) =>
+		lessonProgress.filter((p) => p.courseId === courseId && p.completed).length;
+
 	const continueItem = (() => {
 		const recentProgress = [...lessonProgress]
 			.filter((p) => !p.completed && p.lastPosition > 0)
@@ -41,10 +46,15 @@ export default function HomeScreen() {
 		const course = courses.find((c) => c.id === recentProgress.courseId);
 		if (!lesson || !course) return null;
 
-		const totalDuration = lesson.duration || 1;
-		const progress = recentProgress.lastPosition / totalDuration;
+		const courseLessons = lessons.filter((l) => l.courseId === course.id);
+		const completedCount = getCompletedCount(course.id);
 
-		return { course, lesson, progress: Math.min(progress, 1) };
+		return {
+			course,
+			lesson,
+			completedCount,
+			totalLessons: courseLessons.length,
+		};
 	})();
 
 	return (
@@ -73,16 +83,12 @@ export default function HomeScreen() {
 							<Text variant="bodySmall" style={styles.continueLessonTitle}>
 								{localized(continueItem.lesson.title)}
 							</Text>
-							<View style={styles.progressRow}>
-								<ProgressBar
-									progress={continueItem.progress}
-									color={colors.primary.main}
-									style={styles.progressBar}
-								/>
-								<Text variant="labelSmall" style={styles.progressText}>
-									{Math.round(continueItem.progress * 100)}%
-								</Text>
-							</View>
+							<Text variant="labelSmall" style={styles.continueLessonProgress}>
+								{t("learning.lessons_progress", {
+									completed: continueItem.completedCount,
+									total: continueItem.totalLessons,
+								})}
+							</Text>
 						</Card.Content>
 					</Card>
 				</View>
@@ -95,6 +101,10 @@ export default function HomeScreen() {
 				</Text>
 				{courses.map((course, index) => {
 					const courseLessons = lessons.filter((l) => l.courseId === course.id);
+					const completedCount = getCompletedCount(course.id);
+					const hasStarted = lessonProgress.some(
+						(p) => p.courseId === course.id,
+					);
 					return (
 						<View key={course.id}>
 							{index > 0 && <Divider />}
@@ -120,8 +130,20 @@ export default function HomeScreen() {
 										{localized(course.description).slice(0, 100)}...
 									</Text>
 									<Text variant="bodySmall" style={styles.lessonCount}>
-										{t("learning.lessons", { count: courseLessons.length })}
+										{hasStarted
+											? t("learning.lessons_progress", {
+													completed: completedCount,
+													total: courseLessons.length,
+												})
+											: t("learning.lessons", { count: courseLessons.length })}
 									</Text>
+									{hasStarted && (
+										<ProgressBar
+											progress={completedCount / courseLessons.length}
+											color={colors.primary.main}
+											style={styles.courseProgressBar}
+										/>
+									)}
 								</View>
 							</Pressable>
 						</View>
@@ -162,22 +184,9 @@ const styles = StyleSheet.create({
 		color: colors.text.secondary,
 		marginTop: spacing.xs,
 	},
-	progressRow: {
-		flexDirection: "row",
-		alignItems: "center",
+	continueLessonProgress: {
+		color: colors.text.tertiary,
 		marginTop: spacing.sm,
-		gap: spacing.sm,
-	},
-	progressBar: {
-		flex: 1,
-		height: 4,
-		borderRadius: 2,
-		backgroundColor: colors.neutral[200],
-	},
-	progressText: {
-		color: colors.text.secondary,
-		minWidth: 32,
-		textAlign: "right",
 	},
 	courseRow: {
 		flexDirection: "row",
@@ -207,5 +216,11 @@ const styles = StyleSheet.create({
 	lessonCount: {
 		color: colors.text.tertiary,
 		marginTop: spacing.sm,
+	},
+	courseProgressBar: {
+		height: 4,
+		borderRadius: 2,
+		marginTop: spacing.sm,
+		backgroundColor: colors.neutral[200],
 	},
 });

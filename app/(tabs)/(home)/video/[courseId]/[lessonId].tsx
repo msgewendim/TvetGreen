@@ -4,23 +4,50 @@ import { ActivityIndicator, Button, Text } from "react-native-paper";
 import { VideoPlayer } from "@/src/components/VideoPlayer";
 import { colors, spacing } from "@/design-system";
 import { ROUTES } from "@/src/utils/appRoutes";
+import { useLearningStore } from "@/src/store/learningStore";
 import { useLanguage } from "@/src/hooks/useLanguage";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useLesson } from "@/src/hooks/useLesson";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const VIDEO_HEIGHT = SCREEN_WIDTH * (9 / 16);
 
 export default function VideoPlayerScreen() {
-	const { courseId } = useLocalSearchParams<{
+	const { courseId, lessonId } = useLocalSearchParams<{
 		courseId: string;
 		lessonId: string;
 	}>();
 	const router = useRouter();
 	const { t } = useLanguage();
 	const lessonData = useLesson();
+	const updateLessonProgress = useLearningStore((s) => s.updateLessonProgress);
 
 	const [videoError, setVideoError] = useState<string | null>(null);
+	const lastPositionRef = useRef(0);
+	const lastDurationRef = useRef(0);
+
+	const handleProgress = useCallback(
+		(progress: { currentTime: number; duration: number }) => {
+			if (!lessonId) return;
+			lastPositionRef.current = progress.currentTime;
+			lastDurationRef.current = progress.duration;
+			updateLessonProgress(lessonId, progress.currentTime, progress.duration);
+		},
+		[lessonId, updateLessonProgress],
+	);
+
+	// Save position on unmount
+	useEffect(() => {
+		return () => {
+			if (lessonId && lastPositionRef.current > 0) {
+				updateLessonProgress(
+					lessonId,
+					lastPositionRef.current,
+					lastDurationRef.current,
+				);
+			}
+		};
+	}, [lessonId, updateLessonProgress]);
 
 	const handlePrevious = () => {
 		if (lessonData.previousLesson && courseId) {
@@ -66,6 +93,7 @@ export default function VideoPlayerScreen() {
 				) : lessonData.videoSource.source ? (
 					<VideoPlayer
 						source={lessonData.videoSource.source}
+						onProgress={handleProgress}
 						onReady={() => {}}
 						onError={handleVideoError}
 						style={styles.video}
@@ -84,7 +112,7 @@ export default function VideoPlayerScreen() {
 				</Text>
 
 				<Text variant="bodySmall" style={styles.lessonLabel}>
-					{t("video.lessonOf", {
+					{t("video.lesson_of", {
 						current: lessonData.lessonNumber,
 						total: lessonData.totalLessons,
 					})}
