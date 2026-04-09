@@ -3,6 +3,7 @@ import { Image, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { Card, Divider, ProgressBar, Text } from "react-native-paper";
 import { colors, spacing } from "@/design-system";
+import { ROUTES } from "@/src/utils/appRoutes";
 import { useLearningStore } from "@/src/store/learningStore";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import type { MultiLangText } from "@/src/types/learning";
@@ -30,7 +31,8 @@ export default function HomeScreen() {
 			.filter((p) => !p.completed && p.lastPosition > 0)
 			.sort(
 				(a, b) =>
-					new Date(b.lastWatchedAt).getTime() - new Date(a.lastWatchedAt).getTime(),
+					new Date(b.lastWatchedAt).getTime() -
+					new Date(a.lastWatchedAt).getTime(),
 			)[0];
 
 		if (!recentProgress) return null;
@@ -46,10 +48,7 @@ export default function HomeScreen() {
 	})();
 
 	return (
-		<ScrollView
-			style={styles.container}
-			contentContainerStyle={styles.content}
-		>
+		<ScrollView style={styles.container} contentContainerStyle={styles.content}>
 			{/* Continue Learning */}
 			{continueItem && (
 				<View style={styles.section}>
@@ -60,7 +59,10 @@ export default function HomeScreen() {
 						style={styles.continueCard}
 						onPress={() =>
 							router.push(
-								`/video/${continueItem.course.id}/${continueItem.lesson.id}`,
+								ROUTES.VIDEO_PLAYER(
+									continueItem.course.id,
+									continueItem.lesson.id,
+								) as never,
 							)
 						}
 					>
@@ -92,14 +94,14 @@ export default function HomeScreen() {
 					{t("courses.title")}
 				</Text>
 				{courses.map((course, index) => {
-					const courseLessons = lessons.filter(
-						(l) => l.courseId === course.id,
-					);
+					const courseLessons = lessons.filter((l) => l.courseId === course.id);
 					return (
 						<View key={course.id}>
 							{index > 0 && <Divider />}
 							<Pressable
-								onPress={() => router.push(`/course/${course.id}`)}
+								onPress={() =>
+									router.push(ROUTES.COURSE_DETAIL(course.id) as never)
+								}
 								style={styles.courseRow}
 							>
 								<Image
@@ -110,7 +112,11 @@ export default function HomeScreen() {
 									<Text variant="titleMedium" style={styles.courseTitle}>
 										{localized(course.title)}
 									</Text>
-									<Text variant="bodyMedium" style={styles.courseDescription} numberOfLines={2}>
+									<Text
+										variant="bodyMedium"
+										style={styles.courseDescription}
+										numberOfLines={2}
+									>
 										{localized(course.description).slice(0, 100)}...
 									</Text>
 									<Text variant="bodySmall" style={styles.lessonCount}>

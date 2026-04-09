@@ -10,6 +10,7 @@ import { initializeLearningStore } from "@/src/store/learningStore";
 import { useAuthStore } from "@/src/store/authStore";
 import { useOnboardingStore } from "@/src/store/onboardingStore";
 import { getRouteDestination } from "@/src/store/routeDecision";
+import { ROUTES } from "@/src/utils/appRoutes";
 import "../i18n.config";
 import { usePlatform } from "@/src/hooks/usePlatform";
 
@@ -52,10 +53,10 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
 		const inApp = inTabs || currentSegment === "course";
 
 		const isAtDestination =
-			(destination === "/onboarding/language" && inOnboarding) ||
-			(destination === "/(auth)/phone" && inAuthGroup) ||
-			(destination === "/onboarding/welcome" && inOnboarding) ||
-			(destination === "/(tabs)" && inApp);
+			(destination === ROUTES.ONBOARDING_LANGUAGE && inOnboarding) ||
+			(destination === ROUTES.AUTH_PHONE && inAuthGroup) ||
+			(destination === ROUTES.ONBOARDING_WELCOME && inOnboarding) ||
+			(destination === ROUTES.TABS && inApp);
 
 		if (!isAtDestination) {
 			router.replace(destination as never);

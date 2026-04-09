@@ -3,6 +3,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
 import { VideoPlayer } from "@/src/components/VideoPlayer";
 import { colors, spacing } from "@/design-system";
+import { ROUTES } from "@/src/utils/appRoutes";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import { useCallback, useState } from "react";
 import { useLesson } from "@/src/hooks/useLesson";
@@ -22,16 +23,18 @@ export default function VideoPlayerScreen() {
 	const [videoError, setVideoError] = useState<string | null>(null);
 
 	const handlePrevious = () => {
-		if (lessonData.previousLesson) {
+		if (lessonData.previousLesson && courseId) {
 			router.replace(
-				`/video/${courseId}/${lessonData.previousLesson.id}` as never,
+				ROUTES.VIDEO_PLAYER(courseId, lessonData.previousLesson.id) as never,
 			);
 		}
 	};
 
 	const handleNext = () => {
-		if (lessonData.nextLesson) {
-			router.replace(`/video/${courseId}/${lessonData.nextLesson.id}` as never);
+		if (lessonData.nextLesson && courseId) {
+			router.replace(
+				ROUTES.VIDEO_PLAYER(courseId, lessonData.nextLesson.id) as never,
+			);
 		}
 	};
 

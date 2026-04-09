@@ -7,7 +7,7 @@
  */
 
 describe("LanguageSelectionScreen navigation", () => {
-	it("language.tsx calls router.replace with /(auth)/phone, not /(tabs)", () => {
+	it("language.tsx calls router.replace with AUTH_PHONE route, not TABS", () => {
 		// Read the source file and verify the navigation target
 		const fs = require("fs");
 		const source = fs.readFileSync(
@@ -16,8 +16,8 @@ describe("LanguageSelectionScreen navigation", () => {
 		);
 
 		// The screen should navigate to auth after language selection
-		expect(source).toContain('/(auth)/phone');
-		expect(source).not.toMatch(/router\.replace\(["']\/\(tabs\)["']\)/);
+		expect(source).toContain("ROUTES.AUTH_PHONE");
+		expect(source).not.toContain("ROUTES.TABS");
 	});
 
 	it("language.tsx calls markLanguageChosen from onboarding store on continue", () => {

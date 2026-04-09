@@ -2,6 +2,7 @@ import { useRouter } from "expo-router";
 import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
+import { ROUTES } from "@/src/utils/appRoutes";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import { useOnboardingStore } from "@/src/store/onboardingStore";
 import { colors, spacing } from "@/design-system";
@@ -16,7 +17,7 @@ export default function CompleteScreen() {
 	useEffect(() => {
 		const timer = setTimeout(async () => {
 			await completeOnboarding();
-			router.replace("/(tabs)" as never);
+			router.replace(ROUTES.TABS as never);
 		}, AUTO_TRANSITION_MS);
 
 		return () => clearTimeout(timer);

@@ -18,10 +18,10 @@ describe("Welcome carousel", () => {
 		expect(welcomeSrc).not.toContain("audioEnabled");
 	});
 
-	it("navigates to /onboarding/complete, not /(tabs) or /onboarding/language", () => {
-		expect(welcomeSrc).toContain("/onboarding/complete");
-		expect(welcomeSrc).not.toMatch(/router\.replace\(["']\/\(tabs\)["']\)/);
-		expect(welcomeSrc).not.toMatch(/router\.push\(["']\/onboarding\/language["']\)/);
+	it("navigates to ONBOARDING_COMPLETE, not TABS or ONBOARDING_LANGUAGE", () => {
+		expect(welcomeSrc).toContain("ROUTES.ONBOARDING_COMPLETE");
+		expect(welcomeSrc).not.toContain("ROUTES.TABS");
+		expect(welcomeSrc).not.toContain("ROUTES.ONBOARDING_LANGUAGE");
 	});
 });
 
@@ -31,9 +31,9 @@ const completeSrc = fs.readFileSync(
 );
 
 describe("Completion screen", () => {
-	it("calls completeOnboarding and navigates to /(tabs)", () => {
+	it("calls completeOnboarding and navigates to TABS", () => {
 		expect(completeSrc).toContain("completeOnboarding");
-		expect(completeSrc).toContain("/(tabs)");
+		expect(completeSrc).toContain("ROUTES.TABS");
 	});
 
 	it("auto-transitions with a timeout (no button required)", () => {

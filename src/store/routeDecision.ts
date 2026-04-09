@@ -1,8 +1,10 @@
+import { ROUTES } from "@/src/utils/appRoutes";
+
 export type RouteDestination =
-	| "/onboarding/language"
-	| "/(auth)/phone"
-	| "/onboarding/welcome"
-	| "/(tabs)";
+	| typeof ROUTES.ONBOARDING_LANGUAGE
+	| typeof ROUTES.AUTH_PHONE
+	| typeof ROUTES.ONBOARDING_WELCOME
+	| typeof ROUTES.TABS;
 
 interface RouteParams {
 	hasLanguage: boolean;
@@ -12,13 +14,13 @@ interface RouteParams {
 
 export function getRouteDestination(params: RouteParams): RouteDestination {
 	if (!params.hasLanguage) {
-		return "/onboarding/language";
+		return ROUTES.ONBOARDING_LANGUAGE;
 	}
 	if (!params.isAuthenticated) {
-		return "/(auth)/phone";
+		return ROUTES.AUTH_PHONE;
 	}
 	if (!params.onboardingComplete) {
-		return "/onboarding/welcome";
+		return ROUTES.ONBOARDING_WELCOME;
 	}
-	return "/(tabs)";
+	return ROUTES.TABS;
 }

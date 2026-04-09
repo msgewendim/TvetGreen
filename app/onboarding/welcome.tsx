@@ -3,6 +3,7 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { ChevronRight } from "lucide-react-native";
+import { ROUTES } from "@/src/utils/appRoutes";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import { colors, spacing } from "@/design-system";
 
@@ -21,14 +22,14 @@ export default function WelcomeScreen() {
 
 	const handleNext = () => {
 		if (isLastSlide) {
-			router.push("/onboarding/complete" as never);
+			router.push(ROUTES.ONBOARDING_COMPLETE as never);
 		} else {
 			setCurrentSlide((prev) => prev + 1);
 		}
 	};
 
 	const handleSkip = () => {
-		router.push("/onboarding/complete" as never);
+		router.push(ROUTES.ONBOARDING_COMPLETE as never);
 	};
 
 	const slide = SLIDES[currentSlide];

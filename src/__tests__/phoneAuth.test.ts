@@ -45,8 +45,8 @@ describe("Verify screen", () => {
 		expect(verifySrc).toContain("whatsapp");
 	});
 
-	it("navigates to /onboarding/welcome after successful verify, not /(tabs)", () => {
-		expect(verifySrc).toContain("/onboarding/welcome");
-		expect(verifySrc).not.toMatch(/router\.replace\(["']\/\(tabs\)["']\)/);
+	it("navigates to ONBOARDING_WELCOME after successful verify, not TABS", () => {
+		expect(verifySrc).toContain("ROUTES.ONBOARDING_WELCOME");
+		expect(verifySrc).not.toContain("ROUTES.TABS");
 	});
 });

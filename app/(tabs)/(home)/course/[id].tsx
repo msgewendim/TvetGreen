@@ -1,12 +1,8 @@
 import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import {
-	Button,
-	Divider,
-	List,
-	Text,
-} from "react-native-paper";
+import { Button, Divider, List, Text } from "react-native-paper";
 import { colors, spacing } from "@/design-system";
+import { ROUTES } from "@/src/utils/appRoutes";
 import { useLearningStore } from "@/src/store/learningStore";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import type { MultiLangText } from "@/src/types/learning";
@@ -58,7 +54,8 @@ export default function CourseDetailScreen() {
 					{localized(course.description)}
 				</Text>
 				<Text variant="bodyMedium" style={styles.courseStats}>
-					{t("learning.lessons", { count: courseLessons.length })} {"\u00B7"} {totalMinutes} min
+					{t("learning.lessons", { count: courseLessons.length })} {"\u00B7"}{" "}
+					{totalMinutes} min
 				</Text>
 			</View>
 
@@ -68,7 +65,9 @@ export default function CourseDetailScreen() {
 					<Button
 						mode="contained"
 						onPress={() =>
-							router.push(`/video/${course.id}/${firstLesson.id}` as never)
+							router.push(
+								ROUTES.VIDEO_PLAYER(course.id, firstLesson.id) as never,
+							)
 						}
 						buttonColor={colors.primary.main}
 						textColor={colors.text.inverse}
@@ -101,7 +100,7 @@ export default function CourseDetailScreen() {
 								</View>
 							)}
 							onPress={() =>
-								router.push(`/video/${course.id}/${lesson.id}`)
+								router.push(ROUTES.VIDEO_PLAYER(course.id, lesson.id) as never)
 							}
 							style={styles.lessonItem}
 							titleStyle={styles.lessonTitle}

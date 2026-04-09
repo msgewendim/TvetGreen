@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Alert, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { Button, Divider, List, Text } from "react-native-paper";
+import { ROUTES } from "@/src/utils/appRoutes";
 import {
 	StorageCard,
 	QueuedDownloadCard,
@@ -19,7 +20,9 @@ export default function DownloadsScreen() {
 
 	const downloadedLessons = useDownloadStore((s) => s.downloadedLessons);
 	const activeDownloads = useDownloadStore((s) => s.activeDownloads);
-	const deleteCourseDownloads = useDownloadStore((s) => s.deleteCourseDownloads);
+	const deleteCourseDownloads = useDownloadStore(
+		(s) => s.deleteCourseDownloads,
+	);
 	const loadDownloads = useDownloadStore((s) => s.loadDownloads);
 
 	const courses = useLearningStore((s) => s.courses);
@@ -91,17 +94,15 @@ export default function DownloadsScreen() {
 		const firstIncomplete = courseLessons.find((l) => !l.isCompleted);
 		const target = firstIncomplete ?? courseLessons[0];
 		if (target) {
-			router.push(`/video/${courseId}/${target.id}`);
+			router.push(ROUTES.VIDEO_PLAYER(courseId, target.id) as never);
 		}
 	};
 
-	const hasDownloads = downloadedCourses.length > 0 || queuedDownloads.length > 0;
+	const hasDownloads =
+		downloadedCourses.length > 0 || queuedDownloads.length > 0;
 
 	return (
-		<ScrollView
-			style={styles.container}
-			contentContainerStyle={styles.content}
-		>
+		<ScrollView style={styles.container} contentContainerStyle={styles.content}>
 			<StorageCard
 				storageUsed={storageUsed}
 				storageTotal={storageTotal}
@@ -120,7 +121,7 @@ export default function DownloadsScreen() {
 					</Text>
 					<Button
 						mode="contained"
-						onPress={() => router.push("/(tabs)")}
+						onPress={() => router.push(ROUTES.TABS as never)}
 						style={styles.emptyButton}
 					>
 						Browse Courses

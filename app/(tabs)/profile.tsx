@@ -16,6 +16,7 @@ import {
 	spacing,
 	typography,
 } from "@/design-system";
+import { ROUTES } from "@/src/utils/appRoutes";
 import {
 	ProfileHeader,
 	StatsGrid,
@@ -41,7 +42,7 @@ export default function ProfileScreen() {
 
 	const handleReplayTour = async () => {
 		await resetTour();
-		router.replace("/(tabs)" as never);
+		router.replace(ROUTES.TABS as never);
 	};
 
 	const userProfile: UserProfile = {
@@ -102,7 +103,6 @@ export default function ProfileScreen() {
 
 	return (
 		<ScreenLayout>
-
 			<ProfileHeader profile={userProfile} onEditPress={() => {}} />
 
 			<StatsGrid stats={userStats} />
