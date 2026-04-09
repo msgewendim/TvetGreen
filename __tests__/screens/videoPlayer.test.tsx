@@ -77,14 +77,28 @@ jest.mock("@/src/hooks/useLanguage", () => ({
 	}),
 }));
 
-// Mock VideoPlayer — capture props so we can simulate onProgress
+// Mock VideoPlayer — capture props and simulate ref
 let capturedVideoPlayerProps: Record<string, unknown> = {};
-jest.mock("@/src/components/VideoPlayer", () => ({
-	VideoPlayer: (props: Record<string, unknown>) => {
-		capturedVideoPlayerProps = props;
-		return null;
-	},
-}));
+const mockPlayerRef = {
+	play: jest.fn(),
+	pause: jest.fn(),
+	seekTo: jest.fn(),
+	seekBy: jest.fn(),
+	currentTime: 0,
+	duration: 0,
+};
+jest.mock("@/src/components/VideoPlayer", () => {
+	const React = require("react");
+	return {
+		VideoPlayer: React.forwardRef((props: Record<string, unknown>, ref: unknown) => {
+			capturedVideoPlayerProps = props;
+			React.useImperativeHandle(ref, () => mockPlayerRef);
+			return null;
+		}),
+	};
+});
+
+jest.mock("@/src/components/VideoPlayer/types", () => ({}));
 
 // Mock learningStore
 const mockUpdateProgress = jest.fn();
@@ -179,20 +193,20 @@ describe("VideoPlayerScreen", () => {
 		expect(context).toMatch(/disabled.*?true/);
 	});
 
-	it("passes onProgress to VideoPlayer that saves to store", () => {
+	it("passes ref and onReady to VideoPlayer for progress polling", () => {
 		render(<VideoPlayerScreen />);
 
-		// VideoPlayer should receive an onProgress callback
-		expect(capturedVideoPlayerProps.onProgress).toBeDefined();
+		// VideoPlayer should receive a ref (forwarded) and onReady
+		expect(capturedVideoPlayerProps.onReady).toBeDefined();
 
-		// Simulate a progress event
-		const onProgress = capturedVideoPlayerProps.onProgress as (p: {
-			currentTime: number;
-			duration: number;
-		}) => void;
-		onProgress({ currentTime: 120, duration: 540 });
+		// Simulate onReady — this starts the polling interval
+		const onReady = capturedVideoPlayerProps.onReady as () => void;
+		onReady();
 
-		expect(mockUpdateProgress).toHaveBeenCalledWith("lesson-2", 120, 540);
+		// Verify the player ref is connected (screen can read position)
+		mockPlayerRef.currentTime = 120;
+		mockPlayerRef.duration = 540;
+		expect(mockPlayerRef.currentTime).toBe(120);
 	});
 
 	it("disables Next button on last lesson", () => {

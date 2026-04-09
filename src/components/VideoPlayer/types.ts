@@ -23,4 +23,13 @@ export interface VideoPlayerRef {
 	pause: () => void;
 	seekTo: (seconds: number) => void;
 	seekBy: (seconds: number) => void;
+	/** Current playback position in seconds (sync for expo-video, 0 for YouTube) */
+	readonly currentTime: number;
+	/** Total duration in seconds (sync for expo-video, 0 for YouTube) */
+	readonly duration: number;
+	/** YouTube player ref for async getCurrentTime/getDuration */
+	readonly playerRef?: {
+		getCurrentTime?: () => Promise<number>;
+		getDuration?: () => Promise<number>;
+	};
 }

@@ -2,12 +2,15 @@ import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
 import { VideoPlayer } from "@/src/components/VideoPlayer";
+import type { VideoPlayerRef } from "@/src/components/VideoPlayer/types";
 import { colors, spacing } from "@/design-system";
 import { ROUTES } from "@/src/utils/appRoutes";
 import { useLearningStore } from "@/src/store/learningStore";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLesson } from "@/src/hooks/useLesson";
+
+const PROGRESS_INTERVAL_MS = 10_000;
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const VIDEO_HEIGHT = SCREEN_WIDTH * (9 / 16);
@@ -23,22 +26,72 @@ export default function VideoPlayerScreen() {
 	const updateLessonProgress = useLearningStore((s) => s.updateLessonProgress);
 
 	const [videoError, setVideoError] = useState<string | null>(null);
+	const [isReady, setIsReady] = useState(false);
+	const playerRef = useRef<VideoPlayerRef>(null);
 	const lastPositionRef = useRef(0);
-	const lastDurationRef = useRef(0);
+	// Use lesson duration from data as initial fallback
+	const lastDurationRef = useRef(lessonData.duration);
 
-	const handleProgress = useCallback(
-		(progress: { currentTime: number; duration: number }) => {
-			if (!lessonId) return;
-			lastPositionRef.current = progress.currentTime;
-			lastDurationRef.current = progress.duration;
-			updateLessonProgress(lessonId, progress.currentTime, progress.duration);
-		},
-		[lessonId, updateLessonProgress],
-	);
+	// Read position synchronously from ref and update lastPosition refs
+	const syncPosition = useCallback(() => {
+		const ref = playerRef.current;
+		if (!ref) return;
 
-	// Save position on unmount
+		// expo-video: sync access via getter
+		const ct = ref.currentTime;
+		const dur = ref.duration;
+		if (ct > 0) {
+			lastPositionRef.current = ct;
+			lastDurationRef.current = dur;
+		}
+	}, []);
+
+	// Read position (async for YouTube, sync for expo-video) and save to store
+	const saveProgress = useCallback(async () => {
+		const ref = playerRef.current;
+		if (!ref || !lessonId) return;
+
+		// Try sync first (expo-video)
+		syncPosition();
+
+		// YouTube: async fallback if sync returned 0
+		if (lastPositionRef.current === 0 && ref.playerRef?.getCurrentTime) {
+			try {
+				const ct = await ref.playerRef.getCurrentTime();
+				const dur = await ref.playerRef.getDuration?.();
+				if (ct && ct > 0) {
+					lastPositionRef.current = ct;
+					lastDurationRef.current = dur ?? 0;
+				}
+			} catch {
+				// player may be disposed
+			}
+		}
+
+		if (lastPositionRef.current > 0 && lastDurationRef.current > 0) {
+			updateLessonProgress(
+				lessonId,
+				lastPositionRef.current,
+				lastDurationRef.current,
+			);
+		}
+	}, [lessonId, updateLessonProgress, syncPosition]);
+
+	// Poll every 10s and save progress
+	useEffect(() => {
+		if (!isReady || !lessonId) return;
+
+		// Save immediately on ready (captures duration)
+		saveProgress();
+
+		const interval = setInterval(saveProgress, PROGRESS_INTERVAL_MS);
+		return () => clearInterval(interval);
+	}, [isReady, lessonId, saveProgress]);
+
+	// Save position on unmount — sync read + save
 	useEffect(() => {
 		return () => {
+			syncPosition();
 			if (lessonId && lastPositionRef.current > 0) {
 				updateLessonProgress(
 					lessonId,
@@ -47,18 +100,20 @@ export default function VideoPlayerScreen() {
 				);
 			}
 		};
-	}, [lessonId, updateLessonProgress]);
+	}, [lessonId, updateLessonProgress, syncPosition]);
 
-	const handlePrevious = () => {
+	const handlePrevious = async () => {
 		if (lessonData.previousLesson && courseId) {
+			await saveProgress();
 			router.replace(
 				ROUTES.VIDEO_PLAYER(courseId, lessonData.previousLesson.id) as never,
 			);
 		}
 	};
 
-	const handleNext = () => {
+	const handleNext = async () => {
 		if (lessonData.nextLesson && courseId) {
+			await saveProgress();
 			router.replace(
 				ROUTES.VIDEO_PLAYER(courseId, lessonData.nextLesson.id) as never,
 			);
@@ -92,9 +147,9 @@ export default function VideoPlayerScreen() {
 					</View>
 				) : lessonData.videoSource.source ? (
 					<VideoPlayer
+						ref={playerRef}
 						source={lessonData.videoSource.source}
-						onProgress={handleProgress}
-						onReady={() => {}}
+						onReady={() => setIsReady(true)}
 						onError={handleVideoError}
 						style={styles.video}
 					/>
