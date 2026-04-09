@@ -49,7 +49,7 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
 		});
 
 		// These segments are valid app destinations — don't redirect away from them
-		const inApp = inTabs || currentSegment === "course" || currentSegment === "video";
+		const inApp = inTabs || currentSegment === "course";
 
 		const isAtDestination =
 			(destination === "/onboarding/language" && inOnboarding) ||
@@ -107,7 +107,6 @@ export default function RootLayout() {
 						<Stack.Screen name="onboarding" />
 						<Stack.Screen name="(auth)" />
 						<Stack.Screen name="(tabs)" />
-						<Stack.Screen name="video" />
 						<Stack.Screen name="+not-found" />
 					</Stack>
 				</AuthGuard>

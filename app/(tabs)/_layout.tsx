@@ -2,11 +2,7 @@ import { View } from "react-native";
 import { Tabs, usePathname, useRouter } from "expo-router";
 import { PlayerProvider } from "@/src/providers/player/PlayerProvider";
 import { TourProvider } from "@/src/providers/tour/TourProvider";
-import {
-	Download,
-	Home,
-	User,
-} from "lucide-react-native";
+import { Download, Home, User } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import { colors, Header } from "@/design-system";
@@ -30,6 +26,7 @@ export default function TabLayout() {
 		typeof text === "string" ? text : text[currentLanguage] || text.en;
 
 	const isCourseDetail = pathname.startsWith("/course/");
+	const isVideoPlayer = pathname.startsWith("/video/");
 	const titleKey = TAB_TITLES[pathname];
 
 	let headerTitle: string | undefined;
@@ -39,8 +36,17 @@ export default function TabLayout() {
 		const courseId = pathname.replace("/course/", "");
 		const course = courses.find((c) => c.id === courseId);
 		headerTitle = course ? localized(course.title) : undefined;
+	} else if (isVideoPlayer) {
+		// Extract courseId from /video/[courseId]/[lessonId]
+		const parts = pathname.replace("/video/", "").split("/");
+		const courseId = parts[0];
+		const course = courseId
+			? courses.find((c) => c.id === courseId)
+			: undefined;
+		headerTitle = course ? localized(course.title) : undefined;
 	}
 
+	const showBack = isCourseDetail || isVideoPlayer;
 	const subtitle = pathname === "/" ? t("home.welcomeMessage") : undefined;
 
 	return (
@@ -50,8 +56,8 @@ export default function TabLayout() {
 					<Header
 						title={headerTitle}
 						subtitle={subtitle}
-						showBack={isCourseDetail}
-						onBack={isCourseDetail ? () => router.back() : undefined}
+						showBack={showBack}
+						onBack={showBack ? () => router.back() : undefined}
 					/>
 					<Tabs
 						screenOptions={{

@@ -169,6 +169,7 @@
 		"volume": "Sauti",
 		"mute": "Zima Sauti",
 		"unmute": "Washa Sauti",
+		"lessonOf": "Somo {{current}} kati ya {{total}}",
 		"lessonInfo": "Taarifa za Somo",
 		"resources": "Rasilimali",
 		"transcript": "Nakala",

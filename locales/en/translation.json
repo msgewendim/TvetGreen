@@ -169,6 +169,7 @@
 		"volume": "Volume",
 		"mute": "Mute",
 		"unmute": "Unmute",
+		"lessonOf": "Lesson {{current}} of {{total}}",
 		"lessonInfo": "Lesson Info",
 		"resources": "Resources",
 		"transcript": "Transcript",

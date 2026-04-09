@@ -169,6 +169,7 @@
 		"volume": "መጠን",
 		"mute": "ድምፅ አጥፋ",
 		"unmute": "ድምፅ አብራ",
+		"lessonOf": "ትምህርት {{current}} ከ {{total}}",
 		"lessonInfo": "የትምህርት መረጃ",
 		"resources": "ግብዓቶች",
 		"transcript": "ግልባጭ",

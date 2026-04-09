@@ -68,7 +68,7 @@ export default function CourseDetailScreen() {
 					<Button
 						mode="contained"
 						onPress={() =>
-							router.push(`/video/${course.id}/${firstLesson.id}`)
+							router.push(`/video/${course.id}/${firstLesson.id}` as never)
 						}
 						buttonColor={colors.primary.main}
 						textColor={colors.text.inverse}
