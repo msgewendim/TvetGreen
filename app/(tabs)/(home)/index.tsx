@@ -26,8 +26,6 @@ export default function HomeScreen() {
 		}
 	}, [courses.length, loadData]);
 
-	const getCourseProgress = useLearningStore((s) => s.getCourseProgress);
-
 	const getCompletedCount = (courseId: string) =>
 		lessonProgress.filter((p) => p.courseId === courseId && p.completed).length;
 

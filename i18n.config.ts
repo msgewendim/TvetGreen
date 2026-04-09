@@ -2,14 +2,12 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { STORAGE_KEYS } from "@/src/utils/storageKeys";
 
 // Import translation files
 import en from "./locales/en/translation.json";
 import sw from "./locales/sw/translation.json";
 import am from "./locales/am/translation.json";
-
-// Storage key for persisted language
-const LANGUAGE_STORAGE_KEY = "@tvetgreen_language";
 
 // Supported languages
 export const SUPPORTED_LANGUAGES = ["en", "sw", "am"] as const;
@@ -46,7 +44,7 @@ const languageDetector = {
 	detect: async (callback: (lang: string) => void) => {
 		try {
 			// Try to get saved language from storage
-			const savedLanguage = await AsyncStorage.getItem(LANGUAGE_STORAGE_KEY);
+			const savedLanguage = await AsyncStorage.getItem(STORAGE_KEYS.LANGUAGE);
 
 			if (
 				savedLanguage &&
@@ -74,7 +72,7 @@ const languageDetector = {
 	init: () => {},
 	cacheUserLanguage: async (language: string) => {
 		try {
-			await AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+			await AsyncStorage.setItem(STORAGE_KEYS.LANGUAGE, language);
 		} catch (error) {
 			console.error("Error saving language preference:", error);
 		}

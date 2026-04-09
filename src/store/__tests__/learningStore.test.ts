@@ -10,6 +10,7 @@
 
 import { useLearningStore } from "../learningStore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { STORAGE_KEYS } from "@/src/utils/storageKeys";
 
 // Reset store between tests
 beforeEach(() => {
@@ -122,7 +123,7 @@ describe("learningStore", () => {
 				.updateLessonProgress(lesson.id, 120, 600);
 
 			expect(AsyncStorage.setItem).toHaveBeenCalledWith(
-				"@lesson_progress",
+				STORAGE_KEYS.LESSON_PROGRESS,
 				expect.any(String),
 			);
 		});
@@ -230,9 +231,7 @@ describe("learningStore", () => {
 			const courses = useLearningStore.getState().courses;
 			const course = courses[0];
 
-			const progress = useLearningStore
-				.getState()
-				.getCourseProgress(course.id);
+			const progress = useLearningStore.getState().getCourseProgress(course.id);
 			expect(progress).toBe(0);
 		});
 
@@ -246,13 +245,9 @@ describe("learningStore", () => {
 				.lessons.filter((l) => l.courseId === course.id);
 
 			// Complete first lesson
-			await useLearningStore
-				.getState()
-				.markLessonComplete(courseLessons[0].id);
+			await useLearningStore.getState().markLessonComplete(courseLessons[0].id);
 
-			const progress = useLearningStore
-				.getState()
-				.getCourseProgress(course.id);
+			const progress = useLearningStore.getState().getCourseProgress(course.id);
 
 			const expected = Math.round((1 / courseLessons.length) * 100);
 			expect(progress).toBe(expected);
@@ -272,9 +267,7 @@ describe("learningStore", () => {
 				await useLearningStore.getState().markLessonComplete(lesson.id);
 			}
 
-			const progress = useLearningStore
-				.getState()
-				.getCourseProgress(course.id);
+			const progress = useLearningStore.getState().getCourseProgress(course.id);
 			expect(progress).toBe(100);
 		});
 

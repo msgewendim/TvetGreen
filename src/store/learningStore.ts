@@ -13,7 +13,7 @@ import type {
 	Lesson,
 	LessonProgress,
 } from "@/src/types/learning";
-import { STORAGE_KEYS } from "@/src/types/learning";
+import { STORAGE_KEYS } from "@/src/utils/storageKeys";
 import { shouldAutoComplete } from "@/src/utils/progressUtils";
 
 // Import static data

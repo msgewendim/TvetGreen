@@ -97,10 +97,3 @@ export interface LearningState {
 	getPreviousLesson: (courseId: string, currentOrder: number) => Lesson | null;
 	getLessonsForCourse: (courseId: string) => Lesson[];
 }
-
-/**
- * AsyncStorage Keys
- */
-export const STORAGE_KEYS = {
-	LESSON_PROGRESS: "@lesson_progress",
-} as const;
