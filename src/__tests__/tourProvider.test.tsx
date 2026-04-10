@@ -9,6 +9,15 @@ jest.mock("react-native-copilot", () => ({
 		isStarted: false,
 		goToNext: jest.fn(),
 		goToPrevious: jest.fn(),
+		copilotEvents: { on: jest.fn(), off: jest.fn() },
+	}),
+}));
+
+jest.mock("@/src/hooks/useLanguage", () => ({
+	useLanguage: () => ({
+		t: (key: string) => key,
+		currentLanguage: "en",
+		i18n: { changeLanguage: jest.fn(), language: "en" },
 	}),
 }));
 

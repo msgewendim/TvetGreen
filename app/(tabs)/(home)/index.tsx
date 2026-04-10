@@ -2,11 +2,16 @@ import { useEffect } from "react";
 import { Image, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { Card, Divider, ProgressBar, Text } from "react-native-paper";
+import { CopilotStep, walkthroughable } from "react-native-copilot";
 import { colors, spacing } from "@/design-system";
 import { ROUTES } from "@/src/utils/appRoutes";
 import { useLearningStore } from "@/src/store/learningStore";
+import { useOnboardingStore } from "@/src/store/onboardingStore";
+import { useTour } from "@/src/providers/tour/TourProvider";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import type { MultiLangText } from "@/src/types/learning";
+
+const WalkthroughView = walkthroughable(View);
 
 export default function HomeScreen() {
 	const router = useRouter();
@@ -14,6 +19,10 @@ export default function HomeScreen() {
 
 	const localized = (text: string | MultiLangText): string =>
 		typeof text === "string" ? text : text[currentLanguage] || text.en;
+
+	const { startTour } = useTour();
+	const onboardingComplete = useOnboardingStore((s) => s.onboardingComplete);
+	const tourComplete = useOnboardingStore((s) => s.tourComplete);
 
 	const courses = useLearningStore((s) => s.courses);
 	const lessons = useLearningStore((s) => s.lessons);
@@ -25,6 +34,14 @@ export default function HomeScreen() {
 			loadData();
 		}
 	}, [courses.length, loadData]);
+
+	// Auto-trigger tour when onboarding is done but tour hasn't been seen
+	useEffect(() => {
+		if (onboardingComplete && !tourComplete && courses.length > 0) {
+			const timer = setTimeout(() => startTour(), 500);
+			return () => clearTimeout(timer);
+		}
+	}, [onboardingComplete, tourComplete, courses.length, startTour]);
 
 	const getCompletedCount = (courseId: string) =>
 		lessonProgress.filter((p) => p.courseId === courseId && p.completed).length;
@@ -59,41 +76,52 @@ export default function HomeScreen() {
 		<ScrollView style={styles.container} contentContainerStyle={styles.content}>
 			{/* Continue Learning */}
 			{continueItem && (
-				<View style={styles.section}>
-					<Text variant="titleMedium" style={styles.sectionTitle}>
-						{t("learning.continueLearning")}
-					</Text>
-					<Card
-						style={styles.continueCard}
-						onPress={() =>
-							router.push(
-								ROUTES.VIDEO_PLAYER(
-									continueItem.course.id,
-									continueItem.lesson.id,
-								) as never,
-							)
-						}
-					>
-						<Card.Content>
-							<Text variant="titleSmall" style={styles.continueCourseTitle}>
-								{localized(continueItem.course.title)}
-							</Text>
-							<Text variant="bodySmall" style={styles.continueLessonTitle}>
-								{localized(continueItem.lesson.title)}
-							</Text>
-							<Text variant="labelSmall" style={styles.continueLessonProgress}>
-								{t("learning.lessons_progress", {
-									completed: continueItem.completedCount,
-									total: continueItem.totalLessons,
-								})}
-							</Text>
-						</Card.Content>
-					</Card>
-				</View>
+				<CopilotStep
+					text={t("tour.home.continueLearning")}
+					order={1}
+					name="continueLearning"
+				>
+					<WalkthroughView style={styles.section}>
+						<Text variant="titleMedium" style={styles.sectionTitle}>
+							{t("learning.continueLearning")}
+						</Text>
+						<Card
+							style={styles.continueCard}
+							onPress={() =>
+								router.push(
+									ROUTES.VIDEO_PLAYER(
+										continueItem.course.id,
+										continueItem.lesson.id,
+									) as never,
+								)
+							}
+						>
+							<Card.Content>
+								<Text variant="titleSmall" style={styles.continueCourseTitle}>
+									{localized(continueItem.course.title)}
+								</Text>
+								<Text variant="bodySmall" style={styles.continueLessonTitle}>
+									{localized(continueItem.lesson.title)}
+								</Text>
+								<Text variant="labelSmall" style={styles.continueLessonProgress}>
+									{t("learning.lessons_progress", {
+										completed: continueItem.completedCount,
+										total: continueItem.totalLessons,
+									})}
+								</Text>
+							</Card.Content>
+						</Card>
+					</WalkthroughView>
+				</CopilotStep>
 			)}
 
 			{/* Courses */}
-			<View style={styles.section}>
+			<CopilotStep
+				text={t("tour.home.browse")}
+				order={2}
+				name="coursesList"
+			>
+				<WalkthroughView style={styles.section}>
 				<Text variant="titleMedium" style={styles.sectionTitle}>
 					{t("courses.title")}
 				</Text>
@@ -147,7 +175,8 @@ export default function HomeScreen() {
 						</View>
 					);
 				})}
-			</View>
+				</WalkthroughView>
+			</CopilotStep>
 		</ScrollView>
 	);
 }

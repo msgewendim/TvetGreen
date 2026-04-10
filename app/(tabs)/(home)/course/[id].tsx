@@ -1,11 +1,14 @@
 import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button, Divider, Icon, List, Text } from "react-native-paper";
+import { CopilotStep, walkthroughable } from "react-native-copilot";
 import { colors, spacing } from "@/design-system";
 import { ROUTES } from "@/src/utils/appRoutes";
 import { useLearningStore } from "@/src/store/learningStore";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import type { MultiLangText } from "@/src/types/learning";
+
+const WalkthroughView = walkthroughable(View);
 
 export default function CourseDetailScreen() {
 	const { id } = useLocalSearchParams<{ id: string }>();
@@ -66,30 +69,41 @@ export default function CourseDetailScreen() {
 
 			{/* Start Learning button */}
 			{firstLesson && (
-				<View style={styles.buttonContainer}>
-					<Button
-						mode="contained"
-						onPress={() =>
-							router.push(
-								ROUTES.VIDEO_PLAYER(course.id, firstLesson.id) as never,
-							)
-						}
-						buttonColor={colors.primary.main}
-						textColor={colors.text.inverse}
-						style={styles.startButton}
-						contentStyle={styles.startButtonContent}
-					>
-						{hasStarted
-							? t("learning.continueLearning")
-							: t("learning.startLearning")}
-					</Button>
-				</View>
+				<CopilotStep
+					text={t("tour.courseDetail.startButton")}
+					order={1}
+					name="startButton"
+				>
+					<WalkthroughView style={styles.buttonContainer}>
+						<Button
+							mode="contained"
+							onPress={() =>
+								router.push(
+									ROUTES.VIDEO_PLAYER(course.id, firstLesson.id) as never,
+								)
+							}
+							buttonColor={colors.primary.main}
+							textColor={colors.text.inverse}
+							style={styles.startButton}
+							contentStyle={styles.startButtonContent}
+						>
+							{hasStarted
+								? t("learning.continueLearning")
+								: t("learning.startLearning")}
+						</Button>
+					</WalkthroughView>
+				</CopilotStep>
 			)}
 
 			<Divider style={styles.divider} />
 
 			{/* Lesson list */}
-			<View style={styles.lessonSection}>
+			<CopilotStep
+				text={t("tour.courseDetail.lessonList")}
+				order={2}
+				name="lessonList"
+			>
+				<WalkthroughView style={styles.lessonSection}>
 				<Text variant="titleMedium" style={styles.sectionTitle}>
 					{t("learning.curriculum")}
 				</Text>
@@ -136,7 +150,8 @@ export default function CourseDetailScreen() {
 						</View>
 					);
 				})}
-			</View>
+				</WalkthroughView>
+			</CopilotStep>
 		</ScrollView>
 	);
 }

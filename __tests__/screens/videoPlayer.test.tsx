@@ -1,6 +1,13 @@
 import type React from "react";
 import { render } from "@testing-library/react-native";
 
+// Mock react-native-copilot
+jest.mock("react-native-copilot", () => ({
+	CopilotStep: ({ children }: { children: React.ReactNode }) => children,
+	walkthroughable: (component: unknown) => component,
+	useCopilot: () => ({ start: jest.fn(), stop: jest.fn() }),
+}));
+
 // Mock safe area context
 jest.mock("react-native-safe-area-context", () => {
 	const React = require("react");

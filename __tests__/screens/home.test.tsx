@@ -1,7 +1,49 @@
 import type React from "react";
 import { render } from "@testing-library/react-native";
 import { PaperProvider } from "react-native-paper";
-import HomeScreen from "../../app/(tabs)/index";
+import HomeScreen from "../../app/(tabs)/(home)/index";
+
+// Mock react-native-copilot
+jest.mock("react-native-copilot", () => ({
+	CopilotStep: ({ children }: { children: React.ReactNode }) => children,
+	walkthroughable: (component: unknown) => component,
+	useCopilot: () => ({
+		start: jest.fn(),
+		stop: jest.fn(),
+		currentStep: null,
+		isStarted: false,
+	}),
+}));
+
+// Mock useLanguage to avoid i18n.config initialization
+jest.mock("@/src/hooks/useLanguage", () => ({
+	useLanguage: () => ({
+		t: (key: string) => key,
+		currentLanguage: "en",
+		i18n: { changeLanguage: jest.fn(), language: "en" },
+	}),
+}));
+
+// Mock TourProvider
+jest.mock("@/src/providers/tour/TourProvider", () => ({
+	useTour: () => ({
+		startTour: jest.fn(),
+		dismissTour: jest.fn(),
+		isTourActive: false,
+	}),
+}));
+
+// Mock onboarding store
+jest.mock("@/src/store/onboardingStore", () => ({
+	useOnboardingStore: (selector: (state: Record<string, unknown>) => unknown) => {
+		const state = {
+			onboardingComplete: true,
+			tourComplete: true,
+			tourPhase: null,
+		};
+		return selector(state);
+	},
+}));
 
 // Mock safe area context
 jest.mock("react-native-safe-area-context", () => {
@@ -86,16 +128,10 @@ describe("HomeScreen", () => {
 		renderWithPaper(<HomeScreen />);
 	});
 
-	it("displays app title", () => {
+	it("displays courses section title key", () => {
 		const { toJSON } = renderWithPaper(<HomeScreen />);
 		const tree = JSON.stringify(toJSON());
-		expect(tree).toContain("GreenSkills");
-	});
-
-	it("displays Courses section title", () => {
-		const { toJSON } = renderWithPaper(<HomeScreen />);
-		const tree = JSON.stringify(toJSON());
-		expect(tree).toContain("Courses");
+		expect(tree).toContain("courses.title");
 	});
 
 	it("displays course items from the store", () => {

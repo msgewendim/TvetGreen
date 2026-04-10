@@ -1,6 +1,7 @@
 import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
+import { CopilotStep, walkthroughable } from "react-native-copilot";
 import { VideoPlayer } from "@/src/components/VideoPlayer";
 import type { VideoPlayerRef } from "@/src/components/VideoPlayer/types";
 import { colors, spacing } from "@/design-system";
@@ -9,6 +10,8 @@ import { useLearningStore } from "@/src/store/learningStore";
 import { useLanguage } from "@/src/hooks/useLanguage";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLesson } from "@/src/hooks/useLesson";
+
+const WalkthroughView = walkthroughable(View);
 
 const PROGRESS_INTERVAL_MS = 10_000;
 
@@ -138,27 +141,33 @@ export default function VideoPlayerScreen() {
 			showsVerticalScrollIndicator={false}
 		>
 			{/* Video — native controls */}
-			<View style={styles.videoSection}>
-				{videoError ? (
-					<View style={styles.errorContainer}>
-						<Text variant="bodyLarge" style={styles.errorText}>
-							{videoError}
-						</Text>
-					</View>
-				) : lessonData.videoSource.source ? (
-					<VideoPlayer
-						ref={playerRef}
-						source={lessonData.videoSource.source}
-						onReady={() => setIsReady(true)}
-						onError={handleVideoError}
-						style={styles.video}
-					/>
-				) : (
-					<View style={styles.videoPlaceholder}>
-						<ActivityIndicator size="large" color={colors.primary.main} />
-					</View>
-				)}
-			</View>
+			<CopilotStep
+				text={t("tour.video.player")}
+				order={1}
+				name="videoPlayer"
+			>
+				<WalkthroughView style={styles.videoSection}>
+					{videoError ? (
+						<View style={styles.errorContainer}>
+							<Text variant="bodyLarge" style={styles.errorText}>
+								{videoError}
+							</Text>
+						</View>
+					) : lessonData.videoSource.source ? (
+						<VideoPlayer
+							ref={playerRef}
+							source={lessonData.videoSource.source}
+							onReady={() => setIsReady(true)}
+							onError={handleVideoError}
+							style={styles.video}
+						/>
+					) : (
+						<View style={styles.videoPlaceholder}>
+							<ActivityIndicator size="large" color={colors.primary.main} />
+						</View>
+					)}
+				</WalkthroughView>
+			</CopilotStep>
 
 			{/* Lesson info */}
 			<View style={styles.infoContainer}>
@@ -180,27 +189,33 @@ export default function VideoPlayerScreen() {
 				) : null}
 
 				{/* Navigation buttons */}
-				<View style={styles.navRow}>
-					<Button
-						mode="outlined"
-						onPress={handlePrevious}
-						disabled={isFirstLesson}
-						style={styles.navButton}
-						testID="prev-button"
-					>
-						{t("common.previous")}
-					</Button>
-					<Button
-						mode="contained"
-						onPress={handleNext}
-						disabled={isLastLesson}
-						style={styles.navButton}
-						buttonColor={colors.primary.main}
-						testID="next-button"
-					>
-						{t("common.next")}
-					</Button>
-				</View>
+				<CopilotStep
+					text={t("tour.video.navigation")}
+					order={2}
+					name="videoNavigation"
+				>
+					<WalkthroughView style={styles.navRow}>
+						<Button
+							mode="outlined"
+							onPress={handlePrevious}
+							disabled={isFirstLesson}
+							style={styles.navButton}
+							testID="prev-button"
+						>
+							{t("common.previous")}
+						</Button>
+						<Button
+							mode="contained"
+							onPress={handleNext}
+							disabled={isLastLesson}
+							style={styles.navButton}
+							buttonColor={colors.primary.main}
+							testID="next-button"
+						>
+							{t("common.next")}
+						</Button>
+					</WalkthroughView>
+				</CopilotStep>
 			</View>
 		</ScrollView>
 	);
