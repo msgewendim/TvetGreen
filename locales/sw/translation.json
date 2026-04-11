@@ -169,6 +169,7 @@
 		"volume": "Sauti",
 		"mute": "Zima Sauti",
 		"unmute": "Washa Sauti",
+		"lesson_of": "Somo {{current}} kati ya {{total}}",
 		"lessonInfo": "Taarifa za Somo",
 		"resources": "Rasilimali",
 		"transcript": "Nakala",
@@ -269,7 +270,8 @@
 			"browseMore": "Gusa kichupo cha Kozi hapa chini kuona kozi zote.",
 			"tapCoursesTab": "Tumia vichupo hapa chini kuzunguka",
 			"profile": "Mipangilio yako na msaada ziko kwenye kichupo cha Wasifu.",
-			"settingsHint": "Pata mipangilio yako hapa"
+			"settingsHint": "Pata mipangilio yako hapa",
+			"browse": "Gusa kozi yoyote kuona maelezo na kuanza kujifunza."
 		},
 		"courses": {
 			"search": "Tafuta kozi yoyote kwa jina au mada.",
@@ -277,6 +279,15 @@
 			"browse": "Gusa kozi yoyote kuona maelezo na kuanza kujifunza.",
 			"done": "Uko tayari! Chunguza kozi peke yako.",
 			"tapCourse": "Gusa kozi kuanza"
+		},
+		"courseDetail": {
+			"startButton": "Gusa hapa kuanza au kuendelea kujifunza kozi hii.",
+			"lessonList": "Hizi ni masomo yote katika kozi hii. Gusa lolote kuanza."
+		},
+		"video": {
+			"player": "Hii ni kicheza video. Gusa kucheza na kusitisha.",
+			"navigation": "Tumia vitufe hivi kwenda somo linalofuata au lililopita.",
+			"lessonInfo": "Ona somo unalojifunza na mangapi yamebaki."
 		}
 	},
 	"learning": {
@@ -326,6 +337,7 @@
 		"lessons": "Masomo {{count}}",
 		"lessons_one": "Somo {{count}}",
 		"lessons_other": "Masomo {{count}}",
+		"lessons_progress": "{{completed}} kati ya {{total}} masomo",
 		"duration": "{{duration}}",
 		"level": "Kiwango",
 		"beginner": "Anayeanza",

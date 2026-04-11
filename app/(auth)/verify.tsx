@@ -9,6 +9,7 @@ import {
 	View,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { ROUTES } from "@/src/utils/appRoutes";
 import { ShieldCheck } from "lucide-react-native";
 import {
 	Button,
@@ -92,7 +93,7 @@ export default function VerifyScreen() {
 
 			const success = await verifyOtp(phone || "", otpCode);
 			if (success) {
-				router.replace("/onboarding/welcome" as never);
+				router.replace(ROUTES.ONBOARDING_WELCOME as never);
 			} else {
 				Alert.alert(
 					t("auth.verify.failedTitle"),
@@ -102,7 +103,7 @@ export default function VerifyScreen() {
 				inputRefs.current[0]?.focus();
 			}
 		},
-		[otp, phone, verifyOtp, router],
+		[otp, phone, verifyOtp, router, t],
 	);
 
 	const handleResend = async () => {

@@ -9,10 +9,19 @@ jest.mock("react-native-copilot", () => ({
 		isStarted: false,
 		goToNext: jest.fn(),
 		goToPrevious: jest.fn(),
+		copilotEvents: { on: jest.fn(), off: jest.fn() },
 	}),
 }));
 
-import React from "react";
+jest.mock("@/src/hooks/useLanguage", () => ({
+	useLanguage: () => ({
+		t: (key: string) => key,
+		currentLanguage: "en",
+		i18n: { changeLanguage: jest.fn(), language: "en" },
+	}),
+}));
+
+import type React from "react";
 import { renderHook, act } from "@testing-library/react-native";
 import { useTour, TourProvider } from "@/src/providers/tour/TourProvider";
 import { useOnboardingStore } from "@/src/store/onboardingStore";

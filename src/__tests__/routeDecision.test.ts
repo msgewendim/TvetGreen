@@ -1,4 +1,5 @@
 import { getRouteDestination } from "@/src/store/routeDecision";
+import { ROUTES } from "@/src/utils/appRoutes";
 
 describe("getRouteDestination", () => {
 	it("routes to language picker when no language is set", () => {
@@ -8,7 +9,7 @@ describe("getRouteDestination", () => {
 			onboardingComplete: false,
 		});
 
-		expect(route).toBe("/onboarding/language");
+		expect(route).toBe(ROUTES.ONBOARDING_LANGUAGE);
 	});
 
 	it("routes to auth when language is set but user is not authenticated", () => {
@@ -18,7 +19,7 @@ describe("getRouteDestination", () => {
 			onboardingComplete: false,
 		});
 
-		expect(route).toBe("/(auth)/phone");
+		expect(route).toBe(ROUTES.AUTH_PHONE);
 	});
 
 	it("routes to welcome when authenticated but onboarding is incomplete", () => {
@@ -28,7 +29,7 @@ describe("getRouteDestination", () => {
 			onboardingComplete: false,
 		});
 
-		expect(route).toBe("/onboarding/welcome");
+		expect(route).toBe(ROUTES.ONBOARDING_WELCOME);
 	});
 
 	it("routes to tabs when authenticated and onboarding is complete", () => {
@@ -38,17 +39,16 @@ describe("getRouteDestination", () => {
 			onboardingComplete: true,
 		});
 
-		expect(route).toBe("/(tabs)");
+		expect(route).toBe(ROUTES.TABS);
 	});
 
 	it("language check takes priority over auth check", () => {
-		// Even if somehow authenticated without language, go to language first
 		const route = getRouteDestination({
 			hasLanguage: false,
 			isAuthenticated: true,
 			onboardingComplete: false,
 		});
 
-		expect(route).toBe("/onboarding/language");
+		expect(route).toBe(ROUTES.ONBOARDING_LANGUAGE);
 	});
 });

@@ -19,6 +19,6 @@ describe("Help & Guides in Profile", () => {
 	});
 
 	it("navigates to home tab after resetting tour", () => {
-		expect(profileSrc).toContain("/(tabs)");
+		expect(profileSrc).toContain("ROUTES.TABS");
 	});
 });

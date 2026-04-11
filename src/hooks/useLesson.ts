@@ -2,32 +2,33 @@ import { useMemo } from "react";
 import { useLocalSearchParams } from "expo-router";
 import { useLearningStore } from "@/src/store/learningStore";
 import { useDownloadStore } from "@/src/store/downloadStore";
+import { useLanguage } from "@/src/hooks/useLanguage";
+import { detectVideoSource, type VideoSource } from "@/src/utils/videoSource";
+import type { MultiLangText } from "@/src/types/learning";
 
-const SAMPLE_VIDEO_URLS = [
-	"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-	"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-	"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
-	"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
-	"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-];
-
-interface LessonData {
+export interface LessonData {
 	title: string;
 	courseTitle: string;
 	lessonNumber: number;
 	totalLessons: number;
-	instructor: string;
-	duration: string;
+	duration: number;
 	description: string;
-	videoUrl: string;
-	isDownloaded: boolean;
-	lastPosition: number;
-	nextLesson?: {
-		id: string;
-		title: string;
-		duration: string;
-	};
+	videoSource: VideoSource;
+	nextLesson: { id: string; title: string; duration: number } | null;
+	previousLesson: { id: string } | null;
 }
+
+const EMPTY_LESSON: LessonData = {
+	title: "Lesson Not Found",
+	courseTitle: "",
+	lessonNumber: 0,
+	totalLessons: 0,
+	duration: 0,
+	description: "",
+	videoSource: { source: "", type: "url" },
+	nextLesson: null,
+	previousLesson: null,
+};
 
 export function useLesson(): LessonData {
 	const { courseId, lessonId } = useLocalSearchParams<{
@@ -35,83 +36,60 @@ export function useLesson(): LessonData {
 		lessonId: string;
 	}>();
 
-	const getLessonById = useLearningStore((s) => s.getLessonById);
-	const getCourseById = useLearningStore((s) => s.getCourseById);
-	const getNextLesson = useLearningStore((s) => s.getNextLesson);
-	const getLessonProgress = useLearningStore((s) => s.getLessonProgress);
+	const { currentLanguage } = useLanguage();
+
+	const courses = useLearningStore((s) => s.courses);
 	const lessons = useLearningStore((s) => s.lessons);
+	const getNextLesson = useLearningStore((s) => s.getNextLesson);
+	const getPreviousLesson = useLearningStore((s) => s.getPreviousLesson);
 	const getLocalUri = useDownloadStore((s) => s.getLocalUri);
 
-	const lessonData = useMemo<LessonData>(() => {
-		const lesson = lessonId ? getLessonById(lessonId) : undefined;
+	return useMemo<LessonData>(() => {
+		const loc = (text: string | MultiLangText): string =>
+			typeof text === "string" ? text : text[currentLanguage] || text.en;
+
+		const lesson = lessonId
+			? lessons.find((l) => l.id === lessonId)
+			: undefined;
 		const course = courseId
-			? getCourseById(courseId)
+			? courses.find((c) => c.id === courseId)
 			: lesson
-				? getCourseById(lesson.courseId)
+				? courses.find((c) => c.id === lesson.courseId)
 				: undefined;
 
-		if (!lesson || !course) {
-			return {
-				title: "Lesson Not Found",
-				courseTitle: "",
-				lessonNumber: 0,
-				totalLessons: 0,
-				instructor: "",
-				duration: "0:00",
-				description: "",
-				videoUrl: "",
-				isDownloaded: false,
-				lastPosition: 0,
-			};
-		}
+		if (!lesson || !course) return EMPTY_LESSON;
 
 		const courseLessons = lessons
 			.filter((l) => l.courseId === course.id)
 			.sort((a, b) => a.order - b.order);
 		const lessonIndex = courseLessons.findIndex((l) => l.id === lesson.id);
-		const next = getNextLesson(lesson.id);
-		const progress = getLessonProgress(lesson.id);
 
-		// Priority: local download > YouTube URL (if videoId) > sample MP4
+		const next = getNextLesson(course.id, lesson.order);
+		const prev = getPreviousLesson(course.id, lesson.order);
 		const localUri = getLocalUri(lesson.id);
-		let videoUrl: string;
-		if (localUri) {
-			videoUrl = localUri;
-		} else if (lesson.videoId) {
-			videoUrl = lesson.videoId;
-		} else {
-			videoUrl = SAMPLE_VIDEO_URLS[lessonIndex % SAMPLE_VIDEO_URLS.length];
-		}
+		const videoSource = detectVideoSource(lesson.videoId, localUri);
 
 		return {
-			title: lesson.title,
-			courseTitle: course.title,
+			title: loc(lesson.title),
+			courseTitle: loc(course.title),
 			lessonNumber: lessonIndex + 1,
 			totalLessons: courseLessons.length,
-			instructor: course.instructor.name,
 			duration: lesson.duration,
-			description: lesson.description || "",
-			videoUrl,
-			isDownloaded: localUri !== null,
-			lastPosition: progress?.lastPosition ?? 0,
+			description: loc(lesson.description),
+			videoSource,
 			nextLesson: next
-				? {
-						id: next.id,
-						title: next.title,
-						duration: next.duration,
-					}
-				: undefined,
+				? { id: next.id, title: loc(next.title), duration: next.duration }
+				: null,
+			previousLesson: prev ? { id: prev.id } : null,
 		};
 	}, [
 		lessonId,
 		courseId,
-		getLessonById,
-		getCourseById,
-		getNextLesson,
-		getLessonProgress,
+		courses,
 		lessons,
+		getNextLesson,
+		getPreviousLesson,
 		getLocalUri,
+		currentLanguage,
 	]);
-
-	return lessonData;
 }

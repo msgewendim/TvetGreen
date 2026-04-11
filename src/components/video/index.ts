@@ -1,5 +1,4 @@
-export { VideoControls } from "./VideoControls";
-export { VideoSettingsPanel } from "./VideoSettingsPanel";
-export { LessonInfoPanel } from "./LessonInfoPanel";
-export { VoiceGuideOverlay } from "./VoiceGuideOverlay";
-export { SubtitlesOverlay } from "./SubtitlesOverlay";
+// Video components barrel - simplified per issue #27
+// Complex overlay components (VideoControls, SubtitlesOverlay, VoiceGuideOverlay,
+// VideoSettingsPanel, LessonInfoPanel) have been removed.
+// The video player screen now uses native controls with Paper components.

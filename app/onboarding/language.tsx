@@ -1,4 +1,5 @@
 import { useRouter } from "expo-router";
+import { ROUTES } from "@/src/utils/appRoutes";
 import { StyleSheet, View } from "react-native";
 import {
 	Button,
@@ -24,7 +25,7 @@ export default function LanguageSelectionScreen() {
 
 	const handleContinue = async () => {
 		await markLanguageChosen();
-		router.replace("/(auth)/phone" as never);
+		router.replace(ROUTES.AUTH_PHONE as never);
 	};
 
 	return (

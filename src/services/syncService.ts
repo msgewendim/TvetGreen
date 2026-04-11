@@ -2,9 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { api } from "./api";
 import { useLearningStore } from "@/src/store/learningStore";
 import { useAuthStore } from "@/src/store/authStore";
-
-const SYNC_QUEUE_KEY = "@sync_queue";
-const LAST_SYNC_KEY = "@last_sync";
+import { STORAGE_KEYS } from "@/src/utils/storageKeys";
 
 interface SyncQueueItem {
 	type: "enrollment" | "progress";
@@ -18,16 +16,16 @@ class SyncService {
 	async addToQueue(item: SyncQueueItem): Promise<void> {
 		const queue = await this.getQueue();
 		queue.push(item);
-		await AsyncStorage.setItem(SYNC_QUEUE_KEY, JSON.stringify(queue));
+		await AsyncStorage.setItem(STORAGE_KEYS.SYNC_QUEUE, JSON.stringify(queue));
 	}
 
 	private async getQueue(): Promise<SyncQueueItem[]> {
-		const json = await AsyncStorage.getItem(SYNC_QUEUE_KEY);
+		const json = await AsyncStorage.getItem(STORAGE_KEYS.SYNC_QUEUE);
 		return json ? JSON.parse(json) : [];
 	}
 
 	private async clearQueue(): Promise<void> {
-		await AsyncStorage.setItem(SYNC_QUEUE_KEY, JSON.stringify([]));
+		await AsyncStorage.setItem(STORAGE_KEYS.SYNC_QUEUE, JSON.stringify([]));
 	}
 
 	async sync(): Promise<boolean> {
@@ -38,8 +36,7 @@ class SyncService {
 			const user = useAuthStore.getState().user;
 			if (!user) return false;
 
-			const { enrollments, lessonProgress } =
-				useLearningStore.getState();
+			const { enrollments, lessonProgress } = useLearningStore.getState();
 
 			await api.progress.sync({
 				userId: user.id,
@@ -48,7 +45,7 @@ class SyncService {
 			});
 
 			await AsyncStorage.setItem(
-				LAST_SYNC_KEY,
+				STORAGE_KEYS.LAST_SYNC,
 				new Date().toISOString(),
 			);
 			await this.clearQueue();
@@ -63,7 +60,7 @@ class SyncService {
 	}
 
 	async getLastSyncTime(): Promise<string | null> {
-		return AsyncStorage.getItem(LAST_SYNC_KEY);
+		return AsyncStorage.getItem(STORAGE_KEYS.LAST_SYNC);
 	}
 
 	async hasPendingChanges(): Promise<boolean> {

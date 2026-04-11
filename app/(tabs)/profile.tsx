@@ -11,12 +11,12 @@ import {
 } from "lucide-react-native";
 import {
 	ScreenLayout,
-	Header,
 	commonStyles,
 	colors,
 	spacing,
 	typography,
 } from "@/design-system";
+import { ROUTES } from "@/src/utils/appRoutes";
 import {
 	ProfileHeader,
 	StatsGrid,
@@ -42,7 +42,7 @@ export default function ProfileScreen() {
 
 	const handleReplayTour = async () => {
 		await resetTour();
-		router.replace("/(tabs)" as never);
+		router.replace(ROUTES.TABS as never);
 	};
 
 	const userProfile: UserProfile = {
@@ -103,8 +103,6 @@ export default function ProfileScreen() {
 
 	return (
 		<ScreenLayout>
-			<Header variant="minimal" title="Profile" />
-
 			<ProfileHeader profile={userProfile} onEditPress={() => {}} />
 
 			<StatsGrid stats={userStats} />

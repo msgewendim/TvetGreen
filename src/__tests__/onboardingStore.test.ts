@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useOnboardingStore } from "@/src/store/onboardingStore";
+import { STORAGE_KEYS } from "@/src/utils/storageKeys";
 
 // Reset store and AsyncStorage between tests
 beforeEach(async () => {
@@ -26,7 +27,7 @@ describe("OnboardingStore", () => {
 		await useOnboardingStore.getState().markLanguageChosen();
 
 		expect(useOnboardingStore.getState().languageChosen).toBe(true);
-		const stored = await AsyncStorage.getItem("@tvetgreen_language_chosen");
+		const stored = await AsyncStorage.getItem(STORAGE_KEYS.LANGUAGE_CHOSEN);
 		expect(stored).toBe("true");
 	});
 
@@ -34,7 +35,7 @@ describe("OnboardingStore", () => {
 		await useOnboardingStore.getState().completeOnboarding();
 
 		expect(useOnboardingStore.getState().onboardingComplete).toBe(true);
-		const stored = await AsyncStorage.getItem("@onboarding_complete");
+		const stored = await AsyncStorage.getItem(STORAGE_KEYS.ONBOARDING_COMPLETE);
 		expect(stored).toBe("true");
 	});
 
@@ -42,14 +43,14 @@ describe("OnboardingStore", () => {
 		await useOnboardingStore.getState().completeTour();
 
 		expect(useOnboardingStore.getState().tourComplete).toBe(true);
-		const stored = await AsyncStorage.getItem("@tour_complete");
+		const stored = await AsyncStorage.getItem(STORAGE_KEYS.TOUR_COMPLETE);
 		expect(stored).toBe("true");
 	});
 
 	it("loadPersistedState restores onboarding and tour flags from AsyncStorage", async () => {
 		// Simulate previously persisted state
-		await AsyncStorage.setItem("@onboarding_complete", "true");
-		await AsyncStorage.setItem("@tour_complete", "true");
+		await AsyncStorage.setItem(STORAGE_KEYS.ONBOARDING_COMPLETE, "true");
+		await AsyncStorage.setItem(STORAGE_KEYS.TOUR_COMPLETE, "true");
 
 		await useOnboardingStore.getState().loadPersistedState();
 
@@ -79,7 +80,7 @@ describe("OnboardingStore", () => {
 
 		expect(useOnboardingStore.getState().tourComplete).toBe(false);
 		expect(useOnboardingStore.getState().tourPhase).toBe("home");
-		const stored = await AsyncStorage.getItem("@tour_complete");
+		const stored = await AsyncStorage.getItem(STORAGE_KEYS.TOUR_COMPLETE);
 		expect(stored).toBeNull();
 	});
 });

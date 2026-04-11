@@ -169,6 +169,7 @@
 		"volume": "Volume",
 		"mute": "Mute",
 		"unmute": "Unmute",
+		"lesson_of": "Lesson {{current}} of {{total}}",
 		"lessonInfo": "Lesson Info",
 		"resources": "Resources",
 		"transcript": "Transcript",
@@ -284,7 +285,8 @@
 			"browseMore": "Tap the Courses tab below to see all available courses.",
 			"tapCoursesTab": "Use the tabs below to navigate",
 			"profile": "Your settings and help are in the Profile tab.",
-			"settingsHint": "Find your settings here"
+			"settingsHint": "Find your settings here",
+			"browse": "Tap any course to see details and start learning."
 		},
 		"courses": {
 			"search": "Search for any course by name or topic.",
@@ -292,6 +294,15 @@
 			"browse": "Tap any course to see details and start learning.",
 			"done": "You are all set! Explore courses on your own.",
 			"tapCourse": "Tap a course to get started"
+		},
+		"courseDetail": {
+			"startButton": "Tap here to start or continue learning this course.",
+			"lessonList": "Here are all the lessons in this course. Tap any to begin."
+		},
+		"video": {
+			"player": "This is the video player. Tap to play and pause.",
+			"navigation": "Use these buttons to go to the next or previous lesson.",
+			"lessonInfo": "See which lesson you are on and how many are left."
 		}
 	},
 	"learning": {
@@ -342,6 +353,7 @@
 		"lessons": "{{count}} lessons",
 		"lessons_one": "{{count}} lesson",
 		"lessons_other": "{{count}} lessons",
+		"lessons_progress": "{{completed}} of {{total}} lessons",
 		"duration": "{{duration}}",
 		"level": "Level",
 		"beginner": "Beginner",

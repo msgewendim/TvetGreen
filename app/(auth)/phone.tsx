@@ -7,6 +7,7 @@ import {
 	View,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { ROUTES } from "@/src/utils/appRoutes";
 import { Phone } from "lucide-react-native";
 import PhoneInput, {
 	isValidPhoneNumber,
@@ -42,7 +43,7 @@ export default function PhoneScreen() {
 		const success = await requestOtp(fullNumber);
 		if (success) {
 			router.push({
-				pathname: "/(auth)/verify" as never,
+				pathname: ROUTES.AUTH_VERIFY as never,
 				params: { phone: fullNumber },
 			});
 		} else {

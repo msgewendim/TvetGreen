@@ -4,8 +4,7 @@ import {
 	downloadManager,
 	type DownloadProgress,
 } from "@/src/services/downloadManager";
-
-const DOWNLOADS_KEY = "@downloaded_lessons";
+import { STORAGE_KEYS } from "@/src/utils/storageKeys";
 
 export interface DownloadedLesson {
 	lessonId: string;
@@ -47,7 +46,7 @@ export const useDownloadStore = create<DownloadState>((set, get) => ({
 	loadDownloads: async () => {
 		set({ isLoading: true });
 		try {
-			const json = await AsyncStorage.getItem(DOWNLOADS_KEY);
+			const json = await AsyncStorage.getItem(STORAGE_KEYS.DOWNLOADED_LESSONS);
 			const downloadedLessons: DownloadedLesson[] = json
 				? JSON.parse(json)
 				: [];
@@ -111,22 +110,21 @@ export const useDownloadStore = create<DownloadState>((set, get) => ({
 				return {
 					downloadedLessons: updated,
 					activeDownloads: newActive,
-					downloadQueue: state.downloadQueue.filter(
-						(id) => id !== lessonId,
-					),
+					downloadQueue: state.downloadQueue.filter((id) => id !== lessonId),
 				};
 			});
 
-			await AsyncStorage.setItem(DOWNLOADS_KEY, JSON.stringify(updated));
+			await AsyncStorage.setItem(
+				STORAGE_KEYS.DOWNLOADED_LESSONS,
+				JSON.stringify(updated),
+			);
 		} catch {
 			set((state) => {
 				const newActive = new Map(state.activeDownloads);
 				newActive.delete(lessonId);
 				return {
 					activeDownloads: newActive,
-					downloadQueue: state.downloadQueue.filter(
-						(id) => id !== lessonId,
-					),
+					downloadQueue: state.downloadQueue.filter((id) => id !== lessonId),
 				};
 			});
 		}
@@ -139,9 +137,7 @@ export const useDownloadStore = create<DownloadState>((set, get) => ({
 			newActive.delete(lessonId);
 			return {
 				activeDownloads: newActive,
-				downloadQueue: state.downloadQueue.filter(
-					(id) => id !== lessonId,
-				),
+				downloadQueue: state.downloadQueue.filter((id) => id !== lessonId),
 			};
 		});
 	},
@@ -152,7 +148,10 @@ export const useDownloadStore = create<DownloadState>((set, get) => ({
 			(d) => d.lessonId !== lessonId,
 		);
 		set({ downloadedLessons: updated });
-		await AsyncStorage.setItem(DOWNLOADS_KEY, JSON.stringify(updated));
+		await AsyncStorage.setItem(
+			STORAGE_KEYS.DOWNLOADED_LESSONS,
+			JSON.stringify(updated),
+		);
 	},
 
 	deleteCourseDownloads: async (courseId) => {
@@ -166,7 +165,10 @@ export const useDownloadStore = create<DownloadState>((set, get) => ({
 			(d) => d.courseId !== courseId,
 		);
 		set({ downloadedLessons: updated });
-		await AsyncStorage.setItem(DOWNLOADS_KEY, JSON.stringify(updated));
+		await AsyncStorage.setItem(
+			STORAGE_KEYS.DOWNLOADED_LESSONS,
+			JSON.stringify(updated),
+		);
 	},
 
 	isDownloaded: (lessonId) => {
@@ -174,9 +176,7 @@ export const useDownloadStore = create<DownloadState>((set, get) => ({
 	},
 
 	getLocalUri: (lessonId) => {
-		const dl = get().downloadedLessons.find(
-			(d) => d.lessonId === lessonId,
-		);
+		const dl = get().downloadedLessons.find((d) => d.lessonId === lessonId);
 		return dl?.localUri ?? null;
 	},
 

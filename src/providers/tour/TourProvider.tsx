@@ -1,10 +1,10 @@
 import type React from "react";
 import { Platform } from "react-native";
-import { createContext, useCallback, useContext } from "react";
-import { CopilotProvider } from "react-native-copilot";
+import { createContext, useCallback, useContext, useEffect } from "react";
+import { CopilotProvider, useCopilot } from "react-native-copilot";
 import { useOnboardingStore } from "@/src/store/onboardingStore";
 import { useLanguage } from "@/src/hooks/useLanguage";
-import { colors, spacing } from "@/design-system";
+import { spacing } from "@/design-system";
 
 interface TourContextValue {
 	startTour: () => void;
@@ -22,46 +22,71 @@ export function useTour() {
 	return useContext(TourContext);
 }
 
-export function TourProvider({ children }: { children: React.ReactNode }) {
-	const tourComplete = useOnboardingStore((s) => s.tourComplete);
-	const tourPhase = useOnboardingStore((s) => s.tourPhase);
+/**
+ * Inner component that lives inside CopilotProvider so it can
+ * access useCopilot() and wire copilotEvents to our tour state.
+ */
+function TourEventBridge({ children }: { children: React.ReactNode }) {
+	const { copilotEvents, start, stop } = useCopilot();
 	const completeTour = useOnboardingStore((s) => s.completeTour);
 	const setTourPhase = useOnboardingStore((s) => s.setTourPhase);
-	const { t } = useLanguage();
+	const tourPhase = useOnboardingStore((s) => s.tourPhase);
 
 	const isTourActive = tourPhase !== null;
 
 	const startTour = useCallback(() => {
 		setTourPhase("home");
-	}, [setTourPhase]);
+		start();
+	}, [setTourPhase, start]);
 
 	const dismissTour = useCallback(async () => {
+		await stop();
 		await completeTour();
 		setTourPhase(null);
-	}, [completeTour, setTourPhase]);
+	}, [stop, completeTour, setTourPhase]);
+
+	// Listen for copilot's own stop event (finish button, skip, outside click)
+	useEffect(() => {
+		const handleStop = async () => {
+			await completeTour();
+			setTourPhase(null);
+		};
+		copilotEvents.on("stop", handleStop);
+		return () => {
+			copilotEvents.off("stop", handleStop);
+		};
+	}, [copilotEvents, completeTour, setTourPhase]);
 
 	return (
 		<TourContext.Provider value={{ startTour, dismissTour, isTourActive }}>
-			<CopilotProvider
-				overlay={Platform.OS === "web" ? "view" : "svg"}
-				animated
-				backdropColor="rgba(0, 0, 0, 0.7)"
-				tooltipStyle={{
-					borderRadius: spacing.radius.md,
-					paddingHorizontal: spacing.lg,
-					paddingVertical: spacing.md,
-				}}
-				arrowColor="transparent"
-				stopOnOutsideClick
-				labels={{
-					previous: t("common.back"),
-					next: t("common.next"),
-					skip: t("onboarding.skip"),
-					finish: t("common.done"),
-				}}
-			>
-				{children}
-			</CopilotProvider>
+			{children}
 		</TourContext.Provider>
+	);
+}
+
+export function TourProvider({ children }: { children: React.ReactNode }) {
+	const { t } = useLanguage();
+
+	return (
+		<CopilotProvider
+			overlay={Platform.OS === "web" ? "view" : "svg"}
+			animated
+			backdropColor="rgba(0, 0, 0, 0.7)"
+			tooltipStyle={{
+				borderRadius: spacing.radius.md,
+				paddingHorizontal: spacing.lg,
+				paddingVertical: spacing.md,
+			}}
+			arrowColor="transparent"
+			stopOnOutsideClick
+			labels={{
+				previous: t("common.back"),
+				next: t("common.next"),
+				skip: t("onboarding.skip"),
+				finish: t("common.done"),
+			}}
+		>
+			<TourEventBridge>{children}</TourEventBridge>
+		</CopilotProvider>
 	);
 }
